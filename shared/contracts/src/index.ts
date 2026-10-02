@@ -994,6 +994,7 @@ export const EscalationSweep = z.strictObject({
 // anything on its own.
 // ---------------------------------------------------------------------------
 // Revision 1.11: the tier model (editions, entitlements, terms, ceilings) lives in tiers.ts, the single source.
+export type { EntitlementCodeValue, EditionValue, LicenceTermValue } from './tiers.ts';
 export { Edition, EntitlementCode, LicenceTerm, GRACE_DAYS, MAX_TRIAL_DAYS, TIER_ORDER, ENTITLEMENTS, editionCeiling, editionEntitlements, tierFor } from './tiers.ts';
 import { Edition, EntitlementCode, LicenceTerm } from './tiers.ts';
 export { classifyRoute, routeSegment, ROUTE_CLASS_INPUTS, type RouteClass } from './route-entitlements.ts';
@@ -1101,6 +1102,18 @@ export const EntitlementReport = z.strictObject({
    *  so it reports drift past a licensed limit and never blocks anything. */
   a_limit_is_reported_and_never_enforced_here: z.literal(true),
   limits: z.array(SafeText).max(8),
+});
+/**
+ * Revision 1.11: what every staff member's interface needs to show the plan honestly. Readable by anyone who can read the
+ * overview, unlike the full licence (licence.read). `usable` is decided by the same rule the server enforces: a FOUNDATION
+ * entitlement named by the licence stays usable after expiry (the legal floor); a higher one needs ACTIVE or GRACE.
+ */
+export const PlanSummary = z.strictObject({
+  as_of: Time, licensed: z.boolean(), edition: Edition.nullable(), term: LicenceTerm.nullable(), trial: z.boolean(),
+  lifecycle: z.enum(['ACTIVE', 'GRACE', 'EXPIRED']).nullable(), valid_to: Time.nullable(), grace_until: Time.nullable(),
+  falls_back_to: Edition.nullable().describe('During a trial, the edition it returns to when it ends.'),
+  usable: z.array(EntitlementCode).max(40),
+  significant_data_fiduciary: z.boolean().describe('The organisation profile records designation as a Significant Data Fiduciary.'),
 });
 // ---------------------------------------------------------------------------
 // M30 Support Bundle System (WP26). A diagnostic report is assembled from a
@@ -2129,7 +2142,7 @@ export const schemas = { ...regulatorySchemas, ...registrySchemas, ...operations
   ProcessorCreate, Processor, ProcessorLinkCreate, CoordinationRecord, Coordination, ProcessorStanding, AssessmentCreate, Assessment, AssessmentCompletion, FindingCreate, Finding, FindingClosure,
   IncidentCreate, Incident, IncidentCorrection, IncidentCorrectionRecord, ObligationRuleCreate, ObligationRule, NotificationObligation, IncidentAssessment, NotificationTransition, IncidentClosure, IncidentContainment,
   TemplateCreate, Template, NotificationTaskCreate, NotificationTask, DeliveryRecord, Delivery, EscalationSweep,
-  LicenceClaims, SignedLicence, LicenceImport, LicenceState, FeatureAvailability, EntitlementReport,
+  LicenceClaims, SignedLicence, LicenceImport, LicenceState, FeatureAvailability, EntitlementReport, PlanSummary,
   SupportCaseCreate, SupportCase, SupportCaseStanding, DiagnosticReport, DiagnosticDraft, DiagnosticApprovalCreate, DiagnosticApproval,
   TransferRecord, DiagnosticTransfer, IngressSubmission, IngressValidation, CanaryRegister, Canary, SupportResolution,
   ReleaseClaims, SignedRelease, ReleaseImport, ReleaseState, UpdateEligibility, UpdatePlanCreate, UpdatePlan, UpdateStepRecord, UpdateStep, InstallationVersion,
@@ -2301,6 +2314,7 @@ export const routes: RouteDefinition[] = [
   {id:'record_delivery',method:'post',path:'/api/v1/admin/notification-tasks/{id}/deliveries',authority:'STAFF',capability:'notification.manage',params:'IdPath',request:'DeliveryRecord',response:'NotificationTask',status:200,idempotency:true},
   {id:'escalation_sweep',method:'post',path:'/api/v1/admin/notification-tasks/escalate',authority:'STAFF',capability:'notification.manage',response:'EscalationSweep',status:200,idempotency:true},
   {id:'entitlements',method:'get',path:'/api/v1/admin/entitlements',authority:'STAFF',capability:'licence.read',response:'EntitlementReport',status:200},
+  {id:'plan',method:'get',path:'/api/v1/admin/plan',authority:'STAFF',capability:'overview.read',response:'PlanSummary',status:200},
   {id:'import_licence',method:'post',path:'/api/v1/admin/licences',authority:'STAFF',capability:'licence.manage',request:'LicenceImport',response:'LicenceState',status:201,idempotency:true},
   {id:'list_support_cases',method:'get',path:'/api/v1/admin/support-cases',authority:'STAFF',capability:'support.read',response:'SupportCaseList',status:200,paginated:true},
   {id:'create_support_case',method:'post',path:'/api/v1/admin/support-cases',authority:'STAFF',capability:'support.manage',request:'SupportCaseCreate',response:'SupportCase',status:201,idempotency:true},

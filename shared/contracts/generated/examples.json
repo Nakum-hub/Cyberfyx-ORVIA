@@ -3308,6 +3308,30 @@
       }
     },
     {
+      "operation_id": "plan",
+      "method": "GET",
+      "path": "/api/v1/admin/plan",
+      "headers": {},
+      "request": null,
+      "response_status": 200,
+      "response": {
+        "as_of": "2026-09-16T10:00:00.000Z",
+        "licensed": true,
+        "edition": "CONTROL",
+        "term": "ANNUAL",
+        "trial": false,
+        "lifecycle": "ACTIVE",
+        "valid_to": "2027-09-16T10:00:00.000Z",
+        "grace_until": "2027-10-16T10:00:00.000Z",
+        "falls_back_to": null,
+        "usable": [
+          "PRIVACY_GRAPH",
+          "REALTIME_ENFORCEMENT"
+        ],
+        "significant_data_fiduciary": false
+      }
+    },
+    {
       "operation_id": "import_licence",
       "method": "POST",
       "path": "/api/v1/admin/licences",

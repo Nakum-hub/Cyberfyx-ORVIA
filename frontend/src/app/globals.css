@@ -786,3 +786,10 @@ dialog.dialog::backdrop { background: rgb(9 14 20 / 55%); }
 .tabs [role="tab"]:focus-visible { outline: 3px solid var(--focus); outline-offset: 1px; }
 .tabs .tab-count { margin-left: 6px; font-size: 0.8em; color: var(--ink-faint); }
 .watermark { border: 2px dashed var(--warn-line); background: var(--warn-soft); color: var(--warn); padding: 8px 12px; border-radius: var(--r-md); font-weight: 600; margin: var(--s3) 0; }
+
+/* Rev 1.11 plan: a quiet label on navigation, one status line when the plan needs attention, the plan feature list. */
+.nav-plan { color: var(--ink-faint); font-size: 11px; white-space: nowrap; }
+.plan-banner { background: var(--accent-soft); border-bottom: 1px solid var(--accent-line); color: var(--ink); padding: 6px var(--s6); font-size: 13px; }
+.plan-features { list-style: none; padding: 0; margin: var(--s3) 0 0; display: grid; gap: var(--s3); }
+.plan-features li { display: grid; gap: 2px; }
+@media (max-width: 720px) { .plan-banner { padding: 6px var(--s4); } }

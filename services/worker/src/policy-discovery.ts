@@ -1,3 +1,4 @@
+import { licenceCovers } from '../../../backend/domain/src/licensing/licensing.ts';
 import { createHash, randomUUID } from 'node:crypto';
 import type { Browser, BrowserContext } from '@playwright/test';
 import { launchLocalChromium } from './local-browser.ts';
@@ -63,6 +64,8 @@ export async function observePolicy(browser: Browser, origin: string, origins: s
 export async function sweepPolicyDiscoveries(scoped: <T>(id: string, work: (c: Context) => Promise<T>) => Promise<T>, workerIds: readonly string[], now: () => number = Date.now) {
   let processed = 0;
   for (const id of workerIds) {
+    // Rev 1.11: paused, not failed, while the licence in force does not cover it.
+    if (!(await scoped(id, c => licenceCovers(c, 'DISCOVERY_CLASSIFICATION')))) continue;
     // Weekly rediscovery: an enabled site with nothing queued and nothing requested in the last week gets one, for its first origin.
     await scoped(id, async c => {
       const s = scopeValues(c.actor);

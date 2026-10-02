@@ -140,6 +140,7 @@ export interface EndpointMap {
   record_delivery: { request: import('zod').infer<typeof import('../src/index.ts').schemas.DeliveryRecord>; response: import('zod').infer<typeof import('../src/index.ts').schemas.NotificationTask> };
   escalation_sweep: { request: undefined; response: import('zod').infer<typeof import('../src/index.ts').schemas.EscalationSweep> };
   entitlements: { request: undefined; response: import('zod').infer<typeof import('../src/index.ts').schemas.EntitlementReport> };
+  plan: { request: undefined; response: import('zod').infer<typeof import('../src/index.ts').schemas.PlanSummary> };
   import_licence: { request: import('zod').infer<typeof import('../src/index.ts').schemas.LicenceImport>; response: import('zod').infer<typeof import('../src/index.ts').schemas.LicenceState> };
   list_support_cases: { request: undefined; response: import('zod').infer<typeof import('../src/index.ts').schemas.SupportCaseList> };
   create_support_case: { request: import('zod').infer<typeof import('../src/index.ts').schemas.SupportCaseCreate>; response: import('zod').infer<typeof import('../src/index.ts').schemas.SupportCase> };

@@ -1,3 +1,4 @@
+import { licenceCovers } from '../../../backend/domain/src/licensing/licensing.ts';
 import { randomUUID } from 'node:crypto';
 import * as S from '../../../shared/contracts/src/index.ts';
 import { audit, predicate, scopeValues, requireOne, type Context } from '../../../backend/domain/src/shared/transaction.ts';
@@ -35,6 +36,8 @@ export async function sweepAiGovernance(
 ) {
   let processed=0;
   for(const identity of identities) await scoped(identity,async c=>{
+    // Rev 1.11: paused, not failed, while the licence in force does not cover it.
+    if (!(await licenceCovers(c, 'SECURITY_AI_GOVERNANCE'))) return;
     const scope=scopeValues(c.actor);
     const jobs=await c.tx.query(`SELECT ai_system_id,attempts FROM app.ai_monitor_jobs WHERE ${predicate} AND state<>'EXHAUSTED' AND next_run_at<=clock_timestamp()
       ORDER BY next_run_at,ai_system_id LIMIT 20 FOR UPDATE SKIP LOCKED`,scope);

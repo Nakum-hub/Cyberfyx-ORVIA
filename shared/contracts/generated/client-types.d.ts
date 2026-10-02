@@ -1727,6 +1727,22 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/api/v1/admin/plan": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["plan"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/api/v1/admin/licences": {
         parameters: {
             query?: never;
@@ -19160,6 +19176,22 @@ export interface components {
             /** @constant */
             a_limit_is_reported_and_never_enforced_here: true;
             limits: string[];
+        };
+        PlanSummary: {
+            /** Format: date-time */
+            as_of: string;
+            licensed: boolean;
+            edition: ("FOUNDATION" | "CONTROL" | "ENTERPRISE" | "CUSTOM") | null;
+            term: ("MONTHLY" | "QUARTERLY" | "ANNUAL" | "TRIAL" | "CONTRACT") | null;
+            trial: boolean;
+            lifecycle: ("ACTIVE" | "GRACE" | "EXPIRED") | null;
+            valid_to: string | null;
+            grace_until: string | null;
+            /** @description During a trial, the edition it returns to when it ends. */
+            falls_back_to: ("FOUNDATION" | "CONTROL" | "ENTERPRISE" | "CUSTOM") | null;
+            usable: ("PRIVACY_GRAPH" | "CONSENT_MANAGEMENT" | "NOTICE_MANAGEMENT" | "INTAKE_AND_PORTAL" | "RIGHTS_MANAGEMENT" | "RETENTION_MANAGEMENT" | "PROCESSOR_MANAGEMENT" | "INCIDENT_MANAGEMENT" | "NOTIFICATIONS" | "WEBSITE_CONSENT" | "SDF_OBLIGATIONS" | "REALTIME_ENFORCEMENT" | "WORKFLOW_AUTOMATION" | "DOWNSTREAM_VERIFICATION" | "COVERAGE_REPORTING" | "RIGHTS_FULFILMENT" | "DISCOVERY_CLASSIFICATION" | "ASSESSMENTS" | "THIRD_PARTY_LIFECYCLE" | "DELIVERY_TRANSPORTS" | "RETENTION_ADVANCED" | "PRIVACY_TEST_ENGINE" | "CONTINUOUS_COMPLIANCE" | "GRC_AUDIT" | "SECURITY_AI_GOVERNANCE" | "AUDIT_EXCHANGE" | "SSO_IDENTITY")[];
+            /** @description The organisation profile records designation as a Significant Data Fiduciary. */
+            significant_data_fiduciary: boolean;
         };
         SupportCaseCreate: {
             /** @enum {string} */
@@ -46017,6 +46049,177 @@ export interface operations {
                      *     }
                      */
                     "application/json": components["schemas"]["EntitlementReport"];
+                };
+            };
+            /** @description VALIDATION_ERROR */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "VALIDATION_ERROR",
+                     *         "message": "Synthetic safe error example",
+                     *         "retry": "NEVER"
+                     *       },
+                     *       "request_id": "00000000-0000-4000-8000-000000000001"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description UNAUTHENTICATED */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "UNAUTHENTICATED",
+                     *         "message": "Synthetic safe error example",
+                     *         "retry": "REAUTHENTICATE"
+                     *       },
+                     *       "request_id": "00000000-0000-4000-8000-000000000001"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description FORBIDDEN */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "FORBIDDEN",
+                     *         "message": "Synthetic safe error example",
+                     *         "retry": "NEVER"
+                     *       },
+                     *       "request_id": "00000000-0000-4000-8000-000000000001"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description NOT_FOUND */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "NOT_FOUND",
+                     *         "message": "Synthetic safe error example",
+                     *         "retry": "NEVER"
+                     *       },
+                     *       "request_id": "00000000-0000-4000-8000-000000000001"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description EPOCH_CONFLICT */
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "EPOCH_CONFLICT",
+                     *         "message": "Synthetic safe error example",
+                     *         "retry": "REFRESH"
+                     *       },
+                     *       "request_id": "00000000-0000-4000-8000-000000000001"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description RATE_LIMITED */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "RATE_LIMITED",
+                     *         "message": "Synthetic safe error example",
+                     *         "retry": "AFTER_DELAY"
+                     *       },
+                     *       "request_id": "00000000-0000-4000-8000-000000000001"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description SERVICE_UNAVAILABLE */
+            503: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "SERVICE_UNAVAILABLE",
+                     *         "message": "Synthetic safe error example",
+                     *         "retry": "AFTER_DELAY"
+                     *       },
+                     *       "request_id": "00000000-0000-4000-8000-000000000001"
+                     *     }
+                     */
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+        };
+    };
+    plan: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Typed contract response; endpoint implementation is ticket-gated. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "as_of": "2026-09-16T10:00:00.000Z",
+                     *       "licensed": true,
+                     *       "edition": "CONTROL",
+                     *       "term": "ANNUAL",
+                     *       "trial": false,
+                     *       "lifecycle": "ACTIVE",
+                     *       "valid_to": "2027-09-16T10:00:00.000Z",
+                     *       "grace_until": "2027-10-16T10:00:00.000Z",
+                     *       "falls_back_to": null,
+                     *       "usable": [
+                     *         "PRIVACY_GRAPH",
+                     *         "REALTIME_ENFORCEMENT"
+                     *       ],
+                     *       "significant_data_fiduciary": false
+                     *     }
+                     */
+                    "application/json": components["schemas"]["PlanSummary"];
                 };
             };
             /** @description VALIDATION_ERROR */

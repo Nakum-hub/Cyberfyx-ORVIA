@@ -51,6 +51,18 @@ const TITLES: Record<string, string> = {
   INVALID_COMMAND: 'Command rejected',
 };
 
+const PLAN_NAME: Record<string, string> = { foundation: 'Foundation', control: 'Control', enterprise: 'Enterprise' };
+/** Rev 1.11: a refusal because the plan does not cover the work, said as such rather than as a permission problem. */
+function planRefusal(fields: readonly { field: string; code: string }[]) {
+  const why = fields.find(f => f.field === 'entitlement')?.code;
+  if (!why) return null;
+  const tier = PLAN_NAME[fields.find(f => f.field === 'tier')?.code ?? ''] ?? 'a higher plan';
+  if (why === 'no_licence') return { title: 'No licence imported', guidance: 'This work needs a licence. Import the signed licence issued with your subscription under Installation → Your plan. Reading, exports and the protective controls keep working.' };
+  if (why === 'licence_expired') return { title: 'Plan expired', guidance: `New work in ${tier} features stopped when the licence expired. Everything already recorded stays readable and exportable; import the renewed licence to continue.` };
+  if (why === 'entitlement_required') return { title: `Part of ${tier}`, guidance: `Your current plan does not include this. It is part of ${tier}. Nothing was changed. See Installation → Your plan.` };
+  return { title: 'Not available on this installation', guidance: 'The server could not match this action to a plan. Nothing was changed.' };
+}
+
 export function failureTone(failure: UiFailure): FailureTone {
   if (failure.kind === 'NETWORK' || failure.outcomeUnknown) return 'unknown';
   if (failure.code === 'VALIDATION_ERROR' || failure.code === 'EPOCH_CONFLICT' || failure.code === 'RATE_LIMITED') return 'warn';
@@ -67,12 +79,13 @@ export function describeFailure(error: unknown, options: { write?: boolean } = {
   const write = options.write === true;
   if (error instanceof ApiError) {
     const envelope = error.envelope.error;
+    const plan = planRefusal(envelope.field_errors ?? []);
     return {
       kind: 'API',
       code: envelope.code,
       status: error.status,
-      title: TITLES[envelope.code] ?? 'Request failed',
-      guidance: GUIDANCE[envelope.code] ?? 'The server rejected this request.',
+      title: plan?.title ?? TITLES[envelope.code] ?? 'Request failed',
+      guidance: plan?.guidance ?? GUIDANCE[envelope.code] ?? 'The server rejected this request.',
       serverMessage: envelope.message,
       retry: envelope.retry,
       requestId: error.envelope.request_id,

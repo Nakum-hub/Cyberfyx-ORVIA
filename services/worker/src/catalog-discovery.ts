@@ -1,3 +1,4 @@
+import { licenceCovers } from '../../../backend/domain/src/licensing/licensing.ts';
 import { randomUUID } from 'node:crypto';
 import type pg from 'pg';
 import { machineAuthority } from '../../../backend/auth/src/machine.ts';
@@ -22,6 +23,8 @@ export async function sweepCatalogDiscovery(
 ) {
   let processed=0;
   for(const id of workerIds)await scoped(id,async c=>{
+    // Rev 1.11: paused, not failed, while the licence in force does not cover it.
+    if (!(await licenceCovers(c, 'DISCOVERY_CLASSIFICATION'))) return;
     const scope=scopeValues(c.actor);
     const observer=observerIdentities.find(candidate=>candidate.scope.tenant_id===scope[0]&&
       candidate.scope.legal_entity_id===scope[1]&&candidate.scope.environment_id===scope[2]);

@@ -1581,6 +1581,15 @@
       "status": 200
     },
     {
+      "id": "plan",
+      "method": "get",
+      "path": "/api/v1/admin/plan",
+      "authority": "STAFF",
+      "capability": "overview.read",
+      "response": "PlanSummary",
+      "status": 200
+    },
+    {
       "id": "import_licence",
       "method": "post",
       "path": "/api/v1/admin/licences",

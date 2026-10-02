@@ -2,7 +2,7 @@ import type { Context } from '../../domain/src/shared/transaction.ts';
 import type { Page } from '@orvia/domain/transaction';
 import type { RouteDefinition } from '../../../shared/contracts/src/index.ts';
 import type { runtime } from './runtime.ts';
-import { importLicence, entitlementReport } from '../../domain/src/licensing/licensing.ts';
+import { importLicence, entitlementReport, planSummary } from '../../domain/src/licensing/licensing.ts';
 import { createSupportCase, supportCaseList, readSupportCase, recordResolution, registerCanary, canaryList, generateDiagnostic, approveDiagnostic, recordTransfer, validateIngressSubmission } from '../../domain/src/support/support.ts';
 import { importRelease, releaseList, updateEligibility, planUpdate, readUpdatePlan, updatePlanList, recordUpdateStep, installationVersionList } from '../../domain/src/updates/updates.ts';
 import { operationalReadiness } from '../../domain/src/monitoring/monitoring.ts';
@@ -20,6 +20,7 @@ import { connectionList, readGuidedConnection, startConnection, recordConnectivi
 export async function platformRoute(c: Context, route: RouteDefinition, id: string | undefined, input: unknown, page: Page, query: unknown, r: ReturnType<typeof runtime>): Promise<unknown | undefined> {
   switch (route.id) {
     case 'entitlements':return entitlementReport(c);
+    case 'plan':return planSummary(c);
     case 'import_licence':return importLicence(c,input,r.config.installation_id);
     case 'list_support_cases':return supportCaseList(c,page);
     case 'create_support_case':return createSupportCase(c,input);

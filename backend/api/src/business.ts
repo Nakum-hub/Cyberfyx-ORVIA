@@ -31,7 +31,7 @@ const implemented=new Set(['grc_audit_response_history','list_grc_audits','creat
   'coverage','list_gaps','derive_gaps','assign_gap','close_gap','gap_guidance',
   'list_processors','create_processor','link_processor_system','processor_standing','record_coordination','list_assessments','create_assessment','complete_assessment','list_findings','create_finding','close_finding',
   'list_incidents','create_incident','incident_assessment','correct_incident','contain_incident','close_incident','transition_notification','list_obligation_rules','create_obligation_rule',
-  'list_templates','create_template','list_notification_tasks','create_notification_task','notification_task','record_delivery','escalation_sweep','entitlements','import_licence',
+  'list_templates','create_template','list_notification_tasks','create_notification_task','notification_task','record_delivery','escalation_sweep','entitlements','plan','import_licence',
   'list_support_cases','create_support_case','support_case','generate_diagnostic','record_resolution','approve_diagnostic','record_transfer','validate_submission','list_canaries','register_canary',
   'list_releases','import_release','update_eligibility','plan_update','update_plan','list_update_plans','record_update_step','installation_versions',
   'operational_readiness','list_audit_events','export_audit_events','audit_coverage','correct_audit_event',

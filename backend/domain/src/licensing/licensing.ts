@@ -229,5 +229,39 @@ export async function requireEntitlement(c: Context, route: { id: string; method
   // Through the scope-bound definer function: the actor need not hold licence.read to be covered by the licence (0101).
   const named = (await c.tx.query('SELECT app.licence_names_entitlement($1,$2) AS named', [row.id, cls])).rows[0].named;
   if (!named) refuse('entitlement_required');
-  if (S.ENTITLEMENTS[cls].tier !== 'FOUNDATION' && row.lifecycle === 'EXPIRED') refuse('licence_expired');
+  if (!coversNewWork(cls, row.lifecycle)) refuse('licence_expired');
+}
+
+/** The licence rule shared by enforcement and the plan summary: may new work use this entitlement under that licence? */
+function coversNewWork(code: S.EntitlementCodeValue, lifecycle: string) { return S.ENTITLEMENTS[code].tier === 'FOUNDATION' || lifecycle !== 'EXPIRED'; }
+
+/**
+ * Revision 1.11 plan summary for the interface: which plan is in force and which entitlements new work may use, decided by
+ * the same rule as requireEntitlement. Readable by every staff member (overview.read), so locked items are shown honestly to
+ * everyone rather than discovered by a refusal.
+ */
+export async function planSummary(c: Context) {
+  const row = (await c.tx.query('SELECT id, edition, term, trial, lifecycle, valid_to, grace_until, fallback_id FROM app.effective_licence($1,$2,$3)', scopeValues(c.actor))).rows[0];
+  const profile = (await c.tx.query(`SELECT sdf_status FROM app.organisation_profile_versions WHERE ${predicate} ORDER BY version DESC LIMIT 1`, scopeValues(c.actor))).rows[0];
+  const sdf = profile?.sdf_status === 'DESIGNATED';
+  if (!row) return S.PlanSummary.parse({ as_of: time(new Date()), licensed: false, edition: null, term: null, trial: false, lifecycle: null, valid_to: null, grace_until: null, falls_back_to: null, usable: [], significant_data_fiduciary: sdf });
+  const codes = (await c.tx.query('SELECT app.licence_entitlement_codes($1) AS codes, app.licence_row_edition($2) AS fallback', [row.id, row.fallback_id])).rows[0];
+  const named = S.EntitlementCode.options.filter(code => (codes.codes as string[]).includes(code) && coversNewWork(code, row.lifecycle));
+  const fallback = row.fallback_id ? { edition: codes.fallback } : null;
+  return S.PlanSummary.parse({
+    as_of: time(new Date()), licensed: true, edition: row.edition, term: row.term, trial: row.trial, lifecycle: row.lifecycle,
+    valid_to: time(row.valid_to), grace_until: time(row.grace_until), falls_back_to: fallback?.edition ?? null, usable: named, significant_data_fiduciary: sdf,
+  });
+}
+
+/**
+ * Rev 1.11 runner check. Scheduled work for a gated feature (discovery, classification, AI monitoring) runs only while the
+ * licence in force covers it, by the same rule as requireEntitlement. Uncovered work is not failed or discarded: it stays
+ * queued and resumes when a licence covering it is imported. Protective work (withdrawal propagation, rights and breach
+ * deadlines, outbound notifications already approved) never calls this.
+ */
+export async function licenceCovers(c: Context, code: S.EntitlementCodeValue) {
+  const row = (await c.tx.query('SELECT id, lifecycle FROM app.effective_licence($1,$2,$3)', scopeValues(c.actor))).rows[0];
+  if (!row || !coversNewWork(code, row.lifecycle)) return false;
+  return Boolean((await c.tx.query('SELECT app.licence_names_entitlement($1,$2) AS named', [row.id, code])).rows[0].named);
 }

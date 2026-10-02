@@ -26753,6 +26753,177 @@
         "x-orvia-implementation": "IMPLEMENTED_WP25_PENDING_REVIEW"
       }
     },
+    "/api/v1/admin/plan": {
+      "get": {
+        "operationId": "plan",
+        "security": [
+          {
+            "staffSession": []
+          },
+          {
+            "staffSecureSession": []
+          }
+        ],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Typed contract response; endpoint implementation is ticket-gated.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PlanSummary"
+                },
+                "example": {
+                  "as_of": "2026-09-16T10:00:00.000Z",
+                  "licensed": true,
+                  "edition": "CONTROL",
+                  "term": "ANNUAL",
+                  "trial": false,
+                  "lifecycle": "ACTIVE",
+                  "valid_to": "2027-09-16T10:00:00.000Z",
+                  "grace_until": "2027-10-16T10:00:00.000Z",
+                  "falls_back_to": null,
+                  "usable": [
+                    "PRIVACY_GRAPH",
+                    "REALTIME_ENFORCEMENT"
+                  ],
+                  "significant_data_fiduciary": false
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "VALIDATION_ERROR",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "error": {
+                    "code": "VALIDATION_ERROR",
+                    "message": "Synthetic safe error example",
+                    "retry": "NEVER"
+                  },
+                  "request_id": "00000000-0000-4000-8000-000000000001"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "UNAUTHENTICATED",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "error": {
+                    "code": "UNAUTHENTICATED",
+                    "message": "Synthetic safe error example",
+                    "retry": "REAUTHENTICATE"
+                  },
+                  "request_id": "00000000-0000-4000-8000-000000000001"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "FORBIDDEN",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "error": {
+                    "code": "FORBIDDEN",
+                    "message": "Synthetic safe error example",
+                    "retry": "NEVER"
+                  },
+                  "request_id": "00000000-0000-4000-8000-000000000001"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "NOT_FOUND",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "error": {
+                    "code": "NOT_FOUND",
+                    "message": "Synthetic safe error example",
+                    "retry": "NEVER"
+                  },
+                  "request_id": "00000000-0000-4000-8000-000000000001"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "EPOCH_CONFLICT",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "error": {
+                    "code": "EPOCH_CONFLICT",
+                    "message": "Synthetic safe error example",
+                    "retry": "REFRESH"
+                  },
+                  "request_id": "00000000-0000-4000-8000-000000000001"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "RATE_LIMITED",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "error": {
+                    "code": "RATE_LIMITED",
+                    "message": "Synthetic safe error example",
+                    "retry": "AFTER_DELAY"
+                  },
+                  "request_id": "00000000-0000-4000-8000-000000000001"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "SERVICE_UNAVAILABLE",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "error": {
+                    "code": "SERVICE_UNAVAILABLE",
+                    "message": "Synthetic safe error example",
+                    "retry": "AFTER_DELAY"
+                  },
+                  "request_id": "00000000-0000-4000-8000-000000000001"
+                }
+              }
+            }
+          }
+        },
+        "x-orvia-authority": "STAFF",
+        "x-orvia-capability": "overview.read",
+        "x-orvia-implementation": "CONTRACT_ONLY_PENDING_TICKET"
+      }
+    },
     "/api/v1/admin/licences": {
       "post": {
         "operationId": "import_licence",
@@ -170301,6 +170472,165 @@
           "limit_usage",
           "a_limit_is_reported_and_never_enforced_here",
           "limits"
+        ],
+        "additionalProperties": false
+      },
+      "PlanSummary": {
+        "type": "object",
+        "properties": {
+          "as_of": {
+            "type": "string",
+            "format": "date-time",
+            "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d:[0-5]\\d(?:\\.\\d+)?(?:Z))$"
+          },
+          "licensed": {
+            "type": "boolean"
+          },
+          "edition": {
+            "anyOf": [
+              {
+                "type": "string",
+                "enum": [
+                  "FOUNDATION",
+                  "CONTROL",
+                  "ENTERPRISE",
+                  "CUSTOM"
+                ]
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "term": {
+            "anyOf": [
+              {
+                "type": "string",
+                "enum": [
+                  "MONTHLY",
+                  "QUARTERLY",
+                  "ANNUAL",
+                  "TRIAL",
+                  "CONTRACT"
+                ]
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "trial": {
+            "type": "boolean"
+          },
+          "lifecycle": {
+            "anyOf": [
+              {
+                "type": "string",
+                "enum": [
+                  "ACTIVE",
+                  "GRACE",
+                  "EXPIRED"
+                ]
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "valid_to": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "date-time",
+                "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d:[0-5]\\d(?:\\.\\d+)?(?:Z))$"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "grace_until": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "date-time",
+                "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d:[0-5]\\d(?:\\.\\d+)?(?:Z))$"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "falls_back_to": {
+            "anyOf": [
+              {
+                "type": "string",
+                "enum": [
+                  "FOUNDATION",
+                  "CONTROL",
+                  "ENTERPRISE",
+                  "CUSTOM"
+                ]
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "During a trial, the edition it returns to when it ends."
+          },
+          "usable": {
+            "maxItems": 40,
+            "type": "array",
+            "items": {
+              "type": "string",
+              "enum": [
+                "PRIVACY_GRAPH",
+                "CONSENT_MANAGEMENT",
+                "NOTICE_MANAGEMENT",
+                "INTAKE_AND_PORTAL",
+                "RIGHTS_MANAGEMENT",
+                "RETENTION_MANAGEMENT",
+                "PROCESSOR_MANAGEMENT",
+                "INCIDENT_MANAGEMENT",
+                "NOTIFICATIONS",
+                "WEBSITE_CONSENT",
+                "SDF_OBLIGATIONS",
+                "REALTIME_ENFORCEMENT",
+                "WORKFLOW_AUTOMATION",
+                "DOWNSTREAM_VERIFICATION",
+                "COVERAGE_REPORTING",
+                "RIGHTS_FULFILMENT",
+                "DISCOVERY_CLASSIFICATION",
+                "ASSESSMENTS",
+                "THIRD_PARTY_LIFECYCLE",
+                "DELIVERY_TRANSPORTS",
+                "RETENTION_ADVANCED",
+                "PRIVACY_TEST_ENGINE",
+                "CONTINUOUS_COMPLIANCE",
+                "GRC_AUDIT",
+                "SECURITY_AI_GOVERNANCE",
+                "AUDIT_EXCHANGE",
+                "SSO_IDENTITY"
+              ]
+            }
+          },
+          "significant_data_fiduciary": {
+            "type": "boolean",
+            "description": "The organisation profile records designation as a Significant Data Fiduciary."
+          }
+        },
+        "required": [
+          "as_of",
+          "licensed",
+          "edition",
+          "term",
+          "trial",
+          "lifecycle",
+          "valid_to",
+          "grace_until",
+          "falls_back_to",
+          "usable",
+          "significant_data_fiduciary"
         ],
         "additionalProperties": false
       },
