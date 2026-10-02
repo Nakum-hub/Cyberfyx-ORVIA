@@ -57,6 +57,8 @@ const SEGMENT_ENTITLEMENT: Record<string, EntitlementCodeValue> = {
   'data-principal-categories': 'PRIVACY_GRAPH', 'processing-activities': 'PRIVACY_GRAPH', 'processing-conditions': 'PRIVACY_GRAPH',
   'registry-activities': 'PRIVACY_GRAPH', 'registry-activity-links': 'PRIVACY_GRAPH', 'data-assets': 'PRIVACY_GRAPH', ropa: 'PRIVACY_GRAPH',
   'security-safeguards': 'PRIVACY_GRAPH',
+  // Revision 1.12: file intake and existing-data onboarding are on every plan (owner decision 2026-10-02).
+  'file-intake': 'PRIVACY_GRAPH', 'bulk-jobs': 'CONSENT_MANAGEMENT',
   purposes: 'CONSENT_MANAGEMENT', policies: 'CONSENT_MANAGEMENT', consents: 'CONSENT_MANAGEMENT', 'preference-topics': 'CONSENT_MANAGEMENT',
   'preference-centres': 'CONSENT_MANAGEMENT', 'preference-decisions': 'CONSENT_MANAGEMENT', 'child-status-records': 'CONSENT_MANAGEMENT',
   'consent-managers': 'CONSENT_MANAGEMENT', 'withdrawal-canaries': 'CONSENT_MANAGEMENT', 'canary-hits': 'CONSENT_MANAGEMENT',
@@ -73,7 +75,7 @@ const SEGMENT_ENTITLEMENT: Record<string, EntitlementCodeValue> = {
   // CONTROL
   'target-mappings': 'REALTIME_ENFORCEMENT', policy: 'REALTIME_ENFORCEMENT',
   workflows: 'WORKFLOW_AUTOMATION', 'workflow-runs': 'WORKFLOW_AUTOMATION', connections: 'WORKFLOW_AUTOMATION',
-  'connector-bindings': 'WORKFLOW_AUTOMATION', 'bulk-jobs': 'WORKFLOW_AUTOMATION', commands: 'WORKFLOW_AUTOMATION',
+  'connector-bindings': 'WORKFLOW_AUTOMATION', commands: 'WORKFLOW_AUTOMATION',
   gaps: 'COVERAGE_REPORTING', coverage: 'COVERAGE_REPORTING', failures: 'COVERAGE_REPORTING', 'control-map': 'COVERAGE_REPORTING',
   'response-packages': 'RIGHTS_FULFILMENT',
   'catalog-discovery-targets': 'DISCOVERY_CLASSIFICATION', 'classification-runs': 'DISCOVERY_CLASSIFICATION',

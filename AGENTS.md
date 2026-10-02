@@ -18,6 +18,8 @@
 
 **2026-10-02 owner decisions (revision 1.11 addendum):** read `docs/engineering/V1_BASELINE_REV_1_11_TIERS_AND_SUBSCRIPTIONS.md`: three tiers plus a reserved CUSTOM tier; every legal DPDP duty on Tier 1; protective controls never gated; monthly, quarterly and annual terms, trials, upgrades, downgrades and seat changes through signed superseding licences; server-side entitlement enforcement. Tier migrations use 0100–0119.
 
+**2026-10-02 owner decisions (revision 1.12 addendum):** read `docs/engineering/V1_BASELINE_REV_1_12_FILE_INTAKE.md`: every file ORVIA uses arrives automatically from a local inbox folder or by manual upload, on every plan, staged until a staff member approves; the vendor installation needs no plan; vendor member credential issuance awaits the owner's design.
+
 **No assumptions about how people reach a feature (added 2026-09-30).** Every feature meant for the organisation's customers (Data Principals) or staff must state which channel those people actually use to reach it, checked against the law (for Data Principals, Rule 14(1)) and against the kinds of organisation it is sold to. A question about user behaviour or product direction that the master, the addenda, the law or the owner has not settled goes to the owner as an open question before it is built. Record the answer in an addendum.
 
 Build ORVIA Version 1 as a customer-local, production-intended product. The earlier internal prototype is historical engineering evidence, not the delivery target. Read, in order:

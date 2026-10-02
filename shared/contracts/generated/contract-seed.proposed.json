@@ -1,5 +1,5 @@
 {
-  "contract_version": "0.57.0",
+  "contract_version": "0.58.0",
   "review_status": "PENDING_WORK_REVIEW",
   "accepted_baseline": "0.2.1",
   "review_commit": null,
@@ -5367,6 +5367,59 @@
       "idempotency": true,
       "capability": "audit_exchange.approve",
       "params": "IdPath"
+    },
+    {
+      "id": "list_file_intake",
+      "method": "get",
+      "path": "/api/v1/admin/file-intake",
+      "authority": "STAFF",
+      "response": "FileIntakeList",
+      "status": 200,
+      "capability": "registry.read"
+    },
+    {
+      "id": "upload_file",
+      "method": "post",
+      "path": "/api/v1/admin/file-intake",
+      "authority": "STAFF",
+      "request": "FileIntakeUpload",
+      "response": "FileIntakeItem",
+      "status": 201,
+      "capability": "registry.write",
+      "idempotency": true,
+      "maximum_body_bytes": 13985112
+    },
+    {
+      "id": "file_intake_item",
+      "method": "get",
+      "path": "/api/v1/admin/file-intake/{id}",
+      "authority": "STAFF",
+      "params": "IdPath",
+      "response": "FileIntakeItem",
+      "status": 200,
+      "capability": "registry.read"
+    },
+    {
+      "id": "file_intake_content",
+      "method": "get",
+      "path": "/api/v1/admin/file-intake/{id}/content",
+      "authority": "STAFF",
+      "params": "IdPath",
+      "response": "FileIntakeContent",
+      "status": 200,
+      "capability": "registry.read"
+    },
+    {
+      "id": "decide_file_intake",
+      "method": "post",
+      "path": "/api/v1/admin/file-intake/{id}/decision",
+      "authority": "STAFF",
+      "params": "IdPath",
+      "request": "FileIntakeDecision",
+      "response": "FileIntakeItem",
+      "status": 200,
+      "capability": "registry.write",
+      "idempotency": true
     },
     {
       "id": "poll_commands",

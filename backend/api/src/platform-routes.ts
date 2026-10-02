@@ -3,6 +3,7 @@ import type { Page } from '@orvia/domain/transaction';
 import type { RouteDefinition } from '../../../shared/contracts/src/index.ts';
 import type { runtime } from './runtime.ts';
 import { importLicence, entitlementReport, planSummary } from '../../domain/src/licensing/licensing.ts';
+import { uploadFile, listFileIntake, readFileIntake, readFileIntakeContent, decideFileIntake, fileInboxRoot, inboxFolderFor } from '../../domain/src/onboarding/file-intake.ts';
 import { createSupportCase, supportCaseList, readSupportCase, recordResolution, registerCanary, canaryList, generateDiagnostic, approveDiagnostic, recordTransfer, validateIngressSubmission } from '../../domain/src/support/support.ts';
 import { importRelease, releaseList, updateEligibility, planUpdate, readUpdatePlan, updatePlanList, recordUpdateStep, installationVersionList } from '../../domain/src/updates/updates.ts';
 import { operationalReadiness } from '../../domain/src/monitoring/monitoring.ts';
@@ -21,6 +22,11 @@ export async function platformRoute(c: Context, route: RouteDefinition, id: stri
   switch (route.id) {
     case 'entitlements':return entitlementReport(c);
     case 'plan':return planSummary(c);
+    case 'list_file_intake':return listFileIntake(c,inboxFolderFor(fileInboxRoot(r.config.directory),c.actor.scope.environment_id));
+    case 'upload_file':return uploadFile(c,input);
+    case 'file_intake_item':return readFileIntake(c,id!);
+    case 'file_intake_content':return readFileIntakeContent(c,id!);
+    case 'decide_file_intake':return decideFileIntake(c,id!,input,r.config.installation_id);
     case 'import_licence':return importLicence(c,input,r.config.installation_id);
     case 'list_support_cases':return supportCaseList(c,page);
     case 'create_support_case':return createSupportCase(c,input);

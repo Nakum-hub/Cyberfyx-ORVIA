@@ -233,6 +233,7 @@ export const WORKSPACE_NAV: NavGroup[] = [
     { href: '/workspace/policy-preview', label: 'Decision preview', entitlement: 'REALTIME_ENFORCEMENT' },
   ] },
   { group: 'Operations', items: [
+    { href: '/workspace/files', label: 'Files' },
     { href: '/workspace/rights', label: 'Privacy requests' },
     { href: '/workspace/representation', label: 'Representation' },
     { href: '/workspace/workflows', label: 'Workflows', entitlement: 'WORKFLOW_AUTOMATION' },

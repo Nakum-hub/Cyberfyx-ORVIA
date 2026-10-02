@@ -48,6 +48,12 @@ export function example(name:SchemaName):unknown {
   if(operations!==undefined)return operations;
   const expansion=expansionExample(name);
   if(expansion!==undefined)return (schemas[name] as { parse(v: unknown): unknown }).parse(expansion);
+  const fileItem={id:uuid(700),source:'MANUAL_UPLOAD' as const,original_name:'processor-agreement.pdf',content_type:'application/pdf',size_bytes:48213,sha256:'a'.repeat(64),detected_kind:'DOCUMENT' as const,detail:'PDF document.',state:'STAGED' as const,received_at:sampleTime,received_by:uuid(701),decided_at:null,decided_by:null,decision_reason:null,routed_resource_id:null,subject_kind:null,subject_id:null,on_approval:'Kept as a document, optionally linked to a record.',approval_capability:'registry.write'};
+  if(name==='FileIntakeUpload')return {file_name:'processor-agreement.pdf',content_base64:'JVBERi0xLjQK'};
+  if(name==='FileIntakeItem')return fileItem;
+  if(name==='FileIntakeList')return {items:[fileItem],inbox:{configured:true,folder:'/var/lib/orvia/file-inbox/'+uuid(702)+'/incoming',accepted_extensions:['json','pdf'],max_bytes:10485760},limits:['Nothing in a file is applied until a staff member approves it.']};
+  if(name==='FileIntakeDecision')return {decision:'APPROVE' as const,reason:'Signed agreement for the payroll processor.',subject_kind:'PROCESSOR' as const,subject_id:uuid(703)};
+  if(name==='FileIntakeContent')return {id:uuid(700),original_name:'processor-agreement.pdf',content_type:'application/pdf',content_base64:'JVBERi0xLjQK'};
   const audit=dpdpaAuditExample(name);
   if(audit!==undefined)return (schemas[name] as { parse(v: unknown): unknown }).parse(audit);
   if(name==='GrcAuditResponse'||name==='GrcAuditResponseHistoryRecord'){const evidence=example('GrcEvidence') as {id:string};return {...sample(z.toJSONSchema(schemas[name]) as JsonSchema) as Record<string,unknown>,evidence_id:evidence.id,evidence_snapshot:evidence};}

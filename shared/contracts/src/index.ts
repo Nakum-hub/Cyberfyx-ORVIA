@@ -8,6 +8,8 @@ import { operationsRoutes } from './operations-routes.ts';
 import { expansionSchemas } from './expansion.ts';
 import { expansionRoutes } from './expansion-routes.ts';
 import { dpdpaAuditSchemas, dpdpaAuditRoutes } from './dpdpa-audit.ts';
+import { fileIntakeSchemas, fileIntakeRoutes } from './file-intake.ts';
+export * from './file-intake.ts';
 const dpdpaAuditNames = Object.keys(dpdpaAuditSchemas);
 // A schema name means one thing: the expansion module may add names, never replace them.
 const expansionNames = Object.keys(expansionSchemas);
@@ -68,8 +70,11 @@ const expansionNames = Object.keys(expansionSchemas);
  *  ENTITLEMENT_EXCEEDS_EDITION, STALE_SEQUENCE and TRIAL_ALREADY_USED. LicenceState gains term, sequence, trial, lifecycle,
  *  grace_until and falls_back_to; FeatureAvailability gains tier, label and value. Every non-read route is classified
  *  (route-entitlements.ts) and an unlicensed gated write is refused with 403 FORBIDDEN naming the entitlement and tier
- *  (migration 0100). */
-export const CONTRACT_VERSION = '0.57.0' as const;
+ *  (migration 0100).
+ *  0.58.0 (owner decisions 2026-10-02, revision 1.12): file intake. Files arrive from a local inbox folder on the
+ *  installation server or by manual upload, are staged, and are applied only on a staff decision: list_file_intake,
+ *  upload_file, file_intake_item, file_intake_content, decide_file_intake (migration 0103). Otherwise additive. */
+export const CONTRACT_VERSION = '0.58.0' as const;
 /** The version this build declares of itself. It is what a diagnostic report and
  *  a release manifest are compared against, so it must match package.json; a unit
  *  test asserts that rather than trusting it. */
@@ -2134,7 +2139,7 @@ export const CatalogDiscoveryDetail = z.strictObject({target:CatalogDiscoveryTar
   freshness:z.enum(['CURRENT','STALE','NEVER_OBSERVED','UNKNOWN']),
 });
 
-export const schemas = { ...regulatorySchemas, ...registrySchemas, ...operationsSchemas, ...expansionSchemas, ...dpdpaAuditSchemas, ...grcSchemas, ...grcAuditSchemas, AiSystemCreate, AiSystem, AiGovernanceEventCreate, AiGovernanceEvent, AiSystemDetail, AiGovernanceReport, AiSystemList: page(AiSystem), ErrorResponse, Pagination, Session, Grant, Withdraw, Receipt, ReceiptView, PurposeCreate, Purpose, NoticeCreate, Notice, NoticeContact, PolicyCreate, Policy, PolicyPublish, PolicyReauthenticate, PublicationProof, MappingCreate, TargetMapping, SystemCreate, System, PrincipalCreate, Principal, ConsentChoice, CommandScope, Approval, PlanBinding, CommandPayload, SignedCommand, CommandReceipt, Observation, Reconciliation, ManualAttestation, Obligation, Action, WorkflowSummary, Workflow, AcceptedOperation, Evaluate, Decision, SendRequest, SendResult, SimulatorState, TestRunCreate, TestRun, CapabilityRecord, Overview, Evidence, ControlMap, IdPath, PurposePath, WorkflowPath, PollRequest,
+export const schemas = { ...fileIntakeSchemas, ...regulatorySchemas, ...registrySchemas, ...operationsSchemas, ...expansionSchemas, ...dpdpaAuditSchemas, ...grcSchemas, ...grcAuditSchemas, AiSystemCreate, AiSystem, AiGovernanceEventCreate, AiGovernanceEvent, AiSystemDetail, AiGovernanceReport, AiSystemList: page(AiSystem), ErrorResponse, Pagination, Session, Grant, Withdraw, Receipt, ReceiptView, PurposeCreate, Purpose, NoticeCreate, Notice, NoticeContact, PolicyCreate, Policy, PolicyPublish, PolicyReauthenticate, PublicationProof, MappingCreate, TargetMapping, SystemCreate, System, PrincipalCreate, Principal, ConsentChoice, CommandScope, Approval, PlanBinding, CommandPayload, SignedCommand, CommandReceipt, Observation, Reconciliation, ManualAttestation, Obligation, Action, WorkflowSummary, Workflow, AcceptedOperation, Evaluate, Decision, SendRequest, SendResult, SimulatorState, TestRunCreate, TestRun, CapabilityRecord, Overview, Evidence, ControlMap, IdPath, PurposePath, WorkflowPath, PollRequest,
   CatalogDiscoveryTargetCreate,CatalogDiscoveryApproval,CatalogDiscoveryTarget,CatalogDiscoveryObservation,CatalogDiscoveryDetail,CatalogDiscoveryTargetList:page(CatalogDiscoveryTarget),
   DataAssetCreate, CatalogAssetCreate, DataAsset, ProcessingActivityCreate, ProcessingActivity, GraphRelationshipCreate, GraphRelationship, AssetTombstone,
   GraphSearchQuery, GraphSearchResult, NeighbourhoodQuery, GraphNeighbourhood, ImpactAssessment,
@@ -2383,6 +2388,7 @@ export const routes: RouteDefinition[] = [
   ...operationsRoutes as RouteDefinition[],
   ...expansionRoutes as RouteDefinition[],
   ...dpdpaAuditRoutes as RouteDefinition[],
+  ...fileIntakeRoutes as RouteDefinition[],
   {id:'poll_commands',method:'post',path:'/api/v1/machine/commands/poll',authority:'MACHINE',request:'PollRequest',response:'CommandList',status:200},
   {id:'command_receipt',method:'post',path:'/api/v1/machine/commands/{id}/receipts',authority:'MACHINE',params:'IdPath',request:'CommandReceipt',response:'AcceptedOperation',status:202,idempotency:true},
   {id:'send',method:'post',path:'/api/v1/machine/simulator/send',authority:'MACHINE',request:'SendRequest',response:'SendResult',status:200,idempotency:true},
