@@ -102,15 +102,18 @@ export async function createClientAccount(c: Ctx, id: string, input: unknown) {
 export async function issueOrganisationLicence(c: Ctx, input: unknown, keys: Keys) {
   const v = V.LicenceIssueRequest.parse(input);
   if (!(await c.tx.query('SELECT 1 FROM vendor.organisations WHERE id=$1', [v.organisation_id])).rowCount) refuse(404, 'organisation_id', 'not_found');
+  // Anti-rollback (revision 1.11): one increasing sequence per installation, serialised so two issues cannot share a number.
+  await c.tx.query('SELECT pg_advisory_xact_lock(hashtext($1))', [`vendor.licence.sequence.${v.installation_id}`]);
+  const sequence = Number((await c.tx.query('SELECT coalesce(max(sequence),0)+1 AS next FROM vendor.licence_issues WHERE installation_id=$1', [v.installation_id])).rows[0].next);
   let issued: ReturnType<typeof issueLicence>;
-  try { issued = issueLicence({ installation_id: v.installation_id, option: v.option, entitlements: v.entitlements, environments: v.environments, valid_from: v.valid_from, valid_to: v.valid_to }, keys.licence()); }
-  catch (error) { refuse(400, 'option', error instanceof Error && /option/i.test(error.message) ? 'unknown_option' : 'licence_invalid'); throw error; }
+  try { issued = issueLicence({ installation_id: v.installation_id, option: v.option, entitlements: v.entitlements, environments: v.environments, valid_from: v.valid_from, valid_to: v.valid_to, term: v.term, sequence }, keys.licence()); }
+  catch (error) { refuse(400, error instanceof Error && /edition/i.test(error.message) ? 'entitlements' : 'option', error instanceof Error && /option/i.test(error.message) ? 'unknown_option' : error instanceof Error && /edition/i.test(error.message) ? 'entitlement_exceeds_edition' : 'licence_invalid'); throw error; }
   return guarded(async () => {
-    await c.tx.query(`INSERT INTO vendor.licence_issues (id, organisation_id, installation_id, licence_id, plan_option, member_seats, valid_from, valid_to, licence, issued_by) VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10)`,
-      [randomUUID(), v.organisation_id, v.installation_id, issued.licence.claims.licence_id, issued.plan.option, issued.plan.member_seats, v.valid_from, v.valid_to, JSON.stringify(issued.licence), c.actor.actor_id]);
+    await c.tx.query(`INSERT INTO vendor.licence_issues (id, organisation_id, installation_id, licence_id, plan_option, member_seats, valid_from, valid_to, licence, issued_by, term, sequence) VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12)`,
+      [randomUUID(), v.organisation_id, v.installation_id, issued.licence.claims.licence_id, issued.plan.option, issued.plan.member_seats, v.valid_from, v.valid_to, JSON.stringify(issued.licence), c.actor.actor_id, v.term, sequence]);
     await c.tx.query("UPDATE vendor.organisations SET licence_state='ACTIVE' WHERE id=$1", [v.organisation_id]);
     await audit(c, 'vendor.licence.issued', issued.licence.claims.licence_id);
-    return V.LicenceIssued.parse(issued);
+    return V.LicenceIssued.parse({ ...issued, sequence, term: v.term });
   });
 }
 

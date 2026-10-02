@@ -95,6 +95,16 @@ try {
   const acct = await adm.json(`/api/v1/vendor/organisations/${orgId}/accounts`, { name: 'Aster Uploader', email: 'uploader@aster.example' });
   check('client vendor-account created', acct.status, 200);
   const other = await adm.json('/api/v1/vendor/organisations', { name: 'Birch Synthetic Ltd', registered_address: null });
+  // Revisions 1.11/1.12: issued licences carry their term and an increasing sequence per installation (anti-rollback).
+  const licInstallation = randomUUID();
+  const issue = (body: Record<string, unknown>) => adm.json('/api/v1/vendor/licences', { organisation_id: orgId, installation_id: licInstallation, option: 'tier_1_members_5', entitlements: ['PRIVACY_GRAPH'], environments: 1,
+    valid_from: new Date(Date.now() - 86_400_000).toISOString(), valid_to: new Date(Date.now() + 86 * 86_400_000).toISOString(), ...body });
+  const firstIssue = await issue({ term: 'QUARTERLY' });
+  const secondIssue = await issue({});
+  check('issued licences carry the term and an increasing sequence per installation',
+    [firstIssue.status, firstIssue.data.sequence, firstIssue.data.licence.claims.term, secondIssue.data.sequence, secondIssue.data.licence.claims.term], [201, 1, 'QUARTERLY', 2, 'ANNUAL']);
+  const overreach = await issue({ entitlements: ['PRIVACY_GRAPH', 'AUDIT_EXCHANGE'] });
+  check('a Foundation licence naming an Enterprise feature is refused before it leaves the vendor', [overreach.status, overreach.data.error?.field_errors?.[0]?.code], [400, 'entitlement_exceeds_edition']);
   const scope = ['DPDP-NOTICE-CONSENT-REQUEST', 'DPDP-CONSENT-VALIDITY'];
   check('engagement refuses an unknown requirement', (await adm.json('/api/v1/vendor/engagements', { organisation_id: orgId, reference: 'ENG-X', scope_requirement_ids: ['DPDP-NOT-A-REQUIREMENT'], period_from: '2026-01-01', period_to: '2026-06-30' })).status, 400);
   const eng = await adm.json('/api/v1/vendor/engagements', { organisation_id: orgId, reference: 'ENG-TEST', scope_requirement_ids: scope, period_from: '2026-01-01', period_to: '2026-06-30', retention_days: 30 });

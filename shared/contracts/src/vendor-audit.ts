@@ -48,8 +48,9 @@ export const Organisation = z.strictObject({ id: Id, name: z.string(), registere
 export const OrganisationList = z.strictObject({ items: z.array(Organisation.omit({ contacts: true, accounts: true, licences: true })).max(1000) });
 export const ClientAccountCreated = z.strictObject({ user_id: Id, one_time_password: z.string().min(24).max(64) });
 
-export const LicenceIssueRequest = z.strictObject({ organisation_id: Id, installation_id: Id, option: z.string().min(1).max(40), entitlements: z.array(z.string().max(60)).max(40), environments: z.number().int().min(1).max(20), valid_from: Time, valid_to: Time });
-export const LicenceIssued = z.strictObject({ licence: z.unknown(), plan: z.strictObject({ tier: z.string(), option: z.string(), member_seats: z.number().int() }) });
+export const LicenceIssueRequest = z.strictObject({ organisation_id: Id, installation_id: Id, option: z.string().min(1).max(40), entitlements: z.array(z.string().max(60)).max(40), environments: z.number().int().min(1).max(20), valid_from: Time, valid_to: Time,
+  term: z.enum(['MONTHLY', 'QUARTERLY', 'ANNUAL', 'TRIAL', 'CONTRACT']).default('ANNUAL') });
+export const LicenceIssued = z.strictObject({ licence: z.unknown(), plan: z.strictObject({ tier: z.string(), option: z.string(), member_seats: z.number().int() }), sequence: z.number().int().min(1), term: z.string() });
 
 export const EngagementCreate = z.strictObject({ organisation_id: Id, reference: z.string().regex(/^[A-Za-z0-9][A-Za-z0-9/_.-]{0,79}$/),
   scope_requirement_ids: z.array(RequirementId).min(1).max(200), period_from: Day, period_to: Day, retention_days: z.number().int().min(1).max(3650).default(90) });
