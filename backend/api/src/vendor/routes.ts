@@ -14,6 +14,7 @@ import * as P from '../../../vendor/audit/practice.ts';
 import { CHANNEL_HEADERS, MAX_CHANNEL_BODY_BYTES } from '../../../../shared/contracts/src/audit-channel.ts';
 import { vendorRuntime, type VendorRuntime } from './runtime.ts';
 import { provisioningRoute } from './provisioning.ts';
+import { importServiceLicence, serviceLicenceState, serviceLicenceTrust } from '../../../vendor/audit/service-licence.ts';
 import { vendorActorFor, requireVendorCapability, vendorTransaction, vendorSafeRoute, jsonBody, parseWith, type VendorActor } from './authority.ts';
 
 /**
@@ -33,6 +34,8 @@ const routes: Route[] = [
   R('POST', '/team/{id}/deactivate', 'vendor.team.manage', (c, id) => S.setMemberActive(c, id!, false)),
   R('POST', '/team/{id}/reactivate', 'vendor.team.manage', (c, id) => S.setMemberActive(c, id!, true)),
   R('POST', '/team/{id}/delete', 'vendor.team.manage', (c, id, i) => S.deleteMember(c, id!, i)),
+  R('GET', '/service-licence', 'vendor.team.read', c => serviceLicenceState(c)),
+  R('POST', '/service-licence', 'vendor.team.manage', (c, _, i, __, k) => importServiceLicence(c, i, k.serviceLicenceTrust?.() ?? null, k.installationId!)),
   R('POST', '/team/{id}/setup-code', 'vendor.team.manage', (c, id, i) => S.issueSetupCode(c, id!, i)),
   R('POST', '/team/{id}/password', 'vendor.team.manage', (c, id, i) => S.setMemberPassword(c, id!, i)),
   R('GET', '/organisations', 'organisations.read', c => S.organisationList(c)),
@@ -134,7 +137,8 @@ function match(method: string, path: string) {
 let cachedKeys: S.Keys | undefined;
 function keys(r: VendorRuntime): S.Keys {
   return cachedKeys ??= { vault: vaultKeyFrom(readFileSync(resolve(r.config.directory, 'auth', 'vault-key'), 'utf8').trim()),
-    audit: () => vendorSigningKey('audit'), licence: () => vendorSigningKey('licence'), release: () => vendorSigningKey('release') };
+    audit: () => vendorSigningKey('audit'), licence: () => vendorSigningKey('licence'), release: () => vendorSigningKey('release'),
+    serviceLicenceTrust: () => serviceLicenceTrust(r.config.directory), installationId: r.config.installation_id };
 }
 const toCtx = (tx: S.Ctx['tx'], actor: VendorActor, requestId: string): S.Ctx => ({ tx, requestId, actor: { actor_id: actor.actor_id, actor_domain: actor.actor_domain, role: actor.role, organisation_id: actor.organisation_id } });
 

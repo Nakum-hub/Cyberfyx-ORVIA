@@ -10,7 +10,17 @@ function Team({ session }: { session: VendorSession }) {
   const [members, setMembers] = useState<Member[] | null>(null); const [error, setError] = useState<string | null>(null);
   const [form, setForm] = useState({ name: '', email: '', role: '', password_mode: 'SETUP_CODE', password: '' }); const [issued, setIssued] = useState<{ email: string; secret: string; kind: 'password' | 'code'; expires: string | null } | null>(null);
   const [deleting, setDeleting] = useState<Member | null>(null); const [busy, setBusy] = useState(false);
-  const load = useCallback(() => vendorCall<{ members: Member[] }>('/team').then(r => setMembers(r.members)).catch(e => setError(explain(e))), []);
+  const [licence, setLicence] = useState<{ state: string; member_seats: number | null; members_active: number; valid_to: string | null; note: string } | null>(null);
+  const [licenceText, setLicenceText] = useState('');
+  const load = useCallback(() => Promise.all([
+    vendorCall<{ members: Member[] }>('/team').then(r => setMembers(r.members)),
+    vendorCall<{ state: string; member_seats: number | null; members_active: number; valid_to: string | null; note: string }>('/service-licence').then(setLicence),
+  ]).catch(e => setError(explain(e))), []);
+  async function importLicence(event: FormEvent) {
+    event.preventDefault(); setError(null); setBusy(true);
+    try { const parsed = JSON.parse(licenceText) as { licence?: unknown }; await vendorCall('/service-licence', { licence: parsed.licence ?? parsed }); setLicenceText(''); await load(); }
+    catch (e) { setError(e instanceof SyntaxError ? 'That is not a licence file. Paste the whole file exactly as issued.' : explain(e)); } finally { setBusy(false); }
+  }
   useEffect(() => { void load(); }, [load]);
   const manage = can(session, 'vendor.team.manage');
   async function create(event: FormEvent) {
@@ -34,6 +44,12 @@ function Team({ session }: { session: VendorSession }) {
   return <>
     <div className="page-head"><h2>Vendor team</h2><p>Vendor logins live in this central vendor service, so a member who reinstalls ORVIA on their device just signs in again. Every login needs an authenticator. A new member's first password is set by you now, or by the member once with a one-time setup code.</p></div>
     {error && <div className="notice notice-stop" role="alert">{error}</div>}
+    {licence && <NoticeBox tone={licence.state === 'ACTIVE' ? 'info' : 'warn'} title={licence.state === 'ACTIVE' ? `Vendor service licence: ${licence.members_active} of ${licence.member_seats} member logins in use` : licence.state === 'EXPIRED' ? 'Vendor service licence expired' : 'No vendor service licence imported'}>
+      <p>{licence.note}{licence.valid_to ? ` Valid until ${new Date(licence.valid_to).toLocaleDateString()}.` : ''} This licence is the company's own and is separate from the licences issued to client organisations.</p>
+      {session.role === 'VENDOR_SUPER_ADMIN' && <form onSubmit={importLicence}><label className="field"><span className="label">Import a vendor service licence</span>
+        <textarea rows={3} value={licenceText} onChange={e => setLicenceText(e.target.value)} spellCheck={false} maxLength={8000} required /></label>
+        <button type="submit" disabled={busy}>Import</button></form>}
+    </NoticeBox>}
     {issued && <NoticeBox tone="warn" title={issued.kind === 'code' ? 'Setup code — shown once' : 'One-time password — shown once'}>
       {issued.kind === 'code'
         ? <p>Give it privately to {issued.email}. They open <a href="/vendor/account-setup">Set your password</a>, enter their work email and this code, and choose their password. It works once{issued.expires ? <> and expires {new Date(issued.expires).toLocaleString()}</> : null}.</p>

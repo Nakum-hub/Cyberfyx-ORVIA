@@ -7,6 +7,8 @@
  *   signing/audit.json     DPDPA audit signing key pair (private + public): signs
  *                          auditor request lists, findings and reports on the
  *                          vendor's own VENDOR_SERVICE installation
+ *   signing/service-licence.json  signs the licence of the company's own VENDOR_SERVICE installation (revision 1.13);
+ *                          a separate key so a vendor licence and a customer licence can never be confused
  *   commerce/razorpay.json Razorpay keys for the vendor website checkout (key_id,
  *                          key_secret, webhook_secret, merchant_id, mode); see
  *                          docs/engineering/PAYMENTS_PROVIDER_DECISION.md
@@ -49,8 +51,9 @@ const trustFile = (v: unknown): VendorTrust => { const o = (v ?? {}) as Record<s
     audit_service = { url: s.url as string };
   }
   return { release: publicKey(o.release, 'release'), licence: publicKey(o.licence, 'licence'), audit: o.audit === undefined ? null : publicKey(o.audit, 'audit'), audit_service }; };
-export type SigningKind = 'release' | 'licence' | 'audit';
-const PREFIX: Record<SigningKind, string> = { release: 'ORVIA_RELEASE', licence: 'ORVIA_LICENCE', audit: 'ORVIA_AUDIT' };
+/** service-licence (revision 1.13): signs the licence of the company's own vendor service only; never a customer licence. */
+export type SigningKind = 'release' | 'licence' | 'audit' | 'service-licence';
+const PREFIX: Record<SigningKind, string> = { release: 'ORVIA_RELEASE', licence: 'ORVIA_LICENCE', audit: 'ORVIA_AUDIT', 'service-licence': 'ORVIA_SERVICE_LICENCE' };
 
 const root = () => process.env.ORVIA_WORKSPACE_ROOT ?? process.cwd();
 export const vendorDirectory = () => resolve(root(), '.local/vendor');
