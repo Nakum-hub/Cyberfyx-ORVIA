@@ -56,7 +56,7 @@ async function isolatedNotificationScope() {
     await tx.query('INSERT INTO app.environments VALUES($1,$2,$3,$4)', [...s, 'Synthetic notification environment']);
     for (const name of ['owner', 'admin', 'auditor', 'member', 'alice']) {
       const original = h.users[name]!;
-      const user = { ...original, id: randomUUID(), email: `notifications.${name}.${randomUUID()}@fixture.example`, password: randomBytes(32).toString('hex'),
+      const user = { ...original, id: randomUUID(), email: `notifications.${name}.${randomUUID()}@aster.example`, password: randomBytes(32).toString('hex'),
         scope, totp_uri: undefined, ...(original.domain === 'principal' ? { principal_id: randomUUID() } : {}) };
       const schema = user.domain === 'staff' ? 'staff_auth' : 'principal_auth';
       await tx.query(`INSERT INTO ${schema}."user" (id,name,email,"emailVerified") VALUES($1,$2,$3,true)`, [user.id, `Synthetic notifications ${name}`, user.email]);

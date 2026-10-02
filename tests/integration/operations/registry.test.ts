@@ -127,7 +127,10 @@ await t.run(async () => {
   const firstPage = await ok(admin.call(`/api/v1/admin/registry-activities?system_id=${system.id}&limit=1`), S.schemas.ActivityList);
   check('the first activity page retains its next cursor', [firstPage.items.map(x => x.id), firstPage.next_cursor !== null], [[secondSample.activity.id], true]);
   const nextPage = await ok(admin.call(`/api/v1/admin/registry-activities?system_id=${system.id}&limit=1&cursor=${firstPage.next_cursor}`), S.schemas.ActivityList);
-  check('the next activity page retains the older record without repetition', [nextPage.items, nextPage.next_cursor], [[batchSample.activity], null]);
+  check('the next activity page retains the older record without repetition', [nextPage.items, nextPage.next_cursor !== null], [[batchSample.activity], true]);
+  // The relationship checks above created an earlier activity on this system.
+  const lastPage = await ok(admin.call(`/api/v1/admin/registry-activities?system_id=${system.id}&limit=1&cursor=${nextPage.next_cursor}`), S.schemas.ActivityList);
+  check('the final activity page retains the original relationship activity and ends the traversal', [lastPage.items.map(x => x.id), lastPage.next_cursor], [[activity.id], null]);
   const purposePage = await ok(admin.call('/api/v1/admin/registry-purposes?limit=1'), S.schemas.RegistryPurposeList);
   check('batched purpose reads preserve all fields and versions', purposePage.items, [secondSample.purpose]);
   const foreignActivities = await ok(birch.call(`/api/v1/admin/registry-activities?system_id=${system.id}`), S.schemas.ActivityList);
