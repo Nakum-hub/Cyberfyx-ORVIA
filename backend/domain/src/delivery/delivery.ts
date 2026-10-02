@@ -247,6 +247,14 @@ export async function claimDue(c: Context, limit = 20): Promise<Claim[]> {
   }
   return claims;
 }
+/**
+ * Re-checks a claimed message immediately before it is transmitted: if its recipient became a real-person withdrawal canary
+ * after the claim committed, the message is marked WITHHELD and must not be sent (revision 1.10, migration 0089). This narrows
+ * the window to the moment of transmission; a message already being transmitted when someone is designated cannot be recalled.
+ */
+export async function withholdBeforeSend(c: Context, claim: Claim) {
+  return Boolean((await c.tx.query('SELECT app.withhold_real_decoy_message($1) AS withheld', [claim.message.id])).rows[0].withheld);
+}
 /** Sends one claimed message. Runs outside any database transaction. */
 export async function sendClaim(env: OperationsEnv, claim: Claim, credentialLookup: (name: string) => string | undefined = name => process.env[name]): Promise<SendResult> {
   const { message: m, transport: t } = claim;

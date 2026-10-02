@@ -2,11 +2,12 @@ import type { PoolClient } from 'pg';
 
 /**
  * Functions only the protected server commands may call, over the migration/operator connection: owner recovery
- * (revision 1.8, migration 0074) and admitting real people (revision 1.9, migration 0082). The role set-up scripts grant
+ * (revision 1.8, migration 0074) and admitting real people (revision 1.9, migration 0082); and the erasure-ledger upgrade
+ * boundary (migration 0091), which only migration runs. The role set-up scripts grant
  * EXECUTE on every app function to the runtime roles, so each of them calls `revokeServerOnly` straight after that grant;
  * otherwise the web application could issue an owner recovery code or admit real people.
  */
-export const SERVER_ONLY_FUNCTIONS = ['app.owner_recovery_issue(text,text)', 'app.admit_real_principals(text,text)'] as const;
+export const SERVER_ONLY_FUNCTIONS = ['app.owner_recovery_issue(text,text)', 'app.admit_real_principals(text,text)', 'app.record_ledger_upgrade_boundary()'] as const;
 export const RUNTIME_ROLES = ['orvia_app', 'orvia_worker', 'orvia_agent_control', 'orvia_machine_auth', 'orvia_sender'] as const;
 /**
  * Functions that only some runtime roles may call. The canary marketing hold (revision 1.10, migration 0088) tells its caller

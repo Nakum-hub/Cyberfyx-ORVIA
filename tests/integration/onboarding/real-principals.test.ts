@@ -20,7 +20,7 @@ import { issueSetupCode } from '../../../scripts/setup-code.ts';
 import { admitRealPrincipals, realPrincipalState } from '../../../scripts/real-principals.ts';
 import { setupCodeDigest } from '../../../backend/api/src/setup.ts';
 import { HttpFixture } from '../../../shared/testing/src/http-fixture.ts';
-import { claimDue } from '../../../backend/domain/src/delivery/delivery.ts';
+import { claimDue, withholdBeforeSend } from '../../../backend/domain/src/delivery/delivery.ts';
 import type { Context } from '../../../backend/domain/src/shared/transaction.ts';
 
 const results: { name: string; result: 'PASS' | 'FAIL'; expected?: unknown; actual?: unknown }[] = [];
@@ -137,6 +137,27 @@ try {
     await db.query(`UPDATE app.withdrawal_canaries SET state='RETIRED', retired_at=now() WHERE id=$1`, [realCanary]);
     check('after the real decoy is retired, the person is ordinary again and a message may be attempted',
       await db.query('UPDATE app.outbound_messages SET attempts=1 WHERE id=$1 RETURNING attempts', [another]).then(r => r.rows[0].attempts, (e: Error) => e.message), 1);
+    // Codex round 8 review: designation can happen after a message was claimed but before it is transmitted. The runner re-checks
+    // immediately before transmitting (withholdBeforeSend), so such a message is withheld rather than sent.
+    const lateDecoy = await person(`late.${randomUUID().slice(0, 6)}@customer.example`);
+    const lateMessage = await message((await db.query('SELECT email FROM app.principal_references WHERE id=$1', [lateDecoy.id])).rows[0].email);
+    const asWorker = async <T>(work: (ctx: Context) => Promise<T>) => {
+      const w = await db.connect();
+      try {
+        await w.query('BEGIN'); await w.query('SET LOCAL ROLE orvia_worker');
+        await w.query(`SELECT set_config('orvia.tenant_id',$1,true),set_config('orvia.legal_entity_id',$2,true),set_config('orvia.environment_id',$3,true),
+          set_config('orvia.actor_id',$4,true),set_config('orvia.actor_domain','MACHINE',true),set_config('orvia.capabilities','operations.execute',true)`, [...k, randomUUID()]);
+        const result = await work({ tx: w, actor: { scope: { tenant_id: env.tenant_id, legal_entity_id: env.legal_entity_id, environment_id: env.id }, actor_id: randomUUID() } } as unknown as Context);
+        await w.query('COMMIT'); return result;
+      } catch (e) { await w.query('ROLLBACK').catch(() => {}); throw e; } finally { w.release(); }
+    };
+    const lateClaim = (await asWorker(ctx => claimDue(ctx, 50))).find(cl => cl.message.id === lateMessage);
+    check('a message to a real person who is not yet a decoy is claimed for sending', [!!lateClaim, (await outcome(lateMessage)).attempts], [true, 1]);
+    await canary(lateDecoy.id, 'ACTIVE');
+    check('designated after the claim, the message is withheld by the re-check just before transmission', await asWorker(ctx => withholdBeforeSend(ctx, lateClaim!)), true);
+    check('it is WITHHELD and no delivery attempt is recorded', [(await outcome(lateMessage)).outcome, Number((await db.query('SELECT count(*) n FROM app.outbound_attempts WHERE message_id=$1', [lateMessage])).rows[0].n)], ['WITHHELD', 0]);
+    check('the re-check leaves an ordinary claimed message alone', await asWorker(async ctx => { const extra = await message(`ordinary.${randomUUID().slice(0, 6)}@customer.example`);
+      const cl = (await claimDue(ctx, 50)).find(x => x.message.id === extra)!; return withholdBeforeSend(ctx, cl); }), false);
     const privileges = (await db.query(`SELECT r.rolname, has_function_privilege(r.rolname,'app.withhold_real_decoy_message(uuid)','EXECUTE') AS withhold,
       has_function_privilege(r.rolname,'app.real_decoy_recipient(uuid,uuid,uuid,text)','EXECUTE') AS ask FROM pg_roles r WHERE r.rolname = ANY($1) ORDER BY 1`,
     [['orvia_app', 'orvia_worker', 'orvia_agent_control', 'orvia_machine_auth', 'orvia_sender']])).rows;

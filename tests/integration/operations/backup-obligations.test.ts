@@ -134,6 +134,24 @@ await t.run(async () => {
     check('once reviewed, the restore leaves Operations attention', cleared.items.some(i => i.kind === 'RESTORE_PREDATES_LEDGER' && i.entity_id === ancient.id), false);
     check('the review cannot be rewritten', await refused('UPDATE app.restore_coverage_reviews SET evidence_reference=$2 WHERE restore_id=$1', [ancient.id, 'Rewritten']).then(m => m !== 'changed'), true);
     check('the coverage of a recorded restore cannot be changed', await refused(`UPDATE app.system_restores SET ledger_coverage='COMPLETE', ledger_purged_through=NULL WHERE id=$1`, [ancient.id]).then(m => m !== 'changed'), true);
+    t.setPhase('the upgrade boundary for erasures purged before 0090 (migration 0091)');
+    // A system whose backup treatment predates the upgrade by more than 30 days may have had ledger rows purged before purges were
+    // recorded. The boundary is recorded once; a restore older than it is INCOMPLETE, a newer one stays COMPLETE.
+    await db.query(`INSERT INTO app.backup_treatments(tenant_id,legal_entity_id,environment_id,id,system_id,technical_restriction,isolation_controls,retention_days,restore_procedure_reference,legal_treatment,recorded_by,recorded_at)
+      VALUES($1,$2,$3,$4,$5,'Nightly images, not editable per record (synthetic).','Encrypted, two named DBAs (synthetic).',35,'Runbook DBA-7 (synthetic)','Management accepts backup retention (synthetic).',$6,now() - interval '90 days')`,
+      [s.tenant_id, s.legal_entity_id, s.environment_id, randomUUID(), noTreatment.id, randomUUID()]);
+    const boundaryAdded = Number((await db.query('SELECT app.record_ledger_upgrade_boundary() AS n')).rows[0].n);
+    const boundary = (await db.query(`SELECT purged_through, purged_rows FROM app.erasure_ledger_purges WHERE system_id=$1 AND basis='BEFORE_UPGRADE'`, [noTreatment.id])).rows;
+    check('one boundary is recorded for a system whose treatment predates the upgrade by more than 30 days, naming no one', [boundaryAdded >= 1, boundary.length, boundary[0]?.purged_rows], [true, 1, 0]);
+    check('recording the boundary again adds nothing for that system', [Number((await db.query('SELECT app.record_ledger_upgrade_boundary() AS n')).rows[0].n) >= 0,
+      Number((await db.query(`SELECT count(*) n FROM app.erasure_ledger_purges WHERE system_id=$1 AND basis='BEFORE_UPGRADE'`, [noTreatment.id])).rows[0].n)], [true, 1]);
+    const oldRestore = await ok(admin.call('/api/v1/admin/system-restores', { system_id: noTreatment.id, backup_taken_at: hoursFromNow(-24 * 45), restored_at: hoursFromNow(0), evidence_reference: 'Restore after upgrade RST-1 (synthetic)' }, key()), S.schemas.SystemRestore);
+    check('a restore from before the upgrade boundary is INCOMPLETE, not reported as complete', oldRestore.ledger_coverage, 'INCOMPLETE');
+    const newRestore = await ok(admin.call('/api/v1/admin/system-restores', { system_id: noTreatment.id, backup_taken_at: hoursFromNow(-24 * 10), restored_at: hoursFromNow(0), evidence_reference: 'Restore after upgrade RST-2 (synthetic)' }, key()), S.schemas.SystemRestore);
+    check('a restore from after the boundary stays COMPLETE', newRestore.ledger_coverage, 'COMPLETE');
+    await ok(admin.call(reviewPath(oldRestore.id), { evidence_reference: 'Restored tables reviewed by hand (synthetic).' }, key()), S.schemas.SystemRestore, [200]);
+    check('the application role cannot record a boundary', await (async () => { const cx = await db.connect(); try { await cx.query('BEGIN'); await cx.query('SET LOCAL ROLE orvia_app');
+      return await cx.query('SELECT app.record_ledger_upgrade_boundary()').then(() => 'ran', (e: { code?: string }) => e.code); } finally { await cx.query('ROLLBACK').catch(() => {}); cx.release(); } })(), '42501');
     check('purge records cannot be removed', await refused('DELETE FROM app.erasure_ledger_purges WHERE system_id=$1', [withBackups.id]).then(m => m !== 'changed'), true);
   } finally { await runner.close(); }
 });

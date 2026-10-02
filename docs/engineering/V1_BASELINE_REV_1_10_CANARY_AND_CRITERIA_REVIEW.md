@@ -33,6 +33,8 @@
   - A message addressed to one is still accepted from its author and recorded as a hit (0079).
   - When it falls due, the delivery runner marks it **WITHHELD** and makes no attempt.
   - The database also refuses to start a delivery attempt to a real-person decoy, whatever code path claims the message.
+  - If someone is designated after a message to them was claimed, the runner's re-check immediately before transmission withholds it (Codex round 8 review; `withholdBeforeSend`).
+  - **Precisely:** nothing is sent to a person who is a real-person decoy when the runner checks just before transmitting. A message already being transmitted when someone is designated cannot be recalled.
 - The match is case-insensitive on the email address. A decoy counts while PENDING or ACTIVE; a retired decoy is an ordinary person again.
 - Synthetic decoys, meaning organisation-owned decoy mailboxes, keep their behaviour: a message to one is sent and recorded.
 
@@ -82,5 +84,7 @@ This was Codex round 8, finding 5. The erasure ledger (0076) forgets an erasure 
   - appears in Operations attention as `RESTORE_PREDATES_LEDGER` until someone with retention write access records how the restored data was reviewed by hand (`POST /api/v1/admin/system-restores/{id}/coverage-review`).
 - The Backups screen lists these restores.
 - A restore's coverage, its review, and the purge records cannot be rewritten.
+
+**Upgrade boundary (migration 0091; Codex round 8 review).** Erasures purged before 0090 left no purge record. At the upgrade, each system whose backup treatment is more than 30 days old gets one boundary: erasures made more than 30 days before the upgrade may already be gone from the ledger. A restore from a backup older than that is INCOMPLETE. This is conservative. It may ask for a manual review when nothing was in fact purged, but it never reports a restore as complete when something may have been.
 
 **Still the owner's call:** how long the ledger is kept. Keeping it longer means fewer INCOMPLETE restores, at the cost of holding a minimal personal-data row for longer. Today it is kept 30 days past the backups' age-out (0076).
