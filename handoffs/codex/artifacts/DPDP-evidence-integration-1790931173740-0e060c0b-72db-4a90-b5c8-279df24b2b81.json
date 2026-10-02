@@ -1,0 +1,497 @@
+{
+  "task_id": "DPDP",
+  "fixture_kind": "CUSTOMER_LOCAL_SYNTHETIC",
+  "recorded_at": "2026-10-02T08:52:53.740Z",
+  "test_ids": [
+    "T13",
+    "T17",
+    "T18",
+    "T19",
+    "T20",
+    "T21",
+    "T22"
+  ],
+  "profile": "codex-a00",
+  "contract_version": "0.57.0",
+  "build_id": "aZBrNCC9qALg5DVp1vXx-",
+  "assertions": [
+    {
+      "name": "HEALTHY: one bounded attempt",
+      "result": "PASS",
+      "expected": 1,
+      "actual": 1
+    },
+    {
+      "name": "HEALTHY: plan attempt budget",
+      "result": "PASS",
+      "expected": 1,
+      "actual": 1
+    },
+    {
+      "name": "HEALTHY: actual target effect",
+      "result": "PASS",
+      "expected": true,
+      "actual": true
+    },
+    {
+      "name": "HEALTHY: execution state",
+      "result": "PASS",
+      "expected": "ACKNOWLEDGED",
+      "actual": "ACKNOWLEDGED"
+    },
+    {
+      "name": "HEALTHY: aggregate truth",
+      "result": "PASS",
+      "expected": "COMPLETED",
+      "actual": "COMPLETED"
+    },
+    {
+      "name": "UNAVAILABLE: one bounded attempt",
+      "result": "PASS",
+      "expected": 1,
+      "actual": 1
+    },
+    {
+      "name": "UNAVAILABLE: plan attempt budget",
+      "result": "PASS",
+      "expected": 1,
+      "actual": 1
+    },
+    {
+      "name": "UNAVAILABLE: actual target effect",
+      "result": "PASS",
+      "expected": false,
+      "actual": false
+    },
+    {
+      "name": "UNAVAILABLE: execution state",
+      "result": "PASS",
+      "expected": "FAILED",
+      "actual": "FAILED"
+    },
+    {
+      "name": "UNAVAILABLE: aggregate truth",
+      "result": "PASS",
+      "expected": "NEEDS_ATTENTION",
+      "actual": "NEEDS_ATTENTION"
+    },
+    {
+      "name": "unavailable read is explicitly unverifiable",
+      "result": "PASS",
+      "expected": "UNVERIFIABLE",
+      "actual": "UNVERIFIABLE"
+    },
+    {
+      "name": "APPLY_THEN_TIMEOUT: one bounded attempt",
+      "result": "PASS",
+      "expected": 1,
+      "actual": 1
+    },
+    {
+      "name": "APPLY_THEN_TIMEOUT: plan attempt budget",
+      "result": "PASS",
+      "expected": 1,
+      "actual": 1
+    },
+    {
+      "name": "APPLY_THEN_TIMEOUT: actual target effect",
+      "result": "PASS",
+      "expected": true,
+      "actual": true
+    },
+    {
+      "name": "APPLY_THEN_TIMEOUT: execution state",
+      "result": "PASS",
+      "expected": "EFFECT_UNKNOWN",
+      "actual": "EFFECT_UNKNOWN"
+    },
+    {
+      "name": "APPLY_THEN_TIMEOUT: aggregate truth",
+      "result": "PASS",
+      "expected": "NEEDS_ATTENTION",
+      "actual": "NEEDS_ATTENTION"
+    },
+    {
+      "name": "ACK_WITHOUT_EFFECT: one bounded attempt",
+      "result": "PASS",
+      "expected": 1,
+      "actual": 1
+    },
+    {
+      "name": "ACK_WITHOUT_EFFECT: plan attempt budget",
+      "result": "PASS",
+      "expected": 1,
+      "actual": 1
+    },
+    {
+      "name": "ACK_WITHOUT_EFFECT: actual target effect",
+      "result": "PASS",
+      "expected": false,
+      "actual": false
+    },
+    {
+      "name": "ACK_WITHOUT_EFFECT: execution state",
+      "result": "PASS",
+      "expected": "ACKNOWLEDGED",
+      "actual": "ACKNOWLEDGED"
+    },
+    {
+      "name": "ACK_WITHOUT_EFFECT: aggregate truth",
+      "result": "PASS",
+      "expected": "NEEDS_ATTENTION",
+      "actual": "NEEDS_ATTENTION"
+    },
+    {
+      "name": "ACK without effect has a separate mismatching read",
+      "result": "PASS",
+      "expected": "OBSERVED_NOT_SATISFIED",
+      "actual": "OBSERVED_NOT_SATISFIED"
+    },
+    {
+      "name": "uncertain outcome has no fabricated observation",
+      "result": "PASS",
+      "expected": 0,
+      "actual": 0
+    },
+    {
+      "name": "executor cannot use observer mount",
+      "result": "PASS",
+      "expected": 401,
+      "actual": 401
+    },
+    {
+      "name": "observer read sees real applied effect",
+      "result": "PASS",
+      "expected": true,
+      "actual": true
+    },
+    {
+      "name": "observer cannot execute restriction",
+      "result": "PASS",
+      "expected": 401,
+      "actual": 401
+    },
+    {
+      "name": "reconciliation accepted with worker stopped",
+      "result": "PASS",
+      "expected": 202,
+      "actual": 202
+    },
+    {
+      "name": "reconciliation persisted pending",
+      "result": "PASS",
+      "expected": "PENDING",
+      "actual": "PENDING"
+    },
+    {
+      "name": "reconciliation committed replay stable",
+      "result": "PASS",
+      "expected": {
+        "operation_id": "0318fc20-4bc5-4ff6-b6cb-06e7c4598b95",
+        "status": "ACCEPTED",
+        "accepted_at": "2026-10-02T08:52:31.287Z"
+      },
+      "actual": {
+        "operation_id": "0318fc20-4bc5-4ff6-b6cb-06e7c4598b95",
+        "status": "ACCEPTED",
+        "accepted_at": "2026-10-02T08:52:31.287Z"
+      }
+    },
+    {
+      "name": "read reconciliation completes observed obligation",
+      "result": "PASS",
+      "expected": "COMPLETED",
+      "actual": "COMPLETED"
+    },
+    {
+      "name": "original uncertain attempt remains immutable",
+      "result": "PASS",
+      "expected": [
+        {
+          "command_id": "3f218b0d-6de0-48a8-b51f-15f79e82b846",
+          "command_digest": "5524889efa977dbb42b3a71cbbc48d85db8f5882c4a77928e7e1c7e6247c227c",
+          "attempt_id": "105cf478-09b0-473e-82ae-5b74cd3d07e5",
+          "execution_state": "EFFECT_UNKNOWN",
+          "recorded_at": "2026-10-02T08:52:18.288Z",
+          "reason_code": "PROVIDER_RESPONSE_UNKNOWN",
+          "target_generation": 1
+        }
+      ],
+      "actual": [
+        {
+          "command_id": "3f218b0d-6de0-48a8-b51f-15f79e82b846",
+          "command_digest": "5524889efa977dbb42b3a71cbbc48d85db8f5882c4a77928e7e1c7e6247c227c",
+          "attempt_id": "105cf478-09b0-473e-82ae-5b74cd3d07e5",
+          "execution_state": "EFFECT_UNKNOWN",
+          "recorded_at": "2026-10-02T08:52:18.288Z",
+          "reason_code": "PROVIDER_RESPONSE_UNKNOWN",
+          "target_generation": 1
+        }
+      ]
+    },
+    {
+      "name": "reconciliation never invents recovered ACK",
+      "result": "PASS",
+      "expected": "EFFECT_UNKNOWN",
+      "actual": "EFFECT_UNKNOWN"
+    },
+    {
+      "name": "capability loss becomes effective read=false",
+      "result": "PASS",
+      "expected": false,
+      "actual": false
+    },
+    {
+      "name": "failed capability check immediately invalidates prior completion",
+      "result": "PASS",
+      "expected": "NEEDS_ATTENTION",
+      "actual": "NEEDS_ATTENTION"
+    },
+    {
+      "name": "portal immediately reflects failed read capability",
+      "result": "PASS",
+      "expected": "NEEDS_ATTENTION",
+      "actual": "NEEDS_ATTENTION"
+    },
+    {
+      "name": "new failed read supersedes prior satisfied read",
+      "result": "PASS",
+      "expected": "UNVERIFIABLE",
+      "actual": "UNVERIFIABLE"
+    },
+    {
+      "name": "permission loss removes current completion",
+      "result": "PASS",
+      "expected": "NEEDS_ATTENTION",
+      "actual": "NEEDS_ATTENTION"
+    },
+    {
+      "name": "REST read permission loss also fails closed at admission",
+      "result": "PASS",
+      "expected": "INDETERMINATE",
+      "actual": "INDETERMINATE"
+    },
+    {
+      "name": "unverifiable REST admission has no send",
+      "result": "PASS",
+      "expected": 0,
+      "actual": 0
+    },
+    {
+      "name": "unassigned member cannot see workflow",
+      "result": "PASS",
+      "expected": 404,
+      "actual": 404
+    },
+    {
+      "name": "member sees only exact assigned workflow",
+      "result": "PASS",
+      "expected": "d97291a7-9062-46da-bccf-2ad10c9c95b3",
+      "actual": "d97291a7-9062-46da-bccf-2ad10c9c95b3"
+    },
+    {
+      "name": "member still cannot see other workflow",
+      "result": "PASS",
+      "expected": 404,
+      "actual": 404
+    },
+    {
+      "name": "member list equals exact persisted assignments",
+      "result": "PASS",
+      "expected": [
+        "05087a86-b1f3-4e05-a96f-0d391dd32836",
+        "ad57feb9-fcb4-4a5e-b895-124eb6175eac",
+        "d657f5c7-ebad-49b6-aff4-9f76a57ccfd1",
+        "d97291a7-9062-46da-bccf-2ad10c9c95b3",
+        "e89e22ce-d097-4421-83a1-a6c65a772e9d"
+      ],
+      "actual": [
+        "05087a86-b1f3-4e05-a96f-0d391dd32836",
+        "ad57feb9-fcb4-4a5e-b895-124eb6175eac",
+        "d657f5c7-ebad-49b6-aff4-9f76a57ccfd1",
+        "d97291a7-9062-46da-bccf-2ad10c9c95b3",
+        "e89e22ce-d097-4421-83a1-a6c65a772e9d"
+      ]
+    },
+    {
+      "name": "manual task read exposes authoritative stored version",
+      "result": "PASS",
+      "expected": 0,
+      "actual": 0
+    },
+    {
+      "name": "foreign evidence reference denied",
+      "result": "PASS",
+      "expected": 404,
+      "actual": 404
+    },
+    {
+      "name": "concurrent current-version attestations accept exactly one",
+      "result": "PASS",
+      "expected": [
+        202,
+        409
+      ],
+      "actual": [
+        202,
+        409
+      ]
+    },
+    {
+      "name": "manual identical replay accepted",
+      "result": "PASS",
+      "expected": 202,
+      "actual": 202
+    },
+    {
+      "name": "manual identical replay preserves original operation",
+      "result": "PASS",
+      "expected": {
+        "operation_id": "8313904e-8522-4898-8000-1fa3150dfcc2",
+        "status": "ACCEPTED",
+        "accepted_at": "2026-10-02T08:52:37.848Z"
+      },
+      "actual": {
+        "operation_id": "8313904e-8522-4898-8000-1fa3150dfcc2",
+        "status": "ACCEPTED",
+        "accepted_at": "2026-10-02T08:52:37.848Z"
+      }
+    },
+    {
+      "name": "manual conflicting replay denied",
+      "result": "PASS",
+      "expected": 409,
+      "actual": 409
+    },
+    {
+      "name": "manual stale version denied on a new request",
+      "result": "PASS",
+      "expected": 409,
+      "actual": 409
+    },
+    {
+      "name": "declared manual criterion completes administratively",
+      "result": "PASS",
+      "expected": "COMPLETED",
+      "actual": "COMPLETED"
+    },
+    {
+      "name": "manual attestation attributed",
+      "result": "PASS",
+      "expected": "38109868-3aab-47fc-9b5f-882ea5f5f7f5",
+      "actual": "38109868-3aab-47fc-9b5f-882ea5f5f7f5"
+    },
+    {
+      "name": "manual attestation creates no automated observation",
+      "result": "PASS",
+      "expected": null,
+      "actual": null
+    },
+    {
+      "name": "manual task revision increments once",
+      "result": "PASS",
+      "expected": 1,
+      "actual": 1
+    },
+    {
+      "name": "old manual attestation is not current after fresh consent",
+      "result": "PASS",
+      "expected": "NEEDS_ATTENTION",
+      "actual": "NEEDS_ATTENTION"
+    },
+    {
+      "name": "manual cannot satisfy independent-read criterion",
+      "result": "PASS",
+      "expected": 403,
+      "actual": 403
+    },
+    {
+      "name": "auditor local export allowed",
+      "result": "PASS",
+      "expected": 200,
+      "actual": 200
+    },
+    {
+      "name": "export is attachment with no-store",
+      "result": "PASS",
+      "expected": [
+        true,
+        "no-store"
+      ],
+      "actual": [
+        true,
+        "no-store"
+      ]
+    },
+    {
+      "name": "export integrity digest matches actual document",
+      "result": "PASS",
+      "expected": "64f6e4887d70a165e5896e3b11a7e397c509632f6df16231f23d73f410ecd61a",
+      "actual": "64f6e4887d70a165e5896e3b11a7e397c509632f6df16231f23d73f410ecd61a"
+    },
+    {
+      "name": "export retains unresolved coverage",
+      "result": "PASS",
+      "expected": true,
+      "actual": true
+    },
+    {
+      "name": "export retains exact immutable acceptance",
+      "result": "PASS",
+      "expected": "42569ab0-bcf0-4e8e-915b-a99374ae4b6f",
+      "actual": "42569ab0-bcf0-4e8e-915b-a99374ae4b6f"
+    },
+    {
+      "name": "foreign tenant cannot export",
+      "result": "PASS",
+      "expected": 404,
+      "actual": 404
+    },
+    {
+      "name": "principal cannot export",
+      "result": "PASS",
+      "expected": 403,
+      "actual": 403
+    },
+    {
+      "name": "member has no export capability",
+      "result": "PASS",
+      "expected": 403,
+      "actual": 403
+    },
+    {
+      "name": "export action persisted in audit",
+      "result": "PASS",
+      "expected": true,
+      "actual": true
+    },
+    {
+      "name": "overview workflow counts come from scoped persisted rows",
+      "result": "PASS",
+      "expected": 259,
+      "actual": 259
+    },
+    {
+      "name": "overview exposes unknown and manual axes",
+      "result": "PASS",
+      "expected": true,
+      "actual": true
+    },
+    {
+      "name": "failure projection includes unmet observation",
+      "result": "PASS",
+      "expected": true,
+      "actual": true
+    },
+    {
+      "name": "filtered failure pagination does not duplicate obligations",
+      "result": "PASS",
+      "expected": 212,
+      "actual": 212
+    }
+  ],
+  "result": "PASS",
+  "limitations": [
+    "Only customer-local synthetic targets; no browser or production-readiness claim. One automatic effect attempt; unresolved effects require read reconciliation rather than blind retry."
+  ]
+}

@@ -98,14 +98,19 @@ await t.run(async () => {
   check('an unsequenced licence is refused once a sequenced one exists', (await codes(importIt(unsequenced))).codes, ['stale_sequence']);
 
   t.setPhase('trial');
-  // Three minutes, so the trial is over before the next suite needs this scope's development licence.
-  const trial = claims('CONTROL', { term: 'TRIAL', trial: true, valid_to: new Date(Date.now() + 180_000).toISOString() });
-  await ok(importIt(trial), S.schemas.LicenceState, [200, 201]);
-  const during = await state();
-  check('a Control trial overlays the paid licence and says what it falls back to', [during.edition, during.trial, during.falls_back_to?.edition], ['CONTROL', true, 'FOUNDATION']);
-  const trialWalk = await walk(['FOUNDATION', 'CONTROL']);
-  check('during the trial Control writes are allowed', trialWalk.filter(r => r.tier === 'CONTROL' && r.refused).map(r => r.id), []);
-  check('during the trial Enterprise writes are still refused', trialWalk.filter(r => r.tier === 'ENTERPRISE' && !r.refused && !r.capability).map(r => r.id), []);
+  // One trial per edition per scope is the rule under test, so only the first run in this scope can take a Control trial.
+  // A re-run proves the refusal instead, and the overlay itself is also proved in a throwaway scope below ('trial overlay').
+  const trialUsed = (await db.query(`SELECT 1 FROM app.licences WHERE tenant_id=$1 AND legal_entity_id=$2 AND environment_id=$3 AND trial AND edition='CONTROL'`, scopeArgs)).rowCount! > 0;
+  if (!trialUsed) {
+    // Three minutes, so the trial is over before the next suite needs this scope's development licence.
+    const trial = claims('CONTROL', { term: 'TRIAL', trial: true, valid_to: new Date(Date.now() + 180_000).toISOString() });
+    await ok(importIt(trial), S.schemas.LicenceState, [200, 201]);
+    const during = await state();
+    check('a Control trial overlays the paid licence and says what it falls back to', [during.edition, during.trial, during.falls_back_to?.edition], ['CONTROL', true, 'FOUNDATION']);
+    const trialWalk = await walk(['FOUNDATION', 'CONTROL']);
+    check('during the trial Control writes are allowed', trialWalk.filter(r => r.tier === 'CONTROL' && r.refused).map(r => r.id), []);
+    check('during the trial Enterprise writes are still refused', trialWalk.filter(r => r.tier === 'ENTERPRISE' && !r.refused && !r.capability).map(r => r.id), []);
+  } else console.log('NOT_RUN HTTP trial walk: this scope already used its Control trial (re-run); the refusal and the overlay are checked instead.');
   check('a second Control trial is refused', (await codes(importIt(claims('CONTROL', { term: 'TRIAL', trial: true, valid_to: days(10) })))).codes, ['trial_already_used']);
   check('a trial longer than 30 days cannot even be expressed', (await importIt(claims('ENTERPRISE', { term: 'TRIAL', trial: true, valid_to: days(45) }))).status, 400);
   sequence--;
@@ -151,6 +156,8 @@ await t.run(async () => {
   check('an ended trial falls back to the paid licence with no action', [fellBack.effective.edition, fellBack.effective.trial, fellBack.control], ['FOUNDATION', false, 'entitlement_required']);
   const renewed = await scenario([{ edition: 'ENTERPRISE', term: 'ANNUAL', from: -400, to: -2, sequence: 1 }, { edition: 'FOUNDATION', term: 'MONTHLY', from: -2, to: 28, sequence: 2 }]);
   check('a downgrade at renewal takes force from its start date', [renewed.effective.edition, renewed.control], ['FOUNDATION', 'entitlement_required']);
+  const overlay = await scenario([{ edition: 'FOUNDATION', term: 'ANNUAL', from: -40, to: 300, sequence: 1 }, { edition: 'CONTROL', term: 'TRIAL', trial: true, from: -1, to: 13, sequence: 2 }]);
+  check('trial overlay: an open trial is in force over the paid licence and allows its tier', [overlay.effective.edition, overlay.effective.trial, overlay.effective.fallback_id !== null, overlay.control], ['CONTROL', true, true, 'ALLOWED']);
   const none = await scenario([]);
   check('with no licence at all, a gated write is refused as unlicensed', none.floor, 'no_licence');
 });
