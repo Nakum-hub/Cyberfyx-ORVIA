@@ -12,7 +12,8 @@ import { PROFILES } from '../../../shared/contracts/src/index.ts';
 import { writeEvidence } from '../../../shared/testing/src/evidence.ts';
 
 const config = runtimeConfig();
-const container = `${PROFILES[config.profile as keyof typeof PROFILES].compose_project}-opa-1`;
+const container = process.env.ORVIA_TEST_OPA_CONTAINER ?? `${PROFILES[config.profile as keyof typeof PROFILES].compose_project}-opa-1`;
+if (!/^orvia-[a-z0-9-]+$/.test(container)) throw new Error('Invalid owned test container name');
 const results: { name: string; result: 'PASS' | 'FAIL'; actual?: unknown }[] = [];
 const check = (name: string, actual: unknown, expected: unknown) => { try { assert.deepEqual(actual, expected); results.push({ name, result: 'PASS' }); console.log(`PASS ${name}`); } catch { results.push({ name, result: 'FAIL', actual }); console.log(`FAIL ${name} ${JSON.stringify({ expected, actual })}`); process.exitCode = 1; } };
 const docker = (...args: string[]) => { const r = spawnSync('docker', args, { encoding: 'utf8' }); if (r.status !== 0) throw new Error(`docker ${args[0]} failed`); };
