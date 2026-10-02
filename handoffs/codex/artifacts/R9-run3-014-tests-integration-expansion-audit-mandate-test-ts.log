@@ -1,0 +1,107 @@
+Authentication fixture idle window: 37s remaining; controls unchanged.
+Authentication fixture idle window: 7s remaining; controls unchanged.
+PASS a new engagement has a channel, not yet used
+PASS an auditor cannot issue channel requests before the engagement is accepted
+PASS the channel key is kept sealed; neither side keeps the code
+PASS a mandate outside the engagement scope is refused
+PASS an engagement mandate cannot outlive the audit by more than 120 days
+PASS an auditor (read-only) cannot draft a mandate
+PASS a drafted mandate authorises nothing yet
+PASS the preparer cannot approve their own mandate
+PASS an auditor cannot approve a mandate
+PASS a different owner approves: the mandate is active and open
+PASS a second mandate for the same engagement cannot be in force
+PASS the client stored the channel key for the worker
+PASS the worker checks in and the scheduled snapshot is accepted
+PASS the client records the check-in and the accepted delivery
+PASS the vendor pinned the installation key and holds the signed mandate
+PASS the delivery verifies against the installation key; its receipt against the audit key
+PASS the worker computed exactly what staff see (row-level security hid nothing)
+PASS the snapshot covers each category in the mandate except request-only sampling
+PASS the snapshot carries indicators, control standing and the audit-trail digest
+PASS the auditor's checklist counts the mandate evidence per requirement
+PASS no contact detail of any person is in the delivery
+PASS vendor-visibility lists the mandate and the delivery
+PASS an auditor outside the engagement team cannot issue requests
+PASS a sample without its population and size is refused
+PASS the worker receives five requests; two need a client approver
+PASS inside the mandate: answered automatically
+PASS evidence files wait for a client approver; the auditor sees that at once
+PASS outside the mandate: refused with the reason
+PASS the sample follows the auditor's seed: same selection, same count, only counts leave
+PASS the chain stays intact across deliveries
+PASS the client sees what waits for it and that the auditor was told
+PASS an unapproved package cannot answer a request
+PASS an auditor cannot decide a request
+PASS the approved package is queued to answer the request
+PASS a request decided once cannot be decided again
+PASS the package goes over the channel
+PASS the vendor verifies and accepts the package received over the channel
+PASS the channel source is recorded on the vendor side
+PASS the file request shows delivered with its package; the decline shows declined with the reason
+PASS vendor-visibility says this package was sent by ORVIA over the channel
+PASS a wrong channel key is refused
+PASS an unknown engagement is refused
+PASS a stale timestamp is refused
+PASS a session cookie is never accepted on the channel
+PASS a replayed delivery gets its original receipt and is not stored twice
+PASS a delivery signed by another installation key is refused
+PASS a delivery outside the mandate gets a signed refusal
+PASS a lost response leaves the delivery UNKNOWN, not failed and not accepted
+PASS the same signed delivery is sent again and settled by the vendor's original receipt
+PASS an answer not signed by the trusted audit key is ignored and shown as a problem
+PASS a delivery that skips one is accepted but the chain is marked broken for good
+PASS a signed channel entry is registered as system-generated evidence with its provenance and hash
+PASS population from a sample the server seeded is refused until its signed entry is registered
+PASS a population is recorded from the signed sample once its entry is registered
+PASS the population takes the seed, size and counts from the signed sample, and stays UNVERIFIED
+PASS the signed findings file is offered to the client installation over the channel
+PASS the worker stages the verified findings file; nothing is imported without a person
+PASS the client acknowledges it at the next check-in and the vendor stops offering it
+PASS a person imports it through the verified import
+PASS the response is screened for contact details and carries the GRC remediation state only as a reference
+PASS the preparer cannot approve their own response
+PASS a response to a finding not in the imported file is refused
+PASS approval without the approver's record that the response holds no personal data is refused
+PASS a different owner approves, recording that it holds no personal data, and it is queued for the worker
+PASS staff cannot change an approved response directly
+PASS the worker signs and sends it; the vendor records it on the finding from the channel
+PASS the signed response carries the approver's no-personal-data record
+PASS a repeated response gets an accepted receipt and is stored once
+PASS a response signed by another installation key is refused
+PASS a mandate leased by another worker is left alone: no calls
+PASS a suspension during a cycle lets the in-flight send finish and stops the next one before it is generated
+PASS after resuming, the held snapshot is generated and sent
+PASS a worker that loses its lease mid-cycle finishes the send in flight and generates nothing more
+PASS the next worker picks up the rest
+PASS a request past its due date is refused, never answered, and the vendor is told
+PASS two documents that fit one at a time are offered one per answer, and every answer is small enough to read
+PASS a document too large for any answer is not offered, is marked for the file route and shown to the audit team, and the check-in still succeeds
+PASS it is not offered again
+PASS backlog cycle 1: every answer is readable
+PASS backlog cycle 2: every answer is readable
+PASS a backlog larger than one answer arrives across check-ins, each request once, none lost
+PASS the suspension is reported once; no request reaches a suspended mandate
+PASS a suspended mandate makes no further calls
+PASS an unanswered request past its due date is stated as a limitation in the signed report
+PASS leadership sees counts from real records
+PASS leadership overview carries no evidence content
+PASS an auditor cannot read the leadership overview
+PASS a continuous-assurance mandate is its own draft and may run past the audit window an engagement mandate may not
+PASS a continuous-assurance mandate lasts at most 400 days
+PASS its preparer cannot approve it: it needs its own second person
+PASS it does not come into force beside the engagement mandate, so it cannot silently extend it
+PASS a second response is queued before the engagement closes
+PASS closing the engagement ends its mandate and revokes the continuous-assurance draft
+PASS with the vendor unreachable, the queued response still fails unsent at the end; nothing is left pending
+PASS the queued response never reached the vendor
+PASS the end is reported to the vendor
+PASS after the end the vendor refuses deliveries
+PASS an ended mandate cannot be resumed
+PASS staff cannot read any channel key
+PASS staff cannot read the installation evidence key
+PASS staff cannot change a mandate directly
+PASS staff cannot write deliveries
+Artifact: handoffs/codex/artifacts/DPDP-operations-audit-mandate-1790934740022-1ab42086-7d9c-435d-8e9a-49927cb14338.json
+
+102 assertions, 0 failures.

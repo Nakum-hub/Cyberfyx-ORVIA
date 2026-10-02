@@ -1,0 +1,29 @@
+PASS every declared section builds against the real schema
+PASS and nothing is left unaccounted for
+PASS every section says what it covers and what it counted
+PASS every row matches its column count
+PASS the consent section is read from the recorded decisions
+PASS the purposes section names the itemised categories of the published notice
+PASS the retention section reports every purpose, configured or not
+PASS a period after everything on record produces an empty section, not a missing one
+PASS and the empty section still says what it counted
+PASS a period that ends before it starts is refused before any section is built
+PASS a reader without a section’s capability gets it named as withheld, never dropped
+PASS and the same section is included for a reader who may take the trail away
+PASS and every section is still accounted for exactly once
+PASS the report states structurally that omissions are named
+PASS a chosen subset is built in the order it was asked for
+PASS and everything left out is named as not selected
+PASS the title and scope are carried so a report cannot be mistaken for another
+PASS an unknown section is refused rather than ignored
+PASS a repeated section is refused rather than printed twice
+PASS generating a report is recorded in the audit trail, as §133 requires
+PASS the report does not print the identifier of any data principal
+PASS nor a staff email address
+PASS and it carries no field beyond the ones the schema declares
+Authentication fixture idle window: 60s remaining; controls unchanged.
+Authentication fixture idle window: 30s remaining; controls unchanged.
+PASS a member without export authority cannot generate a report
+Artifact: handoffs/codex/artifacts/DPDP-reports-integration-1790925263417-b4aeaf3d-c261-41c6-a3a1-e3b9dda94dea.json
+
+24 assertions, 0 failures.

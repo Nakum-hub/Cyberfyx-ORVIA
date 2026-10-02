@@ -1,0 +1,47 @@
+[
+  {
+    "run": 1,
+    "suite": "tests/e2e/interface-crawl-local.ts",
+    "source": "handoffs/code/artifacts/interface-crawl-2026-10-02T06-39-58-345Z.json",
+    "destination": "handoffs/codex/artifacts/R9-run1-interface-crawl-supplemental.json",
+    "sha256": "b6b8877eee25e73f55e3444af8cb305582b8c7eaad0bfa6436a86ce22cb114d6",
+    "primary_command_log": "handoffs/codex/artifacts/R9-run1-013-tests-e2e-interface-crawl-local-ts.log",
+    "binding": "Supplemental report from the isolated worktree and execution interval. It lacks a run ID; command exit and console assertions remain the primary evidence."
+  },
+  {
+    "run": 1,
+    "suite": "tests/integration/vendor/audit-practice.test.ts",
+    "source": "handoffs/code/artifacts/audit-practice-2026-10-02T08-15-44-024Z.json",
+    "destination": "handoffs/codex/artifacts/R9-run1-audit-practice-supplemental.json",
+    "sha256": "19788a041e08b2e39f07eb4228194d9822dedc7392f94e5ea25dbce2138a2ed9",
+    "primary_command_log": "handoffs/codex/artifacts/R9-run1-108-tests-integration-vendor-audit-practice-test-ts.log",
+    "binding": "Supplemental report from the isolated worktree and execution interval. It lacks a run ID; command exit and console assertions remain the primary evidence."
+  },
+  {
+    "run": 1,
+    "suite": "tests/integration/vendor/vendor-audit.test.ts",
+    "source": "handoffs/code/artifacts/vendor-audit-2026-10-02T08-16-14-093Z.json",
+    "destination": "handoffs/codex/artifacts/R9-run1-vendor-audit-supplemental.json",
+    "sha256": "0f1cbaedc758298035df5f987806bdbef04e068723d878ebbac4810c52e7ef62",
+    "primary_command_log": "handoffs/codex/artifacts/R9-run1-110-tests-integration-vendor-vendor-audit-test-ts.log",
+    "binding": "Supplemental report from the isolated worktree and execution interval. It lacks a run ID; command exit and console assertions remain the primary evidence."
+  },
+  {
+    "run": 2,
+    "suite": "tests/e2e/interface-crawl-local.ts",
+    "source": "handoffs/code/artifacts/interface-crawl-2026-10-02T09-01-20-836Z.json",
+    "destination": "handoffs/codex/artifacts/R9-run2-interface-crawl-supplemental.json",
+    "sha256": "d141d982553b3178ac0b6f53eda29cbfdb0b721f10ceea50885433636e45967a",
+    "primary_command_log": "handoffs/codex/artifacts/R9-run2-006-tests-e2e-interface-crawl-local-ts.log",
+    "binding": "Supplemental report from the isolated worktree and execution interval. It lacks a run ID; command exit and console assertions remain the primary evidence."
+  },
+  {
+    "run": 3,
+    "suite": "tests/e2e/interface-crawl-local.ts",
+    "source": "handoffs/code/artifacts/interface-crawl-2026-10-02T09-41-50-089Z.json",
+    "destination": "handoffs/codex/artifacts/R9-run3-interface-crawl-supplemental.json",
+    "sha256": "161de44621963f3103fb77437c94aabfa22121fd225b3221075eb2bcfcb4d80a",
+    "primary_command_log": "handoffs/codex/artifacts/R9-run3-006-tests-e2e-interface-crawl-local-ts.log",
+    "binding": "Supplemental report from the isolated worktree and execution interval. It lacks a run ID; command exit and console assertions remain the primary evidence."
+  }
+]

@@ -1,0 +1,286 @@
+{
+  "task_id": "DPDP",
+  "fixture_kind": "CUSTOMER_LOCAL_SYNTHETIC",
+  "recorded_at": "2026-10-02T08:17:50.999Z",
+  "assertions": [
+    {
+      "name": "installation identity",
+      "actual": "42f6c52e-6092-49da-a8ca-d3d9d029a734",
+      "expected": "42f6c52e-6092-49da-a8ca-d3d9d029a734",
+      "result": "PASS"
+    },
+    {
+      "name": "synthetic profile identity",
+      "actual": "codex-a00",
+      "expected": "codex-a00",
+      "result": "PASS"
+    },
+    {
+      "name": "222 application tables inspected",
+      "actual": 222,
+      "expected": 222,
+      "result": "PASS"
+    },
+    {
+      "name": "every application table enables and forces RLS",
+      "actual": 0,
+      "expected": 0,
+      "result": "PASS"
+    },
+    {
+      "name": "app.owner_recovery_issue(text,text) exists",
+      "actual": true,
+      "expected": true,
+      "result": "PASS"
+    },
+    {
+      "name": "orvia_app EXECUTE app.owner_recovery_issue(text,text)",
+      "actual": false,
+      "expected": false,
+      "result": "PASS"
+    },
+    {
+      "name": "orvia_worker EXECUTE app.owner_recovery_issue(text,text)",
+      "actual": false,
+      "expected": false,
+      "result": "PASS"
+    },
+    {
+      "name": "orvia_agent_control EXECUTE app.owner_recovery_issue(text,text)",
+      "actual": false,
+      "expected": false,
+      "result": "PASS"
+    },
+    {
+      "name": "orvia_machine_auth EXECUTE app.owner_recovery_issue(text,text)",
+      "actual": false,
+      "expected": false,
+      "result": "PASS"
+    },
+    {
+      "name": "orvia_sender EXECUTE app.owner_recovery_issue(text,text)",
+      "actual": false,
+      "expected": false,
+      "result": "PASS"
+    },
+    {
+      "name": "PUBLIC EXECUTE app.owner_recovery_issue(text,text)",
+      "actual": false,
+      "expected": false,
+      "result": "PASS"
+    },
+    {
+      "name": "app.admit_real_principals(text,text) exists",
+      "actual": true,
+      "expected": true,
+      "result": "PASS"
+    },
+    {
+      "name": "orvia_app EXECUTE app.admit_real_principals(text,text)",
+      "actual": false,
+      "expected": false,
+      "result": "PASS"
+    },
+    {
+      "name": "orvia_worker EXECUTE app.admit_real_principals(text,text)",
+      "actual": false,
+      "expected": false,
+      "result": "PASS"
+    },
+    {
+      "name": "orvia_agent_control EXECUTE app.admit_real_principals(text,text)",
+      "actual": false,
+      "expected": false,
+      "result": "PASS"
+    },
+    {
+      "name": "orvia_machine_auth EXECUTE app.admit_real_principals(text,text)",
+      "actual": false,
+      "expected": false,
+      "result": "PASS"
+    },
+    {
+      "name": "orvia_sender EXECUTE app.admit_real_principals(text,text)",
+      "actual": false,
+      "expected": false,
+      "result": "PASS"
+    },
+    {
+      "name": "PUBLIC EXECUTE app.admit_real_principals(text,text)",
+      "actual": false,
+      "expected": false,
+      "result": "PASS"
+    },
+    {
+      "name": "app.record_ledger_upgrade_boundary() exists",
+      "actual": true,
+      "expected": true,
+      "result": "PASS"
+    },
+    {
+      "name": "orvia_app EXECUTE app.record_ledger_upgrade_boundary()",
+      "actual": false,
+      "expected": false,
+      "result": "PASS"
+    },
+    {
+      "name": "orvia_worker EXECUTE app.record_ledger_upgrade_boundary()",
+      "actual": false,
+      "expected": false,
+      "result": "PASS"
+    },
+    {
+      "name": "orvia_agent_control EXECUTE app.record_ledger_upgrade_boundary()",
+      "actual": false,
+      "expected": false,
+      "result": "PASS"
+    },
+    {
+      "name": "orvia_machine_auth EXECUTE app.record_ledger_upgrade_boundary()",
+      "actual": false,
+      "expected": false,
+      "result": "PASS"
+    },
+    {
+      "name": "orvia_sender EXECUTE app.record_ledger_upgrade_boundary()",
+      "actual": false,
+      "expected": false,
+      "result": "PASS"
+    },
+    {
+      "name": "PUBLIC EXECUTE app.record_ledger_upgrade_boundary()",
+      "actual": false,
+      "expected": false,
+      "result": "PASS"
+    },
+    {
+      "name": "app.canary_marketing_hold(uuid) exists",
+      "actual": true,
+      "expected": true,
+      "result": "PASS"
+    },
+    {
+      "name": "orvia_app EXECUTE app.canary_marketing_hold(uuid)",
+      "actual": true,
+      "expected": true,
+      "result": "PASS"
+    },
+    {
+      "name": "orvia_worker EXECUTE app.canary_marketing_hold(uuid)",
+      "actual": false,
+      "expected": false,
+      "result": "PASS"
+    },
+    {
+      "name": "orvia_agent_control EXECUTE app.canary_marketing_hold(uuid)",
+      "actual": false,
+      "expected": false,
+      "result": "PASS"
+    },
+    {
+      "name": "orvia_machine_auth EXECUTE app.canary_marketing_hold(uuid)",
+      "actual": false,
+      "expected": false,
+      "result": "PASS"
+    },
+    {
+      "name": "orvia_sender EXECUTE app.canary_marketing_hold(uuid)",
+      "actual": true,
+      "expected": true,
+      "result": "PASS"
+    },
+    {
+      "name": "PUBLIC EXECUTE app.canary_marketing_hold(uuid)",
+      "actual": false,
+      "expected": false,
+      "result": "PASS"
+    },
+    {
+      "name": "app.withhold_real_decoy_message(uuid) exists",
+      "actual": true,
+      "expected": true,
+      "result": "PASS"
+    },
+    {
+      "name": "orvia_app EXECUTE app.withhold_real_decoy_message(uuid)",
+      "actual": false,
+      "expected": false,
+      "result": "PASS"
+    },
+    {
+      "name": "orvia_worker EXECUTE app.withhold_real_decoy_message(uuid)",
+      "actual": true,
+      "expected": true,
+      "result": "PASS"
+    },
+    {
+      "name": "orvia_agent_control EXECUTE app.withhold_real_decoy_message(uuid)",
+      "actual": false,
+      "expected": false,
+      "result": "PASS"
+    },
+    {
+      "name": "orvia_machine_auth EXECUTE app.withhold_real_decoy_message(uuid)",
+      "actual": false,
+      "expected": false,
+      "result": "PASS"
+    },
+    {
+      "name": "orvia_sender EXECUTE app.withhold_real_decoy_message(uuid)",
+      "actual": false,
+      "expected": false,
+      "result": "PASS"
+    },
+    {
+      "name": "PUBLIC EXECUTE app.withhold_real_decoy_message(uuid)",
+      "actual": false,
+      "expected": false,
+      "result": "PASS"
+    },
+    {
+      "name": "app.real_decoy_recipient(uuid,uuid,uuid,text) exists",
+      "actual": true,
+      "expected": true,
+      "result": "PASS"
+    },
+    {
+      "name": "orvia_app EXECUTE app.real_decoy_recipient(uuid,uuid,uuid,text)",
+      "actual": false,
+      "expected": false,
+      "result": "PASS"
+    },
+    {
+      "name": "orvia_worker EXECUTE app.real_decoy_recipient(uuid,uuid,uuid,text)",
+      "actual": false,
+      "expected": false,
+      "result": "PASS"
+    },
+    {
+      "name": "orvia_agent_control EXECUTE app.real_decoy_recipient(uuid,uuid,uuid,text)",
+      "actual": false,
+      "expected": false,
+      "result": "PASS"
+    },
+    {
+      "name": "orvia_machine_auth EXECUTE app.real_decoy_recipient(uuid,uuid,uuid,text)",
+      "actual": false,
+      "expected": false,
+      "result": "PASS"
+    },
+    {
+      "name": "orvia_sender EXECUTE app.real_decoy_recipient(uuid,uuid,uuid,text)",
+      "actual": false,
+      "expected": false,
+      "result": "PASS"
+    },
+    {
+      "name": "PUBLIC EXECUTE app.real_decoy_recipient(uuid,uuid,uuid,text)",
+      "actual": false,
+      "expected": false,
+      "result": "PASS"
+    }
+  ],
+  "result": "PASS",
+  "prerequisite": "Run auth-init and machine-init before this suite; no authority-changing SQL in this test.",
+  "run_id": "d417c577-c252-46cd-9b21-36f5ab5fe8ff"
+}

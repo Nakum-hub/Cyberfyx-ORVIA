@@ -1,0 +1,7 @@
+{
+  "files": 376,
+  "bytes": 3119835,
+  "protected_values_compared": 53,
+  "failures": [],
+  "scope": "New Round 9 handoff/evidence files; known local synthetic credentials compared in memory. No secret value is printed or written."
+}

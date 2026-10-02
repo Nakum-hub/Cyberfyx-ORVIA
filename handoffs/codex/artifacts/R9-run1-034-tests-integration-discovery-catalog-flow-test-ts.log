@@ -1,0 +1,62 @@
+Authentication fixture idle window: 50s remaining; controls unchanged.
+Authentication fixture idle window: 20s remaining; controls unchanged.
+PASS member cannot register a target
+PASS unknown system refused
+PASS target registration succeeds
+PASS registration remains pending
+PASS other tenant cannot see target
+PASS other tenant cannot approve target
+PASS author without enablement permission cannot approve
+PASS separate owner approves
+PASS approval has a durable due job
+PASS job ready and no fabricated observation
+PASS second exact relation can be registered
+PASS missing relation receives separate approval
+PASS due catalog jobs processed
+PASS independent metadata observation persisted
+PASS readback has column metadata
+PASS digest proves a stable schema snapshot
+PASS no value or classification claim
+PASS job scheduled for freshness recheck
+PASS current source creates an observed graph dataset
+PASS graph provenance binds the exact independent read
+PASS metadata cannot infer a sensitive category
+PASS observed asset has bounded freshness
+PASS other tenant cannot use source observation
+PASS one observation cannot create duplicate graph assets
+PASS staff cannot self-label an asset observed
+PASS observed asset mapped to activity
+PASS activity mapped to purpose
+PASS AI inventory linked to observed dataset
+PASS durable AI monitor processed source
+PASS AI monitor names independently read input but not model behavior
+PASS absent relation is shown as missing rather than observed
+PASS missing relation cannot become observed graph asset
+PASS other tenant still cannot see observation
+PASS owner can request a relation
+PASS owner cannot approve own request
+PASS failure target registered
+PASS failure target approved
+PASS failed observer attempt 1 processed
+PASS failure state after attempt 1
+PASS failed observer attempt 2 processed
+PASS failure state after attempt 2
+PASS failed observer attempt 3 processed
+PASS failure state after attempt 3
+PASS exhausted observer creates one durable target gap
+PASS other tenant cannot see exhausted target gap
+PASS other tenant gap page excludes target
+PASS changed relation is rescanned
+PASS independent read detects synthetic column
+PASS new source digest differs from prior read
+PASS schema drift opens durable gap with exact read reference
+PASS new independent read can refresh observed inventory
+PASS other tenant cannot disable source
+PASS separate owner disables exact source
+PASS disabled source cannot report current freshness
+PASS disabled source cannot be approved again
+PASS revoked source immediately leaves observed coverage
+PASS AI monitor rechecks revoked source
+PASS AI monitor downgrades revoked input to finding
+Artifact: handoffs/codex/artifacts/DPDP-catalog-discovery-flow-1790924440929-d775b039-5c34-4831-bef9-983b28726297.json
+58 assertions, 0 failures.

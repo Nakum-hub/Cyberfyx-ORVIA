@@ -1,0 +1,16 @@
+Authentication fixture idle window: 61s remaining; controls unchanged.
+Authentication fixture idle window: 31s remaining; controls unchanged.
+Authentication fixture idle window: 1s remaining; controls unchanged.
+PASS auditor cannot record a withdrawal
+PASS foreign tenant cannot record this withdrawal
+PASS role and tenant refusals leave the target unrestricted
+PASS withdrawal creates one owned propagation run
+PASS fresh withdrawal is already approved by non-destructive planning
+PASS before the only pass the target is not yet suppressed
+OBSERVED single pass duration {"ms":3230,"latency_acceptance":"NOT_ASSERTED"}
+PASS standing grant control remains unrestricted
+PASS one pass independently suppresses the withdrawn target
+PASS the fresh run finishes with independently verified effect
+Artifact: handoffs/codex/artifacts/DPDP-operations-withdrawal-single-pass-1790928194161-b5d5e321-0536-45de-b32c-e790e4d60d1b.json
+
+9 assertions, 0 failures.

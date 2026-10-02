@@ -1,0 +1,11 @@
+PASS the screen shows one free seat
+PASS the one-time password is shown once on screen and matches what was issued
+PASS with the seats full the add form is gone
+PASS the new login waits for first sign-in
+PASS the member has a workspace session with the member role
+PASS the administrator now sees the member as active with an authenticator
+PASS no request left the local origin
+PASS no page or console error occurred
+Artifact: handoffs/codex/artifacts/DPDP-operations-team-browser-1790923539641-2b233f95-c237-4fc7-b693-873539d7b08a.json
+
+8 assertions, 0 failures.

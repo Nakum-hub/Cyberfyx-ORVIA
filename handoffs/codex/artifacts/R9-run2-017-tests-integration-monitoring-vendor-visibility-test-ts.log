@@ -1,0 +1,26 @@
+PASS vendor service health is an absence with a reason, never a clean bill of health
+PASS the explanation accounts for whether an approved audit address is configured
+PASS the limitations do not deny the approved audit channel
+PASS the four statements the requirement is made of are all present
+PASS opening a support case discloses nothing by itself
+PASS and the quiet case appears in no disclosure
+PASS both approvals appear, and each says whether anybody carried it
+PASS an approval nobody carried is counted apart from one that was
+PASS neither claims this product moved anything
+PASS each names the exact payload digest that was approved
+PASS every approval this installation holds is accounted for, and nothing else is
+PASS the facts disclosed are exactly the observations in the payload that was approved
+PASS and every fact is a closed code with a window, never a sentence
+PASS the report does not contain a data principal
+PASS the report does not contain a staff email address
+PASS it carries no field beyond the ones the schema declares
+PASS nothing disclosed mentions a model, and no incident was raised about one lacking
+PASS an auditor may read what the vendor was told
+Authentication fixture idle window: 61s remaining; controls unchanged.
+Authentication fixture idle window: 31s remaining; controls unchanged.
+Authentication fixture idle window: 1s remaining; controls unchanged.
+PASS a member without installation-health authority is refused
+PASS the route is a read and accepts no body
+Artifact: handoffs/codex/artifacts/DPDP-vendor-visibility-integration-1790932458415-e1b75924-6764-4949-8b3d-4d46e024004d.json
+
+20 assertions, 0 failures.

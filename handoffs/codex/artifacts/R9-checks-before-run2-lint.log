@@ -1,0 +1,1 @@
+$ eslint frontend backend database connectors shared services scripts tests --max-warnings 0

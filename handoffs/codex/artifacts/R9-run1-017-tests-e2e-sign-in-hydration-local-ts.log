@@ -1,0 +1,23 @@
+PASS staff sign-in: before hydration the email field is disabled
+PASS staff sign-in: before hydration the submit button is disabled
+PASS staff sign-in: typed input survives hydration
+PASS staff sign-in: submitting sends the sign-in request
+PASS staff sign-in: the password never appears in the address
+PASS Data Principal sign-in: before hydration the email field is disabled
+PASS Data Principal sign-in: before hydration the submit button is disabled
+PASS Data Principal sign-in: typed input survives hydration
+PASS Data Principal sign-in: submitting sends the sign-in request
+PASS Data Principal sign-in: the password never appears in the address
+PASS vendor sign-in: before hydration the email field is disabled
+PASS vendor sign-in: before hydration the submit button is disabled
+PASS vendor sign-in: typed input survives hydration
+PASS vendor sign-in: submitting sends the sign-in request
+PASS vendor sign-in: the password never appears in the address
+PASS client account sign-in: before hydration the email field is disabled
+PASS client account sign-in: before hydration the submit button is disabled
+PASS client account sign-in: typed input survives hydration
+PASS client account sign-in: submitting sends the sign-in request
+PASS client account sign-in: the password never appears in the address
+Artifact: handoffs/codex/artifacts/DPDP-operations-sign-in-hydration-1790923521421-51eb5d3c-862b-4264-bedc-e5b8e09c5b89.json
+
+20 assertions, 0 failures.

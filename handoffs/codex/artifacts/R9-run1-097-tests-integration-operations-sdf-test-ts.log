@@ -1,0 +1,28 @@
+Authentication fixture idle window: 61s remaining; controls unchanged.
+Authentication fixture idle window: 31s remaining; controls unchanged.
+Authentication fixture idle window: 1s remaining; controls unchanged.
+PASS an organisation that is not designated has no open SDF obligations
+PASS an organisation admin cannot change SDF status
+PASS a designation is recorded with its reference
+PASS a designation opens one obligation per SDF requirement in the package in force
+PASS a periodic assessment is due twelve months after designation
+PASS an obligation without a statutory period carries no invented due time
+PASS obligations are pinned to the package they came from and are in force
+PASS the designation is emitted as a status change
+PASS the designation is recorded as evidence
+PASS open obligations without a due time appear in Attention
+PASS an auditor can read the profile but not complete an obligation
+PASS a profile cannot be back-dated before the current version
+PASS completion records its evidence
+PASS an obligation is completed once
+PASS completing a periodic assessment opens the next period from completion
+PASS a one-time appointment does not recur
+PASS no obligation remains open once the designation ends
+PASS open obligations are closed as not applicable with a reason, not deleted
+PASS completed obligations keep their completion
+PASS a closed obligation cannot be completed
+PASS the profile history keeps the designated version
+PASS a profile version cannot be rewritten
+Artifact: handoffs/codex/artifacts/DPDP-operations-sdf-1790928121280-947964a1-0821-46a7-8a0c-11c991fe6ae7.json
+
+22 assertions, 0 failures.

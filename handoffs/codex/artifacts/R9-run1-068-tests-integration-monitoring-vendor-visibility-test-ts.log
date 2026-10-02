@@ -1,0 +1,3 @@
+FAIL vendor service health is an absence with a reason, never a clean bill of health { expected: [ false, true ], actual: [ false, false ] }
+Artifact: handoffs/codex/artifacts/DPDP-vendor-visibility-integration-1790926609757-f62187b9-00df-4e6d-8520-e1ad4f940dfd.json
+{ name: 'Error', code: 'UNCLASSIFIED' }

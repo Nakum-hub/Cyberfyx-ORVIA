@@ -1,0 +1,11 @@
+PASS asset/activity mapped
+PASS activity/purpose mapped
+PASS no monitoring outcome invented at registration
+PASS due jobs were processed
+PASS declared input creates finding without target claim
+PASS worker identifies local asset reference
+PASS monitor record does not claim verification
+PASS successful schedule prevents immediate duplicate
+PASS finding appears in scoped report
+Artifact: handoffs/codex/artifacts/DPDP-ai-governance-monitor-1790923718674-326bad41-23b1-4e89-94b0-d382ba6ebf94.json
+9 assertions, 0 failures.

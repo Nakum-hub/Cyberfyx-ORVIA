@@ -1,0 +1,44 @@
+{
+  "task_id": "DPDP",
+  "fixture_kind": "CUSTOMER_LOCAL_SYNTHETIC",
+  "recorded_at": "2026-10-02T09:04:55.964Z",
+  "profile": "codex-a00",
+  "assertions": [
+    {
+      "id": "drizzle-write-postgres-read",
+      "result": "PASS",
+      "actual": {
+        "id": "865c5760-15d5-4170-9440-61ddcfee00a2",
+        "marker": "syn_probe_06b97d36dc864c8433e7317b1e1bc1ec"
+      }
+    },
+    {
+      "id": "real-temporal-worker-execution",
+      "result": "PASS",
+      "actual": {
+        "workflow_id": "a00-probe-865c5760-15d5-4170-9440-61ddcfee00a2",
+        "run_id": "01a0fbdb-e85e-7297-91a5-28a65a34b6ba"
+      }
+    },
+    {
+      "id": "persisted-after-service-restart",
+      "result": "PASS",
+      "actual": {
+        "database": "orvia_codex_a00",
+        "workflow_id": "a00-probe-865c5760-15d5-4170-9440-61ddcfee00a2",
+        "events": 5,
+        "marker": "syn_probe_06b97d36dc864c8433e7317b1e1bc1ec"
+      }
+    },
+    {
+      "id": "invalid-reset-denied-probe-preserved",
+      "result": "PASS",
+      "actual": "Wrong confirmation and unknown profile denied; marker still present."
+    }
+  ],
+  "result": "PASS",
+  "limitations": [
+    "T01/T28 bootstrap subset only. No claim for application auth, business workflows, consent recovery or full demo reset."
+  ],
+  "run_id": "ab7f43a2-83fe-4754-993c-adf917e1ba7d"
+}

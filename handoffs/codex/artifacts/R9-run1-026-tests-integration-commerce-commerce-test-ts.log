@@ -1,0 +1,117 @@
+PASS concurrent identical order creates one durable order
+PASS price comes from approved server catalogue
+PASS changed idempotency body rejected
+PASS cross-account read denied
+PASS forged account authority denied
+PASS read-only buyer cannot create
+PASS no entitlement before a verified capture
+PASS repeated pending checkout retains provider binding
+PASS repeated checkout does not create another provider order
+PASS concurrent capture yields exactly one original receipt
+PASS one entitlement request per order
+PASS verified capture queues but does not issue licence
+PASS paid order cannot start another checkout
+PASS plain object cannot impersonate verified provider
+PASS same provider event ID with changed body rejected
+PASS stale failure cannot downgrade captured order
+PASS different delivery ID does not duplicate issuance
+PASS one provider payment cannot pay two orders
+PASS underpayment retained as review required
+PASS underpayment never queues entitlement
+PASS fixture holds a payment on its own order lock
+PASS unrelated order can capture while first order is locked
+PASS card capture uses same verified durable path
+PASS test event cannot credit live merchant binding
+PASS refund received before capture remains unresolved
+PASS late capture does not undo refund
+PASS partial refund holds pending issuance
+PASS refund after fixture issuance requires review without remote command
+PASS lost checkout response is unknown
+PASS unknown checkout cannot be blindly retried
+PASS lost provider create called only once
+PASS unknown checkout effect is durable
+PASS in-flight checkout is not sent twice
+PASS concurrent checkout sends one provider request
+PASS outbox persistence failure aborts payment transaction
+PASS failed transaction leaves no payment receipt
+PASS failed transaction preserves pending order
+PASS payment ledger cannot be rewritten
+PASS audit cannot be erased
+PASS restart retains payment state
+PASS restart replay retains held entitlement
+PASS restart retains unknown checkout without resending
+PASS restart did not repeat unknown provider request
+PASS recovery rejects another account before provider call
+PASS unauthorised recovery made no provider call
+PASS recovery rejects wrong server receipt
+PASS rejected recovery retains unknown state
+PASS matching independent GET restores provider binding
+PASS provider paid order snapshot alone does not credit order
+PASS recovery alone does not enqueue a licence
+PASS already bound recovery cannot overwrite identity
+PASS signed browser callback waits for capture
+PASS browser callback does not alter durable order
+PASS callback cannot cross account
+PASS verified capture after reconciliation queues once
+PASS reconciliation never repeats provider POST
+PASS HTTP anonymous purchase rejected
+PASS HTTP client price cannot replace approved price
+PASS UPI HTTP order creation
+PASS UPI HTTP duplicate order retains identity
+PASS HTTP checkout calls only Razorpay orders endpoint
+PASS UPI HTTP checkout
+PASS UPI HTTP server price and public key
+PASS UPI HTTP no API secret in checkout
+PASS UPI HTTP callback does not claim capture
+PASS UPI HTTP callback leaves order pending
+PASS UPI HTTP signed webhook accepted
+PASS UPI HTTP capture becomes durable paid
+PASS UPI HTTP duplicate webhook acknowledged
+PASS UPI HTTP exactly one pending entitlement
+PASS CARD HTTP order creation
+PASS CARD HTTP duplicate order retains identity
+PASS HTTP checkout calls only Razorpay orders endpoint
+PASS CARD HTTP checkout
+PASS CARD HTTP server price and public key
+PASS CARD HTTP no API secret in checkout
+PASS CARD HTTP callback does not claim capture
+PASS CARD HTTP callback leaves order pending
+PASS CARD HTTP signed webhook accepted
+PASS CARD HTTP capture becomes durable paid
+PASS CARD HTTP duplicate webhook acknowledged
+PASS CARD HTTP exactly one pending entitlement
+PASS UPI and card HTTP flows created one provider order each
+PASS unpaid order cannot prepare fulfilment
+PASS reviewer can inspect exact claims and commercial binding
+PASS identical preparation retains exact approval digest
+PASS changed claims cannot reuse prepared request
+PASS preparer cannot approve own licence
+PASS reviewer must approve exact digest
+PASS unapproved licence cannot be signed
+PASS review retains independent approver
+PASS live worker cannot issue test payment
+PASS review capability does not confer issuance
+PASS audit failure rolls back signed document and outbox
+PASS failed transaction leaves no downloadable licence
+PASS failed transaction keeps durable issuance ready
+PASS concurrent issuers return identical durable signed licence
+PASS issued claims equal independently approved snapshot
+PASS licence signature verifies with generated fixture public key
+PASS exactly one issuance audit
+PASS restart retry returns original licence without signing again
+PASS cross-account licence download is hidden
+PASS account-scoped download returns persisted licence
+PASS authenticated HTTP licence download
+PASS HTTP download uses persisted signature
+PASS licence download is not cacheable
+PASS actual signed issuance refund is retained for review
+PASS refund preserves immutable historical licence
+PASS lost commit acknowledgement does not claim success
+PASS lost acknowledgement recovers persisted licence identity
+PASS lost acknowledgement creates only one signing audit
+PASS refund before signing blocks approved issuance
+PASS suspended account cannot retrieve licence
+PASS issued document cannot be rewritten
+PASS vendor database contains no customer operational schema
+PASS vendor migration refuses customer schema sentinel
+Artifact: handoffs/codex/artifacts/V1-COMMERCE-ISSUANCE-01-commerce-0a105726-7b84-4378-bed0-2c14b910e49f.json

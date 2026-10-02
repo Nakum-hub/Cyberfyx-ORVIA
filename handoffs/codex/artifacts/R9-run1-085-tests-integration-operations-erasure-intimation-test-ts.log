@@ -1,0 +1,18 @@
+PASS without an intimation nobody under the Third Schedule rule is scheduled
+PASS the reason names Rule 8(2)
+PASS the erasure date is still recorded, so the intimation can be scheduled
+PASS the same people under a rule not citing the Third Schedule are scheduled as before
+PASS the due list shows each person, overdue because the erasure date has passed
+PASS a read-only role cannot record an intimation
+PASS an intimation against a rule not citing the Third Schedule is refused
+PASS a recent intimation makes erasure possible 48 hours after it
+PASS a re-engagement is recorded once
+PASS the database refuses to change a recorded intimation
+PASS no intimation: still waiting
+PASS intimation under 48 hours ago: not yet eligible, until 48 hours after it
+PASS intimation over 48 hours ago: scheduled for erasure
+PASS re-engaged after the intimation: purpose active, not erased
+PASS the intimation list shows the re-engagement
+Artifact: handoffs/codex/artifacts/DPDP-operations-erasure-intimation-1790927304289-53d62c23-0fbd-4ce2-90ae-373218b4ec8e.json
+
+15 assertions, 0 failures.

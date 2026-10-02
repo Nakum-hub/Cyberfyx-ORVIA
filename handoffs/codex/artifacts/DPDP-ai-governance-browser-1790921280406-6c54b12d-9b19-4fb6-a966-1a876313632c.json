@@ -1,0 +1,17 @@
+{
+  "task_id": "DPDP",
+  "fixture_kind": "CUSTOMER_LOCAL_SYNTHETIC",
+  "recorded_at": "2026-10-02T06:08:00.406Z",
+  "profile": "codex-a00",
+  "result": "PASS",
+  "steps": [
+    "admin signed in with MFA",
+    "AI use created through workspace form",
+    "report, inventory and append-only detail rendered from API",
+    "created use shown in scoped detail"
+  ],
+  "external_requests": 0,
+  "console_errors": 0,
+  "screenshot": "C:\\Cyberfyx-projects\\Cyberfyx_ORVIA\\.worktrees\\round9\\output\\playwright\\ai-governance-codex-a00.png",
+  "run_id": "51d65623-af20-4041-b6f1-ac9b527855a0"
+}

@@ -1,0 +1,48 @@
+PASS installation identity
+PASS synthetic profile identity
+PASS 222 application tables inspected
+PASS every application table enables and forces RLS
+PASS app.owner_recovery_issue(text,text) exists
+PASS orvia_app EXECUTE app.owner_recovery_issue(text,text)
+PASS orvia_worker EXECUTE app.owner_recovery_issue(text,text)
+PASS orvia_agent_control EXECUTE app.owner_recovery_issue(text,text)
+PASS orvia_machine_auth EXECUTE app.owner_recovery_issue(text,text)
+PASS orvia_sender EXECUTE app.owner_recovery_issue(text,text)
+PASS PUBLIC EXECUTE app.owner_recovery_issue(text,text)
+PASS app.admit_real_principals(text,text) exists
+PASS orvia_app EXECUTE app.admit_real_principals(text,text)
+PASS orvia_worker EXECUTE app.admit_real_principals(text,text)
+PASS orvia_agent_control EXECUTE app.admit_real_principals(text,text)
+PASS orvia_machine_auth EXECUTE app.admit_real_principals(text,text)
+PASS orvia_sender EXECUTE app.admit_real_principals(text,text)
+PASS PUBLIC EXECUTE app.admit_real_principals(text,text)
+PASS app.record_ledger_upgrade_boundary() exists
+PASS orvia_app EXECUTE app.record_ledger_upgrade_boundary()
+PASS orvia_worker EXECUTE app.record_ledger_upgrade_boundary()
+PASS orvia_agent_control EXECUTE app.record_ledger_upgrade_boundary()
+PASS orvia_machine_auth EXECUTE app.record_ledger_upgrade_boundary()
+PASS orvia_sender EXECUTE app.record_ledger_upgrade_boundary()
+PASS PUBLIC EXECUTE app.record_ledger_upgrade_boundary()
+PASS app.canary_marketing_hold(uuid) exists
+PASS orvia_app EXECUTE app.canary_marketing_hold(uuid)
+PASS orvia_worker EXECUTE app.canary_marketing_hold(uuid)
+PASS orvia_agent_control EXECUTE app.canary_marketing_hold(uuid)
+PASS orvia_machine_auth EXECUTE app.canary_marketing_hold(uuid)
+PASS orvia_sender EXECUTE app.canary_marketing_hold(uuid)
+PASS PUBLIC EXECUTE app.canary_marketing_hold(uuid)
+PASS app.withhold_real_decoy_message(uuid) exists
+PASS orvia_app EXECUTE app.withhold_real_decoy_message(uuid)
+PASS orvia_worker EXECUTE app.withhold_real_decoy_message(uuid)
+PASS orvia_agent_control EXECUTE app.withhold_real_decoy_message(uuid)
+PASS orvia_machine_auth EXECUTE app.withhold_real_decoy_message(uuid)
+PASS orvia_sender EXECUTE app.withhold_real_decoy_message(uuid)
+PASS PUBLIC EXECUTE app.withhold_real_decoy_message(uuid)
+PASS app.real_decoy_recipient(uuid,uuid,uuid,text) exists
+PASS orvia_app EXECUTE app.real_decoy_recipient(uuid,uuid,uuid,text)
+PASS orvia_worker EXECUTE app.real_decoy_recipient(uuid,uuid,uuid,text)
+PASS orvia_agent_control EXECUTE app.real_decoy_recipient(uuid,uuid,uuid,text)
+PASS orvia_machine_auth EXECUTE app.real_decoy_recipient(uuid,uuid,uuid,text)
+PASS orvia_sender EXECUTE app.real_decoy_recipient(uuid,uuid,uuid,text)
+PASS PUBLIC EXECUTE app.real_decoy_recipient(uuid,uuid,uuid,text)
+Artifact: handoffs/codex/artifacts/DPDP-function-acl-1790932653870-73f088d1-0d9c-47cb-b31a-7e4aa42d95ec.json
+46 assertions, 0 failures.

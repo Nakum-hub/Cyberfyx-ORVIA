@@ -1,0 +1,15 @@
+PASS one allowlisted relation observed
+PASS catalog result is scoped to the observer
+PASS metadata is observed but no row values are read
+PASS known column appears
+PASS digest binds the exact column inventory
+PASS limits state that no data values were read
+PASS unchanged catalog has stable digest
+PASS missing target is explicit
+PASS invalid target identifier refused
+PASS duplicate target refused
+PASS agent identity cannot use observer reader
+PASS mutating target role cannot use reader
+PASS second environment retains its own scope
+Artifact: handoffs/codex/artifacts/DPDP-postgres-catalog-discovery-1790924442020-6ec6b2d9-cd47-412d-8129-a3db1217dd29.json
+13 assertions, 0 failures.
