@@ -171,6 +171,24 @@ The first pass-6 run had five failures. Three were test faults: the canary lock 
 
 **Open owner choice:** how long the erasure ledger is kept (today 30 days after a system's backups age out).
 
+## Round 3 (2026-10-02): Codex round 8 publication and its review of revision 1.10
+
+**Merged:** `codex/round8` through `7edd2b4`, in merge `38e99ef`. It adds bounded relay shutdown (`infrastructure/loopback.mjs`), vendor policy failure diagnostics, a vendor browser readiness wait, and review evidence. Codex's own round 8 freeze excludes revision 1.10 by the owner's choice; its reviews of 1.10 are in `handoffs/codex/round8-upstream-rev110-*.md`.
+
+**Codex review findings fixed (`3ada889`):**
+- **Real-decoy designation between claim and transmission.** The runner now re-checks just before transmitting (`withholdBeforeSend`). The guarantee is stated precisely in the addendum.
+- **0090 upgrade boundary.** Migration 0091 records a conservative BEFORE_UPGRADE boundary for systems whose backup treatment predates the upgrade by more than 30 days. The recording function is server-only.
+
+| Command | Exit | Result |
+|---|---|---|
+| contracts, lint, tracking, inventory | 0 | PASS |
+| `pnpm test` | 0 | 395 passed, 0 failed |
+| Pass 7 (11 suites: real-principals, backup-obligations, delivery, notifications, runner, canaries, canary-grant-admission, migration-upgrade, audit-practice; browser: vendor production criteria, backups and recovery) | 0 each | real-principals 37/0 (claim then designate: withheld), backup-obligations 44/0 (upgrade boundary), migration-upgrade 10/0, audit-practice 128/128 |
+
+The first backup-obligations run in pass 7 timed out because the Docker daemon died mid-run. After restarting it, the suite passed 44/0. Pass 7's summary lists source `38e99ef` because the run started before the fix commit; the files it tested are those committed in `3ada889`.
+
+Migration numbers now taken: customer up to **0091**, vendor up to 0017. Codex's next numbers are 0092, vendor 0018 and contract 0.56.0.
+
 ## Next integration action
 
 1. Review and merge Codex round 8 (`codex/round8`) when it is pushed.
