@@ -1,0 +1,12 @@
+PASS the FOUNDATION licence is in force
+FAIL a FOUNDATION installation is refused every Control and Enterprise write {"expected":[],"actual":["toggle_control_test","change_audit_mandate_state"]}
+Error: Assertion failed: a FOUNDATION installation is refused every Control and Enterprise write
+    at check (C:\Cyberfyx-projects\Cyberfyx_ORVIA\.worktrees\round10\shared\testing\src\operations-fixture.ts:29:147)
+    at <anonymous> (C:\Cyberfyx-projects\Cyberfyx_ORVIA\.worktrees\round10\tests\integration\licensing\tiers.test.ts:63:3)
+    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+    at async Object.run (C:\Cyberfyx-projects\Cyberfyx_ORVIA\.worktrees\round10\shared\testing\src\operations-fixture.ts:117:28)
+    at async <anonymous> (C:\Cyberfyx-projects\Cyberfyx_ORVIA\.worktrees\round10\tests\integration\licensing\tiers.test.ts:27:1)
+Server diagnostics (safe codes only): 
+Artifact: handoffs/codex/artifacts/DPDP-operations-licence-tiers-1790957509537-5b2068ee-9139-4f14-b141-77d1f62f6dbd.json
+
+3 assertions, 2 failures.

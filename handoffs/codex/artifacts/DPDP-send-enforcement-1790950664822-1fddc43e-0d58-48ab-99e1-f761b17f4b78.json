@@ -1,0 +1,19 @@
+{
+  "task_id": "DPDP",
+  "fixture_kind": "CUSTOMER_LOCAL_SYNTHETIC",
+  "recorded_at": "2026-10-02T14:17:44.822Z",
+  "test_ids": [
+    "T14",
+    "T15",
+    "T16"
+  ],
+  "profile": "codex-a00",
+  "contract_version": "0.58.0",
+  "build_id": "j-QBjVVZ-rmxRmKwhszFj",
+  "assertions": [],
+  "result": "FAIL",
+  "limitations": [
+    "Synthetic send records only; no real transport. Broken bypass detection and target restore belong to A06."
+  ],
+  "run_id": "84746b82-f3dc-45fb-9a75-d8d86ba22a7c"
+}

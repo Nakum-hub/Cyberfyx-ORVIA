@@ -1,0 +1,393 @@
+{
+  "task_id": "DPDP",
+  "fixture_kind": "CUSTOMER_LOCAL_SYNTHETIC",
+  "recorded_at": "2026-10-02T19:03:39.674Z",
+  "profile": "codex-a00",
+  "phase": "complete",
+  "assertions": [
+    {
+      "name": "a licence naming AI_COPILOT is refused however it is signed",
+      "result": "PASS",
+      "expected": 400,
+      "actual": 400
+    },
+    {
+      "name": "a licence naming VENDOR_REMOTE_ACCESS is refused however it is signed",
+      "result": "PASS",
+      "expected": 400,
+      "actual": 400
+    },
+    {
+      "name": "a licence naming STAFF_DIRECTORY_SYNC is refused however it is signed",
+      "result": "PASS",
+      "expected": 400,
+      "actual": 400
+    },
+    {
+      "name": "a licence naming PROACTIVE_DIAGNOSTICS is refused however it is signed",
+      "result": "PASS",
+      "expected": 400,
+      "actual": 400
+    },
+    {
+      "name": "a licence from an untrusted signer is refused",
+      "result": "PASS",
+      "expected": 400,
+      "actual": 400
+    },
+    {
+      "name": "the refusal names the untrusted signer",
+      "result": "PASS",
+      "expected": "untrusted_signer",
+      "actual": "untrusted_signer"
+    },
+    {
+      "name": "the refusal names an invalid signature when claims were altered after signing",
+      "result": "PASS",
+      "expected": "invalid_signature",
+      "actual": "invalid_signature"
+    },
+    {
+      "name": "a licence bound to another installation is refused",
+      "result": "PASS",
+      "expected": "wrong_installation",
+      "actual": "wrong_installation"
+    },
+    {
+      "name": "a licence that is not yet valid is refused",
+      "result": "PASS",
+      "expected": "not_yet_valid",
+      "actual": "not_yet_valid"
+    },
+    {
+      "name": "an expired licence is refused at import",
+      "result": "PASS",
+      "expected": "expired",
+      "actual": "expired"
+    },
+    {
+      "name": "a licence whose window ends before it starts is rejected by the schema",
+      "result": "PASS",
+      "expected": 400,
+      "actual": 400
+    },
+    {
+      "name": "importing a licence needs its own authority, not merely read access",
+      "result": "PASS",
+      "expected": 403,
+      "actual": 403
+    },
+    {
+      "name": "an imported licence records exactly what was bought",
+      "result": "PASS",
+      "expected": [
+        "CONTROL",
+        [
+          "PRIVACY_GRAPH",
+          "RIGHTS_MANAGEMENT"
+        ]
+      ],
+      "actual": [
+        "CONTROL",
+        [
+          "PRIVACY_GRAPH",
+          "RIGHTS_MANAGEMENT"
+        ]
+      ]
+    },
+    {
+      "name": "an active licence says expiry never withdraws reading or export",
+      "result": "PASS",
+      "expected": true,
+      "actual": true
+    },
+    {
+      "name": "re-importing the same licence is a replay, not a renewal",
+      "result": "PASS",
+      "expected": "replayed",
+      "actual": "replayed"
+    },
+    {
+      "name": "stored signed terms are immutable: edition='ENTERPRISE'",
+      "result": "PASS",
+      "expected": {
+        "code": "23514",
+        "message": "A licence cannot be edited after import"
+      },
+      "actual": {
+        "code": "23514",
+        "message": "A licence cannot be edited after import"
+      }
+    },
+    {
+      "name": "stored signed terms are immutable: valid_to=now()+interval '10 years'",
+      "result": "PASS",
+      "expected": {
+        "code": "23514",
+        "message": "A licence cannot be edited after import"
+      },
+      "actual": {
+        "code": "23514",
+        "message": "A licence cannot be edited after import"
+      }
+    },
+    {
+      "name": "stored signed terms are immutable: term='MONTHLY'",
+      "result": "PASS",
+      "expected": {
+        "code": "23514",
+        "message": "A licence cannot be edited after import"
+      },
+      "actual": {
+        "code": "23514",
+        "message": "A licence cannot be edited after import"
+      }
+    },
+    {
+      "name": "stored signed terms are immutable: sequence=999999",
+      "result": "PASS",
+      "expected": {
+        "code": "23514",
+        "message": "A licence cannot be edited after import"
+      },
+      "actual": {
+        "code": "23514",
+        "message": "A licence cannot be edited after import"
+      }
+    },
+    {
+      "name": "stored signed terms are immutable: trial=true",
+      "result": "PASS",
+      "expected": {
+        "code": "23514",
+        "message": "A licence cannot be edited after import"
+      },
+      "actual": {
+        "code": "23514",
+        "message": "A licence cannot be edited after import"
+      }
+    },
+    {
+      "name": "stored signed terms are immutable: claims='{}'::jsonb",
+      "result": "PASS",
+      "expected": {
+        "code": "23514",
+        "message": "A licence cannot be edited after import"
+      },
+      "actual": {
+        "code": "23514",
+        "message": "A licence cannot be edited after import"
+      }
+    },
+    {
+      "name": "stored signed terms are immutable: signature='changed'",
+      "result": "PASS",
+      "expected": {
+        "code": "23514",
+        "message": "A licence cannot be edited after import"
+      },
+      "actual": {
+        "code": "23514",
+        "message": "A licence cannot be edited after import"
+      }
+    },
+    {
+      "name": "stored signed terms are immutable: signing_key_id='74c61b0f-2213-439f-99a7-504e16cb0e31'",
+      "result": "PASS",
+      "expected": {
+        "code": "23514",
+        "message": "A licence cannot be edited after import"
+      },
+      "actual": {
+        "code": "23514",
+        "message": "A licence cannot be edited after import"
+      }
+    },
+    {
+      "name": "stored signed terms are immutable: installation_id='12b41ca7-10fb-40f1-a52d-db63db8b8b56'",
+      "result": "PASS",
+      "expected": {
+        "code": "23514",
+        "message": "A licence cannot be edited after import"
+      },
+      "actual": {
+        "code": "23514",
+        "message": "A licence cannot be edited after import"
+      }
+    },
+    {
+      "name": "stored signed terms are immutable: licence_id='192a94ae-8868-4c9f-9f0a-529dc0fed0d2'",
+      "result": "PASS",
+      "expected": {
+        "code": "23514",
+        "message": "A licence cannot be edited after import"
+      },
+      "actual": {
+        "code": "23514",
+        "message": "A licence cannot be edited after import"
+      }
+    },
+    {
+      "name": "stored signed terms are immutable: id='7e3211ec-e11d-45f3-93bc-e31ce3b281d2'",
+      "result": "PASS",
+      "expected": {
+        "code": "23514",
+        "message": "A licence cannot be edited after import"
+      },
+      "actual": {
+        "code": "23514",
+        "message": "A licence cannot be edited after import"
+      }
+    },
+    {
+      "name": "stored signed terms are immutable: valid_from=now()-interval '10 years'",
+      "result": "PASS",
+      "expected": {
+        "code": "23514",
+        "message": "A licence cannot be edited after import"
+      },
+      "actual": {
+        "code": "23514",
+        "message": "A licence cannot be edited after import"
+      }
+    },
+    {
+      "name": "stored signed terms are immutable: imported_by='48ff209f-5a53-49da-8e1c-9c7dc80a61a0'",
+      "result": "PASS",
+      "expected": {
+        "code": "23514",
+        "message": "A licence cannot be edited after import"
+      },
+      "actual": {
+        "code": "23514",
+        "message": "A licence cannot be edited after import"
+      }
+    },
+    {
+      "name": "stored signed terms are immutable: imported_at=now()-interval '1 year'",
+      "result": "PASS",
+      "expected": {
+        "code": "23514",
+        "message": "A licence cannot be edited after import"
+      },
+      "actual": {
+        "code": "23514",
+        "message": "A licence cannot be edited after import"
+      }
+    },
+    {
+      "name": "supersession may deactivate the stored licence",
+      "result": "PASS",
+      "expected": 1,
+      "actual": 1
+    },
+    {
+      "name": "a licence record is never deleted",
+      "result": "PASS",
+      "expected": {
+        "code": "23514",
+        "message": "A licence record is never deleted"
+      },
+      "actual": {
+        "code": "23514",
+        "message": "A licence record is never deleted"
+      }
+    },
+    {
+      "name": "every feature reports exactly five gates",
+      "result": "PASS",
+      "expected": true,
+      "actual": true
+    },
+    {
+      "name": "every gate is named once per feature",
+      "result": "PASS",
+      "expected": true,
+      "actual": true
+    },
+    {
+      "name": "a licensed, released, rolled-out feature the actor may use is usable",
+      "result": "PASS",
+      "expected": true,
+      "actual": true
+    },
+    {
+      "name": "a feature the licence does not name is not usable",
+      "result": "PASS",
+      "expected": false,
+      "actual": false
+    },
+    {
+      "name": "the blocking gate is identified rather than merely reporting a refusal",
+      "result": "PASS",
+      "expected": [
+        "LICENCE_ENTITLEMENT"
+      ],
+      "actual": [
+        "LICENCE_ENTITLEMENT"
+      ]
+    },
+    {
+      "name": "a feature held back by rollout is blocked on that gate specifically",
+      "result": "PASS",
+      "expected": false,
+      "actual": false
+    },
+    {
+      "name": "an auditor holding the read capability passes the actor gate",
+      "result": "PASS",
+      "expected": true,
+      "actual": true
+    },
+    {
+      "name": "the licence gate is the same for every actor",
+      "result": "PASS",
+      "expected": true,
+      "actual": true
+    },
+    {
+      "name": "the report states plainly what no licence can enable",
+      "result": "PASS",
+      "expected": true,
+      "actual": true
+    },
+    {
+      "name": "it says these are commitments, not withheld features",
+      "result": "PASS",
+      "expected": true,
+      "actual": true
+    },
+    {
+      "name": "it names the model capabilities explicitly",
+      "result": "PASS",
+      "expected": true,
+      "actual": true
+    },
+    {
+      "name": "it names vendor remote access explicitly",
+      "result": "PASS",
+      "expected": true,
+      "actual": true
+    },
+    {
+      "name": "the report says a licence carries no commands or authority grants",
+      "result": "PASS",
+      "expected": true,
+      "actual": true
+    },
+    {
+      "name": "the report says security and truthful outcomes are not licensed features",
+      "result": "PASS",
+      "expected": true,
+      "actual": true
+    },
+    {
+      "name": "a member without the licence capability is refused",
+      "result": "PASS",
+      "expected": 403,
+      "actual": 403
+    }
+  ],
+  "result": "PASS",
+  "run_id": "d18a3d46-f940-48cd-a70d-abbb49a63eae"
+}

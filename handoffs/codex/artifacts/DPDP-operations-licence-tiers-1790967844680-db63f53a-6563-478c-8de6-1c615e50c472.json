@@ -1,0 +1,46 @@
+{
+  "task_id": "DPDP",
+  "fixture_kind": "CUSTOMER_LOCAL_SYNTHETIC",
+  "recorded_at": "2026-10-02T19:04:04.680Z",
+  "suite": "licence-tiers",
+  "assertions": [
+    {
+      "name": "the FOUNDATION licence is in force",
+      "result": "PASS",
+      "expected": [
+        "FOUNDATION",
+        "ACTIVE"
+      ],
+      "actual": [
+        "FOUNDATION",
+        "ACTIVE"
+      ]
+    },
+    {
+      "name": "protective wind-down reaches scoped resource validation: toggle_control_test",
+      "result": "FAIL",
+      "expected": {
+        "status": 404,
+        "codes": []
+      },
+      "actual": {
+        "status": 404,
+        "codes": [
+          "not_found"
+        ]
+      }
+    },
+    {
+      "name": "unexpected failure in foundation licence",
+      "result": "FAIL",
+      "expected": "no error",
+      "actual": "Assertion failed: protective wind-down reaches scoped resource validation: toggle_control_test"
+    }
+  ],
+  "passed": 1,
+  "failures": 2,
+  "profile": "codex-a00",
+  "test_adapter_only": true,
+  "limitation": "Connector effects are exercised against the synthetic records test adapter; no live customer system was contacted.",
+  "run_id": "ef606a01-500b-4388-8dfe-16fe8a74e4c2"
+}

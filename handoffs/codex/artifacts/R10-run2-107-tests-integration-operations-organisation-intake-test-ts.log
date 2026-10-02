@@ -1,0 +1,34 @@
+PASS the synthetic fixture organisation has the Privacy Centre on
+PASS a Data Principal can use it while it is on
+PASS an organisation admin cannot switch it
+PASS the owner switches it off
+PASS every Data Principal request is then refused, saying why
+PASS switching it off twice is refused
+PASS switched back on, the same session works again
+PASS an organisation admin cannot create an intake key
+PASS the key is returned once, 64 hex characters
+PASS the key list never carries the key
+PASS the database keeps only its digest
+PASS no key: refused
+PASS a wrong key: refused
+PASS a request from a browser page (Origin) is refused, so the key cannot live in a web page
+PASS a request carrying cookies is refused
+PASS a key limited to consent cannot send a rights request
+PASS a submission is recorded as received, and a receipt is not completion
+PASS the same idempotency key returns the same submission
+PASS the same idempotency key with a different body is refused
+PASS another key cannot read this key's submission
+PASS staff in another organisation see none of these submissions
+Error: Machine enrollment expired; renew through protected local setup
+    at <anonymous> (C:\Cyberfyx-projects\Cyberfyx_ORVIA\.worktrees\round10\backend\auth\src\machine-profile.ts:45:27)
+    at Object.once (C:\Cyberfyx-projects\Cyberfyx_ORVIA\.worktrees\round10\services\worker\src\operations-runner.ts:66:28)
+    at <anonymous> (C:\Cyberfyx-projects\Cyberfyx_ORVIA\.worktrees\round10\tests\integration\operations\organisation-intake.test.ts:87:34)
+    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+    at async Object.run (C:\Cyberfyx-projects\Cyberfyx_ORVIA\.worktrees\round10\shared\testing\src\operations-fixture.ts:117:28)
+    at async <anonymous> (C:\Cyberfyx-projects\Cyberfyx_ORVIA\.worktrees\round10\tests\integration\operations\organisation-intake.test.ts:19:1) {
+  code: 'MACHINE_ENROLLMENT_EXPIRED'
+}
+Server diagnostics (safe codes only): 
+Artifact: handoffs/codex/artifacts/DPDP-operations-organisation-intake-1790961340838-ea71d68a-302d-42ea-92b6-ebf422d22b8c.json
+
+22 assertions, 1 failures.

@@ -1,0 +1,17 @@
+Authentication fixture idle window: 61s remaining; controls unchanged.
+Authentication fixture idle window: 31s remaining; controls unchanged.
+Authentication fixture idle window: 1s remaining; controls unchanged.
+TypeError: Invalid URL
+    at new URL (node:internal/url:895:25)
+    at authenticatorCode (C:\Cyberfyx-projects\Cyberfyx_ORVIA\.worktrees\round10\shared\testing\src\http-fixture.ts:19:16)
+    at signIn (C:\Cyberfyx-projects\Cyberfyx_ORVIA\.worktrees\round10\tests\e2e\expansion-screens-local.ts:38:69)
+    at async <anonymous> (C:\Cyberfyx-projects\Cyberfyx_ORVIA\.worktrees\round10\tests\e2e\expansion-screens-local.ts:66:22)
+    at async Object.run (C:\Cyberfyx-projects\Cyberfyx_ORVIA\.worktrees\round10\shared\testing\src\operations-fixture.ts:117:28)
+    at async <anonymous> (C:\Cyberfyx-projects\Cyberfyx_ORVIA\.worktrees\round10\tests\e2e\expansion-screens-local.ts:60:1) {
+  code: 'ERR_INVALID_URL',
+  input: 'undefined'
+}
+Server diagnostics (safe codes only): 
+Artifact: handoffs/codex/artifacts/DPDP-operations-expansion-screens-browser-1790953341690-129b0d93-981d-4958-884d-c8921f2f1a2c.json
+
+1 assertions, 1 failures.

@@ -1,0 +1,33 @@
+{
+  "head": "93dcd202d431776718ec9e3845d0389bcbb6b625",
+  "run_id": "ac7ebbd8-2bb4-4487-a2fc-0245869f72b6",
+  "started_at": "2026-10-02T19:15:21.870Z",
+  "ended_at": "2026-10-02T19:15:37.132Z",
+  "batch_limit": 20,
+  "batches": [
+    {
+      "dispatched_at": "2026-10-02T19:15:35.662Z",
+      "events": 20,
+      "workflows": 20,
+      "first_created": "2026-10-02T18:53:56.468Z",
+      "last_created": "2026-10-02T18:58:18.638Z"
+    },
+    {
+      "dispatched_at": "2026-10-02T19:15:36.778Z",
+      "events": 5,
+      "workflows": 5,
+      "first_created": "2026-10-02T18:58:18.857Z",
+      "last_created": "2026-10-02T19:15:34.884Z"
+    }
+  ],
+  "totals": {
+    "events": 25,
+    "distinct_events": 25,
+    "distinct_workflows": 25
+  },
+  "observed_assertion": {
+    "expected": 0,
+    "actual": 5
+  },
+  "limitation": "Read-only persisted marker reconstruction. Counts are global dispatcher batches, not an isolated fixture queue; no dispatcher call is repeated."
+}

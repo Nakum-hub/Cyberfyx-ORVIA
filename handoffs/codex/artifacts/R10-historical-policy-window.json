@@ -1,0 +1,24 @@
+{
+    "records":  [
+                    {
+                        "time":  "2026-10-02T06:35:16Z",
+                        "msg":  "Received request.",
+                        "req_id":  3988,
+                        "req_path":  "/v1/data/orvia/admin/authorize",
+                        "resp_status":  null,
+                        "resp_duration":  null,
+                        "error":  null
+                    },
+                    {
+                        "time":  "2026-10-02T06:35:16Z",
+                        "msg":  "Sent response.",
+                        "req_id":  3988,
+                        "req_path":  "/v1/data/orvia/admin/authorize",
+                        "resp_status":  500,
+                        "resp_duration":  674.122137,
+                        "error":  null
+                    }
+                ],
+    "command":  "docker logs --since 2026-10-02T06:35:14Z --until 2026-10-02T06:35:19Z orvia-round9-opa",
+    "exit_code":  0
+}

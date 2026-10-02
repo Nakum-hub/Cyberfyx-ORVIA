@@ -1,0 +1,15 @@
+PASS leadership sees the practice overview from real records
+TypeError: Invalid URL
+    at new URL (node:internal/url:895:25)
+    at authenticatorCode (C:\Cyberfyx-projects\Cyberfyx_ORVIA\.worktrees\round10\shared\testing\src\http-fixture.ts:19:16)
+    at vendorSignIn (C:\Cyberfyx-projects\Cyberfyx_ORVIA\.worktrees\round10\tests\e2e\audit-mandate-local.ts:75:59)
+    at async <anonymous> (C:\Cyberfyx-projects\Cyberfyx_ORVIA\.worktrees\round10\tests\e2e\audit-mandate-local.ts:145:52)
+    at async Object.run (C:\Cyberfyx-projects\Cyberfyx_ORVIA\.worktrees\round10\shared\testing\src\operations-fixture.ts:117:28)
+    at async <anonymous> (C:\Cyberfyx-projects\Cyberfyx_ORVIA\.worktrees\round10\tests\e2e\audit-mandate-local.ts:109:3) {
+  code: 'ERR_INVALID_URL',
+  input: 'undefined'
+}
+Server diagnostics (safe codes only): 
+Artifact: handoffs/codex/artifacts/DPDP-operations-audit-mandate-browser-1790952884337-41227646-88ea-4384-95fa-0dc3034ffebf.json
+
+2 assertions, 1 failures.

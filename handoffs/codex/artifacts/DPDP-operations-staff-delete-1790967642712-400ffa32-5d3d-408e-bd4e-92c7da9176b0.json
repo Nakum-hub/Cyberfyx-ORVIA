@@ -1,0 +1,262 @@
+{
+  "task_id": "DPDP",
+  "fixture_kind": "CUSTOMER_LOCAL_SYNTHETIC",
+  "recorded_at": "2026-10-02T19:00:42.712Z",
+  "suite": "staff-delete",
+  "assertions": [
+    {
+      "name": "\"delete\" is not accepted",
+      "result": "PASS",
+      "expected": 400,
+      "actual": 400
+    },
+    {
+      "name": "\"Delete\" is not accepted",
+      "result": "PASS",
+      "expected": 400,
+      "actual": 400
+    },
+    {
+      "name": "\"DELETE \" is not accepted",
+      "result": "PASS",
+      "expected": 400,
+      "actual": 400
+    },
+    {
+      "name": "\" DELETE\" is not accepted",
+      "result": "PASS",
+      "expected": 400,
+      "actual": 400
+    },
+    {
+      "name": "\"DELET\" is not accepted",
+      "result": "PASS",
+      "expected": 400,
+      "actual": 400
+    },
+    {
+      "name": "\"\" is not accepted",
+      "result": "PASS",
+      "expected": 400,
+      "actual": 400
+    },
+    {
+      "name": "no confirmation at all is not accepted",
+      "result": "PASS",
+      "expected": 400,
+      "actual": 400
+    },
+    {
+      "name": "the database function itself refuses anything but DELETE",
+      "result": "PASS",
+      "expected": "confirmation_required",
+      "actual": "confirmation_required"
+    },
+    {
+      "name": "the member was not deleted by any of those attempts",
+      "result": "PASS",
+      "expected": null,
+      "actual": null
+    },
+    {
+      "name": "the login is deleted and inactive, name and address kept on the list",
+      "result": "PASS",
+      "expected": [
+        false,
+        true,
+        "Synthetic member to delete",
+        "del.170cbf01@aster.example"
+      ],
+      "actual": [
+        false,
+        true,
+        "Synthetic member to delete",
+        "del.170cbf01@aster.example"
+      ]
+    },
+    {
+      "name": "the seat is freed",
+      "result": "PASS",
+      "expected": 2,
+      "actual": 2
+    },
+    {
+      "name": "the deleted member is signed out at once",
+      "result": "PASS",
+      "expected": 401,
+      "actual": 401
+    },
+    {
+      "name": "the deleted member cannot sign in with their password",
+      "result": "PASS",
+      "expected": 401,
+      "actual": 401
+    },
+    {
+      "name": "a deleted login cannot be reactivated",
+      "result": "PASS",
+      "expected": {
+        "status": 409,
+        "codes": [
+          "login_deleted"
+        ]
+      },
+      "actual": {
+        "status": 409,
+        "codes": [
+          "login_deleted"
+        ]
+      }
+    },
+    {
+      "name": "a deleted login cannot be deleted twice",
+      "result": "PASS",
+      "expected": {
+        "status": 409,
+        "codes": [
+          "already_deleted"
+        ]
+      },
+      "actual": {
+        "status": 409,
+        "codes": [
+          "already_deleted"
+        ]
+      }
+    },
+    {
+      "name": "the same address can be added again as a new login",
+      "result": "PASS",
+      "expected": [
+        true,
+        "del.170cbf01@aster.example"
+      ],
+      "actual": [
+        true,
+        "del.170cbf01@aster.example"
+      ]
+    },
+    {
+      "name": "the owner cannot be deleted through the member route",
+      "result": "PASS",
+      "expected": {
+        "status": 409,
+        "codes": [
+          "owner_and_administrator_are_managed_by_protected_setup"
+        ]
+      },
+      "actual": {
+        "status": 409,
+        "codes": [
+          "owner_and_administrator_are_managed_by_protected_setup"
+        ]
+      }
+    },
+    {
+      "name": "an administrator is not deleted through the member route",
+      "result": "PASS",
+      "expected": {
+        "status": 409,
+        "codes": [
+          "owner_and_administrator_are_managed_by_protected_setup"
+        ]
+      },
+      "actual": {
+        "status": 409,
+        "codes": [
+          "owner_and_administrator_are_managed_by_protected_setup"
+        ]
+      }
+    },
+    {
+      "name": "an administrator deletes their own login only through My login",
+      "result": "PASS",
+      "expected": {
+        "status": 409,
+        "codes": [
+          "use_delete_my_login"
+        ]
+      },
+      "actual": {
+        "status": 409,
+        "codes": [
+          "use_delete_my_login"
+        ]
+      }
+    },
+    {
+      "name": "a member cannot delete another login",
+      "result": "PASS",
+      "expected": 403,
+      "actual": 403
+    },
+    {
+      "name": "the owner cannot delete their own login",
+      "result": "PASS",
+      "expected": 403,
+      "actual": 403
+    },
+    {
+      "name": "another organisation cannot delete this organisation's member",
+      "result": "PASS",
+      "expected": 404,
+      "actual": 404
+    },
+    {
+      "name": "self-deletion also needs the exact word",
+      "result": "PASS",
+      "expected": 400,
+      "actual": 400
+    },
+    {
+      "name": "an auditor deletes their own login and is signed out",
+      "result": "PASS",
+      "expected": [
+        200,
+        true,
+        401
+      ],
+      "actual": [
+        200,
+        true,
+        401
+      ]
+    },
+    {
+      "name": "a member with an authenticator deletes their own login",
+      "result": "PASS",
+      "expected": 200,
+      "actual": 200
+    },
+    {
+      "name": "both self-deleted logins are listed as deleted",
+      "result": "PASS",
+      "expected": [
+        true,
+        true
+      ],
+      "actual": [
+        true,
+        true
+      ]
+    },
+    {
+      "name": "deletion by an administrator and self-deletion are both audited",
+      "result": "PASS",
+      "expected": [
+        "staff_login.delete_own",
+        "staff_member.delete"
+      ],
+      "actual": [
+        "staff_login.delete_own",
+        "staff_member.delete"
+      ]
+    }
+  ],
+  "passed": 27,
+  "failures": 0,
+  "profile": "codex-a00",
+  "test_adapter_only": true,
+  "limitation": "Connector effects are exercised against the synthetic records test adapter; no live customer system was contacted.",
+  "run_id": "dda6b5c8-f9f9-4c8e-9cb1-ddac42cfa111"
+}

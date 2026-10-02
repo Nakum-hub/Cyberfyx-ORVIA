@@ -1,0 +1,48 @@
+{
+  "task_id": "DPDP",
+  "fixture_kind": "CUSTOMER_LOCAL_SYNTHETIC",
+  "recorded_at": "2026-10-02T19:05:05.902Z",
+  "suite": "round-ten-file-intake-adversarial",
+  "assertions": [
+    {
+      "name": "the incoming junction is refused for the exact reason",
+      "result": "PASS",
+      "expected": "Linked inbox directory refused",
+      "actual": "Linked inbox directory refused"
+    },
+    {
+      "name": "unrecognised bytes and linked incoming folders are refused",
+      "result": "PASS",
+      "expected": {
+        "unreadableStatus": 409,
+        "outsideImports": 0
+      },
+      "actual": {
+        "unreadableStatus": 409,
+        "outsideImports": 0
+      }
+    },
+    {
+      "name": "hard-linked external bytes are refused while an ordinary inbox file is staged",
+      "result": "PASS",
+      "expected": {
+        "staged": 1,
+        "imported": [
+          "ordinary-63882b94-6748-436c-94e1-e24544c71bcb.txt"
+        ]
+      },
+      "actual": {
+        "staged": 1,
+        "imported": [
+          "ordinary-63882b94-6748-436c-94e1-e24544c71bcb.txt"
+        ]
+      }
+    }
+  ],
+  "passed": 3,
+  "failures": 0,
+  "profile": "codex-a00",
+  "test_adapter_only": true,
+  "limitation": "Connector effects are exercised against the synthetic records test adapter; no live customer system was contacted.",
+  "run_id": "77928e84-920c-4b70-a0ed-522bb346aa9d"
+}

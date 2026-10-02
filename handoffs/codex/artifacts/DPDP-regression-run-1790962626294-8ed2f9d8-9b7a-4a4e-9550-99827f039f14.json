@@ -1,0 +1,141 @@
+{
+  "task_id": "DPDP",
+  "fixture_kind": "CUSTOMER_LOCAL_SYNTHETIC",
+  "recorded_at": "2026-10-02T17:37:06.294Z",
+  "run": {
+    "id": "4eae4794-6cbc-435f-9f5c-76ec15528f6c",
+    "request": {
+      "scenario": "TARGET_RESTORE_QUARANTINE",
+      "profile": "codex-a00",
+      "fixture_id": "aster-birch-v1"
+    },
+    "state": "PASS",
+    "build_id": "Hy7VENkUqtb1ixzzfc1WQ",
+    "contract_version": "0.58.0",
+    "started_at": "2026-10-02T17:36:42.496Z",
+    "finished_at": "2026-10-02T17:37:06.167Z",
+    "assertions": [
+      {
+        "id": "fresh_permission_admits",
+        "result": "PASS",
+        "expected": "\"ALLOW\"",
+        "actual": "\"ALLOW\"",
+        "artifact_paths": []
+      },
+      {
+        "id": "durable_workflow_completed",
+        "result": "PASS",
+        "expected": "\"COMPLETED\"",
+        "actual": "\"COMPLETED\"",
+        "artifact_paths": []
+      },
+      {
+        "id": "independent_read_restriction",
+        "result": "PASS",
+        "expected": "true",
+        "actual": "true",
+        "artifact_paths": []
+      },
+      {
+        "id": "independent_observation_method",
+        "result": "PASS",
+        "expected": "\"SCOPED_READ\"",
+        "actual": "\"SCOPED_READ\"",
+        "artifact_paths": []
+      },
+      {
+        "id": "current_boundary_blocks_withdrawal",
+        "result": "PASS",
+        "expected": "\"BLOCK\"",
+        "actual": "\"BLOCK\"",
+        "artifact_paths": []
+      },
+      {
+        "id": "no_post_withdrawal_send",
+        "result": "PASS",
+        "expected": "0",
+        "actual": "0",
+        "artifact_paths": []
+      },
+      {
+        "id": "old_target_snapshot_quarantined",
+        "result": "PASS",
+        "expected": "true",
+        "actual": "true",
+        "artifact_paths": []
+      },
+      {
+        "id": "actual_old_snapshot_restored",
+        "result": "PASS",
+        "expected": "false",
+        "actual": "false",
+        "artifact_paths": []
+      },
+      {
+        "id": "quarantined_processing_blocked",
+        "result": "PASS",
+        "expected": "\"BLOCK\"",
+        "actual": "\"BLOCK\"",
+        "artifact_paths": []
+      },
+      {
+        "id": "premature_activation_denied",
+        "result": "PASS",
+        "expected": "true",
+        "actual": "true",
+        "artifact_paths": []
+      },
+      {
+        "id": "old_generation_command_denied",
+        "result": "PASS",
+        "expected": "\"STALE_GENERATION\"",
+        "actual": "\"STALE_GENERATION\"",
+        "artifact_paths": []
+      },
+      {
+        "id": "current_restriction_independently_observed",
+        "result": "PASS",
+        "expected": "[true,2,2]",
+        "actual": "[true,2,2]",
+        "artifact_paths": []
+      },
+      {
+        "id": "reconciled_target_activated",
+        "result": "PASS",
+        "expected": "false",
+        "actual": "false",
+        "artifact_paths": []
+      },
+      {
+        "id": "restriction_survives_activation",
+        "result": "PASS",
+        "expected": "\"BLOCK\"",
+        "actual": "\"BLOCK\"",
+        "artifact_paths": []
+      },
+      {
+        "id": "authoritative_consent_ledger_unchanged",
+        "result": "PASS",
+        "expected": "[{\"state\":\"WITHDRAWN\",\"epoch\":\"2\"}]",
+        "actual": "[{\"state\":\"WITHDRAWN\",\"epoch\":\"2\"}]",
+        "artifact_paths": []
+      },
+      {
+        "id": "recovery_journal_recorded",
+        "result": "PASS",
+        "expected": "\"RECONCILED_ACTIVE\"",
+        "actual": "\"RECONCILED_ACTIVE\"",
+        "artifact_paths": [
+          "handoffs/codex/artifacts/DPDP-recovery-journal-1790962626151-1a6d5e06-e9bd-4ed4-800c-06a949d6b4c3.json"
+        ]
+      }
+    ],
+    "expected_fault_detection": false
+  },
+  "profile": "codex-a00",
+  "fixture_id": "aster-birch-v1",
+  "limitations": [
+    "Protected synthetic operator runner; actual HTTP/PG/OPA/Temporal/agent/target only. No browser acceptance or full control-plane recovery."
+  ],
+  "run_id": "4f0562d1-53d4-4008-858a-ddec6455b06f"
+}

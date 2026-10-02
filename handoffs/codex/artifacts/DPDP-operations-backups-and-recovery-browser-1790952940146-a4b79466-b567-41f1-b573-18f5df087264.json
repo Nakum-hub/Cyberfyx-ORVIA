@@ -1,0 +1,38 @@
+{
+  "task_id": "DPDP",
+  "fixture_kind": "CUSTOMER_LOCAL_SYNTHETIC",
+  "recorded_at": "2026-10-02T14:55:40.147Z",
+  "suite": "backups-and-recovery-browser",
+  "assertions": [
+    {
+      "name": "the form records the treatment",
+      "result": "PASS",
+      "expected": 201,
+      "actual": 201
+    },
+    {
+      "name": "the recorder is offered no Approve button for their own treatment",
+      "result": "PASS",
+      "expected": 0,
+      "actual": 0
+    },
+    {
+      "name": "without sensitive access, who must be erased again is not shown",
+      "result": "PASS",
+      "expected": 1,
+      "actual": 1
+    },
+    {
+      "name": "unexpected failure in a second person approves",
+      "result": "FAIL",
+      "expected": "no error",
+      "actual": "Invalid URL"
+    }
+  ],
+  "passed": 3,
+  "failures": 1,
+  "profile": "codex-a00",
+  "test_adapter_only": true,
+  "limitation": "Connector effects are exercised against the synthetic records test adapter; no live customer system was contacted.",
+  "run_id": "dad07fe0-c27d-47a5-b57f-56e7fa735bbf"
+}

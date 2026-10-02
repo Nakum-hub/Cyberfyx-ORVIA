@@ -1,0 +1,16 @@
+{
+  phase: 'setup',
+  name: 'Error',
+  code: 'UNCLASSIFIED',
+  cause: { name: 'Error', code: 'UNCLASSIFIED' },
+  sites: [
+    '    at opaContainer (C:\\Cyberfyx-projects\\Cyberfyx_ORVIA\\.worktrees\\round10\\shared\\testing\\src\\opa-container.ts:5:81)',
+    '    at <anonymous> (C:\\Cyberfyx-projects\\Cyberfyx_ORVIA\\.worktrees\\round10\\tests\\integration\\evidence\\evidence.test.ts:29:32)',
+    '    at ModuleJob.run (node:internal/modules/esm/module_job:561:25)',
+    '    at async node:internal/modules/esm/loader:647:26',
+    '    at async asyncRunEntryPointWithESMLoader (node:internal/modules/run_main:101:5)'
+  ]
+}
+
+
+Artifact: handoffs/codex/artifacts/DPDP-evidence-integration-1790950671107-ae379872-1a3c-40c5-b54e-d08ee7033226.json

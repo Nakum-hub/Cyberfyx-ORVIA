@@ -1,0 +1,16 @@
+Authentication fixture idle window: 61s remaining; controls unchanged.
+Authentication fixture idle window: 31s remaining; controls unchanged.
+Authentication fixture idle window: 1s remaining; controls unchanged.
+PASS the topic is created on screen with the chosen channels
+PASS nothing is on before the person chooses
+PASS saying yes is recorded
+PASS only the chosen channel is on
+PASS saying no from the keyboard is recorded
+PASS the history shows both choices as applied
+PASS staff see no change controls for the person's choices
+PASS the API decision matches the screen
+PASS no request left the local origin
+PASS no page or console error occurred
+Artifact: handoffs/codex/artifacts/DPDP-operations-preferences-browser-1790953834062-973372b7-ac80-4665-9e58-39dd15e73028.json
+
+10 assertions, 0 failures.

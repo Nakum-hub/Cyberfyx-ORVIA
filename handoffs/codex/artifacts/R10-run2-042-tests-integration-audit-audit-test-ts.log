@@ -1,0 +1,56 @@
+Authentication fixture idle window: 54s remaining; controls unchanged.
+Authentication fixture idle window: 24s remaining; controls unchanged.
+PASS every category is reported exactly once and the report says it was measured
+PASS the count reported for ROLE_GRANTS is the count of the operations it names
+PASS the count reported for OWNER_CHANGES is the count of the operations it names
+PASS the count reported for POLICY_PUBLICATION is the count of the operations it names
+PASS the count reported for CONNECTOR_CREDENTIALS_AND_SCOPE is the count of the operations it names
+PASS the count reported for SUPPORT_APPROVAL is the count of the operations it names
+PASS the count reported for EXPORTS is the count of the operations it names
+PASS the count reported for LICENCES is the count of the operations it names
+PASS the count reported for UPDATES is the count of the operations it names
+PASS a category this build has no route for says so, rather than reading as an auditing gap
+PASS the categories the scenario just exercised have recorded something
+PASS a category with something recorded names when it first and last happened
+PASS configuring a connector raises exactly the connector category
+PASS the raised count is still exactly the count of the operations it names
+PASS the report cannot be told a category is covered
+PASS the trail returns every scoped event that existed when the read began, and only those
+PASS every returned event carries its actor, its domain and the request that caused it
+PASS an owner in another organisation holding the same capability sees none of this trail
+PASS filtering by operation returns that operation and only that one
+PASS the filtered set is the whole filtered set
+PASS a data principal acting on their own record is in the same trail, under their own domain
+PASS filtering by actor returns that actor and nobody else
+PASS a filter key the route never declared is refused rather than ignored
+PASS a filter value outside the declared vocabulary is refused
+PASS a time filter that is not a time is refused
+PASS the export carries every event the filter matched and says so structurally
+PASS the export is the answer to a stated filter, so it cannot read as the whole trail
+PASS the digest covers exactly the events carried, so a recipient can check the file it holds
+PASS the file is offered as a download rather than rendered into a page
+PASS reading the trail does not carry the authority to take it out of the installation
+PASS an actor who can neither read nor export is refused
+PASS an unfiltered export is the whole scoped trail, or a refusal to narrow the filter, and never a shortened file
+PASS reading the trail is itself an audited event, attributed to the reader
+PASS reading the coverage report is recorded too
+PASS the act that was just performed is in the trail, against the record it acted on and nothing else
+PASS an audit event cannot be edited, even by a role that bypasses row-level security
+PASS an audit event cannot be removed
+PASS reading the trail does not carry the authority to dispute what is in it
+PASS an auditor may read the trail
+PASS an auditor who may take the trail away still may not dispute a record in it
+PASS an actor holding neither capability cannot read the trail at all
+PASS a correction naming an event that does not exist is refused, not created
+PASS a correction that says nothing is refused
+PASS a dispute outside the declared vocabulary is refused
+PASS the correction names the event it disputes and states that the event is unchanged
+PASS the disputed event is byte-for-byte what it was before the dispute
+PASS the event now reports that it is disputed, and reports nothing else differently
+PASS a correction cannot be edited
+PASS a correction cannot be withdrawn
+PASS a correction cannot name an event in another organisation, because the reference carries the scope
+PASS there is no column on an audit event through which a correction could replace it
+Artifact: handoffs/codex/artifacts/DPDP-audit-integration-1790954864157-25a2cb80-b57f-4f68-acc0-2a6aa7c23bf0.json
+
+51 assertions, 0 failures.

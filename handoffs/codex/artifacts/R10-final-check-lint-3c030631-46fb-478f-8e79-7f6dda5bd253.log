@@ -1,0 +1,11 @@
+
+C:\Cyberfyx-projects\Cyberfyx_ORVIA\.worktrees\round10\tests\security\function-acl.ts
+  10:5  error  The value assigned to 'roles' is not used in subsequent statements  no-useless-assignment
+
+C:\Cyberfyx-projects\Cyberfyx_ORVIA\.worktrees\round10\tests\unit\round10-compose-isolation.test.ts
+  24:70  error  Unsafe usage of ThrowStatement  no-unsafe-finally
+
+✖ 2 problems (2 errors, 0 warnings)
+
+$ eslint frontend backend database connectors shared services scripts tests --max-warnings 0
+[ELIFECYCLE] Command failed with exit code 1.

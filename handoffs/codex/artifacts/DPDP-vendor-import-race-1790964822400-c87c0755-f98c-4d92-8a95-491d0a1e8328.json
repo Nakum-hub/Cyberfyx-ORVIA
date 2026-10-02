@@ -1,0 +1,11 @@
+{
+  "task_id": "DPDP",
+  "fixture_kind": "CUSTOMER_LOCAL_SYNTHETIC",
+  "recorded_at": "2026-10-02T18:13:42.400Z",
+  "expected_defect": false,
+  "lower_sequence_accepted": false,
+  "reason": "stale_sequence",
+  "code": "P0001",
+  "result": "PASS",
+  "run_id": "ef43a8ce-46ac-410e-b190-3c7d65e5c42a"
+}

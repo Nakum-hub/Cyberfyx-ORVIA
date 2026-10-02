@@ -1,0 +1,130 @@
+{
+  "status": "IMPLEMENTED_FIXES_REVIEWED; bounded runtime complete; acceptance NOT_ACCEPTED",
+  "findings": [
+    {
+      "id": "R10-01",
+      "severity": "MEDIUM",
+      "classification": "PRODUCT",
+      "reproduction": "Binary TXT/CSV and five-byte ZIP prefixes named DOCX/XLSX were classified as documents.",
+      "evidence": "R10-run1-001-test.log",
+      "fix": "0aa04b5: fatal UTF-8/control checks and bounded OPC/ZIP identification; genuine Office fixture controls.",
+      "validation": "See exact suite outcomes in R10-suite-matrix.json and Run 3 triage; no absent assertion is claimed passed."
+    },
+    {
+      "id": "R10-02",
+      "severity": "MEDIUM",
+      "classification": "PRODUCT",
+      "reproduction": "Staged unrecognised bytes could be returned by the content reader.",
+      "evidence": "backend/domain/src/onboarding/file-intake.ts:readFileIntakeContent",
+      "fix": "0aa04b5: refuse unrecognised content; implemented in 2c26d504: check-order correction retains content_not_kept after rejection.",
+      "validation": "See exact suite outcomes in R10-suite-matrix.json and Run 3 triage; no absent assertion is claimed passed."
+    },
+    {
+      "id": "R10-03",
+      "severity": "HIGH",
+      "classification": "PRODUCT",
+      "reproduction": "A linked incoming ancestor could redirect the worker outside the approved inbox; hard links also alias external files. Requires a local writer able to create links.",
+      "evidence": "services/worker/src/file-inbox.ts",
+      "fix": "0aa04b5: validate directory chains, bounded descriptor reads and rechecks; implemented in 2c26d504: hard-link refusal. Host folder ACL remains required for ancestor replacement races.",
+      "validation": "See exact suite outcomes in R10-suite-matrix.json and Run 3 triage; no absent assertion is claimed passed."
+    },
+    {
+      "id": "R10-04",
+      "severity": "MEDIUM",
+      "classification": "PRODUCT",
+      "reproduction": "Concurrent customer licence imports could read incomplete sequence/trial history.",
+      "evidence": "R10-run2-076-tests-integration-licensing-import-races-test-ts.log",
+      "fix": "0aa04b5: 0092 BEFORE-trigger scope lock and API lock before history reads; named refusal assertions implemented in 2c26d504: strengthening.",
+      "validation": "See exact suite outcomes in R10-suite-matrix.json and Run 3 triage; no absent assertion is claimed passed."
+    },
+    {
+      "id": "R10-05",
+      "severity": "MEDIUM",
+      "classification": "PRODUCT",
+      "reproduction": "Stored licence immutability omitted edition and lifecycle/identity fields.",
+      "evidence": "database/customer/migrations/0092_licence_import_serialization.sql",
+      "fix": "0aa04b5: compare complete row excluding active; implemented in 2c26d504: strengthened rollback-safe tests replace contradictory legacy expectation.",
+      "validation": "See exact suite outcomes in R10-suite-matrix.json and Run 3 triage; no absent assertion is claimed passed."
+    },
+    {
+      "id": "R10-06",
+      "severity": "HIGH",
+      "classification": "PRODUCT",
+      "reproduction": "Premium gates could refuse mandate suspension/revocation and control disable operations. Actor and resource authority still apply.",
+      "evidence": "tests/unit/round10-protective.test.ts",
+      "fix": "0aa04b5: validated input-aware wind-down exception; activation stays premium. Implemented in 2c26d504: HTTP sweep calls activation separately.",
+      "validation": "See exact suite outcomes in R10-suite-matrix.json and Run 3 triage; no absent assertion is claimed passed."
+    },
+    {
+      "id": "R10-07",
+      "severity": "MEDIUM",
+      "classification": "PRODUCT",
+      "reproduction": "Two workflow preparations could both spend the last monthly action allowance.",
+      "evidence": "backend/domain/src/workflow/workflow.ts:prepareWorkflow",
+      "fix": "0aa04b5: scope lock before allowance and durable action creation. Implemented in 2c26d504: scoped fixture lookup allows the real concurrent regression to reach assertions.",
+      "validation": "See exact suite outcomes in R10-suite-matrix.json and Run 3 triage; no absent assertion is claimed passed."
+    },
+    {
+      "id": "R10-08",
+      "severity": "MEDIUM",
+      "classification": "PRODUCT",
+      "reproduction": "Runtime image build tried to load a private profile excluded from the build context.",
+      "evidence": "R10-run1-runtime-image prerequisite",
+      "fix": "0aa04b5: production build does not load private runtime credentials; Run 2 image built successfully.",
+      "validation": "See exact suite outcomes in R10-suite-matrix.json and Run 3 triage; no absent assertion is claimed passed."
+    },
+    {
+      "id": "R10-09",
+      "severity": "MEDIUM",
+      "classification": "PRODUCT",
+      "reproduction": "Provisioning body limit counted characters; signed malformed JSON and malformed UUID headers could produce server errors.",
+      "evidence": "tests/integration/vendor/provisioning.test.ts",
+      "fix": "0aa04b5: bounded UTF-8 body, named JSON validation and strict UUID syntax. Implemented in 2c26d504: preserve bodyless POST signatures and canonicalise UUID case.",
+      "validation": "See exact suite outcomes in R10-suite-matrix.json and Run 3 triage; no absent assertion is claimed passed."
+    },
+    {
+      "id": "R10-10",
+      "severity": "MEDIUM",
+      "classification": "PRODUCT_STATIC_CONFIRMED",
+      "reproduction": "Vendor service licence import reads max(sequence) without serialization; distinct concurrent sequences can commit out of order.",
+      "evidence": "database/vendor/migrations/0103_service_licences.sql",
+      "fix": "0018 serialization implemented in 2c26d504; final concurrent regression PASS, run ef43a8ce-46ac-410e-b190-3c7d65e5c42a. Pre-fix probe stopped at setup assertion (201 versus 200); no pre-fix runtime race is claimed.",
+      "validation": "See exact suite outcomes in R10-suite-matrix.json and Run 3 triage; no absent assertion is claimed passed."
+    },
+    {
+      "id": "R10-11",
+      "severity": "LOW",
+      "classification": "PRODUCT_ACL_CONFIRMED",
+      "reproduction": "member_seats definer is missing from the restricted-role map. Its staff_manager_check still prevents unprivileged calls; no data bypass demonstrated.",
+      "evidence": "database/customer/src/server-only.ts",
+      "fix": "Read-only installed ACL probe confirmed excess EXECUTE grants; 0093 and restriction map allow app only. Expanded installed-role ACL checks execute in Run 3; no authority bypass demonstrated.",
+      "validation": "See exact suite outcomes in R10-suite-matrix.json and Run 3 triage; no absent assertion is claimed passed."
+    },
+    {
+      "id": "R10-12",
+      "severity": "MEDIUM",
+      "classification": "HARNESS",
+      "reproduction": "RuntimeConfig omitted the bounded Compose override used by loadProfile, so the send outage test briefly started/stopped the original OPA instead of the owned OPA.",
+      "evidence": "R10-run2-isolation-correction.json",
+      "fix": "88b7b46: same bounded mapping; original OPA restored stopped. Mid-run source provenance explicitly qualified.",
+      "validation": "See exact suite outcomes in R10-suite-matrix.json and Run 3 triage; no absent assertion is claimed passed."
+    },
+    {
+      "id": "R10-13",
+      "severity": "MEDIUM",
+      "classification": "HARNESS",
+      "reproduction": "Tracked browser screenshots are included in the qualified runtime inventory, so tests change release hashes.",
+      "evidence": "scripts/source-paths.mjs",
+      "fix": "Implemented in 2c26d504: exclude output/playwright evidence and add inventory boundary regression.",
+      "validation": "See exact suite outcomes in R10-suite-matrix.json and Run 3 triage; no absent assertion is claimed passed."
+    },
+    {
+      "id": "R10-14",
+      "severity": "MEDIUM",
+      "classification": "PRODUCT",
+      "reproduction": "Signed-out navigation omitted the staff sign-in route, breaking the candidate walkthrough.",
+      "fix": "2c26d504 restores the route and opens the first navigation group.",
+      "validation": "Run 3 candidate.spec.ts: all three tests PASS."
+    }
+  ]
+}

@@ -1,0 +1,21 @@
+Authentication fixture idle window: 61s remaining; controls unchanged.
+Authentication fixture idle window: 31s remaining; controls unchanged.
+Authentication fixture idle window: 1s remaining; controls unchanged.
+PASS a share names exactly one recipient
+PASS the processors serving an activity are queryable
+PASS batched engagement reads preserve its fields, links and activity membership
+PASS a recorded engagement makes the processor-contract requirement applicable
+PASS the sharing register answers who received this person's data
+PASS an access request carries the sharing register into its run
+PASS termination opens a disposition task
+PASS termination closes the engagement's links instead of deleting them
+PASS a question about an earlier time still sees the engagement; about now it does not
+PASS a terminated engagement cannot receive new sharing
+PASS termination is recorded once
+PASS no connector pretends to perform a processor's disposition
+PASS a processor statement cannot be recorded as verification
+PASS a processor confirmation is completed-by-target, not verified
+PASS independent audit evidence verifies the disposition and completes the run
+Artifact: handoffs/codex/artifacts/DPDP-operations-processors-1790961426572-8a662f4d-f59b-4987-808f-163c67f342aa.json
+
+15 assertions, 0 failures.

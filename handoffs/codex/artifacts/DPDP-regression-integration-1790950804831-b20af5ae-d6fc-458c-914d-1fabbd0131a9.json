@@ -1,0 +1,19 @@
+{
+  "task_id": "DPDP",
+  "fixture_kind": "CUSTOMER_LOCAL_SYNTHETIC",
+  "recorded_at": "2026-10-02T14:20:04.831Z",
+  "test_ids": [
+    "T23",
+    "T24",
+    "T25"
+  ],
+  "profile": "codex-a00",
+  "contract_version": "0.58.0",
+  "assertions": [],
+  "runs": [],
+  "result": "FAIL",
+  "limitations": [
+    "Expected broken-control FAIL retained separately; healthy/repaired scenarios must PASS. Target-only recovery, no full control-plane restore or browser acceptance."
+  ],
+  "run_id": "1a04a5ee-4a82-4634-b431-d6bedd2305d1"
+}

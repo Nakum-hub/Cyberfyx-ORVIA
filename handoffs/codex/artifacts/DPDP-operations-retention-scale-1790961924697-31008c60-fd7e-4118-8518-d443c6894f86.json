@@ -1,0 +1,20 @@
+{
+  "task_id": "DPDP",
+  "fixture_kind": "CUSTOMER_LOCAL_SYNTHETIC",
+  "recorded_at": "2026-10-02T17:25:24.698Z",
+  "suite": "retention-scale",
+  "assertions": [
+    {
+      "name": "unexpected failure in import",
+      "result": "FAIL",
+      "expected": "no error",
+      "actual": "The operation was aborted due to timeout"
+    }
+  ],
+  "passed": 0,
+  "failures": 1,
+  "profile": "codex-a00",
+  "test_adapter_only": true,
+  "limitation": "Connector effects are exercised against the synthetic records test adapter; no live customer system was contacted.",
+  "run_id": "7d898381-8346-43ed-bce8-fc5b6cb16806"
+}

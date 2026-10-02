@@ -1,0 +1,7 @@
+PASS competing finding waits on assessment transaction
+PASS finding rechecks committed completed state
+PASS completed assessment has no late open finding
+PASS completion waits for concurrent finding transaction
+PASS completion refuses newly committed open finding
+PASS assessment remains open
+Artifact: handoffs/codex/artifacts/V1-EXPANSION-01-assessment-race-9ab65ad3-9168-43b8-b8c0-ff71ecb090db.json

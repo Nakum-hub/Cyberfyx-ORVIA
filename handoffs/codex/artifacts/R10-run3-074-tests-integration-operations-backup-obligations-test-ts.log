@@ -1,0 +1,50 @@
+Authentication fixture idle window: 61s remaining; controls unchanged.
+Authentication fixture idle window: 31s remaining; controls unchanged.
+Authentication fixture idle window: 1s remaining; controls unchanged.
+PASS a read-only role cannot record a backup treatment
+PASS a recorded treatment waits for approval
+PASS an administrator without approval rights cannot approve it
+PASS a second person approves it and it becomes current
+PASS the recorder cannot approve their own treatment
+PASS the erasures are verified on both systems
+PASS only the system with a current treatment gets ledger rows, one per person, ageing out after 35 days
+PASS an administrator who may not read the ledger still sees true counts
+PASS the system without a treatment is unknown backup handling
+PASS Operations attention names the unknown backup handling, or states that more systems exist than it lists
+PASS the ledger itself needs sensitive access
+PASS the owner reads the ledger
+PASS a restore from a backup taken after the erasures marks nobody
+PASS a restore from a backup older than the erasures marks everyone erased since
+PASS Operations attention shows the re-erasure
+PASS an administrator cannot confirm re-erasure (sensitive)
+PASS the owner confirms one re-erasure with evidence
+PASS confirming it twice is refused
+PASS a treatment's recorded facts cannot be rewritten
+PASS a live ledger row cannot be deleted
+PASS the runner ages out and purges a row 30 days past its clear date
+PASS rows still within their backups are untouched by the sweep
+PASS the purge records the latest erasure it removed for that system, without naming anyone
+PASS a restore from a backup older than purged erasures is recorded, with INCOMPLETE ledger coverage and the purge point
+PASS the person whose re-erasure was confirmed is marked again
+PASS everyone the ledger can still name is marked for re-erasure
+PASS a restore from a backup taken after the purged erasures keeps COMPLETE coverage
+PASS Operations attention names the restore for a manual review
+PASS the complete restore is not flagged
+PASS the restore list shows it among unreviewed INCOMPLETE restores
+PASS an auditor cannot record the review
+PASS a complete restore takes no review
+PASS an unknown restore is 404
+PASS the manual review is recorded with the restore
+PASS a second review is refused
+PASS once reviewed, the restore leaves Operations attention
+PASS the review cannot be rewritten
+PASS the coverage of a recorded restore cannot be changed
+PASS one boundary is recorded for a system whose treatment predates the upgrade by more than 30 days, naming no one
+PASS recording the boundary again adds nothing for that system
+PASS a restore from before the upgrade boundary is INCOMPLETE, not reported as complete
+PASS a restore from after the boundary stays COMPLETE
+PASS the application role cannot record a boundary
+PASS purge records cannot be removed
+Artifact: handoffs/codex/artifacts/DPDP-operations-backup-obligations-1790968001273-ec4c3f57-0647-4593-813a-9dc24c05b4ce.json
+
+44 assertions, 0 failures.

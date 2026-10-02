@@ -1,0 +1,27 @@
+PASS the vendor installation reports VENDOR_SERVICE and a verified kind
+PASS client workspace and staff sign-in are 404 on the vendor installation
+PASS the vendor area and vendor sign-in are 404 on a customer installation
+PASS the website link and the in-app sign-in share one session
+PASS the engagement code is shown once in the browser
+PASS the client gap register lists DPDP requirements with gap statuses
+PASS a second person confirms the personal-data flag in the browser
+PASS the preparer sees the approve control but approval is refused for them
+PASS a different owner approves and downloads the sealed package file
+PASS the client uploads the file and the vendor verifies it
+locator.waitFor: Timeout 30000ms exceeded.
+Call log:
+[2m  - waiting for getByLabel(/^Authenticator code( \*)?$/) to be visible[22m
+
+    at vendorSignIn (C:\Cyberfyx-projects\Cyberfyx_ORVIA\.worktrees\round10\tests\e2e\dpdpa-audit-local.ts:63:84)
+    at async <anonymous> (C:\Cyberfyx-projects\Cyberfyx_ORVIA\.worktrees\round10\tests\e2e\dpdpa-audit-local.ts:213:50)
+    at async Object.run (C:\Cyberfyx-projects\Cyberfyx_ORVIA\.worktrees\round10\shared\testing\src\operations-fixture.ts:117:28)
+    at async <anonymous> (C:\Cyberfyx-projects\Cyberfyx_ORVIA\.worktrees\round10\tests\e2e\dpdpa-audit-local.ts:88:1) {
+  log: [
+    '  - waiting for getByLabel(/^Authenticator code( \\*)?$/) to be visible'
+  ],
+  name: 'TimeoutError'
+}
+Server diagnostics (safe codes only): 
+Artifact: handoffs/codex/artifacts/DPDP-operations-dpdpa-audit-browser-1790965267097-5c35bde8-5802-4a83-a3e7-e6f4a96151d2.json
+
+11 assertions, 1 failures.

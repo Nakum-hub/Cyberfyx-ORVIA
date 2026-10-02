@@ -1,0 +1,9 @@
+Artifact: handoffs/codex/artifacts/DPDP-backup-drill-1790957733379-0b972fa3-aca9-4910-aad9-3729c33d1c55.json
+PASS the drill restores a copy with identical migrations, counts, withdrawals and forced row security
+PASS the backup is on disk and matches its manifest
+PASS a single changed byte no longer matches the manifest, so it would not be restored
+PASS the scratch database was removed
+PASS the manifest records the withdrawal count it verified
+Artifact: handoffs/codex/artifacts/DPDP-backup-drill-test-1790957733867-d3fb1fd5-d50d-4c80-b099-f8180a83b8e3.json
+
+5 assertions, 0 failures.

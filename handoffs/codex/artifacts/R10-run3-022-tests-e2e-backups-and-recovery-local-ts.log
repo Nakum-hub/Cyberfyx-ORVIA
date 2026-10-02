@@ -1,0 +1,15 @@
+PASS the form records the treatment
+PASS the recorder is offered no Approve button for their own treatment
+PASS without sensitive access, who must be erased again is not shown
+PASS the Approve button sends a POST and it succeeds
+PASS the stored treatment is current and approved by someone other than the recorder
+PASS the form records the restore
+PASS the sign-in page links to the recovery page
+PASS short and mismatched passwords are refused in the page without a request
+PASS a wrong code for a login that is not the owner is refused
+PASS the refusal does not say whether the email belongs to the owner
+PASS no page errors on these screens
+PASS no request left the installation origin
+Artifact: handoffs/codex/artifacts/DPDP-operations-backups-and-recovery-browser-1790965417309-cac126bf-bf73-4e5c-9f75-042a719816f1.json
+
+12 assertions, 0 failures.

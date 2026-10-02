@@ -1,0 +1,14 @@
+PASS the warm policy is ready before the test
+PASS with the engine stopped, readiness is false
+{"dependency":"policy_engine","attempt":1,"elapsed_ms":2001,"error":"TimeoutError"}
+{"dependency":"policy_engine","attempt":2,"elapsed_ms":2017,"error":"TimeoutError"}
+PASS with the engine stopped, request authorization fails closed
+PASS the engine becomes ready within thirty seconds of starting
+PASS until then readiness was false, never a partial allow
+PASS once ready, request authorization allows the permitted read
+PASS warm decisions stay far inside the 2000 ms deadline (p95 under 250 ms)
+PASS the deny control still denies
+Artifact: handoffs/codex/artifacts/DPDP-opa-cold-start-1790967927945-b4f605c0-dc9a-4d8f-9582-c875441d7f8f.json
+{"cold_start":{"attempts_until_ready":1,"ms_until_ready":2039,"first_ready_allow_ms":1321,"errors_before_ready":[]},"warm":{"samples":50,"p50_ms":3,"p95_ms":7,"max_ms":10}}
+
+8 assertions, 0 failures.

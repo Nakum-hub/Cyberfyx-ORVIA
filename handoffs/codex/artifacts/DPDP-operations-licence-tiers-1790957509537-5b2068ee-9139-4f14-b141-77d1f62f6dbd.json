@@ -1,0 +1,41 @@
+{
+  "task_id": "DPDP",
+  "fixture_kind": "CUSTOMER_LOCAL_SYNTHETIC",
+  "recorded_at": "2026-10-02T16:11:49.537Z",
+  "suite": "licence-tiers",
+  "assertions": [
+    {
+      "name": "the FOUNDATION licence is in force",
+      "result": "PASS",
+      "expected": [
+        "FOUNDATION",
+        "ACTIVE"
+      ],
+      "actual": [
+        "FOUNDATION",
+        "ACTIVE"
+      ]
+    },
+    {
+      "name": "a FOUNDATION installation is refused every Control and Enterprise write",
+      "result": "FAIL",
+      "expected": [],
+      "actual": [
+        "toggle_control_test",
+        "change_audit_mandate_state"
+      ]
+    },
+    {
+      "name": "unexpected failure in foundation licence",
+      "result": "FAIL",
+      "expected": "no error",
+      "actual": "Assertion failed: a FOUNDATION installation is refused every Control and Enterprise write"
+    }
+  ],
+  "passed": 1,
+  "failures": 2,
+  "profile": "codex-a00",
+  "test_adapter_only": true,
+  "limitation": "Connector effects are exercised against the synthetic records test adapter; no live customer system was contacted.",
+  "run_id": "7be08cd5-184a-4b87-863b-21a7dbbad8e0"
+}

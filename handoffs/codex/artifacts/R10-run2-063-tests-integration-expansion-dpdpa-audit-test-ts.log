@@ -1,0 +1,59 @@
+PASS gap register covers the package in force and labels a test fixture
+PASS each row carries expectations and indicators, and a gap status
+PASS unresolved applicability is a gap, never assumed not applicable
+PASS every requirement but the one tested only by auditor procedure has indicators
+PASS the procedure-only requirements carry no invented indicator
+PASS indicator values are counts or dates only: an integer, a YYYY-MM-DD date, or none
+PASS indicator keys are unique within each requirement
+PASS summary by module adds up
+PASS gap register exports as CSV
+PASS a file whose bytes do not match its type is refused
+PASS a type outside the allowed list is refused
+PASS a file over 20 MB is refused
+PASS stored file: server-side hash, sniffed type, unconfirmed flag blocks sharing
+PASS file content reads back byte for byte
+PASS the submitter cannot confirm their own flag
+PASS a second person confirms: shareable
+PASS the control appears on the requirement with its files
+PASS an auditor (read-only) cannot create an engagement
+PASS engagement recorded with processing-agreement status and declared independence
+PASS another organisation cannot see it
+PASS UNKNOWN / unconfirmed personal data is blocked
+PASS confirmed personal data needs an approved exception
+PASS the preparer cannot approve an exception to their own package
+PASS an item outside the engagement scope is refused
+PASS statement text is redacted before it can leave
+PASS the preparer cannot approve
+PASS an auditor cannot approve
+PASS export before approval is refused
+PASS a different owner approves and the package is sealed
+PASS a sealed package cannot change
+PASS exported file verifies and is exactly the approved bytes
+PASS manifest names roles, never people
+PASS exporting again yields the same bytes
+PASS vendor-visibility lists the package and both exports, carried by a person
+PASS the vendor installation verifies and accepts the client file
+PASS a findings file with a bad signature is refused
+PASS a file signed by an untrusted key is refused
+PASS the signed findings file imports
+PASS the same file twice is refused
+PASS the finding becomes a GRC issue for remediation
+PASS a report without its PDF is refused
+PASS a report with a different PDF is refused
+PASS the signed report and its PDF are stored and read back
+PASS imports are immutable
+PASS client revokes the package; it can no longer be exported
+PASS the next package relays the revocation and carries the approved exception
+PASS the vendor quarantines personal data without a processing agreement and withdraws the revoked package
+PASS orvia_app cannot approve by updating the row directly
+PASS orvia_app cannot confirm a flag directly
+PASS orvia_app cannot insert a personal-data item without the approval function
+PASS the customer database records CUSTOMER_INSTALLATION immutably
+PASS /vendor/sign-in is a 404 on a customer installation
+PASS /vendor is a 404 on a customer installation
+PASS /api/v1/vendor/session is a 404 on a customer installation
+PASS /api/auth/vendor/get-session is a 404 on a customer installation
+PASS /api/auth/account/get-session is a 404 on a customer installation
+Artifact: handoffs/codex/artifacts/DPDP-operations-dpdpa-audit-1790956606804-02ccb9a7-eab1-4edb-82be-fcf5fd2ba7d9.json
+
+56 assertions, 0 failures.

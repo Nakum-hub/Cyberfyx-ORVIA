@@ -1,0 +1,3 @@
+PASSED B02 principal consent, immutable receipt, withdrawal, history and refresh
+PASSED B02 lost committed response retains exact request across read and replays one event
+PASSED B02 stale interaction denial has no extra event and withdrawal modal supports Escape

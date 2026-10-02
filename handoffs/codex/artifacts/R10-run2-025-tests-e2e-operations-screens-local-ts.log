@@ -1,0 +1,12 @@
+FAIL registration is accepted {"expected":201,"actual":409}
+Error: Assertion failed: registration is accepted
+    at check (C:\Cyberfyx-projects\Cyberfyx_ORVIA\.worktrees\round10\shared\testing\src\operations-fixture.ts:29:147)
+    at <anonymous> (C:\Cyberfyx-projects\Cyberfyx_ORVIA\.worktrees\round10\tests\e2e\operations-screens-local.ts:113:7)
+    at runNextTicks (node:internal/process/task_queues:65:5)
+    at process.processImmediate (node:internal/timers:541:9)
+    at async Object.run (C:\Cyberfyx-projects\Cyberfyx_ORVIA\.worktrees\round10\shared\testing\src\operations-fixture.ts:117:28)
+    at async <anonymous> (C:\Cyberfyx-projects\Cyberfyx_ORVIA\.worktrees\round10\tests\e2e\operations-screens-local.ts:30:1)
+Server diagnostics (safe codes only): 
+Artifact: handoffs/codex/artifacts/DPDP-operations-operations-screens-browser-1790953764810-8ccd6a51-ea33-421a-961d-689c290349a9.json
+
+2 assertions, 2 failures.

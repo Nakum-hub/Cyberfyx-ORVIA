@@ -1,0 +1,36 @@
+PASS a real gap exists to notify about
+PASS a template records its version and content digest
+PASS re-issuing a template creates a new version rather than editing one
+PASS a template code must be a stable identifier
+PASS a task cannot be raised about a record that does not exist
+PASS a new task is queued and nothing more
+PASS queueing needs no external evidence because ORVIA did it
+PASS a duplicate task for the same source and template is refused
+PASS nothing beyond queueing may be recorded without evidence
+PASS delivery cannot be claimed before anything was sent
+PASS this deployment does not claim an in-app inbox it has not built
+PASS in-app delivery cannot be claimed from a workspace list
+PASS acknowledgement cannot be claimed before delivery
+PASS the refused claims leave only the real queue fact
+PASS the delivery log cannot be rewritten
+PASS a recorded failure does not fabricate success
+PASS attempts count the recorded failure
+PASS a channel this deployment cannot deliver on is declared unavailable
+PASS the queue note says the message will not be sent
+PASS a message cannot be claimed as sent on an unavailable channel
+PASS the sweep asserts that no deadline changed
+PASS the sweep escalated the overdue undelivered tasks
+PASS the sweep states that a missed deadline stays missed
+PASS the deadline is byte-for-byte unchanged after escalation
+PASS the escalation states its reason
+PASS an in-app task that could not be delivered is escalated
+PASS a second sweep does not manufacture new escalations
+PASS the database itself refuses to move a source deadline
+PASS an auditor may read notification tasks
+PASS an auditor cannot record a delivery
+Authentication fixture idle window: 59s remaining; controls unchanged.
+Authentication fixture idle window: 29s remaining; controls unchanged.
+PASS a member without the notification capability is refused
+Artifact: handoffs/codex/artifacts/DPDP-notifications-integration-1790958304912-6406463f-4647-4a16-b61e-9ba786d74763.json
+
+31 assertions, 0 failures.

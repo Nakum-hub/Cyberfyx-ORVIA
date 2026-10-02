@@ -1,0 +1,47 @@
+Authentication fixture idle window: 61s remaining; controls unchanged.
+Authentication fixture idle window: 31s remaining; controls unchanged.
+Authentication fixture idle window: 1s remaining; controls unchanged.
+PASS plaintext SMTP is refused off loopback
+PASS a webhook off loopback must be HTTPS
+PASS a webhook URL cannot carry credentials
+PASS a new transport is pending and names only the credential variable
+PASS an admin without connection authority cannot enable it
+PASS the author cannot enable their own transport
+PASS someone else enables it
+PASS a composed message awaits review
+PASS its author cannot approve it
+PASS an unreviewed message is not sent
+PASS an approved message is queued
+PASS the runner sends it through the relay and records the receipt
+PASS the relay received one message from the configured sender, authenticated with the named credential
+PASS the message carries its identity headers
+PASS a sent message is not sent again
+PASS a temporary rejection is retried later
+PASS a permanent rejection ends the message
+PASS a retry waits for its backoff
+PASS after the backoff the retry is delivered
+PASS a timeout after the message was handed over is an unknown effect, not a failure
+PASS the retry is delivered and marked as a possible duplicate
+PASS the recipient can recognise the duplicate by its message identity
+PASS a credential missing from the host is explicit and final
+PASS a withdrawn message is never sent
+PASS an admin cannot reveal the signing key
+PASS the signing key is shown once
+PASS a 503 from the endpoint is retried
+PASS the endpoint receives a request it can verify with the revealed key
+PASS an email task is deliverable while an SMTP transport is enabled
+PASS the task gains a SENT fact with the transport receipt as evidence
+PASS the author cannot enable their own routing
+PASS an alert the routing covers is delivered once
+PASS the alert shows it was delivered
+PASS a message cannot be approved onto a disabled transport
+PASS an auditor reads messages but cannot compose or approve
+PASS another tenant sees nothing
+PASS a transport destination cannot be changed
+PASS a disabled transport cannot be re-enabled at the database
+PASS a reviewed message body cannot be rewritten
+PASS an attempt cannot be altered
+PASS delivery history cannot be deleted
+Artifact: handoffs/codex/artifacts/DPDP-operations-delivery-1790956569372-6c180a37-852b-4cfa-9fef-e09f3ca58cc0.json
+
+41 assertions, 0 failures.

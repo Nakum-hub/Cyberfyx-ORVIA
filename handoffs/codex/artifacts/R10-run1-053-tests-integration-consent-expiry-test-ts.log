@@ -1,0 +1,13 @@
+{
+  name: 'error',
+  code: '22P02',
+  message: undefined,
+  sites: [
+    '    at C:\\Cyberfyx-projects\\Cyberfyx_ORVIA\\.worktrees\\round10\\node_modules\\.pnpm\\pg@8.23.0\\node_modules\\pg\\lib\\client.js:694:17',
+    '    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)',
+    '    at async ensureDevelopmentLicence (C:\\Cyberfyx-projects\\Cyberfyx_ORVIA\\.worktrees\\round10\\shared\\testing\\src\\development-licence.ts:46:7)',
+    '    at async HttpFixture.start (C:\\Cyberfyx-projects\\Cyberfyx_ORVIA\\.worktrees\\round10\\shared\\testing\\src\\http-fixture.ts:37:12)'
+  ]
+}
+
+Artifact: handoffs/codex/artifacts/DPDP-expiry-integration-1790950652979-79ff1e9c-f678-4a0c-b0ce-9a5835067a0b.json

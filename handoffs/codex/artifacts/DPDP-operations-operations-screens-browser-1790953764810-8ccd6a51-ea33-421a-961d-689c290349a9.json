@@ -1,0 +1,26 @@
+{
+  "task_id": "DPDP",
+  "fixture_kind": "CUSTOMER_LOCAL_SYNTHETIC",
+  "recorded_at": "2026-10-02T15:09:24.810Z",
+  "suite": "operations-screens-browser",
+  "assertions": [
+    {
+      "name": "registration is accepted",
+      "result": "FAIL",
+      "expected": 201,
+      "actual": 409
+    },
+    {
+      "name": "unexpected failure in breach",
+      "result": "FAIL",
+      "expected": "no error",
+      "actual": "Assertion failed: registration is accepted"
+    }
+  ],
+  "passed": 0,
+  "failures": 2,
+  "profile": "codex-a00",
+  "test_adapter_only": true,
+  "limitation": "Connector effects are exercised against the synthetic records test adapter; no live customer system was contacted.",
+  "run_id": "5da69fde-1682-418e-b213-36972bdd39b4"
+}

@@ -1,0 +1,35 @@
+Authentication fixture idle window: 61s remaining; controls unchanged.
+Authentication fixture idle window: 31s remaining; controls unchanged.
+Authentication fixture idle window: 1s remaining; controls unchanged.
+PASS an unapproved target cannot be sampled
+PASS an admin without connection authority cannot request value sampling
+PASS a run is queued, not carried out in the request
+PASS only one run per target can be queued
+PASS the worker carries out queued runs
+PASS the run completed through the observer with a bounded sample
+PASS each shaped column is classified with confidence
+PASS numbers that fail the Aadhaar or card checksum are not classified
+PASS free text with a few addresses is not an email column, and names are not guessed
+PASS the counts are shown for each column, and a value that merely contains an address is not an address
+PASS no sampled value is stored
+PASS the run states its limits
+PASS the write agent reading high-sensitivity columns is a finding
+PASS this product's own observer and the owner are reported as information
+PASS grants come from the catalog, including roles other than the observer
+PASS a table readable by PUBLIC is a finding, graded by what it holds
+PASS the exposure list shows each target's latest classification
+PASS a relation that does not exist is reported as missing, not as clean
+PASS quality cannot be measured without labels
+PASS against the reviewed labels every column is right
+PASS a changed label changes the measurement
+PASS every measurement is kept
+PASS a missing relation cannot be measured
+PASS a run whose target was disabled fails explicitly
+PASS an auditor reads runs but cannot request or label
+PASS another tenant sees nothing
+PASS a completed run cannot be rewritten
+PASS a label cannot be deleted
+PASS a quality measurement cannot be altered
+Artifact: handoffs/codex/artifacts/DPDP-operations-classification-1790956346762-df6c3e73-8ace-4f9b-81a1-eae66cec1ef5.json
+
+29 assertions, 0 failures.

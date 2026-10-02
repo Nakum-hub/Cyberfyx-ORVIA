@@ -1,0 +1,376 @@
+{
+  "task_id": "DPDP",
+  "fixture_kind": "CUSTOMER_LOCAL_SYNTHETIC",
+  "recorded_at": "2026-10-02T16:07:10.561Z",
+  "suite": "staff-members",
+  "assertions": [
+    {
+      "name": "a member cannot see the team",
+      "result": "PASS",
+      "expected": 403,
+      "actual": 403
+    },
+    {
+      "name": "an auditor cannot see the team",
+      "result": "PASS",
+      "expected": 403,
+      "actual": 403
+    },
+    {
+      "name": "the owner sees the team with owner and administrator not counted",
+      "result": "PASS",
+      "expected": [
+        true,
+        true
+      ],
+      "actual": [
+        true,
+        true
+      ]
+    },
+    {
+      "name": "a licence without member seats allows no member",
+      "result": "PASS",
+      "expected": [
+        "NO_MEMBER_SEATS",
+        0
+      ],
+      "actual": [
+        "NO_MEMBER_SEATS",
+        0
+      ]
+    },
+    {
+      "name": "creation is refused while the licence states no seats",
+      "result": "PASS",
+      "expected": {
+        "status": 409,
+        "codes": [
+          "no_member_seats"
+        ]
+      },
+      "actual": {
+        "status": 409,
+        "codes": [
+          "no_member_seats"
+        ]
+      }
+    },
+    {
+      "name": "the signed seat limit is in force",
+      "result": "PASS",
+      "expected": [
+        "ACTIVE",
+        4,
+        2
+      ],
+      "actual": [
+        "ACTIVE",
+        4,
+        2
+      ]
+    },
+    {
+      "name": "an administrator creates a member who must change the one-time password",
+      "result": "PASS",
+      "expected": [
+        "MEMBER",
+        true,
+        true,
+        true,
+        1
+      ],
+      "actual": [
+        "MEMBER",
+        true,
+        true,
+        true,
+        1
+      ]
+    },
+    {
+      "name": "the owner creates an auditor, using the last seat",
+      "result": "PASS",
+      "expected": 0,
+      "actual": 0
+    },
+    {
+      "name": "a member beyond the licence is refused",
+      "result": "PASS",
+      "expected": {
+        "status": 409,
+        "codes": [
+          "seat_limit_reached"
+        ]
+      },
+      "actual": {
+        "status": 409,
+        "codes": [
+          "seat_limit_reached"
+        ]
+      }
+    },
+    {
+      "name": "an administrator role cannot be created here",
+      "result": "PASS",
+      "expected": 400,
+      "actual": 400
+    },
+    {
+      "name": "an owner role cannot be created here",
+      "result": "PASS",
+      "expected": 400,
+      "actual": 400
+    },
+    {
+      "name": "the new member can sign in with the one-time password",
+      "result": "PASS",
+      "expected": 200,
+      "actual": 200
+    },
+    {
+      "name": "a deactivated member is inactive and its session is gone",
+      "result": "PASS",
+      "expected": [
+        false,
+        401
+      ],
+      "actual": [
+        false,
+        401
+      ]
+    },
+    {
+      "name": "a deactivated member gets no workspace authority even with the right password",
+      "result": "PASS",
+      "expected": 403,
+      "actual": 403
+    },
+    {
+      "name": "deactivating twice is refused",
+      "result": "PASS",
+      "expected": {
+        "status": 409,
+        "codes": [
+          "already_inactive"
+        ]
+      },
+      "actual": {
+        "status": 409,
+        "codes": [
+          "already_inactive"
+        ]
+      }
+    },
+    {
+      "name": "the freed seat is reused",
+      "result": "PASS",
+      "expected": 0,
+      "actual": 0
+    },
+    {
+      "name": "reactivation beyond the licence is refused",
+      "result": "PASS",
+      "expected": {
+        "status": 409,
+        "codes": [
+          "seat_limit_reached"
+        ]
+      },
+      "actual": {
+        "status": 409,
+        "codes": [
+          "seat_limit_reached"
+        ]
+      }
+    },
+    {
+      "name": "reactivation within the licence is allowed",
+      "result": "PASS",
+      "expected": true,
+      "actual": true
+    },
+    {
+      "name": "the owner cannot be deactivated here",
+      "result": "PASS",
+      "expected": {
+        "status": 409,
+        "codes": [
+          "owner_and_administrator_are_managed_by_protected_setup"
+        ]
+      },
+      "actual": {
+        "status": 409,
+        "codes": [
+          "owner_and_administrator_are_managed_by_protected_setup"
+        ]
+      }
+    },
+    {
+      "name": "with a seat free, an address already in use is refused as such",
+      "result": "PASS",
+      "expected": {
+        "status": 409,
+        "codes": [
+          "email_in_use"
+        ]
+      },
+      "actual": {
+        "status": 409,
+        "codes": [
+          "email_in_use"
+        ]
+      }
+    },
+    {
+      "name": "two simultaneous creations for one seat: exactly one succeeds",
+      "result": "PASS",
+      "expected": [
+        201,
+        409
+      ],
+      "actual": [
+        201,
+        409
+      ]
+    },
+    {
+      "name": "active members never exceed the licence",
+      "result": "PASS",
+      "expected": [
+        true,
+        0
+      ],
+      "actual": [
+        true,
+        0
+      ]
+    },
+    {
+      "name": "the newcomer signs in with the one-time password",
+      "result": "PASS",
+      "expected": 200,
+      "actual": 200
+    },
+    {
+      "name": "the newcomer is told to replace the password",
+      "result": "PASS",
+      "expected": {
+        "must_change_password": true
+      },
+      "actual": {
+        "must_change_password": true
+      }
+    },
+    {
+      "name": "no workspace authority before the password is replaced",
+      "result": "PASS",
+      "expected": {
+        "status": 403,
+        "codes": [
+          "password_change_required"
+        ]
+      },
+      "actual": {
+        "status": 403,
+        "codes": [
+          "password_change_required"
+        ]
+      }
+    },
+    {
+      "name": "a wrong current password does not change it",
+      "result": "PASS",
+      "expected": false,
+      "actual": false
+    },
+    {
+      "name": "the password is replaced",
+      "result": "PASS",
+      "expected": 200,
+      "actual": 200
+    },
+    {
+      "name": "the flag is cleared",
+      "result": "PASS",
+      "expected": {
+        "must_change_password": false
+      },
+      "actual": {
+        "must_change_password": false
+      }
+    },
+    {
+      "name": "workspace access still requires the authenticator",
+      "result": "PASS",
+      "expected": [
+        403,
+        false
+      ],
+      "actual": [
+        403,
+        false
+      ]
+    },
+    {
+      "name": "the one-time password no longer works",
+      "result": "PASS",
+      "expected": 401,
+      "actual": 401
+    },
+    {
+      "name": "a Tier 1 five-member licence issued from the catalogue is enforced as five member seats",
+      "result": "PASS",
+      "expected": [
+        "ACTIVE",
+        5
+      ],
+      "actual": [
+        "ACTIVE",
+        5
+      ]
+    },
+    {
+      "name": "another organisation sees none of these members",
+      "result": "PASS",
+      "expected": false,
+      "actual": false
+    },
+    {
+      "name": "another organisation cannot deactivate them",
+      "result": "PASS",
+      "expected": 404,
+      "actual": 404
+    },
+    {
+      "name": "the licence report shows member seats as a counted limit",
+      "result": "PASS",
+      "expected": true,
+      "actual": true
+    },
+    {
+      "name": "creation, deactivation and reactivation are audited",
+      "result": "PASS",
+      "expected": true,
+      "actual": true
+    },
+    {
+      "name": "the application role cannot write the identity store directly",
+      "result": "PASS",
+      "expected": "42501",
+      "actual": "42501"
+    },
+    {
+      "name": "the creation function refuses a caller without staff authority",
+      "result": "PASS",
+      "expected": "42501",
+      "actual": "42501"
+    }
+  ],
+  "passed": 37,
+  "failures": 0,
+  "profile": "codex-a00",
+  "test_adapter_only": true,
+  "limitation": "Connector effects are exercised against the synthetic records test adapter; no live customer system was contacted.",
+  "run_id": "fd76d139-007a-4783-90c9-9a2dd3fe7d15"
+}

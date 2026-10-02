@@ -1,0 +1,44 @@
+Authentication fixture idle window: 61s remaining; controls unchanged.
+Authentication fixture idle window: 31s remaining; controls unchanged.
+Authentication fixture idle window: 1s remaining; controls unchanged.
+PASS Diagnostic decoy: synthetic fixture
+PASS Ordinary control: synthetic fixture
+PASS agent cannot act as sender
+PASS foreign sender cannot address this target
+PASS human staff session cannot admit a send
+PASS auditor cannot record a canary receipt
+PASS foreign tenant cannot retire the active decoy
+PASS registered grant is current in the registry model
+PASS registered grant records exactly one consent hit
+PASS diagnostic admission HTTP status
+PASS registry-only grant does not satisfy the separate A00 admission model
+PASS diagnostic admission HTTP status
+PASS ordinary synthetic control satisfies real published-policy and target gates
+PASS adverse A00 grant triggers a second consent hit
+PASS adverse aggregate has matching grant and no unresolved suppression
+PASS independent synthetic target matches generation and has no restriction or quarantine
+PASS diagnostic admission HTTP status
+canary grant admission observation {"stage":"ACTIVE_CANARY_WITH_REGISTRY_AND_A00_GRANTS","result":{"attempt_id":"0e72828d-6f3b-464e-946a-daf339d8e375","decision":"BLOCK","send_record_id":null,"admitted_at":null,"evaluated_epoch":1,"reason_codes":["RECIPIENT_MARKETING_HOLD"]},"before":{"decisions":1,"sends":0,"send_hits":1,"consent_hits":2},"after":{"decisions":2,"sends":0,"send_hits":2,"consent_hits":2},"delta":{"decisions":1,"sends":0,"send_hits":1,"consent_hits":0},"gates":{"state":"GRANTED","matching_notice":true,"no_unresolved_suppression":true},"target":{"generation":1,"marketing_restricted":false,"quarantined":false},"ordinary_control":{"attempt_id":"bb22cf27-3fa6-45db-9b34-b8fb20eec2e2","decision":"ALLOW","send_record_id":"9a143cd5-4839-45dc-bf23-46d75dd0d794","admitted_at":"2026-10-02T15:32:12.274Z","evaluated_epoch":1,"reason_codes":["CURRENT_MARKETING_AUTHORITY"]},"classification":"BLOCKED_BY_ACTIVE_CANARY_HOLD","owner_decision":"revision 1.10 decision A: active decoy is never admitted for marketing"}
+PASS an otherwise-ALLOW marketing send to an active decoy with a recorded grant is BLOCK
+PASS the reason is the generic recipient hold, not a canary label
+PASS one decision and one trap hit are recorded, and no send record
+PASS the stored decision is BLOCK, so a BLOCK never coexists with an ALLOW send record
+PASS admission result does not explicitly reveal the canary
+PASS the staff preview predicts the same BLOCK, so preview and send agree
+PASS the ordinary control is still ALLOW in preview
+PASS only send admission and its staff preview may ask for the hold
+PASS diagnostic admission HTTP status
+PASS same HTTP idempotency key returns the exact observation
+PASS diagnostic admission HTTP status
+PASS same attempt under a new HTTP key returns the exact observation
+PASS replays produce no new decision, send or canary hit
+PASS changed payload under the same HTTP key is refused
+PASS changed payload for the same attempt under a new key is refused
+PASS conflicting replays leave durable counts unchanged
+PASS while a transition is uncommitted, the admission check waits for it (lock timeout 55P03)
+PASS diagnostic admission HTTP status
+PASS after retirement the ordinary consent rules decide again (the recorded grant stands, and its hit stays for review)
+Artifact: handoffs/codex/artifacts/DPDP-operations-canary-grant-admission-1790955134221-f20ae3c4-b960-4195-a05a-31f921456069.json
+
+36 assertions, 0 failures.
+Artifact: handoffs/codex/artifacts/DPDP-canary-grant-admission-observation-1790955134227-365723da-8f29-43e2-982e-f03f69d8dd14.json

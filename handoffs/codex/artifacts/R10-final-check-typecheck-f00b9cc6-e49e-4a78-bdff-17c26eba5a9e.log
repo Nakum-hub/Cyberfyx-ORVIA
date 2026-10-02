@@ -1,0 +1,3 @@
+tests/integration/grc/http.test.ts(213,242): error TS2304: Cannot find name 'readFileSync'.
+$ tsc --noEmit
+[ELIFECYCLE] Command failed with exit code 2.

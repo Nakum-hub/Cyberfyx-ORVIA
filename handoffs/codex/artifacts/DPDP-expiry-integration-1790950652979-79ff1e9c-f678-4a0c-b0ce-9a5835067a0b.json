@@ -1,0 +1,17 @@
+{
+  "task_id": "DPDP",
+  "fixture_kind": "CUSTOMER_LOCAL_SYNTHETIC",
+  "recorded_at": "2026-10-02T14:17:32.979Z",
+  "finding": "W01-A02-F01",
+  "phase": "CORRECTED_RETEST",
+  "profile": "codex-a00",
+  "contract_version": "0.58.0",
+  "build_id": "j-QBjVVZ-rmxRmKwhszFj",
+  "assertions": [],
+  "waits": [],
+  "result": "FAIL",
+  "limitations": [
+    "Only newly-created synthetic rows and locks; no reset. Business snapshots exclude fixture expiry adjustment and transport/denial audit. Work retains acceptance."
+  ],
+  "run_id": "0cf693fd-c7d9-4609-96b5-5fc87abdea7d"
+}

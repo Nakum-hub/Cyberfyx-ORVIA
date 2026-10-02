@@ -1,0 +1,29 @@
+{
+  "task_id": "DPDP",
+  "fixture_kind": "CUSTOMER_LOCAL_SYNTHETIC",
+  "recorded_at": "2026-10-02T18:41:45.099Z",
+  "suite": "interface-crawl",
+  "assertions": [
+    {
+      "name": "the crawl found nothing wrong on any page, tab or link",
+      "result": "FAIL",
+      "expected": [],
+      "actual": [
+        "vendor users from the browser journeys are available for the crawl",
+        "crawl execution completed"
+      ]
+    },
+    {
+      "name": "unexpected failure in vendor installation at phone width",
+      "result": "FAIL",
+      "expected": "no error",
+      "actual": "Assertion failed: the crawl found nothing wrong on any page, tab or link"
+    }
+  ],
+  "passed": 0,
+  "failures": 2,
+  "profile": "codex-a00",
+  "test_adapter_only": true,
+  "limitation": "Connector effects are exercised against the synthetic records test adapter; no live customer system was contacted.",
+  "run_id": "817ae96b-1329-4c79-adf9-e0ef1fae7dbd"
+}

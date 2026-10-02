@@ -1,0 +1,29 @@
+error: invalid input syntax for type uuid: "round10-licence-dev-1614d3e2-4a77-432a-b83b-ffac463d3409"
+    at C:\Cyberfyx-projects\Cyberfyx_ORVIA\.worktrees\round10\node_modules\.pnpm\pg@8.23.0\node_modules\pg\lib\client.js:694:17
+    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+    at async ensureDevelopmentLicence (C:\Cyberfyx-projects\Cyberfyx_ORVIA\.worktrees\round10\shared\testing\src\development-licence.ts:46:7)
+    at async HttpFixture.start (C:\Cyberfyx-projects\Cyberfyx_ORVIA\.worktrees\round10\shared\testing\src\http-fixture.ts:37:12)
+    at async Object.run (C:\Cyberfyx-projects\Cyberfyx_ORVIA\.worktrees\round10\shared\testing\src\operations-fixture.ts:117:11)
+    at async <anonymous> (C:\Cyberfyx-projects\Cyberfyx_ORVIA\.worktrees\round10\tests\integration\operations\correction.test.ts:16:1) {
+  length: 188,
+  severity: 'ERROR',
+  code: '22P02',
+  detail: undefined,
+  hint: undefined,
+  position: undefined,
+  internalPosition: undefined,
+  internalQuery: undefined,
+  where: "unnamed portal parameter $9 = '...'",
+  schema: undefined,
+  table: undefined,
+  column: undefined,
+  dataType: undefined,
+  constraint: undefined,
+  file: 'uuid.c',
+  line: '138',
+  routine: 'string_to_uuid'
+}
+Server diagnostics (safe codes only): 
+Artifact: handoffs/codex/artifacts/DPDP-operations-correction-1790950773345-432002a9-c715-4e80-944b-b561d4a914f0.json
+
+1 assertions, 1 failures.

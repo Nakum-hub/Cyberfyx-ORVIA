@@ -1,0 +1,10 @@
+PASS privileged session without MFA denied
+PASS anonymous request denied
+PASS principal denied staff GRC
+PASS auditor can read controls
+PASS auditor cannot create framework
+PASS missing idempotency key denied
+PASS wrong origin denied
+PASS unexpected authority fields rejected
+{"request_id":"c0dd2173-ef38-4249-b1cc-41a52e26a379","operation":"BUSINESS","name":"error","code":"42883"}
+FAIL contracts and idempotency; artifact: handoffs/codex/artifacts/V1-EXPANSION-04-http-3b372550-f601-4e80-96ae-2d3fe1c3ca8b.json

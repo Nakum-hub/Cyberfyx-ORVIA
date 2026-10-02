@@ -1,0 +1,4 @@
+FAILED B03 real target effect, independent read, workflow persistence and evidence export
+FAILED B03 applied response lost, read reconciliation and visible manual obligation
+FAILED B03 acknowledgement without effect remains unresolved and never verified
+FAILED B03 manual task uses its read version, preserves replay and rejects a stale tab

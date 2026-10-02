@@ -1,0 +1,25 @@
+Authentication fixture idle window: 61s remaining; controls unchanged.
+Authentication fixture idle window: 31s remaining; controls unchanged.
+Authentication fixture idle window: 1s remaining; controls unchanged.
+PASS an incident is not a breach until it is registered as one
+PASS the breach is pinned to the package in force at awareness
+PASS the detailed Board report is due 72 hours after awareness and is overdue
+PASS intimation to the Board and to each principal is due without delay, with no invented hour count
+PASS an unknown affected count stays unknown
+PASS a breach is registered once
+PASS without an awareness time the 72-hour deadline is unresolved, not guessed from detection
+PASS the affected count moves from estimated to established
+PASS an established count cannot be put back to unknown
+PASS completing a task without communication evidence is refused by the contract
+PASS the completed task keeps its evidence
+PASS a task is completed once
+PASS an auditor can read a breach but not change it
+PASS a member cannot see breach workspaces
+PASS the overdue breach deadline is in Attention
+PASS the unresolved deadline is in Attention as unresolved
+PASS with no recipient recorded, deadlines are reported unresolved and no message is invented
+PASS each open deadline raises one notification carrying its unchanged due time
+PASS sweeping again raises nothing twice
+Artifact: handoffs/codex/artifacts/DPDP-operations-breach-1790960109342-bbe2a2f0-15ae-4419-89f2-0cdfe1039d01.json
+
+19 assertions, 0 failures.

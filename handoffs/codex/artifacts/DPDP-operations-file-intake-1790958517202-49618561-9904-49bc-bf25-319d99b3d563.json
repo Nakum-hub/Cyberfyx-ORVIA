@@ -1,0 +1,20 @@
+{
+  "task_id": "DPDP",
+  "fixture_kind": "CUSTOMER_LOCAL_SYNTHETIC",
+  "recorded_at": "2026-10-02T16:28:37.202Z",
+  "suite": "file-intake",
+  "assertions": [
+    {
+      "name": "unexpected failure in setup",
+      "result": "FAIL",
+      "expected": "no error",
+      "actual": "Synthetic login failed"
+    }
+  ],
+  "passed": 0,
+  "failures": 1,
+  "profile": "codex-a00",
+  "test_adapter_only": true,
+  "limitation": "Connector effects are exercised against the synthetic records test adapter; no live customer system was contacted.",
+  "run_id": "0f4b4e4e-c6eb-415d-bcbd-04678046d74a"
+}

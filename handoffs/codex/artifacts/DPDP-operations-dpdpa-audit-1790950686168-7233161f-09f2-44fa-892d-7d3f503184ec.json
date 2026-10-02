@@ -1,0 +1,20 @@
+{
+  "task_id": "DPDP",
+  "fixture_kind": "CUSTOMER_LOCAL_SYNTHETIC",
+  "recorded_at": "2026-10-02T14:18:06.168Z",
+  "suite": "dpdpa-audit",
+  "assertions": [
+    {
+      "name": "unexpected failure in setup",
+      "result": "FAIL",
+      "expected": "no error",
+      "actual": "invalid input syntax for type uuid: \"round10-licence-dev-1614d3e2-4a77-432a-b83b-ffac463d3409\""
+    }
+  ],
+  "passed": 0,
+  "failures": 1,
+  "profile": "codex-a00",
+  "test_adapter_only": true,
+  "limitation": "Connector effects are exercised against the synthetic records test adapter; no live customer system was contacted.",
+  "run_id": "b6664e04-13f1-49da-9843-42b62308c043"
+}

@@ -1,0 +1,21 @@
+PASS protected machine setup completed
+PASS synthetic target initially has marketing membership
+PASS observer cannot mutate target
+PASS withdrawal is accepted with worker stopped
+PASS injected stop after real Temporal acceptance
+PASS outbox delivery marker rolled back
+PASS Temporal retained accepted workflow despite DB rollback
+PASS dispatcher resumes stable workflow identity
+{
+  name: 'Error',
+  code: 'UNCLASSIFIED',
+  message: 'Assertion failed: duplicate dispatcher pass creates no new work',
+  sites: [
+    '    at check (C:\\Cyberfyx-projects\\Cyberfyx_ORVIA\\.worktrees\\round10\\tests\\integration\\workflows\\workflow.test.ts:29:250)',
+    '    at <anonymous> (C:\\Cyberfyx-projects\\Cyberfyx_ORVIA\\.worktrees\\round10\\tests\\integration\\workflows\\workflow.test.ts:50:2)',
+    '    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)'
+  ]
+}
+
+
+Artifact: handoffs/codex/artifacts/DPDP-workflow-integration-1790968537077-109648f3-73cf-4cf1-a76c-4f6262a453f0.json

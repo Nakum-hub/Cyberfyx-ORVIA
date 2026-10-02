@@ -1,0 +1,32 @@
+{
+  "task_id": "DPDP",
+  "fixture_kind": "CUSTOMER_LOCAL_SYNTHETIC",
+  "recorded_at": "2026-10-02T19:03:56.498Z",
+  "suite": "automation-quota-race",
+  "assertions": [
+    {
+      "name": "two concurrent withdrawals spend only the final allowance",
+      "result": "PASS",
+      "expected": [
+        0,
+        1
+      ],
+      "actual": [
+        0,
+        1
+      ]
+    },
+    {
+      "name": "the other withdrawal retains its manual obligation",
+      "result": "PASS",
+      "expected": 1,
+      "actual": 1
+    }
+  ],
+  "passed": 2,
+  "failures": 0,
+  "profile": "codex-a00",
+  "test_adapter_only": true,
+  "limitation": "Connector effects are exercised against the synthetic records test adapter; no live customer system was contacted.",
+  "run_id": "24376748-ee1f-4daf-b5dc-d14f77434b0d"
+}

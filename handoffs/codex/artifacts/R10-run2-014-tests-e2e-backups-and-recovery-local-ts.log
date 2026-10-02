@@ -1,0 +1,17 @@
+PASS the form records the treatment
+PASS the recorder is offered no Approve button for their own treatment
+PASS without sensitive access, who must be erased again is not shown
+TypeError: Invalid URL
+    at new URL (node:internal/url:895:25)
+    at authenticatorCode (C:\Cyberfyx-projects\Cyberfyx_ORVIA\.worktrees\round10\shared\testing\src\http-fixture.ts:19:16)
+    at signIn (C:\Cyberfyx-projects\Cyberfyx_ORVIA\.worktrees\round10\tests\e2e\backups-and-recovery-local.ts:36:66)
+    at async <anonymous> (C:\Cyberfyx-projects\Cyberfyx_ORVIA\.worktrees\round10\tests\e2e\backups-and-recovery-local.ts:71:5)
+    at async Object.run (C:\Cyberfyx-projects\Cyberfyx_ORVIA\.worktrees\round10\shared\testing\src\operations-fixture.ts:117:28)
+    at async <anonymous> (C:\Cyberfyx-projects\Cyberfyx_ORVIA\.worktrees\round10\tests\e2e\backups-and-recovery-local.ts:41:1) {
+  code: 'ERR_INVALID_URL',
+  input: 'undefined'
+}
+Server diagnostics (safe codes only): 
+Artifact: handoffs/codex/artifacts/DPDP-operations-backups-and-recovery-browser-1790952940146-a4b79466-b567-41f1-b573-18f5df087264.json
+
+4 assertions, 1 failures.

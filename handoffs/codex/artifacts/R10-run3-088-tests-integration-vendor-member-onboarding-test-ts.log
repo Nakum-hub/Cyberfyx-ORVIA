@@ -1,0 +1,23 @@
+PASS a member added with a setup code has no password yet and a code shown once
+PASS only the code digest is stored
+PASS without a password the member cannot sign in
+PASS a wrong code and an unknown email get the same refusal
+PASS the wrong attempt is counted
+PASS the member sets their password with email and code
+PASS the code works once
+PASS afterwards (as after reinstalling) the member signs in with email and password only
+PASS the team shows the password set and no code outstanding
+PASS an administrator-set password is final: no code, not forced to change
+PASS that member signs in with it
+PASS a password shorter than 12 characters is refused
+PASS the old behaviour (generated one-time password) still works
+PASS an administrator issues a reset code
+PASS the old password keeps working until the code is used
+PASS the member resets with the code
+PASS after the reset only the new password works
+PASS an administrator cannot issue a code for the super administrator
+PASS an administrator cannot set the super administrator's password
+PASS the setup endpoint takes no session credentials
+PASS after five wrong codes the right one no longer works
+
+member-onboarding: 21/21 passed

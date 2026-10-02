@@ -1,0 +1,66 @@
+{
+  "crawl_head": "93dcd202d431776718ec9e3845d0389bcbb6b625",
+  "crawl_started_at": "2026-10-02T18:29:04.090Z",
+  "crawl_ended_at": "2026-10-02T18:41:45.249Z",
+  "crawl_status": "FAILED",
+  "logs_exit": 0,
+  "received": 2643,
+  "sent": 2643,
+  "missing_responses": 0,
+  "status_counts": {
+    "200": 2643
+  },
+  "maximum_service_ms": 592.356543,
+  "slowest": [
+    {
+      "time": "2026-10-02T18:33:17Z",
+      "req_id": 2065,
+      "msg": "Sent response.",
+      "status": 200,
+      "duration_ms": 592.356543
+    },
+    {
+      "time": "2026-10-02T18:39:53Z",
+      "req_id": 3477,
+      "msg": "Sent response.",
+      "status": 200,
+      "duration_ms": 403.766502
+    },
+    {
+      "time": "2026-10-02T18:40:48Z",
+      "req_id": 3672,
+      "msg": "Sent response.",
+      "status": 200,
+      "duration_ms": 191.027883
+    },
+    {
+      "time": "2026-10-02T18:32:06Z",
+      "req_id": 1789,
+      "msg": "Sent response.",
+      "status": 200,
+      "duration_ms": 178.247162
+    },
+    {
+      "time": "2026-10-02T18:38:33Z",
+      "req_id": 3203,
+      "msg": "Sent response.",
+      "status": 200,
+      "duration_ms": 142.652437
+    }
+  ],
+  "container_state_exit": 0,
+  "container_state": {
+    "Status": "running",
+    "Running": true,
+    "Paused": false,
+    "Restarting": false,
+    "OOMKilled": false,
+    "Dead": false,
+    "Pid": 81492,
+    "ExitCode": 0,
+    "Error": "",
+    "StartedAt": "2026-10-02T17:51:51.456742924Z",
+    "FinishedAt": "2026-10-02T17:51:41.501746223Z"
+  },
+  "limitation": "Server service times alone cannot measure client queueing, transport delay or host event-loop delay. Container state is current, not a historical resource trace."
+}
