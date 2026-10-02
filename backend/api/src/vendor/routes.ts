@@ -13,6 +13,7 @@ import * as CH from '../../../vendor/audit/channel.ts';
 import * as P from '../../../vendor/audit/practice.ts';
 import { CHANNEL_HEADERS, MAX_CHANNEL_BODY_BYTES } from '../../../../shared/contracts/src/audit-channel.ts';
 import { vendorRuntime, type VendorRuntime } from './runtime.ts';
+import { provisioningRoute } from './provisioning.ts';
 import { vendorActorFor, requireVendorCapability, vendorTransaction, vendorSafeRoute, jsonBody, parseWith, type VendorActor } from './authority.ts';
 
 /**
@@ -151,6 +152,7 @@ export function createVendorHandler(getRuntime: () => VendorRuntime = vendorRunt
     const url = new URL(request.url); const r = getRuntime();
     if (url.pathname === `${BASE}/setup`) return setup(request, r);
     if (url.pathname === `${BASE}/account-setup`) return accountSetup(request, r);
+    if (url.pathname.startsWith(`${BASE}/provisioning/`)) return provisioningRoute(request, url.pathname, r, requestId);
     if (url.pathname === `${BASE}/session`) { const actor = await vendorActorFor(request, r); return Response.json(V.VendorSession.parse({ actor_domain: actor.actor_domain, actor_id: actor.actor_id, role: actor.role, capabilities: actor.capabilities, organisation_id: actor.organisation_id, name: actor.name, email: actor.email, expires_at: actor.expires_at })); }
     if (url.pathname === `${BASE}/uploads` && request.method === 'POST') return upload(request, r, requestId);
     if (url.pathname.startsWith(`${BASE}/channel/`)) return channel(request, url, r);
