@@ -1,0 +1,159 @@
+{
+  "task_id": "DPDP",
+  "fixture_kind": "CUSTOMER_LOCAL_SYNTHETIC",
+  "recorded_at": "2026-10-02T05:41:49.482Z",
+  "suite": "real-principals",
+  "assertions": [
+    {
+      "name": "the development profile refuses the command",
+      "result": "PASS"
+    },
+    {
+      "name": "the development profile still records synthetic people only",
+      "result": "PASS"
+    },
+    {
+      "name": "before admission the installation reports synthetic people only",
+      "result": "PASS"
+    },
+    {
+      "name": "a real email is refused with SQLSTATE 23514 and an email constraint (what organisation intake explains as NEEDS_STAFF)",
+      "result": "PASS"
+    },
+    {
+      "name": "a synthetic address is accepted and labelled synthetic",
+      "result": "PASS"
+    },
+    {
+      "name": "a synthetic address cannot be labelled real",
+      "result": "PASS"
+    },
+    {
+      "name": "the application role can read the state",
+      "result": "PASS"
+    },
+    {
+      "name": "the application role cannot admit real people",
+      "result": "PASS"
+    },
+    {
+      "name": "the application role cannot write the admission table",
+      "result": "PASS"
+    },
+    {
+      "name": "a qualification reference shorter than 8 characters is refused",
+      "result": "PASS"
+    },
+    {
+      "name": "nothing was admitted by the refused attempts",
+      "result": "PASS"
+    },
+    {
+      "name": "the command admits real people and records the reference and its time",
+      "result": "PASS"
+    },
+    {
+      "name": "who ran it is recorded",
+      "result": "PASS"
+    },
+    {
+      "name": "the admission is in the audit trail of every environment, attributed to the installation",
+      "result": "PASS"
+    },
+    {
+      "name": "a real email is now accepted and labelled real",
+      "result": "PASS"
+    },
+    {
+      "name": "a real email cannot be labelled synthetic",
+      "result": "PASS"
+    },
+    {
+      "name": "a synthetic address is still labelled synthetic",
+      "result": "PASS"
+    },
+    {
+      "name": "a malformed email is still refused",
+      "result": "PASS"
+    },
+    {
+      "name": "a real person cannot be relabelled synthetic afterwards",
+      "result": "PASS"
+    },
+    {
+      "name": "a repeat is refused and changes nothing",
+      "result": "PASS"
+    },
+    {
+      "name": "the admission cannot be rewritten",
+      "result": "PASS"
+    },
+    {
+      "name": "the admission cannot be removed",
+      "result": "PASS"
+    },
+    {
+      "name": "the real decoy is labelled real and the synthetic decoy synthetic",
+      "result": "PASS"
+    },
+    {
+      "name": "a real person can be designated and activated as a decoy",
+      "result": "PASS"
+    },
+    {
+      "name": "the runner never claims the message to the real decoy (matched case-insensitively)",
+      "result": "PASS"
+    },
+    {
+      "name": "the message to the real decoy is WITHHELD with no attempt",
+      "result": "PASS"
+    },
+    {
+      "name": "the message to the synthetic decoy is claimed as before",
+      "result": "PASS"
+    },
+    {
+      "name": "the database refuses any delivery attempt to a real decoy, whatever code path claims it",
+      "result": "PASS"
+    },
+    {
+      "name": "after the real decoy is retired, the person is ordinary again and a message may be attempted",
+      "result": "PASS"
+    },
+    {
+      "name": "a message to a real person who is not yet a decoy is claimed for sending",
+      "result": "PASS"
+    },
+    {
+      "name": "designated after the claim, the message is withheld by the re-check just before transmission",
+      "result": "PASS"
+    },
+    {
+      "name": "it is WITHHELD and no delivery attempt is recorded",
+      "result": "PASS"
+    },
+    {
+      "name": "the re-check leaves an ordinary claimed message alone",
+      "result": "PASS"
+    },
+    {
+      "name": "only the delivery runner can withhold, and no runtime role can ask who the real decoys are",
+      "result": "PASS"
+    },
+    {
+      "name": "the scratch database was removed",
+      "result": "PASS"
+    },
+    {
+      "name": "HTTP: the admin API refuses a real email before admission, saying why",
+      "result": "PASS"
+    },
+    {
+      "name": "HTTP: a synthetic address is created and labelled synthetic by the database",
+      "result": "PASS"
+    }
+  ],
+  "passed": 37,
+  "failures": 0,
+  "scratch_database": "orvia_real_principals_ae922221091f"
+}
