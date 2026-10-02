@@ -222,7 +222,8 @@ try {
   writeEvidence('auth-security',{result:'PASS',test_ids:['T02','T03','T04','T05','T27'],profile:config.profile,origin:config.origin,fixture_id:fixture.fixture_id,build_id:readFileSync('frontend/.next/BUILD_ID','utf8').trim(),assertions,
     limitations:['This suite covers API/database authentication and authority; other suites cover consent, workflows, exports and runtime egress. Browser flows are not covered here.',config.profile==='rehearsal'?'Verified HTTPS rehearsal with per-process local CA trust; OS/browser trust is not installed.':'HTTP loopback development; TLS is not qualified in this profile.']});
 } catch(error) {
-  console.error(safeError(error));
+  const sites=error instanceof Error?error.stack?.split('\n').slice(1,6):[];
+  console.error({...safeError(error),sites});
   // No request/response bodies, cookies, passwords or TOTP material in evidence.
-  writeEvidence('auth-security',{result:'FAIL',profile:config.profile,assertions,error:safeError(error),server_output:serverOutput});process.exitCode=1;
+  writeEvidence('auth-security',{result:'FAIL',profile:config.profile,assertions,error:safeError(error),sites,server_output:serverOutput});process.exitCode=1;
 } finally {await stop();await Promise.all([staff.pool.end(),principal.pool.end(),app.end(),admin.end()]);}

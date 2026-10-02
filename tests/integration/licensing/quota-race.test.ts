@@ -11,7 +11,14 @@ await t.run(async()=>{
  await one.change('grant');await two.change('grant');
  const ids=[(await one.change('withdraw')).receipt.workflow_id!, (await two.change('withdraw')).receipt.workflow_id!];
  const scope=[one.scope.tenant_id,one.scope.legal_entity_id,one.scope.environment_id];
- const previous=(await t.db.query('SELECT claims FROM app.effective_licence($1,$2,$3)',scope)).rows[0].claims;
+ const lookup=await t.db.connect();
+ let previous;
+ try {
+  await lookup.query('BEGIN');
+  await lookup.query("SELECT set_config('orvia.tenant_id',$1,true),set_config('orvia.legal_entity_id',$2,true),set_config('orvia.environment_id',$3,true),set_config('orvia.actor_id',$4,true)",[...scope,t.h.users.owner!.id]);
+  previous=(await lookup.query('SELECT claims FROM app.effective_licence($1,$2,$3)',scope)).rows[0].claims;
+  await lookup.query('COMMIT');
+ }finally{await lookup.query('ROLLBACK');lookup.release();}
  const used=Number((await t.db.query("SELECT count(*)::int n FROM app.agent_commands WHERE tenant_id=$1 AND legal_entity_id=$2 AND environment_id=$3 AND created_at>=date_trunc('month',clock_timestamp())",scope)).rows[0].n);
  const k=vendorSigningKey('licence'),privateKey=createPrivateKey({key:Buffer.from(k.private,'base64'),format:'der',type:'pkcs8'});
  const install=async(quota?:number)=>{

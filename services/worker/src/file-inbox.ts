@@ -52,7 +52,7 @@ export async function sweepFileInbox(scoped: <T>(id: string, work: (c: Context) 
     for (const entry of entries) {
       const path = join(incoming, entry.name);
       const info = await lstat(path).catch(() => null);
-      if (!info || !info.isFile() || info.isSymbolicLink()) continue;
+      if (!info || !info.isFile() || info.isSymbolicLink() || info.nlink !== 1) continue;
       if (now() - info.mtimeMs < SETTLE_MS) continue;
       await unchanged(chain);
       const target = `${stamp(now())}-${randomUUID()}-${entry.name}`;
@@ -66,17 +66,17 @@ export async function sweepFileInbox(scoped: <T>(id: string, work: (c: Context) 
       let bytes:Buffer;
       try {
         const opened=await file.stat();await unchanged(chain);
-        if(!opened.isFile()||!same(info,opened)||opened.size!==info.size||opened.mtimeMs!==info.mtimeMs)continue;
+        if(!opened.isFile()||opened.nlink!==1||!same(info,opened)||opened.size!==info.size||opened.mtimeMs!==info.mtimeMs)continue;
         const buffer=Buffer.alloc(info.size+1);let length=0;
         while(length<buffer.length){const read=await file.read(buffer,length,buffer.length-length,length);if(!read.bytesRead)break;length+=read.bytesRead;}
         const after=await file.stat(),leaf=await lstat(path);await unchanged(chain);
-        if(length!==info.size||after.size!==info.size||after.mtimeMs!==info.mtimeMs||leaf.isSymbolicLink()||!same(info,leaf))continue;
+        if(length!==info.size||after.nlink!==1||leaf.nlink!==1||after.size!==info.size||after.mtimeMs!==info.mtimeMs||leaf.isSymbolicLink()||!same(info,leaf))continue;
         bytes=buffer.subarray(0,length);
       }finally{await file.close();}
       await scoped(id, c => stageFile(c, 'INBOX_FOLDER', entry.name, bytes));
       // Staged (or already staged: same content) before the file moves, so a crash between the two re-stages nothing new.
       await unchanged(chain);await unchanged(accepted);
-      const leaf=await lstat(path);if(leaf.isSymbolicLink()||!same(info,leaf))continue;
+      const leaf=await lstat(path);if(leaf.isSymbolicLink()||leaf.nlink!==1||!same(info,leaf))continue;
       await rename(path, join(base, 'accepted', target));
       staged++;
     }

@@ -17,14 +17,14 @@ import { limitedBody } from '../../../auth/src/server.ts';
 const MAX_BODY = 8192;
 const iso = (v: Date | null) => v ? v.toISOString() : null;
 async function readBody(request: Request) {
-  const text = request.method === 'POST' ? await limitedBody(request, MAX_BODY) : '';
+  const text = request.method === 'POST' && request.body ? await limitedBody(request, MAX_BODY) : '';
   if (text === undefined) throw new AccessError(400, 'VALIDATION_ERROR', [{ field: 'body', code: 'too_large' }]);
   return text;
 }
 
 async function authenticate(request: Request, path: string, body: string, r: VendorRuntime) {
   const h = (name: string) => request.headers.get(name) ?? '';
-  const client = h(P.PROVISIONING_HEADERS.client), timestamp = h(P.PROVISIONING_HEADERS.timestamp), nonce = h(P.PROVISIONING_HEADERS.nonce), signature = h(P.PROVISIONING_HEADERS.signature);
+  const client = h(P.PROVISIONING_HEADERS.client).toLowerCase(), timestamp = h(P.PROVISIONING_HEADERS.timestamp), nonce = h(P.PROVISIONING_HEADERS.nonce), signature = h(P.PROVISIONING_HEADERS.signature);
   const refuse = (code: string): never => { throw new AccessError(401, 'UNAUTHENTICATED', [{ field: 'signature', code }]); };
   if (request.headers.has('cookie')) throw new AccessError(400, 'VALIDATION_ERROR', [{ field: 'credentials', code: 'no_session_accepted' }]);
   if (!/^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/.test(client) || !/^\d{9,11}$/.test(timestamp) || !/^[A-Za-z0-9_-]{16,64}$/.test(nonce) || !/^[0-9a-f]{64}$/.test(signature)) refuse('malformed');

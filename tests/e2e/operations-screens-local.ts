@@ -29,6 +29,7 @@ const shots = resolve('output/playwright'); mkdirSync(shots, { recursive: true }
 
 await t.run(async () => {
   try {
+    await t.ensurePackage(hoursFromNow(-3));
     await t.ensurePackage();
     const admin = await h.login('admin');
     const s = t.scope();

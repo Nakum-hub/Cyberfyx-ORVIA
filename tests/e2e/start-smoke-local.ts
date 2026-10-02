@@ -4,7 +4,7 @@
 // the installation. Screenshots and a JSON record are written to handoffs/code/artifacts/start-smoke/.
 import { spawn, type ChildProcess } from 'node:child_process';
 import { once } from 'node:events';
-import { mkdirSync, readFileSync, writeFileSync } from 'node:fs';
+import { existsSync, mkdirSync, readFileSync, writeFileSync } from 'node:fs';
 import { resolve } from 'node:path';
 import { chromium, type Page } from '@playwright/test';
 import { HttpFixture, authenticatorCode } from '../../shared/testing/src/http-fixture.ts';
@@ -53,7 +53,8 @@ try {
   const customerReady = (await fetch(`${h.config.origin}/readyz`)).status;
   vendor = await startVendor();
   const vendorReady = (await fetch(`${VENDOR}/readyz`)).status;
-  const browser = await chromium.launch({ executablePath: '/opt/pw-browsers/chromium' });
+  const executablePath = process.env.ORVIA_CHROMIUM_PATH ?? (existsSync('/opt/pw-browsers/chromium') ? '/opt/pw-browsers/chromium' : undefined);
+  const browser = await chromium.launch({ ...(executablePath ? { executablePath } : {}) });
 
   // Customer installation, signed in as the owner.
   const owner = await h.login('owner');

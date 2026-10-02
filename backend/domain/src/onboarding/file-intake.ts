@@ -160,8 +160,8 @@ export async function readFileIntake(c: Context, id: string) {
 export async function readFileIntakeContent(c: Context, id: string) {
   const row = (await c.tx.query(`SELECT id,original_name,content_type,detected_kind,content FROM app.file_intake_items WHERE ${predicate} AND id=$4`, [...scopeValues(c.actor), id])).rows[0];
   if (!row) throw new AccessError(404, 'NOT_FOUND');
-  if (row.detected_kind === 'UNRECOGNISED') throw new AccessError(409, 'EPOCH_CONFLICT', [{ field: 'content', code: 'unrecognised_files_can_only_be_rejected' }]);
   if (!row.content) throw new AccessError(409, 'EPOCH_CONFLICT', [{ field: 'content', code: 'content_not_kept' }]);
+  if (row.detected_kind === 'UNRECOGNISED') throw new AccessError(409, 'EPOCH_CONFLICT', [{ field: 'content', code: 'unrecognised_files_can_only_be_rejected' }]);
   await audit(c, 'file_intake.read_content', id);
   return S.FileIntakeContent.parse({ id: row.id, original_name: row.original_name, content_type: row.content_type, content_base64: (row.content as Buffer).toString('base64') });
 }

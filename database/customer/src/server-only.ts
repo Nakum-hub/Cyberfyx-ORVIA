@@ -29,6 +29,7 @@ export const ROLE_RESTRICTED_FUNCTIONS: Record<string, readonly (typeof RUNTIME_
   'app.licence_import_guard()': [],
   'app.file_intake_decided_once()': [],
   'app.serialize_licence_import()': [],
+  'app.member_seats()': ['orvia_app'],
 };
 
 export async function revokeServerOnly(tx: Pick<PoolClient, 'query'>) {

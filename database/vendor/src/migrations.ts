@@ -14,7 +14,8 @@ export const VENDOR_MIGRATION_DIRECTORY = 'database/vendor/migrations';
 const fulfilmentId = '0011_licence_fulfilment';
 const legacyFulfilmentId = '0003_licence_fulfilment';
 const canonicalId = (id: string) => id === legacyFulfilmentId ? fulfilmentId : id;
-const executionKey = (id: string) => id === fulfilmentId ? legacyFulfilmentId : id;
+const executionKey = (id: string) => id === fulfilmentId ? legacyFulfilmentId
+  : id === '0018_service_licence_import_serialization' ? '0103_service_licences~0018' : id;
 export function vendorMigrationIds() {
   return readdirSync(VENDOR_MIGRATION_DIRECTORY).filter(file => /^\d{4}_[a-z_]+\.sql$/.test(file)).map(file => file.slice(0, -4))
     .sort((a, b) => executionKey(a).localeCompare(executionKey(b)));

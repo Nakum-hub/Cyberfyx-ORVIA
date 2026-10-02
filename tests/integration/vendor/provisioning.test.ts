@@ -28,6 +28,7 @@ try {
     return { status: response.status, data: data as any };
   };
   const A = '/api/v1/vendor/provisioning/accounts';
+  check('a UUID client header accepts canonical case variants with the same sealed identity',(await call({...website,id:website.id.toUpperCase()},'GET',A)).status,200);
   const codeOf = (r: { data: { error?: { field_errors?: { code: string }[] } } }) => r.data.error?.field_errors?.[0]?.code;
   const raw=async(text:string,client=website)=>h.handler(new Request(h.config.origin+A,{method:'POST',headers:signProvisioningRequest(client,'POST',A,text),body:text}));
   check('signed malformed JSON is a bounded validation refusal', (await raw('{')).status,400);
@@ -49,6 +50,10 @@ try {
   check('the website reads vendor accounts (never client-organisation accounts)', [list.status, list.data.accounts.map((a: { email: string }) => a.email).sort()], [200, ['admin@company.example', 'auditor@company.example', 'owner@company.example']]);
   const reissued = await call(website, 'POST', `${A}/${member.data.account.user_id}/setup-code`, {});
   check('the website re-issues a setup code', [reissued.status, reissued.data.setup_code !== member.data.setup_code], [200, true]);
+  const emptyPath=`${A}/${member.data.account.user_id}/setup-code`;
+  const bodyless=await h.handler(new Request(h.config.origin+emptyPath,{method:'POST',headers:signProvisioningRequest(website,'POST',emptyPath,'')}));
+  check('a signed POST with no body retains the exact empty-body signature',bodyless.status,200);
+
   check('the earlier code no longer works', (await h.session().json('/api/v1/vendor/account-setup', { email: 'auditor@company.example', setup_code: member.data.setup_code, new_password: 'Some-password-123' })).status, 403);
 
   // --- scopes ---
