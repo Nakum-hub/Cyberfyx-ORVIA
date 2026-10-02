@@ -16,7 +16,9 @@ const require=createRequire(new URL('../frontend/package.json',import.meta.url))
 const args=mode==='build'?['build']:[mode,'--hostname','127.0.0.1','--port',String(loadProfile().app_port)];
 if(mode==='dev'&&loadProfile().profile==='rehearsal')throw new Error('Rehearsal requires production build and verified HTTPS start');
 const command=mode==='start'?webProcess(loadProfile()):{args:[require.resolve('next/dist/bin/next'),...args],cwd:fileURLToPath(new URL('../frontend/',import.meta.url))};
-const child=spawn(process.execPath,command.args,{cwd:command.cwd,stdio:'inherit',windowsHide:true,env:{...customerEnvironment({...process.env,ORVIA_WORKSPACE_ROOT:root},loadProfile().profile),NEXT_TELEMETRY_DISABLED:'1',DO_NOT_TRACK:'1',BETTER_AUTH_TELEMETRY:'0'}});
+// A distributable build has no installation profile or vendor/customer credentials.
+const environment:NodeJS.ProcessEnv=mode==='build'?{...Object.fromEntries(Object.entries(process.env).filter(([name])=>!/^ORVIA_|PRIVATE_KEY/i.test(name))),NODE_ENV:process.env.NODE_ENV??'production'}:customerEnvironment({...process.env,ORVIA_WORKSPACE_ROOT:root},loadProfile().profile);
+const child=spawn(process.execPath,command.args,{cwd:command.cwd,stdio:'inherit',windowsHide:true,env:{...environment,NEXT_TELEMETRY_DISABLED:'1',DO_NOT_TRACK:'1',BETTER_AUTH_TELEMETRY:'0'}});
 child.on('error',()=>{process.exitCode=1;});
 child.on('close',code=>{process.exitCode=code??1;});
 process.on('SIGTERM',()=>child.kill('SIGTERM'));

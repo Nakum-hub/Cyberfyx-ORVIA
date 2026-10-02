@@ -26,6 +26,7 @@ const expected: Record<string, string[]> = {
   'app.plan_usage()': ['orvia_app'],
   'app.licence_import_guard()': [],
   'app.file_intake_decided_once()': [],
+  'app.serialize_licence_import()': [],
 };
 const assertions: Record<string, unknown>[] = [];
 function check(name: string, actual: unknown, wanted: unknown) {

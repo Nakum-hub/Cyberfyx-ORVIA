@@ -7,6 +7,7 @@ import { open, vaultKeyFrom } from '../../../vendor/audit/vault.ts';
 import { newEngagementCode, setupCodeDigestOf } from '../../../vendor/audit/service.ts';
 import type { VendorRuntime } from './runtime.ts';
 import { parseWith } from './authority.ts';
+import { limitedBody } from '../../../auth/src/server.ts';
 
 /**
  * Revision 1.13 provisioning API: the company website manages vendor accounts here, signed per vendor-provisioning.ts. No
@@ -16,8 +17,8 @@ import { parseWith } from './authority.ts';
 const MAX_BODY = 8192;
 const iso = (v: Date | null) => v ? v.toISOString() : null;
 async function readBody(request: Request) {
-  const text = request.method === 'POST' ? await request.text() : '';
-  if (text.length > MAX_BODY) throw new AccessError(400, 'VALIDATION_ERROR', [{ field: 'body', code: 'too_large' }]);
+  const text = request.method === 'POST' ? await limitedBody(request, MAX_BODY) : '';
+  if (text === undefined) throw new AccessError(400, 'VALIDATION_ERROR', [{ field: 'body', code: 'too_large' }]);
   return text;
 }
 
@@ -26,7 +27,7 @@ async function authenticate(request: Request, path: string, body: string, r: Ven
   const client = h(P.PROVISIONING_HEADERS.client), timestamp = h(P.PROVISIONING_HEADERS.timestamp), nonce = h(P.PROVISIONING_HEADERS.nonce), signature = h(P.PROVISIONING_HEADERS.signature);
   const refuse = (code: string): never => { throw new AccessError(401, 'UNAUTHENTICATED', [{ field: 'signature', code }]); };
   if (request.headers.has('cookie')) throw new AccessError(400, 'VALIDATION_ERROR', [{ field: 'credentials', code: 'no_session_accepted' }]);
-  if (!/^[0-9a-f-]{36}$/.test(client) || !/^\d{9,11}$/.test(timestamp) || !/^[A-Za-z0-9_-]{16,64}$/.test(nonce) || !/^[0-9a-f]{64}$/.test(signature)) refuse('malformed');
+  if (!/^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/.test(client) || !/^\d{9,11}$/.test(timestamp) || !/^[A-Za-z0-9_-]{16,64}$/.test(nonce) || !/^[0-9a-f]{64}$/.test(signature)) refuse('malformed');
   if (Math.abs(Date.now() / 1000 - Number(timestamp)) > P.PROVISIONING_WINDOW_SECONDS) refuse('stale');
   const row = (await r.pool.query('SELECT * FROM vendor.provisioning_client($1)', [client])).rows[0];
   if (!row) refuse('unknown_client');
@@ -55,7 +56,9 @@ async function guarded<T>(work: () => Promise<T>) {
 export async function provisioningRoute(request: Request, path: string, r: VendorRuntime, requestId: string) {
   const body = await readBody(request);
   const client = await authenticate(request, path, body, r);
-  const input = body ? JSON.parse(body) as unknown : undefined;
+  let input: unknown;
+  try { input = body ? JSON.parse(body) as unknown : undefined; }
+  catch { throw new AccessError(400, 'VALIDATION_ERROR', [{ field: 'body', code: 'invalid_json' }]); }
   const sub = path.replace(/^\/api\/v1\/vendor\/provisioning/, '');
   // Each operation and its audit record commit together or not at all.
   const tx = async <T>(work: (q: (sql: string, params: unknown[]) => Promise<{ rows: Record<string, unknown>[] }>) => Promise<T>) => {

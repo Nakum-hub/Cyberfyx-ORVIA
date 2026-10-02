@@ -11,7 +11,10 @@ export function loadProfile(name = process.env.ORVIA_PROFILE ?? 'codex-a00') {
   if (config.profile !== profile) throw new Error('Profile identity mismatch');
   const password = readFileSync(resolve(directory, 'postgres-password'), 'utf8').trim();
   if (!/^[a-f0-9]{64}$/.test(password)) throw new Error('Invalid locally generated credential');
-  return { ...config, ...PROFILES[profile], directory, password };
+  const project=process.env.ORVIA_TEST_COMPOSE_PROJECT;
+  const allowed:Partial<Record<typeof profile,string>>={'codex-a00':'orvia-round10-customer','vendor-a00':'orvia-round10-customer',rehearsal:'orvia-round10-rehearsal'};
+  if(project&&project!==allowed[profile])throw new Error('Unapproved synthetic Compose project override');
+  return { ...config, ...PROFILES[profile], ...(project?{compose_project:project}:{}), directory, password };
 }
 export function safeArtifactPath(path: string) {
   const root = resolve('handoffs/codex/artifacts');

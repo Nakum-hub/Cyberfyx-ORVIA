@@ -22,6 +22,9 @@ export async function prepareWorkflow(c: Context, id: string, signer: {key:KeyOb
  // Revision 1.11 automation quota: a downstream action is automated only while the licence in force covers
  // WORKFLOW_AUTOMATION and the month's automated actions are within the licensed number. Otherwise the obligation becomes a
  // manual task (attributed attestation): the withdrawal is still carried out, by a person, and nothing is dropped.
+ // Hold the scope quota until commands and manual obligations commit together. Distinct workflows must not spend
+ // the same final action allowance concurrently.
+ await c.tx.query("SELECT pg_advisory_xact_lock(hashtextextended('automation-quota:' || $1::text || ':' || $2::text || ':' || $3::text,0))",scope);
  const automation=await automationAllowance(c);
  for(const systemId of planPolicy.system_ids) {
   const system=requireOne((await c.tx.query(`SELECT connector FROM app.systems WHERE ${predicate} AND id=$4`,[...scope,systemId])).rows);

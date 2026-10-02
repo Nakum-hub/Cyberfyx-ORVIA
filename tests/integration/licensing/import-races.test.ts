@@ -12,7 +12,7 @@ try {
     const insert=async(tx:typeof first,sequence:number|null,trial:boolean)=>{
       const id=randomUUID();
       return tx.query(`INSERT INTO app.licences(tenant_id,legal_entity_id,environment_id,id,licence_id,installation_id,edition,valid_from,valid_to,signing_key_id,signature,imported_by,claims,term,sequence,trial)
-        VALUES($1,$2,$3,$4,$4,$5,'CONTROL',clock_timestamp()-interval '1 day',clock_timestamp()+interval '1 day','round10-synthetic','synthetic-only',$5,'{}',$6,$7,$8)`,[...scope,id,randomUUID(),trial?'TRIAL':'MONTHLY',sequence,trial]);
+        VALUES($1,$2,$3,$4,$4,$5,'CONTROL',clock_timestamp()-interval '1 day',clock_timestamp()+interval '1 day',$5,'synthetic-only',$5,'{}',$6,$7,$8)`,[...scope,id,randomUUID(),trial?'TRIAL':'MONTHLY',sequence,trial]);
     };
     try {
       await first.query('BEGIN');await second.query('BEGIN');
@@ -28,4 +28,4 @@ try {
   console.log(JSON.stringify(observations));
   assert.deepEqual(observations.map(x=>x.accepted),[false,false,false],'concurrent imports must preserve rollback and trial restrictions');
 } catch(error) {console.error(error instanceof Error?error.message:'Import race failed');process.exitCode=1;}
-finally {await pool.end();writeEvidence('round10-import-races',{observations,result:process.exitCode?'FAIL':'PASS'});}
+finally {await pool.end();writeEvidence('round-ten-import-races',{observations,result:process.exitCode?'FAIL':'PASS'});}

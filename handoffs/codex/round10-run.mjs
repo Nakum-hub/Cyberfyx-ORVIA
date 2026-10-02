@@ -8,6 +8,10 @@ const prefix=`handoffs/codex/artifacts/R10-run${run}`;
 if(existsSync(`${prefix}.jsonl`))throw new Error('Never overwrite or repeat a run');
 const head=spawnSync('git',['rev-parse','HEAD'],{encoding:'utf8',windowsHide:true}).stdout.trim();
 const env={...process.env,ORVIA_PROFILE:'codex-a00',ORVIA_WORKSPACE_ROOT:process.cwd(),ORVIA_TASK_ID:'DPDP',NEXT_TELEMETRY_DISABLED:'1',DO_NOT_TRACK:'1',BETTER_AUTH_TELEMETRY:'0',ORVIA_TEST_OPA_CONTAINER:'orvia-round10-customer-opa-1',ORVIA_TEST_POSTGRES_CONTAINER:'orvia-round10-customer-postgres-1',PLAYWRIGHT_BROWSERS_PATH:resolve('.local/tools/playwright')};
+delete env.ORVIA_TEST_OPA_CONTAINER;delete env.ORVIA_TEST_POSTGRES_CONTAINER;
+env.ORVIA_TEST_COMPOSE_PROJECT='orvia-round10-customer';
+env.PATH=resolve('.local/tools/node-v24.21.0-win-x64')+';'+env.PATH;
+env.ORVIA_GRC_OPA_PORT='58185';
 for(const kind of ['release','licence','audit'])Object.assign(env,vendorSigningEnvironment(kind));
 const files=dir=>readdirSync(dir,{withFileTypes:true}).flatMap(e=>e.isDirectory()?files(`${dir}/${e.name}`):[`${dir}/${e.name}`]);
 const all=[...files('tests/integration').filter(x=>x.endsWith('.test.ts')),...files('tests/security').filter(x=>x.endsWith('.ts')),...files('tests/e2e').filter(x=>/(?:-local|-preflight|\.spec)\.ts$/.test(x))].sort();
@@ -17,14 +21,14 @@ let index=0;const results=[];
 async function execute(label,args,profile='codex-a00',kind='suite'){
   const log=`${prefix}-${String(++index).padStart(3,'0')}-${label.replaceAll(/[^A-Za-z0-9-]/g,'-')}.log`;
   const id=randomUUID(),started_at=new Date().toISOString();const output=createWriteStream(log,{flags:'wx'});
-  const child=spawn(process.execPath,args,{windowsHide:true,env:{...env,ORVIA_PROFILE:profile,ORVIA_EVIDENCE_RUN:id,...(profile==='rehearsal'?{NODE_EXTRA_CA_CERTS:resolve('.local/profiles/rehearsal/tls/ca-cert.pem'),ORVIA_TEST_OPA_CONTAINER:'orvia-round10-rehearsal-opa-1',ORVIA_TEST_POSTGRES_CONTAINER:'orvia-round10-rehearsal-postgres-1'}:{})},stdio:['ignore','pipe','pipe']});
+  const child=spawn(process.execPath,args,{windowsHide:true,env:{...env,ORVIA_PROFILE:profile,ORVIA_EVIDENCE_RUN:id,...(profile==='rehearsal'?{NODE_EXTRA_CA_CERTS:resolve('.local/profiles/rehearsal/tls/ca-cert.pem'),ORVIA_TEST_COMPOSE_PROJECT:'orvia-round10-rehearsal'}:{}),...(label==='tests/security/network-core.ts'?{ORVIA_TASK_ID:'A07'}:{})},stdio:['ignore','pipe','pipe']});
   child.stdout.pipe(output,{end:false});child.stderr.pipe(output,{end:false});console.log(JSON.stringify({event:'START',label,profile,started_at}));
   const outcome=await new Promise(done=>{child.once('error',e=>done({exit_code:null,error:e.message}));child.once('close',(exit_code,signal)=>done({exit_code,signal}));});await new Promise(done=>output.end(done));
   const text=readFileSync(log,'utf8');const record={label,kind,command:[process.execPath,...args],profile,head,run,run_id:id,started_at,ended_at:new Date().toISOString(),...outcome,status:outcome.exit_code===0?'PASS':'FAILED',first_error:text.split(/\r?\n/).find(x=>/FAIL|Error:|error TS|code:/.test(x))??null,log};
   results.push(record);appendFileSync(`${prefix}.jsonl`,JSON.stringify(record)+'\n');console.log(JSON.stringify(record));return record;
 }
 if(run==='1')for(const name of ['test','contracts:check','typecheck','lint'])await execute(name,[resolve('.local/tools/package-manager/node_modules/pnpm/bin/pnpm.mjs'),'run',name],'codex-a00','check');
-for(const profile of ['codex-a00','rehearsal'])for(const script of ['auth-init','machine-init'])await execute(`${profile}-${script}`,['--import','tsx',`scripts/${script}.ts`,`confirm:${profile}`],profile,'prerequisite');
+for(const profile of ['codex-a00','rehearsal'])for(const script of ['migrate','auth-init','machine-init'])await execute(`${profile}-${script}`,['--import','tsx',`scripts/${script}.ts`,...(script==='migrate'?[]:[`confirm:${profile}`])],profile,'prerequisite');
 await execute('build',['--import','tsx','scripts/web.ts','build'],'codex-a00','prerequisite');
 const image=await execute('runtime-image',['--import','tsx','scripts/runtime-image.ts'],'codex-a00','prerequisite');
 for(const suite of suites){

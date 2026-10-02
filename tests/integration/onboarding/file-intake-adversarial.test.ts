@@ -7,7 +7,7 @@ import { operationsSuite, key } from '../../../shared/testing/src/operations-fix
 import { workflowActivities } from '../../../services/worker/src/withdrawal-worker.ts';
 import { sweepFileInbox } from '../../../services/worker/src/file-inbox.ts';
 
-const t = operationsSuite('round10-file-intake-adversarial');
+const t = operationsSuite('round-ten-file-intake-adversarial');
 await t.run(async () => {
   const admin = await t.h.login('admin');
   const marker = `MZ Round10 synthetic unreadable ${randomUUID()}`;

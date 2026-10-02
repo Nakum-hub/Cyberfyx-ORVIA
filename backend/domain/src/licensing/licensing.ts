@@ -85,6 +85,7 @@ export async function importLicence(c: Context, input: unknown, installationId: 
   if (Date.parse(claims.valid_to) <= now) reject('EXPIRED');
 
   // A licence is imported once. Re-importing the same one is a replay, not a renewal.
+  await c.tx.query("SELECT pg_advisory_xact_lock(hashtextextended('licence-import:' || $1::text || ':' || $2::text || ':' || $3::text,0))",scope);
   const existing = await c.tx.query(`SELECT id FROM app.licences WHERE ${predicate} AND licence_id=$4`, [...scope, claims.licence_id]);
   if (existing.rowCount) reject('REPLAYED');
   // Anti-rollback and one trial per edition. The database refuses both as well (licence_import_guard); checking here gives the
@@ -219,7 +220,16 @@ export async function entitlementReport(c: Context) {
  *   * a higher-tier entitlement needs the licence in force (ACTIVE or GRACE) to name it; after expiry it stops.
  * A refusal names the entitlement and the lowest tier that includes it, so the interface can say which plan unlocks it.
  */
-export async function requireEntitlement(c: Context, route: { id: string; method: string; path: string; authority: string }) {
+export async function requireEntitlement(c: Context, route: { id: string; method: string; path: string; authority: string }, input?: unknown) {
+  // Wind-down is protective. The HTTP boundary still validates the body and enforces the route's capability.
+  if(route.id==='change_audit_mandate_state') {
+    const change=S.schemas.AuditMandateStateChange.safeParse(input);
+    if(change.success&&['SUSPENDED','REVOKED'].includes(change.data.state))return;
+  }
+  if(route.id==='toggle_control_test') {
+    const change=S.schemas.ControlTestToggle.safeParse(input);
+    if(change.success&&change.data.enabled===false)return;
+  }
   const cls = S.classifyRoute(route);
   if (cls === null) throw new AccessError(403, 'FORBIDDEN', [{ field: 'entitlement', code: 'route_not_classified' }]);
   if (cls === 'READ' || cls === 'PLATFORM' || cls === 'PROTECTIVE') return;

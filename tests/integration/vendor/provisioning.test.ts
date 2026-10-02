@@ -29,6 +29,10 @@ try {
   };
   const A = '/api/v1/vendor/provisioning/accounts';
   const codeOf = (r: { data: { error?: { field_errors?: { code: string }[] } } }) => r.data.error?.field_errors?.[0]?.code;
+  const raw=async(text:string,client=website)=>h.handler(new Request(h.config.origin+A,{method:'POST',headers:signProvisioningRequest(client,'POST',A,text),body:text}));
+  check('signed malformed JSON is a bounded validation refusal', (await raw('{')).status,400);
+  check('the provisioning limit counts UTF-8 bytes, not characters', (await raw(JSON.stringify({name:'界'.repeat(3000)}))).status,400);
+  check('invalid UUID-shaped client identifiers are unauthenticated, not database errors', (await call(website,'GET',A,undefined,headers=>{headers[PROVISIONING_HEADERS.client]='-'.repeat(36);})).status,401);
 
   // --- first setup from the website ---
   const owner = await call(website, 'POST', A, { name: 'Company Owner', email: 'owner@company.example', role: 'VENDOR_SUPER_ADMIN' });
