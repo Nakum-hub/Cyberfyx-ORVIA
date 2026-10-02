@@ -68,6 +68,27 @@ await t.run(async () => {
   check('a refusal names the entitlement and the tier that includes it', (await codes(sibling.call(workflow.path, example(workflow.request!), key()))).codes,
     ['entitlement_required', 'realtime_enforcement', 'control']);
 
+  t.setPhase('limits');
+  const before = (await ok(sibling.call('/api/v1/admin/plan'), S.schemas.PlanSummary)).limits;
+  const used = (name: string) => before.find(l => l.name === name)!.used;
+  await ok(importIt(claims('FOUNDATION', { licensed_limits: { environments: 1, staff_members: 5, member_seats: 3, websites: used('websites'), connected_systems: used('connected_systems') } })), S.schemas.LicenceState, [200, 201]);
+  const sized = (await ok(sibling.call('/api/v1/admin/plan'), S.schemas.PlanSummary)).limits;
+  check('the plan reports usage against the licensed limits', sized.filter(l => l.name !== 'member_seats').map(l => l.licensed === l.used), [true, true]);
+  const site = S.routes.find(r => r.id === 'create_cmp_site')!;
+  check('a website beyond the plan is refused, naming the limit', (await codes(sibling.call(site.path, example(site.request!), key()))),
+    { status: 409, codes: ['plan_limit_reached', 'websites', String(used('websites'))] });
+  const connection = S.routes.find(r => r.id === 'start_connection')!;
+  const startConnection = () => codes(sibling.call(connection.path, { ...(example(connection.request!) as object), system_id: randomUUID() }, key()));
+  check('connected systems are a Control feature, not part of Foundation', (await startConnection()).codes.slice(0, 2), ['entitlement_required', 'workflow_automation']);
+  // Upgrade to Control sized at the current number of connections, then back down to Foundation (both take effect at once).
+  await ok(importIt(claims('CONTROL', { licensed_limits: { environments: 1, staff_members: 5, member_seats: 3, connected_systems: used('connected_systems') } })), S.schemas.LicenceState, [200, 201]);
+  check('an upgrade takes effect at once', (await state()).edition, 'CONTROL');
+  check('a connected system beyond the plan is refused, naming the limit', (await startConnection()).codes.slice(0, 2), ['plan_limit_reached', 'connected_systems']);
+  await ok(importIt(claims('FOUNDATION')), S.schemas.LicenceState, [200, 201]);
+  check('an immediate downgrade takes effect at once', (await state()).edition, 'FOUNDATION');
+  const rights = S.routes.find(r => r.id === 'create_rights_request')!;
+  check('a rights request is never refused for a plan limit', (await codes(sibling.call(rights.path, example(rights.request!), key()))).codes.includes('plan_limit_reached'), false);
+
   t.setPhase('edition ceiling and anti-rollback');
   check('a FOUNDATION licence naming a Control feature is refused at import',
     (await codes(importIt(claims('FOUNDATION', { entitlements: ['PRIVACY_GRAPH', 'REALTIME_ENFORCEMENT'] })))).codes, ['entitlement_exceeds_edition']);

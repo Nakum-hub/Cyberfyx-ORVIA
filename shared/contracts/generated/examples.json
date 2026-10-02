@@ -3328,7 +3328,14 @@
           "PRIVACY_GRAPH",
           "REALTIME_ENFORCEMENT"
         ],
-        "significant_data_fiduciary": false
+        "significant_data_fiduciary": false,
+        "limits": [
+          {
+            "name": "websites",
+            "licensed": 5,
+            "used": 2
+          }
+        ]
       }
     },
     {

@@ -19192,6 +19192,12 @@ export interface components {
             usable: ("PRIVACY_GRAPH" | "CONSENT_MANAGEMENT" | "NOTICE_MANAGEMENT" | "INTAKE_AND_PORTAL" | "RIGHTS_MANAGEMENT" | "RETENTION_MANAGEMENT" | "PROCESSOR_MANAGEMENT" | "INCIDENT_MANAGEMENT" | "NOTIFICATIONS" | "WEBSITE_CONSENT" | "SDF_OBLIGATIONS" | "REALTIME_ENFORCEMENT" | "WORKFLOW_AUTOMATION" | "DOWNSTREAM_VERIFICATION" | "COVERAGE_REPORTING" | "RIGHTS_FULFILMENT" | "DISCOVERY_CLASSIFICATION" | "ASSESSMENTS" | "THIRD_PARTY_LIFECYCLE" | "DELIVERY_TRANSPORTS" | "RETENTION_ADVANCED" | "PRIVACY_TEST_ENGINE" | "CONTINUOUS_COMPLIANCE" | "GRC_AUDIT" | "SECURITY_AI_GOVERNANCE" | "AUDIT_EXCHANGE" | "SSO_IDENTITY")[];
             /** @description The organisation profile records designation as a Significant Data Fiduciary. */
             significant_data_fiduciary: boolean;
+            limits: {
+                /** @enum {string} */
+                name: "websites" | "connected_systems" | "member_seats";
+                licensed: number | null;
+                used: number;
+            }[];
         };
         SupportCaseCreate: {
             /** @enum {string} */
@@ -46216,7 +46222,14 @@ export interface operations {
                      *         "PRIVACY_GRAPH",
                      *         "REALTIME_ENFORCEMENT"
                      *       ],
-                     *       "significant_data_fiduciary": false
+                     *       "significant_data_fiduciary": false,
+                     *       "limits": [
+                     *         {
+                     *           "name": "websites",
+                     *           "licensed": 5,
+                     *           "used": 2
+                     *         }
+                     *       ]
                      *     }
                      */
                     "application/json": components["schemas"]["PlanSummary"];

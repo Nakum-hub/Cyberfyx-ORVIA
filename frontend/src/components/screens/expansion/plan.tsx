@@ -13,6 +13,7 @@ const PLAN_PROMISE: Record<string, string> = {
   CONTROL: 'Stop doing it by hand: automate suppression and erasure and check that each system actually did it.',
   ENTERPRISE: 'Board- and auditor-ready assurance, continuously.',
 };
+const LIMIT_LABEL: Record<string, string> = { websites: 'Websites with the cookie banner', connected_systems: 'Connected systems', member_seats: 'Member logins' };
 const TERM_LABEL: Record<string, string> = { MONTHLY: 'Monthly', QUARTERLY: 'Quarterly', ANNUAL: 'Annual', TRIAL: 'Trial', CONTRACT: 'Contract' };
 
 /**
@@ -46,6 +47,14 @@ export function Plan() {
                   <NoticeBox tone="info" title="Significant Data Fiduciary"><p>Your organisation profile records designation as a Significant Data Fiduciary. Your yearly DPIA, audit and DPO duties are tracked on every plan; the DPIA engine, the external audit exchange and algorithmic diligence tooling are part of Enterprise. Nothing is blocked.</p></NoticeBox>
                 )}
               </Section>
+              {d.licensed && (
+                <Section title="Limits">
+                  <ul className="plan-features">
+                    {d.limits.map(l => <li key={l.name}><span className="cell-primary">{LIMIT_LABEL[l.name]}: {l.used}{l.licensed === null ? (l.name === 'member_seats' ? ' (the licence states no member seats)' : ' (not limited by this licence)') : ` of ${l.licensed}`}</span></li>)}
+                  </ul>
+                  <p className="cell-sub">Data Principals, consents and rights requests are never limited: a withdrawal, a rights request or a breach report is never refused because of a plan.</p>
+                </Section>
+              )}
               {TIER_ORDER.map(tier => {
                 const codes = EntitlementCode.options.filter(code => ENTITLEMENTS[code].tier === tier);
                 return (

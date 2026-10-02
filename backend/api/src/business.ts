@@ -11,7 +11,7 @@ import { routes, schemas, Pagination, Id, PolicyReauthenticate, queryKeys, type 
 import { authorityFor, requireCapability, AccessError } from '../../authorization/src/index.ts';
 import { limitedBody, authHandler } from '../../auth/src/server.ts';
 import { scopedTransaction } from '../../../database/customer/src/runtime.ts';
-import { requireEntitlement } from '../../domain/src/licensing/licensing.ts';
+import { requireEntitlement, requireLimit } from '../../domain/src/licensing/licensing.ts';
 import { audit, idempotent, type Page } from '@orvia/domain/transaction';
 import { configurationList, createConfiguration, createMapping, mappingList, controlMap, publishPolicy, recordPublicationProof, publicationCandidate, configurationKinds, type ConfigurationKind } from '../../domain/src/configuration/configuration.ts';
 import { ownChoices, changeConsent, ownReceipt, ownHistory } from '../../domain/src/consent/consent.ts';
@@ -122,6 +122,7 @@ export function createBusinessHandler(getRuntime:typeof runtime) { return (reque
     const c={tx,actor:current,requestId};
     // Revision 1.11: the tier entitlement, decided by the server in the same transaction as the work.
     await requireEntitlement(c,route);
+    await requireLimit(c,route,id,input);
     const execute=async()=>{
       if(route.id.startsWith('list_')&&configurationKinds.has(route.id.slice(5)))return configurationList(c,route.id.slice(5) as ConfigurationKind,page);
       if(route.id.startsWith('create_')&&configurationKinds.has(route.id.slice(7)))return createConfiguration(c,route.id.slice(7) as ConfigurationKind,input);

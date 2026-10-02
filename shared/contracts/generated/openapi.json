@@ -26787,7 +26787,14 @@
                     "PRIVACY_GRAPH",
                     "REALTIME_ENFORCEMENT"
                   ],
-                  "significant_data_fiduciary": false
+                  "significant_data_fiduciary": false,
+                  "limits": [
+                    {
+                      "name": "websites",
+                      "licensed": 5,
+                      "used": 2
+                    }
+                  ]
                 }
               }
             }
@@ -170617,6 +170624,46 @@
           "significant_data_fiduciary": {
             "type": "boolean",
             "description": "The organisation profile records designation as a Significant Data Fiduciary."
+          },
+          "limits": {
+            "maxItems": 8,
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "name": {
+                  "type": "string",
+                  "enum": [
+                    "websites",
+                    "connected_systems",
+                    "member_seats"
+                  ]
+                },
+                "licensed": {
+                  "anyOf": [
+                    {
+                      "type": "integer",
+                      "minimum": -9007199254740991,
+                      "maximum": 9007199254740991
+                    },
+                    {
+                      "type": "null"
+                    }
+                  ]
+                },
+                "used": {
+                  "type": "integer",
+                  "minimum": -9007199254740991,
+                  "maximum": 9007199254740991
+                }
+              },
+              "required": [
+                "name",
+                "licensed",
+                "used"
+              ],
+              "additionalProperties": false
+            }
           }
         },
         "required": [
@@ -170630,7 +170677,8 @@
           "grace_until",
           "falls_back_to",
           "usable",
-          "significant_data_fiduciary"
+          "significant_data_fiduciary",
+          "limits"
         ],
         "additionalProperties": false
       },

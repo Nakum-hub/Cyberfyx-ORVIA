@@ -1114,6 +1114,8 @@ export const PlanSummary = z.strictObject({
   falls_back_to: Edition.nullable().describe('During a trial, the edition it returns to when it ends.'),
   usable: z.array(EntitlementCode).max(40),
   significant_data_fiduciary: z.boolean().describe('The organisation profile records designation as a Significant Data Fiduciary.'),
+  /** Hard limits the plan is sized by, against what this scope holds. licensed is null when the licence does not state it. */
+  limits: z.array(z.strictObject({ name: z.enum(['websites', 'connected_systems', 'member_seats']), licensed: z.number().int().nullable(), used: z.number().int() })).max(8),
 });
 // ---------------------------------------------------------------------------
 // M30 Support Bundle System (WP26). A diagnostic report is assembled from a

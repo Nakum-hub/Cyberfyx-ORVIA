@@ -241,16 +241,19 @@ function coversNewWork(code: S.EntitlementCodeValue, lifecycle: string) { return
  * everyone rather than discovered by a refusal.
  */
 export async function planSummary(c: Context) {
-  const row = (await c.tx.query('SELECT id, edition, term, trial, lifecycle, valid_to, grace_until, fallback_id FROM app.effective_licence($1,$2,$3)', scopeValues(c.actor))).rows[0];
+  const row = (await c.tx.query('SELECT id, edition, term, trial, lifecycle, valid_to, grace_until, fallback_id, claims FROM app.effective_licence($1,$2,$3)', scopeValues(c.actor))).rows[0];
   const profile = (await c.tx.query(`SELECT sdf_status FROM app.organisation_profile_versions WHERE ${predicate} ORDER BY version DESC LIMIT 1`, scopeValues(c.actor))).rows[0];
   const sdf = profile?.sdf_status === 'DESIGNATED';
-  if (!row) return S.PlanSummary.parse({ as_of: time(new Date()), licensed: false, edition: null, term: null, trial: false, lifecycle: null, valid_to: null, grace_until: null, falls_back_to: null, usable: [], significant_data_fiduciary: sdf });
+  const usage = (await c.tx.query('SELECT websites, connected_systems, member_seats FROM app.plan_usage()')).rows[0];
+  const limitsOf = (claims: { licensed_limits?: Record<string, number> } | null) => (['websites', 'connected_systems', 'member_seats'] as const)
+    .map(name => ({ name, licensed: typeof claims?.licensed_limits?.[name] === 'number' ? claims.licensed_limits[name]! : null, used: usage[name] as number }));
+  if (!row) return S.PlanSummary.parse({ as_of: time(new Date()), licensed: false, edition: null, term: null, trial: false, lifecycle: null, valid_to: null, grace_until: null, falls_back_to: null, usable: [], significant_data_fiduciary: sdf, limits: limitsOf(null) });
   const codes = (await c.tx.query('SELECT app.licence_entitlement_codes($1) AS codes, app.licence_row_edition($2) AS fallback', [row.id, row.fallback_id])).rows[0];
   const named = S.EntitlementCode.options.filter(code => (codes.codes as string[]).includes(code) && coversNewWork(code, row.lifecycle));
   const fallback = row.fallback_id ? { edition: codes.fallback } : null;
   return S.PlanSummary.parse({
     as_of: time(new Date()), licensed: true, edition: row.edition, term: row.term, trial: row.trial, lifecycle: row.lifecycle,
-    valid_to: time(row.valid_to), grace_until: time(row.grace_until), falls_back_to: fallback?.edition ?? null, usable: named, significant_data_fiduciary: sdf,
+    valid_to: time(row.valid_to), grace_until: time(row.grace_until), falls_back_to: fallback?.edition ?? null, usable: named, significant_data_fiduciary: sdf, limits: limitsOf(row.claims),
   });
 }
 
@@ -264,4 +267,29 @@ export async function licenceCovers(c: Context, code: S.EntitlementCodeValue) {
   const row = (await c.tx.query('SELECT id, lifecycle FROM app.effective_licence($1,$2,$3)', scopeValues(c.actor))).rows[0];
   if (!row || !coversNewWork(code, row.lifecycle)) return false;
   return Boolean((await c.tx.query('SELECT app.licence_names_entitlement($1,$2) AS named', [row.id, code])).rows[0].named);
+}
+
+/**
+ * Rev 1.11 hard limits, checked by the dispatcher after the entitlement, in the same transaction as the creation. Only the
+ * resources a plan is sized by are limited here: websites under the cookie banner and connected systems. A limit the licence
+ * does not state is not enforced (licences issued before 1.11). Data Principals, consents and rights requests are never
+ * limited, and nothing here can refuse a withdrawal, a rights request or a breach report.
+ */
+const LIMITED: Record<string, { limit: 'websites' | 'connected_systems'; count: string; extra?: (id: string | undefined, input: unknown) => unknown }> = {
+  create_cmp_site: { limit: 'websites', count: `SELECT count(*)::int AS n FROM app.cmp_sites WHERE ${predicate} AND state<>'DISABLED'` },
+  enable_cmp_site: { limit: 'websites', count: `SELECT count(*)::int AS n FROM app.cmp_sites WHERE ${predicate} AND state<>'DISABLED' AND id<>$4`, extra: id => id },
+  // Starting again for an already connected system resumes it (one connection per system), so it never counts twice.
+  start_connection: { limit: 'connected_systems', count: `SELECT count(*)::int AS n FROM app.connections WHERE ${predicate} AND system_id<>$4::uuid`, extra: (_id, input) => (input as { system_id?: string })?.system_id ?? '00000000-0000-0000-0000-000000000000' },
+};
+export const LIMITED_ROUTES: readonly string[] = Object.keys(LIMITED);
+export async function requireLimit(c: Context, route: { id: string }, id?: string, input?: unknown) {
+  const rule = LIMITED[route.id];
+  if (!rule) return;
+  const row = (await c.tx.query('SELECT claims FROM app.effective_licence($1,$2,$3)', scopeValues(c.actor))).rows[0];
+  const licensed = row?.claims?.licensed_limits?.[rule.limit];
+  if (typeof licensed !== 'number') return;
+  // Serialise concurrent creations in this scope so two requests cannot both take the last place.
+  await c.tx.query('SELECT pg_advisory_xact_lock(hashtext($1))', [`orvia.limit.${rule.limit}.${scopeValues(c.actor).join('.')}`]);
+  const used = (await c.tx.query(rule.count, rule.extra ? [...scopeValues(c.actor), rule.extra(id, input)] : scopeValues(c.actor))).rows[0].n as number;
+  if (used >= licensed) throw new AccessError(409, 'EPOCH_CONFLICT', [{ field: 'limit', code: 'plan_limit_reached' }, { field: 'limit_name', code: rule.limit }, { field: 'licensed', code: String(licensed) }]);
 }

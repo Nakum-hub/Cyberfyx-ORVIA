@@ -54,6 +54,11 @@ const TITLES: Record<string, string> = {
 const PLAN_NAME: Record<string, string> = { foundation: 'Foundation', control: 'Control', enterprise: 'Enterprise' };
 /** Rev 1.11: a refusal because the plan does not cover the work, said as such rather than as a permission problem. */
 function planRefusal(fields: readonly { field: string; code: string }[]) {
+  const limit = fields.find(f => f.field === 'limit_name')?.code;
+  if (fields.some(f => f.field === 'limit' && f.code === 'plan_limit_reached')) {
+    const name = limit === 'websites' ? 'websites' : limit === 'connected_systems' ? 'connected systems' : 'items';
+    return { title: 'Plan limit reached', guidance: `Your plan allows ${fields.find(f => f.field === 'licensed')?.code ?? 'a set number of'} ${name}, and all are in use. Disable one, or import a licence with a higher limit. Nothing was changed.` };
+  }
   const why = fields.find(f => f.field === 'entitlement')?.code;
   if (!why) return null;
   const tier = PLAN_NAME[fields.find(f => f.field === 'tier')?.code ?? ''] ?? 'a higher plan';

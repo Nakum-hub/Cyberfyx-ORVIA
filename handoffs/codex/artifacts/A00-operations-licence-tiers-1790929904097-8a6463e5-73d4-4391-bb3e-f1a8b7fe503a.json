@@ -1,0 +1,281 @@
+{
+  "task_id": "A00",
+  "fixture_kind": "SYNTHETIC_BOOTSTRAP_ONLY",
+  "recorded_at": "2026-10-02T08:31:44.097Z",
+  "suite": "licence-tiers",
+  "assertions": [
+    {
+      "name": "the FOUNDATION licence is in force",
+      "result": "PASS",
+      "expected": [
+        "FOUNDATION",
+        "ACTIVE"
+      ],
+      "actual": [
+        "FOUNDATION",
+        "ACTIVE"
+      ]
+    },
+    {
+      "name": "a FOUNDATION installation is refused every Control and Enterprise write",
+      "result": "PASS",
+      "expected": [],
+      "actual": []
+    },
+    {
+      "name": "a FOUNDATION installation keeps every legal-floor write",
+      "result": "PASS",
+      "expected": [],
+      "actual": []
+    },
+    {
+      "name": "the walk covered the higher-tier writes (capability refusals are not counted as tier refusals)",
+      "result": "PASS",
+      "expected": true,
+      "actual": true
+    },
+    {
+      "name": "a refusal names the entitlement and the tier that includes it",
+      "result": "PASS",
+      "expected": [
+        "entitlement_required",
+        "realtime_enforcement",
+        "control"
+      ],
+      "actual": [
+        "entitlement_required",
+        "realtime_enforcement",
+        "control"
+      ]
+    },
+    {
+      "name": "the plan reports usage against the licensed limits",
+      "result": "PASS",
+      "expected": [
+        true,
+        true
+      ],
+      "actual": [
+        true,
+        true
+      ]
+    },
+    {
+      "name": "a website beyond the plan is refused, naming the limit",
+      "result": "PASS",
+      "expected": {
+        "status": 409,
+        "codes": [
+          "plan_limit_reached",
+          "websites",
+          "0"
+        ]
+      },
+      "actual": {
+        "status": 409,
+        "codes": [
+          "plan_limit_reached",
+          "websites",
+          "0"
+        ]
+      }
+    },
+    {
+      "name": "connected systems are a Control feature, not part of Foundation",
+      "result": "PASS",
+      "expected": [
+        "entitlement_required",
+        "workflow_automation"
+      ],
+      "actual": [
+        "entitlement_required",
+        "workflow_automation"
+      ]
+    },
+    {
+      "name": "an upgrade takes effect at once",
+      "result": "PASS",
+      "expected": "CONTROL",
+      "actual": "CONTROL"
+    },
+    {
+      "name": "a connected system beyond the plan is refused, naming the limit",
+      "result": "PASS",
+      "expected": [
+        "plan_limit_reached",
+        "connected_systems"
+      ],
+      "actual": [
+        "plan_limit_reached",
+        "connected_systems"
+      ]
+    },
+    {
+      "name": "an immediate downgrade takes effect at once",
+      "result": "PASS",
+      "expected": "FOUNDATION",
+      "actual": "FOUNDATION"
+    },
+    {
+      "name": "a rights request is never refused for a plan limit",
+      "result": "PASS",
+      "expected": false,
+      "actual": false
+    },
+    {
+      "name": "a FOUNDATION licence naming a Control feature is refused at import",
+      "result": "PASS",
+      "expected": [
+        "entitlement_exceeds_edition"
+      ],
+      "actual": [
+        "entitlement_exceeds_edition"
+      ]
+    },
+    {
+      "name": "a licence with an old sequence is refused (no re-importing a bigger plan after a downgrade)",
+      "result": "PASS",
+      "expected": [
+        "stale_sequence"
+      ],
+      "actual": [
+        "stale_sequence"
+      ]
+    },
+    {
+      "name": "an unsequenced licence is refused once a sequenced one exists",
+      "result": "PASS",
+      "expected": [
+        "stale_sequence"
+      ],
+      "actual": [
+        "stale_sequence"
+      ]
+    },
+    {
+      "name": "a Control trial overlays the paid licence and says what it falls back to",
+      "result": "PASS",
+      "expected": [
+        "CONTROL",
+        true,
+        "FOUNDATION"
+      ],
+      "actual": [
+        "CONTROL",
+        true,
+        "FOUNDATION"
+      ]
+    },
+    {
+      "name": "during the trial Control writes are allowed",
+      "result": "PASS",
+      "expected": [],
+      "actual": []
+    },
+    {
+      "name": "during the trial Enterprise writes are still refused",
+      "result": "PASS",
+      "expected": [],
+      "actual": []
+    },
+    {
+      "name": "a second Control trial is refused",
+      "result": "PASS",
+      "expected": [
+        "trial_already_used"
+      ],
+      "actual": [
+        "trial_already_used"
+      ]
+    },
+    {
+      "name": "a trial longer than 30 days cannot even be expressed",
+      "result": "PASS",
+      "expected": 400,
+      "actual": 400
+    },
+    {
+      "name": "a licence imported ahead of its start does not take force early",
+      "result": "PASS",
+      "expected": true,
+      "actual": true
+    },
+    {
+      "name": "a monthly licence 3 days past its end is in grace and everything still works",
+      "result": "PASS",
+      "expected": [
+        "GRACE",
+        "ALLOWED",
+        "ALLOWED"
+      ],
+      "actual": [
+        "GRACE",
+        "ALLOWED",
+        "ALLOWED"
+      ]
+    },
+    {
+      "name": "8 days past a monthly licence: premium work stops, the legal floor continues",
+      "result": "PASS",
+      "expected": [
+        "EXPIRED",
+        "ALLOWED",
+        "licence_expired"
+      ],
+      "actual": [
+        "EXPIRED",
+        "ALLOWED",
+        "licence_expired"
+      ]
+    },
+    {
+      "name": "an annual licence keeps 30 grace days",
+      "result": "PASS",
+      "expected": "GRACE",
+      "actual": "GRACE"
+    },
+    {
+      "name": "a quarterly licence keeps 15 grace days",
+      "result": "PASS",
+      "expected": "EXPIRED",
+      "actual": "EXPIRED"
+    },
+    {
+      "name": "an ended trial falls back to the paid licence with no action",
+      "result": "PASS",
+      "expected": [
+        "FOUNDATION",
+        false,
+        "entitlement_required"
+      ],
+      "actual": [
+        "FOUNDATION",
+        false,
+        "entitlement_required"
+      ]
+    },
+    {
+      "name": "a downgrade at renewal takes force from its start date",
+      "result": "PASS",
+      "expected": [
+        "FOUNDATION",
+        "entitlement_required"
+      ],
+      "actual": [
+        "FOUNDATION",
+        "entitlement_required"
+      ]
+    },
+    {
+      "name": "with no licence at all, a gated write is refused as unlicensed",
+      "result": "PASS",
+      "expected": "no_licence",
+      "actual": "no_licence"
+    }
+  ],
+  "passed": 28,
+  "failures": 0,
+  "profile": "codex-a00",
+  "test_adapter_only": true,
+  "limitation": "Connector effects are exercised against the synthetic records test adapter; no live customer system was contacted."
+}

@@ -13,3 +13,12 @@ GRANT EXECUTE ON FUNCTION app.licence_entitlement_codes(uuid), app.licence_row_e
 
 -- The worker pauses scheduled premium work the licence in force does not cover (discovery, classification, AI monitoring).
 GRANT EXECUTE ON FUNCTION app.effective_licence(uuid, uuid, uuid), app.licence_names_entitlement(uuid, text), app.licence_grace_days(text) TO orvia_worker;
+
+-- Usage against the plan's limits, for the caller's own scope, whatever registry permissions the reader holds: counts only.
+CREATE FUNCTION app.plan_usage() RETURNS TABLE(websites integer, connected_systems integer, member_seats integer)
+LANGUAGE sql STABLE SECURITY DEFINER SET search_path = pg_catalog, app AS $$
+  SELECT (SELECT count(*)::int FROM app.cmp_sites s WHERE app.in_scope(s.tenant_id, s.legal_entity_id, s.environment_id) AND s.state <> 'DISABLED'),
+         (SELECT count(*)::int FROM app.connections x WHERE app.in_scope(x.tenant_id, x.legal_entity_id, x.environment_id)),
+         (SELECT count(*)::int FROM staff_auth.authority a WHERE app.in_scope(a.tenant_id, a.legal_entity_id, a.environment_id) AND a.active AND a.role IN ('MEMBER', 'AUDITOR')) $$;
+REVOKE ALL ON FUNCTION app.plan_usage() FROM PUBLIC;
+GRANT EXECUTE ON FUNCTION app.plan_usage() TO orvia_app;

@@ -91,10 +91,12 @@ Three kinds of limit, chosen so that no limit can ever make a customer non-compl
 | Legal entities | Hard | 1 | 3 | contract | Creating another is refused |
 | Production environments | Hard | 1 | 3 | contract | Creating another is refused |
 | Websites under the CMP | Hard | 1 | 5 | contract | Registering another is refused; existing banners keep working |
-| Connected systems (connector bindings) | Hard | 2 | 15 | contract | Binding another is refused; existing bindings keep working |
+| Connected systems (guided connections) | Hard | 0 (systems are recorded by hand; connections are a Control feature) | 15 | contract | Starting another is refused; resuming an already connected system is not; existing connections keep working |
 | Automated downstream actions per month | Automation quota | — (manual) | 10,000 | contract | Further actions become **manual tasks**, never dropped. Erasure and suppression always complete, by hand if needed |
 | Discovery reads, control-test runs, response packages per month | Automation quota | — | set per plan | contract | Paused until next month or upgrade; nothing already recorded is lost |
 | Data Principals, consent events, rights requests | **Soft, true-up only** | measured | measured | measured | **Never refused.** Shown on "Your plan"; included in the signed usage statement at renewal |
+
+**Implementation status (2026-10-02).** Enforced at creation by the server: member seats (0060), websites (`create_cmp_site`, `enable_cmp_site`) and connected systems (`start_connection`), each only when the licence states the limit. Staff identities, legal entities and environments are not created through the product (installation set-up), so they are reported against the licence and not enforced at runtime. The automation quotas are **not yet implemented**. Correction made during implementation: the first draft gave Foundation 2 connected systems, but guided connections are part of `WORKFLOW_AUTOMATION` (Control); Foundation records systems by hand, so its limit is 0.
 
 **Why Data Principals are never capped.** Refusing a rights request or a withdrawal because of a quota would break the law. Volume is therefore billed by true-up at renewal, from the customer's own signed usage statement. There is no telemetry; customer data stays local.
 
