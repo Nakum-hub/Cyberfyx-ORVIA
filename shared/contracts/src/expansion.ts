@@ -191,9 +191,13 @@ export const ComplianceReport = z.strictObject({
   as_of: Time,
   summary: z.strictObject({ tests: z.number().int(), passing: z.number().int(), failing: z.number().int(), error: z.number().int(), stale: z.number().int(), never_run: z.number().int(), disabled: z.number().int(),
     open_issues: z.number().int(), overdue_issues: z.number().int(), policies_published: z.number().int(), policies_review_due: z.number().int() }),
-  frameworks: z.array(z.strictObject({ framework_id: Id, name: SafeText, version: z.string().max(80), requirements: z.number().int(), requirements_mapped: z.number().int(), unmapped_codes: z.array(z.string().max(80)).max(100) })).max(100),
+  frameworks: z.array(z.strictObject({ framework_id: Id, name: SafeText, version: z.string().max(80), requirements: z.number().int(), requirements_mapped: z.number().int(), unmapped_codes: z.array(z.string().max(80)).max(100) })).max(1000),
   controls: z.array(z.strictObject({ control_id: Id, title: SafeText, requirements: z.array(z.string().max(200)).max(100), tests: z.array(z.strictObject({ test_id: Id, name: z.string().max(160), standing: ControlTestStanding, last_observed_at: Time.nullable() })).max(50),
-    open_issues: z.number().int() })).max(100),
+    open_issues: z.number().int() })).max(1000),
+  /** How much of the scope the report covers. A report never looks complete when it is not: if anything was left out,
+   *  complete is false and the totals say how much (contract 0.58.0, found by the 2026-10-02 battery). */
+  completeness: z.strictObject({ controls_total: z.number().int(), controls_included: z.number().int(), frameworks_total: z.number().int(), frameworks_included: z.number().int(),
+    tests_total: z.number().int(), tests_included: z.number().int(), complete: z.boolean() }),
   /** Stated on every report: tests examine this installation's records only. */
   limits: z.array(z.string().max(300)).max(10),
 });

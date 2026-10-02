@@ -72136,6 +72136,15 @@
                   },
                   "frameworks": [],
                   "controls": [],
+                  "completeness": {
+                    "controls_total": -9007199254740991,
+                    "controls_included": -9007199254740991,
+                    "frameworks_total": -9007199254740991,
+                    "frameworks_included": -9007199254740991,
+                    "tests_total": -9007199254740991,
+                    "tests_included": -9007199254740991,
+                    "complete": false
+                  },
                   "limits": []
                 }
               }
@@ -136715,7 +136724,7 @@
             "additionalProperties": false
           },
           "frameworks": {
-            "maxItems": 100,
+            "maxItems": 1000,
             "type": "array",
             "items": {
               "type": "object",
@@ -136765,7 +136774,7 @@
             }
           },
           "controls": {
-            "maxItems": 100,
+            "maxItems": 1000,
             "type": "array",
             "items": {
               "type": "object",
@@ -136852,6 +136861,54 @@
               "additionalProperties": false
             }
           },
+          "completeness": {
+            "type": "object",
+            "properties": {
+              "controls_total": {
+                "type": "integer",
+                "minimum": -9007199254740991,
+                "maximum": 9007199254740991
+              },
+              "controls_included": {
+                "type": "integer",
+                "minimum": -9007199254740991,
+                "maximum": 9007199254740991
+              },
+              "frameworks_total": {
+                "type": "integer",
+                "minimum": -9007199254740991,
+                "maximum": 9007199254740991
+              },
+              "frameworks_included": {
+                "type": "integer",
+                "minimum": -9007199254740991,
+                "maximum": 9007199254740991
+              },
+              "tests_total": {
+                "type": "integer",
+                "minimum": -9007199254740991,
+                "maximum": 9007199254740991
+              },
+              "tests_included": {
+                "type": "integer",
+                "minimum": -9007199254740991,
+                "maximum": 9007199254740991
+              },
+              "complete": {
+                "type": "boolean"
+              }
+            },
+            "required": [
+              "controls_total",
+              "controls_included",
+              "frameworks_total",
+              "frameworks_included",
+              "tests_total",
+              "tests_included",
+              "complete"
+            ],
+            "additionalProperties": false
+          },
           "limits": {
             "maxItems": 10,
             "type": "array",
@@ -136866,6 +136923,7 @@
           "summary",
           "frameworks",
           "controls",
+          "completeness",
           "limits"
         ],
         "additionalProperties": false

@@ -1,0 +1,219 @@
+{
+  "task_id": "DPDP",
+  "fixture_kind": "CUSTOMER_LOCAL_SYNTHETIC",
+  "recorded_at": "2026-10-02T15:04:45.402Z",
+  "suite": "processors",
+  "assertions": [
+    {
+      "name": "a share names exactly one recipient",
+      "result": "PASS",
+      "expected": 400,
+      "actual": 400
+    },
+    {
+      "name": "the processors serving an activity are queryable",
+      "result": "PASS",
+      "expected": [
+        "e5e3577b-7618-4e56-8f9e-b18fac6e30c9"
+      ],
+      "actual": [
+        "e5e3577b-7618-4e56-8f9e-b18fac6e30c9"
+      ]
+    },
+    {
+      "name": "batched engagement reads preserve its fields, links and activity membership",
+      "result": "PASS",
+      "expected": [
+        {
+          "id": "e5e3577b-7618-4e56-8f9e-b18fac6e30c9",
+          "processor_id": "e0a70f08-4312-48c2-9e7a-6329f4be9b4b",
+          "service_description": "Newsletter delivery",
+          "subprocessor_of": null,
+          "effective_from": "2026-08-03T15:04:43.416Z",
+          "effective_to": null,
+          "status": "ACTIVE",
+          "contract_evidence_reference": "contract-store:DPA-SYN-1",
+          "safeguard_evidence_reference": null,
+          "disposition_state": "NOT_APPLICABLE",
+          "terminated_at": null,
+          "termination_reason": null,
+          "links": [
+            {
+              "link_kind": "SYSTEM",
+              "target_id": "7fc20cf5-333f-451d-93a7-f67035cbc4c5",
+              "valid_from": "2026-08-03T15:04:43.416Z",
+              "valid_to": null
+            },
+            {
+              "link_kind": "DATA_CATEGORY",
+              "target_id": "1ef05596-c0dd-4372-94a5-281c5dc05899",
+              "valid_from": "2026-08-03T15:04:43.416Z",
+              "valid_to": null
+            }
+          ],
+          "activity_ids": [
+            "278d9ff6-fd3e-4769-ae6f-da0d34e5143c"
+          ],
+          "disposition_run_id": null,
+          "recorded_at": "2026-10-02T15:04:43.462Z"
+        }
+      ],
+      "actual": [
+        {
+          "id": "e5e3577b-7618-4e56-8f9e-b18fac6e30c9",
+          "processor_id": "e0a70f08-4312-48c2-9e7a-6329f4be9b4b",
+          "service_description": "Newsletter delivery",
+          "subprocessor_of": null,
+          "effective_from": "2026-08-03T15:04:43.416Z",
+          "effective_to": null,
+          "status": "ACTIVE",
+          "contract_evidence_reference": "contract-store:DPA-SYN-1",
+          "safeguard_evidence_reference": null,
+          "disposition_state": "NOT_APPLICABLE",
+          "terminated_at": null,
+          "termination_reason": null,
+          "links": [
+            {
+              "link_kind": "SYSTEM",
+              "target_id": "7fc20cf5-333f-451d-93a7-f67035cbc4c5",
+              "valid_from": "2026-08-03T15:04:43.416Z",
+              "valid_to": null
+            },
+            {
+              "link_kind": "DATA_CATEGORY",
+              "target_id": "1ef05596-c0dd-4372-94a5-281c5dc05899",
+              "valid_from": "2026-08-03T15:04:43.416Z",
+              "valid_to": null
+            }
+          ],
+          "activity_ids": [
+            "278d9ff6-fd3e-4769-ae6f-da0d34e5143c"
+          ],
+          "disposition_run_id": null,
+          "recorded_at": "2026-10-02T15:04:43.462Z"
+        }
+      ]
+    },
+    {
+      "name": "a recorded engagement makes the processor-contract requirement applicable",
+      "result": "PASS",
+      "expected": "APPLICABLE",
+      "actual": "APPLICABLE"
+    },
+    {
+      "name": "the sharing register answers who received this person's data",
+      "result": "PASS",
+      "expected": true,
+      "actual": true
+    },
+    {
+      "name": "an access request carries the sharing register into its run",
+      "result": "PASS",
+      "expected": true,
+      "actual": true
+    },
+    {
+      "name": "termination opens a disposition task",
+      "result": "PASS",
+      "expected": [
+        "TERMINATED",
+        "PENDING",
+        true
+      ],
+      "actual": [
+        "TERMINATED",
+        "PENDING",
+        true
+      ]
+    },
+    {
+      "name": "termination closes the engagement's links instead of deleting them",
+      "result": "PASS",
+      "expected": true,
+      "actual": true
+    },
+    {
+      "name": "a question about an earlier time still sees the engagement; about now it does not",
+      "result": "PASS",
+      "expected": [
+        [
+          "e5e3577b-7618-4e56-8f9e-b18fac6e30c9"
+        ],
+        0
+      ],
+      "actual": [
+        [
+          "e5e3577b-7618-4e56-8f9e-b18fac6e30c9"
+        ],
+        0
+      ]
+    },
+    {
+      "name": "a terminated engagement cannot receive new sharing",
+      "result": "PASS",
+      "expected": [
+        "engagement_terminated"
+      ],
+      "actual": [
+        "engagement_terminated"
+      ]
+    },
+    {
+      "name": "termination is recorded once",
+      "result": "PASS",
+      "expected": 409,
+      "actual": 409
+    },
+    {
+      "name": "no connector pretends to perform a processor's disposition",
+      "result": "PASS",
+      "expected": [
+        "DISPOSITION_CONFIRMATION",
+        "pending"
+      ],
+      "actual": [
+        "DISPOSITION_CONFIRMATION",
+        "pending"
+      ]
+    },
+    {
+      "name": "a processor statement cannot be recorded as verification",
+      "result": "PASS",
+      "expected": 400,
+      "actual": 400
+    },
+    {
+      "name": "a processor confirmation is completed-by-target, not verified",
+      "result": "PASS",
+      "expected": [
+        "PROCESSOR_CONFIRMED",
+        "succeeded_unverified",
+        "completed_by_target"
+      ],
+      "actual": [
+        "PROCESSOR_CONFIRMED",
+        "succeeded_unverified",
+        "completed_by_target"
+      ]
+    },
+    {
+      "name": "independent audit evidence verifies the disposition and completes the run",
+      "result": "PASS",
+      "expected": [
+        "verified",
+        "TARGET_AUDIT_EVIDENCE",
+        "COMPLETED_VERIFIED"
+      ],
+      "actual": [
+        "verified",
+        "TARGET_AUDIT_EVIDENCE",
+        "COMPLETED_VERIFIED"
+      ]
+    }
+  ],
+  "passed": 15,
+  "failures": 0,
+  "profile": "codex-a00",
+  "test_adapter_only": true,
+  "limitation": "Connector effects are exercised against the synthetic records test adapter; no live customer system was contacted."
+}

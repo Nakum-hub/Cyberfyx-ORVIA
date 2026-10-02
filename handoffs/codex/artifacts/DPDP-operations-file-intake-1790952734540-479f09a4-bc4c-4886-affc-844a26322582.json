@@ -1,0 +1,245 @@
+{
+  "task_id": "DPDP",
+  "fixture_kind": "CUSTOMER_LOCAL_SYNTHETIC",
+  "recorded_at": "2026-10-02T14:52:14.540Z",
+  "suite": "file-intake",
+  "assertions": [
+    {
+      "name": "an uploaded PDF is staged as a document and nothing is applied",
+      "result": "PASS",
+      "expected": [
+        "DOCUMENT",
+        "STAGED",
+        "MANUAL_UPLOAD"
+      ],
+      "actual": [
+        "DOCUMENT",
+        "STAGED",
+        "MANUAL_UPLOAD"
+      ]
+    },
+    {
+      "name": "the same content uploaded twice is one item",
+      "result": "PASS",
+      "expected": "087a2590-a610-4490-89a0-37f4ede4301a",
+      "actual": "087a2590-a610-4490-89a0-37f4ede4301a"
+    },
+    {
+      "name": "a read-only login cannot upload",
+      "result": "PASS",
+      "expected": 403,
+      "actual": 403
+    },
+    {
+      "name": "a disguised file is not taken for what its name says",
+      "result": "PASS",
+      "expected": "UNRECOGNISED",
+      "actual": "UNRECOGNISED"
+    },
+    {
+      "name": "a document cannot be linked to a record that does not exist",
+      "result": "PASS",
+      "expected": [
+        "subject_not_found"
+      ],
+      "actual": [
+        "subject_not_found"
+      ]
+    },
+    {
+      "name": "an approved document is kept with who decided and why",
+      "result": "PASS",
+      "expected": [
+        "KEPT",
+        true,
+        "Signed agreement for the synthetic processor."
+      ],
+      "actual": [
+        "KEPT",
+        true,
+        "Signed agreement for the synthetic processor."
+      ]
+    },
+    {
+      "name": "a kept document can be opened, byte for byte",
+      "result": "PASS",
+      "expected": true,
+      "actual": true
+    },
+    {
+      "name": "a decision is final",
+      "result": "PASS",
+      "expected": [
+        "already_decided"
+      ],
+      "actual": [
+        "already_decided"
+      ]
+    },
+    {
+      "name": "the database refuses to reopen or delete a decided file",
+      "result": "PASS",
+      "expected": [
+        "REFUSED",
+        "REFUSED"
+      ],
+      "actual": [
+        "REFUSED",
+        "REFUSED"
+      ]
+    },
+    {
+      "name": "an unreadable file says why and cannot be approved",
+      "result": "PASS",
+      "expected": [
+        "UNRECOGNISED",
+        null,
+        [
+          "unrecognised_files_can_only_be_rejected"
+        ]
+      ],
+      "actual": [
+        "UNRECOGNISED",
+        null,
+        [
+          "unrecognised_files_can_only_be_rejected"
+        ]
+      ]
+    },
+    {
+      "name": "a rejected file's content is removed and its record kept",
+      "result": "PASS",
+      "expected": [
+        [
+          "content_not_kept"
+        ],
+        true
+      ],
+      "actual": [
+        [
+          "content_not_kept"
+        ],
+        true
+      ]
+    },
+    {
+      "name": "existing-data rows are recognised by the contract schema",
+      "result": "PASS",
+      "expected": [
+        "ESTATE_ROWS",
+        "Existing-data onboarding: 1 row(s)."
+      ],
+      "actual": [
+        "ESTATE_ROWS",
+        "Existing-data onboarding: 1 row(s)."
+      ]
+    },
+    {
+      "name": "approval creates an onboarding job holding the rows, still waiting to be processed",
+      "result": "PASS",
+      "expected": [
+        "ROUTED",
+        1,
+        0
+      ],
+      "actual": [
+        "ROUTED",
+        1,
+        0
+      ]
+    },
+    {
+      "name": "the routed file's staged copy is not kept twice",
+      "result": "PASS",
+      "expected": true,
+      "actual": true
+    },
+    {
+      "name": "a signed licence file is recognised and names the permission approval needs",
+      "result": "PASS",
+      "expected": [
+        "LICENCE",
+        "licence.manage"
+      ],
+      "actual": [
+        "LICENCE",
+        "licence.manage"
+      ]
+    },
+    {
+      "name": "approving it needs the same permission as importing a licence",
+      "result": "PASS",
+      "expected": 403,
+      "actual": 403
+    },
+    {
+      "name": "the owner's approval imports it as the licence",
+      "result": "PASS",
+      "expected": [
+        "ROUTED",
+        "dd58631d-cce4-4e62-ab95-a79b41b07a04"
+      ],
+      "actual": [
+        "ROUTED",
+        "dd58631d-cce4-4e62-ab95-a79b41b07a04"
+      ]
+    },
+    {
+      "name": "only complete regular files are taken: partial, still-being-written and linked files are left alone",
+      "result": "PASS",
+      "expected": [
+        "export.json.part",
+        "fresh.pdf",
+        "link.txt"
+      ],
+      "actual": [
+        "export.json.part",
+        "fresh.pdf",
+        "link.txt"
+      ]
+    },
+    {
+      "name": "a picked-up file moves to accepted/, an empty one to rejected/ with a reason",
+      "result": "PASS",
+      "expected": [
+        1,
+        1
+      ],
+      "actual": [
+        1,
+        1
+      ]
+    },
+    {
+      "name": "a file from the inbox folder waits for approval like an upload",
+      "result": "PASS",
+      "expected": [
+        "INBOX_FOLDER",
+        "STAGED",
+        "DOCUMENT"
+      ],
+      "actual": [
+        "INBOX_FOLDER",
+        "STAGED",
+        "DOCUMENT"
+      ]
+    },
+    {
+      "name": "the same content dropped again is the same item",
+      "result": "PASS",
+      "expected": 1,
+      "actual": 1
+    },
+    {
+      "name": "the screen reports whether this installation has an inbox folder",
+      "result": "PASS",
+      "expected": "boolean",
+      "actual": "boolean"
+    }
+  ],
+  "passed": 22,
+  "failures": 0,
+  "profile": "codex-a00",
+  "test_adapter_only": true,
+  "limitation": "Connector effects are exercised against the synthetic records test adapter; no live customer system was contacted."
+}

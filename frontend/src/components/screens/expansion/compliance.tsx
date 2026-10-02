@@ -41,6 +41,7 @@ export function Compliance() {
               { term: 'Open issues', value: `${r.summary.open_issues} (${r.summary.overdue_issues} overdue)` },
               { term: 'Published policies', value: `${r.summary.policies_published} (${r.summary.policies_review_due} due for review)` },
               { term: 'As of', value: formatTime(r.as_of) },
+              ...(r.completeness.complete ? [] : [{ term: 'Listed', value: `${r.completeness.controls_included} of ${r.completeness.controls_total} controls, ${r.completeness.frameworks_included} of ${r.completeness.frameworks_total} frameworks, ${r.completeness.tests_included} of ${r.completeness.tests_total} tests (coverage counts every control)` }]),
             ]} />
             {r.frameworks.length > 0 && (
               <DataTable caption="Framework coverage" rows={r.frameworks} rowKey={f => f.framework_id}

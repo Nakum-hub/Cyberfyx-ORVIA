@@ -336,7 +336,10 @@ export async function alertList(c: Context, page: Page) {
 // ---------------------------------------------------------------- auditor report
 export async function complianceReport(c: Context) {
   const now = Date.now();
-  const tests = (await c.tx.query(`SELECT * FROM app.control_tests WHERE ${predicate} ORDER BY created_at LIMIT 500`, scope(c))).rows;
+  const LIMIT = 1000;
+  const totals = (await c.tx.query(`SELECT (SELECT count(*)::int FROM app.control_tests WHERE ${predicate}) AS tests, (SELECT count(*)::int FROM app.grc_controls WHERE ${predicate}) AS controls,
+    (SELECT count(*)::int FROM app.grc_frameworks WHERE ${predicate}) AS frameworks`, scope(c))).rows[0]!;
+  const tests = (await c.tx.query(`SELECT * FROM app.control_tests WHERE ${predicate} ORDER BY created_at, id LIMIT ${LIMIT}`, scope(c))).rows;
   const standings = new Map<string, { test: Row; standing: string; last: string | null }>();
   for (const t of tests) {
     const latest = (await c.tx.query(`SELECT * FROM app.control_test_runs WHERE ${predicate} AND test_id=$4 ORDER BY sequence DESC LIMIT 1`, [...scope(c), t.id])).rows[0];
@@ -347,9 +350,10 @@ export async function complianceReport(c: Context) {
   const issues = []; for (const r of issueIds) issues.push(await issueView(c, r.id));
   const open = issues.filter(i => !['VERIFIED', 'RISK_ACCEPTED'].includes(i.state));
   const policies = (await c.tx.query(`SELECT status, next_review_at FROM app.grc_policies WHERE ${predicate}`, scope(c))).rows;
-  const frameworks = (await c.tx.query(`SELECT document FROM app.grc_frameworks WHERE ${predicate} ORDER BY id LIMIT 100`, scope(c))).rows.map(r => r.document);
-  const controls = (await c.tx.query(`SELECT document FROM app.grc_controls WHERE ${predicate} ORDER BY id LIMIT 100`, scope(c))).rows.map(r => r.document);
-  const mapped = new Set(controls.flatMap((ctl: { mappings: { framework_id: string; requirement_code: string }[] }) => ctl.mappings.map(m => `${m.framework_id}:${m.requirement_code}`)));
+  const frameworks = (await c.tx.query(`SELECT document FROM app.grc_frameworks WHERE ${predicate} ORDER BY id LIMIT ${LIMIT}`, scope(c))).rows.map(r => r.document);
+  const controls = (await c.tx.query(`SELECT document FROM app.grc_controls WHERE ${predicate} ORDER BY id LIMIT ${LIMIT}`, scope(c))).rows.map(r => r.document);
+  // Mapped requirements come from every control in scope, not only those listed, so coverage is never understated.
+  const mapped = new Set((await c.tx.query(`SELECT m->>'framework_id' AS f, m->>'requirement_code' AS r FROM app.grc_controls, jsonb_array_elements(document->'mappings') m WHERE ${predicate}`, scope(c))).rows.map(x => `${x.f}:${x.r}`));
   return X.ComplianceReport.parse({
     as_of: new Date(now).toISOString(),
     summary: { tests: tests.length, passing: count('PASSING'), failing: count('FAILING'), error: count('ERROR'), stale: count('STALE'), never_run: count('NEVER_RUN'), disabled: count('DISABLED'),
@@ -364,6 +368,10 @@ export async function complianceReport(c: Context) {
       tests: [...standings.values()].filter(x => x.test.control_id === ctl.id).map(x => ({ test_id: x.test.id, name: x.test.name, standing: x.standing, last_observed_at: x.last })).slice(0, 50),
       open_issues: open.filter(i => i.control_id === ctl.id).length,
     })),
-    limits: ['Control tests examine records held by this installation; they do not observe external systems.', 'A passing test is evidence for the named check at the time shown, not a certification.'],
+    completeness: { controls_total: totals.controls, controls_included: controls.length, frameworks_total: totals.frameworks, frameworks_included: frameworks.length,
+      tests_total: totals.tests, tests_included: tests.length, complete: controls.length === totals.controls && frameworks.length === totals.frameworks && tests.length === totals.tests },
+    limits: ['Control tests examine records held by this installation; they do not observe external systems.', 'A passing test is evidence for the named check at the time shown, not a certification.',
+      ...(controls.length < totals.controls || frameworks.length < totals.frameworks || tests.length < totals.tests
+        ? [`This report lists the first ${LIMIT} of each kind; ${totals.controls} controls, ${totals.frameworks} frameworks and ${totals.tests} tests are in scope. Requirement coverage is computed from every control.`] : [])],
   });
 }

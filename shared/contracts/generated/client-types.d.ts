@@ -12435,6 +12435,15 @@ export interface components {
                 }[];
                 open_issues: number;
             }[];
+            completeness: {
+                controls_total: number;
+                controls_included: number;
+                frameworks_total: number;
+                frameworks_included: number;
+                tests_total: number;
+                tests_included: number;
+                complete: boolean;
+            };
             limits: string[];
         };
         RegulatoryFrameworkImport: {
@@ -87809,6 +87818,15 @@ export interface operations {
                      *       },
                      *       "frameworks": [],
                      *       "controls": [],
+                     *       "completeness": {
+                     *         "controls_total": -9007199254740991,
+                     *         "controls_included": -9007199254740991,
+                     *         "frameworks_total": -9007199254740991,
+                     *         "frameworks_included": -9007199254740991,
+                     *         "tests_total": -9007199254740991,
+                     *         "tests_included": -9007199254740991,
+                     *         "complete": false
+                     *       },
                      *       "limits": []
                      *     }
                      */

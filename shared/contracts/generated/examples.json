@@ -10910,6 +10910,15 @@
         },
         "frameworks": [],
         "controls": [],
+        "completeness": {
+          "controls_total": -9007199254740991,
+          "controls_included": -9007199254740991,
+          "frameworks_total": -9007199254740991,
+          "frameworks_included": -9007199254740991,
+          "tests_total": -9007199254740991,
+          "tests_included": -9007199254740991,
+          "complete": false
+        },
         "limits": []
       }
     },

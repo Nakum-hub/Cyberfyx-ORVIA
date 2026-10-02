@@ -73,7 +73,8 @@ const expansionNames = Object.keys(expansionSchemas);
  *  (migration 0100).
  *  0.58.0 (owner decisions 2026-10-02, revision 1.12): file intake. Files arrive from a local inbox folder on the
  *  installation server or by manual upload, are staged, and are applied only on a staff decision: list_file_intake,
- *  upload_file, file_intake_item, file_intake_content, decide_file_intake (migration 0103). Otherwise additive. */
+ *  upload_file, file_intake_item, file_intake_content, decide_file_intake (migration 0103). ComplianceReport lists up to 1000
+ *  controls and frameworks and states its completeness (it silently stopped at 100 before). Otherwise additive. */
 export const CONTRACT_VERSION = '0.58.0' as const;
 /** The version this build declares of itself. It is what a diagnostic report and
  *  a release manifest are compared against, so it must match package.json; a unit

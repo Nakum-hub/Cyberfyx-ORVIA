@@ -1,0 +1,191 @@
+{
+  "task_id": "DPDP",
+  "fixture_kind": "CUSTOMER_LOCAL_SYNTHETIC",
+  "recorded_at": "2026-10-02T14:07:34.008Z",
+  "suite": "canary-retirement",
+  "assertions": [
+    {
+      "name": "Pending retirement: fixture is synthetic",
+      "result": "PASS",
+      "expected": true,
+      "actual": true
+    },
+    {
+      "name": "created canary has no activation history",
+      "result": "PASS",
+      "expected": [
+        "PENDING",
+        null,
+        null
+      ],
+      "actual": [
+        "PENDING",
+        null,
+        null
+      ]
+    },
+    {
+      "name": "administrator without sensitive access cannot retire a canary",
+      "result": "PASS",
+      "expected": 403,
+      "actual": 403
+    },
+    {
+      "name": "read-only auditor cannot retire a canary",
+      "result": "PASS",
+      "expected": 403,
+      "actual": 403
+    },
+    {
+      "name": "foreign tenant cannot retire this canary",
+      "result": "PASS",
+      "expected": 404,
+      "actual": 404
+    },
+    {
+      "name": "pending canary retirement succeeds at the HTTP boundary",
+      "result": "PASS",
+      "expected": 200,
+      "actual": 200
+    },
+    {
+      "name": "pending retirement preserves absent activation and records retirement",
+      "result": "PASS",
+      "expected": [
+        "1d1b18d6-c396-4d19-adc4-0b1d064f2c4c",
+        "RETIRED",
+        null,
+        null,
+        true
+      ],
+      "actual": [
+        "1d1b18d6-c396-4d19-adc4-0b1d064f2c4c",
+        "RETIRED",
+        null,
+        null,
+        true
+      ]
+    },
+    {
+      "name": "same idempotency key replays the exact retired record",
+      "result": "PASS",
+      "expected": {
+        "id": "1d1b18d6-c396-4d19-adc4-0b1d064f2c4c",
+        "label": "Pending retirement 0aab27e0",
+        "principal_id": "6700324d-2c3b-40a5-b8ab-2045e24ba2bf",
+        "principal_email": "retirement.4e912e96-d41@aster.example",
+        "planted_in": "Test-owned synthetic decoy mailbox, never a real recipient.",
+        "state": "RETIRED",
+        "created_by": "d83f3215-300c-4a19-938d-d25e2452bda1",
+        "created_at": "2026-10-02T14:07:33.270Z",
+        "activated_by": null,
+        "activated_at": null,
+        "retired_at": "2026-10-02T14:07:33.441Z",
+        "open_hits": 0
+      },
+      "actual": {
+        "id": "1d1b18d6-c396-4d19-adc4-0b1d064f2c4c",
+        "label": "Pending retirement 0aab27e0",
+        "principal_id": "6700324d-2c3b-40a5-b8ab-2045e24ba2bf",
+        "principal_email": "retirement.4e912e96-d41@aster.example",
+        "planted_in": "Test-owned synthetic decoy mailbox, never a real recipient.",
+        "state": "RETIRED",
+        "created_by": "d83f3215-300c-4a19-938d-d25e2452bda1",
+        "created_at": "2026-10-02T14:07:33.270Z",
+        "activated_by": null,
+        "activated_at": null,
+        "retired_at": "2026-10-02T14:07:33.441Z",
+        "open_hits": 0
+      }
+    },
+    {
+      "name": "a new retirement request is refused after retirement",
+      "result": "PASS",
+      "expected": {
+        "status": 409,
+        "codes": [
+          "already_retired"
+        ]
+      },
+      "actual": {
+        "status": 409,
+        "codes": [
+          "already_retired"
+        ]
+      }
+    },
+    {
+      "name": "retirement cannot be undone by later activation",
+      "result": "PASS",
+      "expected": {
+        "status": 409,
+        "codes": [
+          "only_a_pending_canary_is_activated"
+        ]
+      },
+      "actual": {
+        "status": 409,
+        "codes": [
+          "only_a_pending_canary_is_activated"
+        ]
+      }
+    },
+    {
+      "name": "Activated retirement: fixture is synthetic",
+      "result": "PASS",
+      "expected": true,
+      "actual": true
+    },
+    {
+      "name": "creator cannot activate the control canary",
+      "result": "PASS",
+      "expected": {
+        "status": 409,
+        "codes": [
+          "activator_must_differ_from_creator"
+        ]
+      },
+      "actual": {
+        "status": 409,
+        "codes": [
+          "activator_must_differ_from_creator"
+        ]
+      }
+    },
+    {
+      "name": "distinct reviewer activation creates paired actor and time",
+      "result": "PASS",
+      "expected": [
+        "ACTIVE",
+        true,
+        true
+      ],
+      "actual": [
+        "ACTIVE",
+        true,
+        true
+      ]
+    },
+    {
+      "name": "activated retirement retains the exact activation history",
+      "result": "PASS",
+      "expected": [
+        "RETIRED",
+        "a5d2b557-7a23-47b0-9402-bfcada25dc17",
+        "2026-10-02T14:07:33.882Z",
+        true
+      ],
+      "actual": [
+        "RETIRED",
+        "a5d2b557-7a23-47b0-9402-bfcada25dc17",
+        "2026-10-02T14:07:33.882Z",
+        true
+      ]
+    }
+  ],
+  "passed": 14,
+  "failures": 0,
+  "profile": "codex-a00",
+  "test_adapter_only": true,
+  "limitation": "Connector effects are exercised against the synthetic records test adapter; no live customer system was contacted."
+}

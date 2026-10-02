@@ -179,6 +179,8 @@ await t.run(async () => {
     check('the report counts mapped and unmapped requirements', [fw.requirements_mapped, fw.requirements, fw.unmapped_codes.includes(code)], [1, framework.requirements.length, false]);
     check('the report counts open and overdue issues and published policies', [report2.summary.open_issues >= 2, report2.summary.overdue_issues >= 1, report2.summary.policies_published >= 1], [true, true, true]);
     check('the report states its limits', report2.limits.length, 2);
+    const cmp = report2.completeness;
+    check('the report says how much of the scope it lists, and lists all of it here', [cmp.complete, cmp.controls_included === cmp.controls_total, cmp.frameworks_included === cmp.frameworks_total, cmp.tests_included === cmp.tests_total, cmp.controls_total === report2.controls.length], [true, true, true, true, true]);
     check('an auditor can read tests and alerts', [(await auditor.call('/api/v1/admin/grc/control-tests?limit=10')).status, (await auditor.call('/api/v1/admin/grc/compliance-alerts?limit=10')).status], [200, 200]);
     check('an auditor cannot create, run or sweep tests', [(await auditor.call('/api/v1/admin/grc/control-tests', { control_id: control.id, name: 'Auditor test', check_kind: 'FORCED_ROW_SECURITY', maximum_violations: 0, interval_minutes: 60 }, key())).status,
       (await auditor.call(`/api/v1/admin/grc/control-tests/${binding.id}/runs`, {}, key())).status, (await auditor.call('/api/v1/admin/grc/control-tests/sweep', {}, key())).status], [403, 403, 403]);
