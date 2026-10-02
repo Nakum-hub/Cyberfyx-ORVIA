@@ -61,7 +61,8 @@ export default function VendorSignIn() {
   return <>
     <div className="page-head"><h2>{client ? 'Client account sign in' : 'Vendor / auditor sign in'}</h2>
       <p>{client ? 'For client organisations uploading an audit evidence package with the engagement code their auditor gave them.' : 'Vendor staff and auditors sign in here, on the vendor\'s own installation only. An authenticator is required for every vendor login.'}</p>
-      <p>{client ? <a href="/vendor/sign-in">Vendor staff sign in instead</a> : <a href="/vendor/sign-in?account=client">Client account sign in instead</a>}</p></div>
+      <p>{client ? <a href="/vendor/sign-in">Vendor staff sign in instead</a> : <a href="/vendor/sign-in?account=client">Client account sign in instead</a>}</p>
+      {!client && <p>New member, or given a setup code? <a href="/vendor/account-setup">Set your password</a></p>}</div>
     <form className="panel" onSubmit={submit} style={{ maxWidth: 560 }} aria-label={client ? 'Client account sign in' : 'Vendor sign in'}>
       {step === 'password' ? <><TextField label="Email" type="email" value={email} onChange={setEmail} required autoComplete="username" /><TextField label="Password" type="password" value={password} onChange={setPassword} required autoComplete="current-password" /></> : null}
       {step === 'replace' ? <><h3>Choose your own password</h3><p>Replace the one-time password you were given. Next you will set up your authenticator.</p><TextField label="New password" type="password" value={chosen} onChange={setChosen} required autoComplete="new-password" /><TextField label="Confirm new password" type="password" value={confirm} onChange={setConfirm} required autoComplete="new-password" /></> : null}

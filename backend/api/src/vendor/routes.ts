@@ -32,6 +32,8 @@ const routes: Route[] = [
   R('POST', '/team/{id}/deactivate', 'vendor.team.manage', (c, id) => S.setMemberActive(c, id!, false)),
   R('POST', '/team/{id}/reactivate', 'vendor.team.manage', (c, id) => S.setMemberActive(c, id!, true)),
   R('POST', '/team/{id}/delete', 'vendor.team.manage', (c, id, i) => S.deleteMember(c, id!, i)),
+  R('POST', '/team/{id}/setup-code', 'vendor.team.manage', (c, id, i) => S.issueSetupCode(c, id!, i)),
+  R('POST', '/team/{id}/password', 'vendor.team.manage', (c, id, i) => S.setMemberPassword(c, id!, i)),
   R('GET', '/organisations', 'organisations.read', c => S.organisationList(c)),
   R('POST', '/organisations', 'organisations.manage', (c, _, i) => S.createOrganisation(c, i)),
   R('GET', '/organisations/{id}', 'organisations.read', (c, id) => S.organisation(c, id!)),
@@ -148,6 +150,7 @@ export function createVendorHandler(getRuntime: () => VendorRuntime = vendorRunt
   return (request: Request) => vendorSafeRoute(async requestId => {
     const url = new URL(request.url); const r = getRuntime();
     if (url.pathname === `${BASE}/setup`) return setup(request, r);
+    if (url.pathname === `${BASE}/account-setup`) return accountSetup(request, r);
     if (url.pathname === `${BASE}/session`) { const actor = await vendorActorFor(request, r); return Response.json(V.VendorSession.parse({ actor_domain: actor.actor_domain, actor_id: actor.actor_id, role: actor.role, capabilities: actor.capabilities, organisation_id: actor.organisation_id, name: actor.name, email: actor.email, expires_at: actor.expires_at })); }
     if (url.pathname === `${BASE}/uploads` && request.method === 'POST') return upload(request, r, requestId);
     if (url.pathname.startsWith(`${BASE}/channel/`)) return channel(request, url, r);
@@ -221,6 +224,20 @@ async function setup(request: Request, r: VendorRuntime) {
   catch (error) { const e = error as { code?: string; message?: string; hint?: string }; if (e.code === 'P0001') throw new AccessError(409, 'VALIDATION_ERROR', [{ field: e.hint ?? 'setup', code: e.message ?? 'refused' }]); throw error; }
   if (!accepted) throw new AccessError(403, 'FORBIDDEN', [{ field: 'setup_code', code: 'setup_code_not_accepted' }]);
   return Response.json({ completed: true, sign_in: '/vendor/sign-in', next_steps: ['Sign in as the vendor super administrator and set up your authenticator.', 'Give the vendor administrator their password privately; they set up their own authenticator at first sign-in.'] }, { status: 201 });
+}
+
+/**
+ * Revision 1.13: a member sets their first password (or a reset password) with the one-time code an administrator gave
+ * them. Unauthenticated by design; the code is the proof. Wrong codes count towards a lock of five; the refusal never says
+ * whether the email exists.
+ */
+async function accountSetup(request: Request, r: VendorRuntime) {
+  if (request.method !== 'POST') throw new AccessError(404, 'NOT_FOUND');
+  if (request.headers.has('cookie') || request.headers.has('authorization')) throw new AccessError(400, 'VALIDATION_ERROR', [{ field: 'credentials', code: 'no_credentials_accepted' }]);
+  const v = parseWith(V.VendorAccountSetup, await jsonBody(request, r.config, 4096));
+  const accepted = (await r.pool.query('SELECT vendor.complete_account_setup($1,$2,$3) AS ok', [v.email, setupCodeDigest(v.setup_code), await hashPassword(v.new_password)])).rows[0].ok === true;
+  if (!accepted) throw new AccessError(403, 'FORBIDDEN', [{ field: 'setup_code', code: 'setup_code_not_accepted' }]);
+  return Response.json({ completed: true, sign_in: '/vendor/sign-in', next_steps: ['Sign in with your work email and the password you just set, then set up your authenticator.'] });
 }
 
 export const vendorRoute = createVendorHandler();

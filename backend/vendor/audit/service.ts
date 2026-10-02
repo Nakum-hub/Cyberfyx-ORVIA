@@ -49,16 +49,52 @@ export const engagementCodeDigest = (code: string) => createHash('sha256').updat
 
 // Vendor team
 export async function team(c: Ctx) {
-  return guarded(async () => V.VendorTeam.parse({ members: (await c.tx.query('SELECT * FROM vendor.team()')).rows.map(r => ({ ...r, created_at: iso(r.created_at) })) }));
+  return guarded(async () => {
+    const state = new Map((await c.tx.query('SELECT * FROM vendor.team_password_state()')).rows.map(r => [r.user_id as string, r]));
+    return V.VendorTeam.parse({ members: (await c.tx.query('SELECT * FROM vendor.team()')).rows.map(r => ({ ...r, created_at: iso(r.created_at),
+      password_set: state.get(r.user_id)?.password_set === true, setup_code_expires_at: iso(state.get(r.user_id)?.setup_code_expires_at ?? null) })) });
+  });
+}
+/** Revision 1.13 setup code: 20 characters from an unambiguous alphabet, shown once; only its digest is stored. */
+export const setupCodeDigestOf = (code: string) => createHash('sha256').update(code.toUpperCase().replace(/[^A-Z0-9]/g, ''), 'utf8').digest('hex');
+async function issueCode(c: Ctx, userId: string, hours: number) {
+  const code = newEngagementCode();
+  const expires = (await c.tx.query('SELECT vendor.issue_setup_code($1,$2,$3,$4) AS e', [c.actor.actor_id, userId, setupCodeDigestOf(code), hours])).rows[0].e as Date;
+  return { code, expires_at: expires.toISOString() };
 }
 export async function createMember(c: Ctx, input: unknown) {
-  const v = V.VendorMemberCreate.parse(input); const id = randomUUID(); const password = randomBytes(24).toString('base64url');
-  const hash = await hashPassword(password);
+  const v = V.VendorMemberCreate.parse(input); const id = randomUUID();
   return guarded(async () => {
-    await c.tx.query('SELECT vendor.create_member($1,$2,$3,$4,$5,$6)', [c.actor.actor_id, id, v.name, v.email, v.role, hash]);
+    let oneTime: string | null = null; let setup: { code: string; expires_at: string } | null = null;
+    if (v.password_mode === 'SETUP_CODE') {
+      await c.tx.query('SELECT vendor.create_member_pending($1,$2,$3,$4,$5)', [c.actor.actor_id, id, v.name, v.email, v.role]);
+      setup = await issueCode(c, id, 72);
+    } else {
+      oneTime = v.password_mode === 'ONE_TIME_PASSWORD' ? randomBytes(24).toString('base64url') : null;
+      await c.tx.query('SELECT vendor.create_member($1,$2,$3,$4,$5,$6)', [c.actor.actor_id, id, v.name, v.email, v.role, await hashPassword(oneTime ?? v.password!)]);
+      // An administrator-set password is final: the member is not forced to change it.
+      if (v.password_mode === 'ADMIN_SET') await c.tx.query('SELECT vendor.set_member_password($1,$2,$3)', [c.actor.actor_id, id, await hashPassword(v.password!)]);
+    }
     await audit(c, 'vendor.team.member-created', id);
     const member = (await team(c)).members.find(m => m.user_id === id)!;
-    return V.VendorMemberCreated.parse({ member, one_time_password: password });
+    return V.VendorMemberCreated.parse({ member, one_time_password: oneTime, setup_code: setup?.code ?? null, setup_code_expires_at: setup?.expires_at ?? null });
+  });
+}
+export async function issueSetupCode(c: Ctx, id: string, input: unknown) {
+  const v = V.VendorSetupCodeIssue.parse(input ?? {});
+  return guarded(async () => {
+    const issued = await issueCode(c, id, v.valid_hours);
+    await audit(c, 'vendor.team.setup-code-issued', id);
+    return V.VendorSetupCodeIssued.parse({ user_id: id, setup_code: issued.code, expires_at: issued.expires_at,
+      note: 'Shown once. Give it to the member privately; they enter it with their work email to set their password. If they already have one, it is replaced when they use the code.' });
+  });
+}
+export async function setMemberPassword(c: Ctx, id: string, input: unknown) {
+  const v = V.VendorSetPassword.parse(input);
+  return guarded(async () => {
+    await c.tx.query('SELECT vendor.set_member_password($1,$2,$3)', [c.actor.actor_id, id, await hashPassword(v.password)]);
+    await audit(c, 'vendor.team.password-set', id);
+    return (await team(c)).members.find(m => m.user_id === id)!;
   });
 }
 export async function setMemberActive(c: Ctx, id: string, active: boolean) {
