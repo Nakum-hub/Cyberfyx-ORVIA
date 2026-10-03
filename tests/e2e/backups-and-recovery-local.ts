@@ -31,11 +31,11 @@ async function signIn(p: Page, who: string) {
   const user = h.users[who]!;
   await h.authWindow();
   await p.goto('/workspace/sign-in');
-  await p.getByLabel('Staff email').fill(user.email); await p.getByLabel('Password', { exact: true }).fill(user.password);
+  await p.getByLabel('Email', { exact: true }).fill(user.email); await p.getByLabel('Password', { exact: true }).fill(user.password);
   await p.getByRole('button', { name: 'Sign in', exact: true }).click();
   await p.getByLabel('Authenticator code', { exact: true }).fill(authenticatorCode(user.totp_uri!));
   await p.getByRole('button', { name: 'Verify authenticator', exact: true }).click();
-  await p.getByRole('heading', { name: 'Signed in', exact: true }).waitFor();
+  await p.waitForURL(u => u.pathname === '/workspace');
 }
 
 await t.run(async () => {

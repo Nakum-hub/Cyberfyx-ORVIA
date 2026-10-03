@@ -3,7 +3,7 @@ import { betterAuth } from 'better-auth';
 import { drizzleAdapter } from 'better-auth/adapters/drizzle';
 import { twoFactor } from 'better-auth/plugins';
 import { drizzle } from 'drizzle-orm/node-postgres';
-import { AUTH } from '../../../shared/contracts/src/index.ts';
+import { AUTH, SESSION_IDLE_SECONDS } from '../../../shared/contracts/src/index.ts';
 import { authSchema } from '../../../database/customer/src/auth-schema.ts';
 import { runtimePool } from '../../../database/customer/src/runtime.ts';
 import type { RuntimeConfig } from './config.ts';
@@ -24,7 +24,9 @@ export function createAuth(config: RuntimeConfig, domain: Domain, bootstrap = fa
     secret: config.secret(`${domain}-secret`), trustedOrigins: [config.origin],
     database: drizzleAdapter(drizzle(pool, { schema }), { provider: 'pg', schema, transaction: true }),
     emailAndPassword: { enabled: true, disableSignUp: !bootstrap, autoSignIn: false, minPasswordLength: 16, maxPasswordLength: 128 },
-    session: { expiresIn: 3600, updateAge: 300, freshAge: 300, cookieCache: { enabled: false } },
+    // 30-minute inactivity limit: each request after a minute slides the expiry to 30 minutes from now, so a session
+    // that sees no request for 30 minutes ends (owner decision 2026-10-03). The interface also signs out on idle input.
+    session: { expiresIn: SESSION_IDLE_SECONDS, updateAge: 60, freshAge: 300, cookieCache: { enabled: false } },
     advanced: { cookiePrefix: AUTH[domain].cookie_prefix, database: { generateId: () => randomUUID() },
       // Rehearsal is verified HTTPS; other profiles remain explicit development HTTP.
       useSecureCookies: config.origin.startsWith('https:'), defaultCookieAttributes: { httpOnly: true, sameSite: 'strict', path: '/' },

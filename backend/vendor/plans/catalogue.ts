@@ -26,8 +26,10 @@ export const CATALOGUE: readonly Tier[] = [
     { code: 'tier_1_members_5', label: 'Up to 5 members', member_seats: 5 },
     { code: 'tier_1_members_10', label: 'Up to 10 members', member_seats: 10 },
   ] },
-  { code: 'tier_2', name: 'Tier 2', edition: 'CONTROL', options: [] },
-  { code: 'tier_3', name: 'Tier 3', edition: 'ENTERPRISE', options: [] },
+  // Demonstration options (2026-10-03): the seat counts are placeholders so Tier 2 and Tier 3 licences can be issued and shown;
+  // the owner confirms the real options and seats (docs/demo/V1_DEMO_TASKS.md, owner inputs).
+  { code: 'tier_2', name: 'Tier 2', edition: 'CONTROL', options: [{ code: 'tier_2_members_25', label: 'Up to 25 members (seats to be confirmed)', member_seats: 25 }] },
+  { code: 'tier_3', name: 'Tier 3', edition: 'ENTERPRISE', options: [{ code: 'tier_3_members_100', label: 'Up to 100 members (seats to be confirmed)', member_seats: 100 }] },
 ];
 
 /** Structural checks, so a catalogue edit cannot quietly produce a nonsensical seat count. */

@@ -11,9 +11,9 @@ import { predicate, scope } from '../operations/shared.ts';
 type Spec = { key: string; label: string; unit: string; basis: string; sql: string; params?: unknown[] };
 const count = (key: string, label: string, basis: string, from: string, params: unknown[] = []): Spec => ({ key, label, unit: 'count', basis, sql: `SELECT count(*)::int AS v FROM ${from}`, params });
 const breach = (kind: string, prefix: string): Spec[] => [
-  count(`${prefix}.met`, 'Completed within the timer', `breach tasks of kind ${kind} completed on or before their due time`, `app.breach_tasks WHERE ${predicate} AND kind=$4 AND state='COMPLETED' AND due_at IS NOT NULL AND completed_at<=due_at`, [kind]),
-  count(`${prefix}.missed`, 'Missed the timer', `breach tasks of kind ${kind} completed late, or open past their due time`, `app.breach_tasks WHERE ${predicate} AND kind=$4 AND due_at IS NOT NULL AND ((state='COMPLETED' AND completed_at>due_at) OR (state='OPEN' AND due_at<clock_timestamp()))`, [kind]),
-  count(`${prefix}.open`, 'Open within the timer', `breach tasks of kind ${kind} still open and not yet due`, `app.breach_tasks WHERE ${predicate} AND kind=$4 AND state='OPEN' AND (due_at IS NULL OR due_at>=clock_timestamp())`, [kind]),
+  count(`${prefix}.met`, 'Completed within the timer', `breach tasks of kind ${kind} completed on or before their due time`, `app.breach_tasks WHERE ${predicate} AND kind=$4 AND legal_status<>'NOT_YET_IN_FORCE' AND state='COMPLETED' AND due_at IS NOT NULL AND completed_at<=due_at`, [kind]),
+  count(`${prefix}.missed`, 'Missed the timer', `breach tasks of kind ${kind} completed late, or open past their due time`, `app.breach_tasks WHERE ${predicate} AND kind=$4 AND legal_status<>'NOT_YET_IN_FORCE' AND due_at IS NOT NULL AND ((state='COMPLETED' AND completed_at>due_at) OR (state='OPEN' AND due_at<clock_timestamp()))`, [kind]),
+  count(`${prefix}.open`, 'Open within the timer', `breach tasks of kind ${kind} still open and not yet due`, `app.breach_tasks WHERE ${predicate} AND kind=$4 AND legal_status<>'NOT_YET_IN_FORCE' AND state='OPEN' AND (due_at IS NULL OR due_at>=clock_timestamp())`, [kind]),
 ];
 const sdf = (kind: string, prefix: string): Spec[] => [
   { key: `${prefix}.next_due`, label: 'Next due date', unit: 'date', basis: `earliest due date of open SDF obligations of kind ${kind}`, sql: `SELECT to_char(min(due_at) AT TIME ZONE 'UTC','YYYY-MM-DD') AS v FROM app.sdf_obligations WHERE ${predicate} AND kind=$4 AND state='OPEN'`, params: [kind] },

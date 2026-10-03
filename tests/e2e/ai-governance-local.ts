@@ -55,12 +55,12 @@ try{
   const user=h.users.admin!;
   assert(user.totp_uri,'Synthetic admin authenticator enrollment required');
   await page.goto('/workspace/sign-in');
-  await page.getByLabel('Staff email').fill(user.email);
+  await page.getByLabel('Email', { exact: true }).fill(user.email);
   await page.getByLabel('Password',{exact:true}).fill(user.password);
   await page.getByRole('button',{name:'Sign in',exact:true}).click();
   await page.getByLabel('Authenticator code',{exact:true}).fill(authenticatorCode(user.totp_uri));
   await page.getByRole('button',{name:'Verify authenticator',exact:true}).click();
-  await page.getByRole('heading',{name:'Signed in',exact:true}).waitFor();
+  await page.waitForURL(u => u.pathname === '/workspace');
   steps.push('admin signed in with MFA');
   await page.goto('/workspace/ai-governance');
   phase='read AI governance screen';

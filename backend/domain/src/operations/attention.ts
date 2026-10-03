@@ -31,10 +31,10 @@ export async function operationsAttention(c: Context) {
     push({ kind: 'RIGHTS_CASE_DUE', severity: r.due_at < now ? 'OVERDUE' : 'DUE_SOON', entity_kind: 'rights_request', entity_id: r.rights_request_id, count: 1, detail: r.due_at < now ? 'A rights case is past its due time.' : 'A rights case is due within seven days.', due_at: iso(r.due_at) });
 
   // One item per breach, carrying its worst open task state.
-  for (const b of capped((await c.tx.query(`SELECT incident_id,bool_or(due_at IS NOT NULL AND due_at<$4) overdue,bool_or(legal_status='UNRESOLVED') unresolved,
-      bool_or(due_at IS NOT NULL AND due_at<$5) due_soon,min(due_at) FILTER (WHERE due_at IS NOT NULL) next_due,count(*)::int n,max(created_at) latest
+  for (const b of capped((await c.tx.query(`SELECT incident_id,bool_or(legal_status<>'NOT_YET_IN_FORCE' AND due_at IS NOT NULL AND due_at<$4) overdue,bool_or(legal_status='UNRESOLVED') unresolved,
+      bool_or(legal_status<>'NOT_YET_IN_FORCE' AND due_at IS NOT NULL AND due_at<$5) due_soon,min(due_at) FILTER (WHERE due_at IS NOT NULL) next_due,count(*)::int n,max(created_at) latest
     FROM app.breach_tasks WHERE ${predicate} AND state='OPEN' GROUP BY incident_id
-    ORDER BY bool_or(due_at IS NOT NULL AND due_at<$4) DESC,bool_or(legal_status='UNRESOLVED') DESC,max(created_at) DESC LIMIT 101`, [...s, now, new Date(now.getTime() + DAY)])).rows, 100, 'breaches with open tasks'))
+    ORDER BY bool_or(legal_status<>'NOT_YET_IN_FORCE' AND due_at IS NOT NULL AND due_at<$4) DESC,bool_or(legal_status='UNRESOLVED') DESC,max(created_at) DESC LIMIT 101`, [...s, now, new Date(now.getTime() + DAY)])).rows, 100, 'breaches with open tasks'))
     push({ kind: 'BREACH_TASK_DUE', severity: b.overdue ? 'OVERDUE' : b.unresolved ? 'UNRESOLVED' : b.due_soon ? 'DUE_SOON' : 'OPEN', entity_kind: 'personal_data_breach', entity_id: b.incident_id, count: b.n,
       detail: b.overdue ? `${b.n} open breach task(s); at least one is past its deadline.` : b.unresolved ? `${b.n} open breach task(s); a deadline cannot be computed because the awareness time is not recorded.` : `${b.n} open breach task(s), including intimations due without delay.`, due_at: iso(b.next_due) });
 
@@ -189,7 +189,8 @@ export async function notificationSweep(c: Context) {
   const profile = (await c.tx.query(`SELECT dpo_contact,grievance_contact FROM app.organisation_profile_versions WHERE ${predicate} ORDER BY version DESC LIMIT 1`, s)).rows[0];
   const recipient: string | null = profile?.dpo_contact ?? profile?.grievance_contact ?? null;
   const sources: { source: string; id: string; due: Date | null }[] = [
-    ...(await c.tx.query(`SELECT id,due_at FROM app.breach_tasks WHERE ${predicate} AND state='OPEN'`, s)).rows.map(r => ({ source: 'DPDP_BREACH_TASK', id: r.id, due: r.due_at })),
+    // A task whose requirement had not commenced when the organisation became aware is shown, but no duty is due from it.
+    ...(await c.tx.query(`SELECT id,due_at FROM app.breach_tasks WHERE ${predicate} AND state='OPEN' AND legal_status<>'NOT_YET_IN_FORCE'`, s)).rows.map(r => ({ source: 'DPDP_BREACH_TASK', id: r.id, due: r.due_at })),
     ...(await c.tx.query(`SELECT p.rights_request_id id,p.due_at FROM app.rights_case_profiles p JOIN app.rights_requests q ON q.tenant_id=p.tenant_id AND q.legal_entity_id=p.legal_entity_id AND q.environment_id=p.environment_id AND q.id=p.rights_request_id
       WHERE p.tenant_id=$1 AND p.legal_entity_id=$2 AND p.environment_id=$3 AND p.due_at IS NOT NULL AND q.state NOT IN ('CLOSED','COMPLETED','REJECTED')`, s)).rows.map(r => ({ source: 'DPDP_RIGHTS_DEADLINE', id: r.id, due: r.due_at })),
     ...(await c.tx.query(`SELECT id FROM app.downstream_actions WHERE ${predicate} AND state IN ('failed','inconclusive') LIMIT 200`, s)).rows.map(r => ({ source: 'DPDP_ACTION_FAILURE', id: r.id, due: null })),

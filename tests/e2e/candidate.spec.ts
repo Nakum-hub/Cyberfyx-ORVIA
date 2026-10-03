@@ -1,4 +1,4 @@
-import { test, expect, loginUi, grantUi, withdrawUi, expectPageError } from './fixture.ts';
+import { test, expect, loginUi, expectPageError } from './fixture.ts';
 import { schemas } from '../../shared/contracts/src/index.ts';
 
 test('B06 branded route fallback, session-aware navigation and captured page errors',async({page,h})=>{
@@ -15,14 +15,17 @@ test('B06 branded route fallback, session-aware navigation and captured page err
   expect(retiredDemo?.status()).toBe(404);
   await expect(page.getByRole('link',{name:'Guided demo',exact:true})).toHaveCount(0);
 
-  // F-09: signed out the sign-in destination is offered; signed in it is not.
-  await page.goto('/workspace/sign-in');
+  // F-09: signed out the sign-in destination is offered; signed in it is not. The sign-in page itself is the full-screen
+  // branded sign-in (owner design 2026-10-03), so the offer is checked on the Workspace.
+  await page.goto('/workspace');
   const nav=page.getByRole('navigation',{name:'Primary'});
   await expect(nav.getByRole('link',{name:'Staff sign in',exact:true})).toBeVisible();
   await loginUi(page,h,'owner');
   await expect(nav.getByRole('link',{name:'Staff sign in',exact:true})).toHaveCount(0);
   await expect(nav.getByRole('link',{name:'Overview',exact:true})).toBeVisible();
   await page.getByRole('button',{name:'Sign out',exact:true}).click();
+  await expect(page.getByLabel('Email', { exact: true })).toBeVisible();
+  await page.goto('/workspace');
   await expect(nav.getByRole('link',{name:'Staff sign in',exact:true})).toBeVisible();
 
   // F-08: prove the audit actually captures an uncaught page error. Without the
@@ -33,13 +36,15 @@ test('B06 branded route fallback, session-aware navigation and captured page err
   await page.waitForTimeout(250);
 });
 
-test('B06 candidate walkthrough across staff, privacy, enforcement and evidence',async({page,browser,h})=>{
+test('B06 candidate walkthrough across staff, privacy, enforcement and evidence',async({page,h})=>{
   const scenario=await h.scenario();await loginUi(page,h,'owner');await page.goto('/workspace/configuration');await page.getByLabel('Search purpose versions').fill(scenario.purpose.id);await expect(page.getByRole('heading',{name:scenario.purpose.name,exact:true})).toBeVisible();
-  const context=await browser.newContext();const stop=await h.workers();
-  try{const privacy=await context.newPage();await loginUi(privacy,h,'alice');const granted=schemas.Receipt.parse(await grantUi(privacy,scenario.purpose));const withdrawn=schemas.Receipt.parse(await withdrawUi(privacy,scenario.purpose));expect(withdrawn.consent_epoch).toBe(granted.consent_epoch+1);
+  // Consent changes arrive through the API, as from the organisation's platform; the staff Privacy Centre module shows them.
+  const stop=await h.workers();
+  try{const granted=schemas.Receipt.parse((await scenario.change('grant')).receipt);const withdrawn=schemas.Receipt.parse((await scenario.change('withdraw')).receipt);expect(withdrawn.consent_epoch).toBe(granted.consent_epoch+1);
+    await page.goto('/workspace/privacy-centre#consents');await expect(page.getByRole('tab',{name:'Consents',exact:true})).toHaveAttribute('aria-selected','true');
     await page.goto('/workspace/workflows/'+withdrawn.workflow_id);await expect(page.getByText('Independently observed',{exact:true})).toBeVisible({timeout:100000});await page.getByRole('link',{name:'Evidence for this workflow'}).click();await expect(page.getByRole('button',{name:'Download local evidence JSON'})).toBeVisible();
     await page.goto('/workspace/test-lab');await expect(page.getByRole('heading',{name:'Local operator execution'})).toBeVisible();await h.screenshot(page,'candidate-test-lab');
-  }finally{await stop();await context.close();}
+  }finally{await stop();}
 });
 
 test('B06 real dependency outage, malformed ID, denied scope and responsive navigation',async({page,context,browser,h})=>{

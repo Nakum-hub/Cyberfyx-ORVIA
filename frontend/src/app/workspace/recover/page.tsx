@@ -1,6 +1,7 @@
 'use client';
 import { useState, type FormEvent } from 'react';
 import { NoticeBox, TextField, useHydrated } from '../../../components/shared/ui.tsx';
+import { BrandSignIn } from '../../../components/shared/brand-sign-in.tsx';
 
 /**
  * Owner recovery (OPEN-07, migration 0074). When the organisation's owner has lost their password or authenticator, someone
@@ -31,11 +32,11 @@ export default function OwnerRecovery() {
     finally { setBusy(false); }
   }
 
-  if (done) return <NoticeBox tone="ok" title="Owner access recovered"><p>Sign in with your new password and set up a new authenticator: the old one was removed, and every earlier session of this login has ended. The recovery is recorded in the audit trail.</p><p><a href="/workspace/sign-in">Go to sign in</a></p></NoticeBox>;
+  if (done) return <BrandSignIn area="Recover the owner login" showArea><NoticeBox tone="ok" title="Owner access recovered"><p>Sign in with your new password and set up a new authenticator: the old one was removed, and every earlier session of this login has ended. The recovery is recorded in the audit trail.</p><p><a href="/workspace/sign-in">Go to sign in</a></p></NoticeBox></BrandSignIn>;
   return (
-    <>
-      <div className="page-head"><h2>Recover the owner login</h2><p>For the organisation&apos;s owner only, when the password or authenticator is lost. You need the one-time code issued on the ORVIA server by someone with administrator access to it. Other staff: ask the owner or an administrator to reset your login instead.</p></div>
-      <form className="panel" onSubmit={submit} style={{ maxWidth: 560 }} aria-label="Owner recovery">
+    <BrandSignIn area="Recover the owner login" showArea>
+      <form className="panel" onSubmit={submit} aria-label="Owner recovery">
+        <p className="muted">For the organisation&apos;s owner only, when the password or authenticator is lost. You need the one-time code issued on the ORVIA server by someone with administrator access to it. Other staff: ask the owner or an administrator to reset your login instead.</p>
         <TextField label="Owner email" type="email" value={f.email} onChange={set('email')} required autoComplete="username" />
         <TextField label="Recovery code" value={f.code} onChange={set('code')} required autoComplete="off" />
         <TextField label="New password" type="password" value={f.password} onChange={set('password')} required autoComplete="new-password" hint="16 to 128 characters." />
@@ -43,6 +44,6 @@ export default function OwnerRecovery() {
         {error ? <NoticeBox tone="stop" title="Not recovered"><p>{error}</p></NoticeBox> : null}
         <button className="primary" type="submit" disabled={!hydrated || busy}>{busy ? 'Recovering…' : 'Recover owner login'}</button>
       </form>
-    </>
+    </BrandSignIn>
   );
 }

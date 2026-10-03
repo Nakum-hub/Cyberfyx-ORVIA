@@ -1,0 +1,9 @@
+customer_reference,email,system,activity,decision,occurred_at,evidence
+cust_1001,priya.sharma@aster.example,Aster online store,Personalised recommendations,granted,2026-08-02T09:30:00Z,CRM double opt-in log 8812
+cust_1015,deepa.krishnan@aster.example,Aster online store,Promotional email and SMS,granted,2026-07-14T11:00:00Z,In-store signup form scan 0714-22
+cust_1015,deepa.krishnan@aster.example,Aster online store,Personalised recommendations,declined,2026-07-14T11:00:00Z,In-store signup form scan 0714-22
+cust_1016,manoj.verma@aster.example,Aster online store,Promotional email and SMS,granted,2026-06-30T16:45:00Z,Call centre recording 5531
+cust_1016,manoj.verma@aster.example,Aster online store,Promotional email and SMS,withdrawn,2026-09-20T08:10:00Z,Unsubscribe link click 9921
+cust_1017,lakshmi.das@aster.example,Aster online store,Promotional email and SMS,granted,2026-09-05T12:00:00Z,
+cust_1018,rahul.khanna@aster.example,Aster online store,Loyalty points newsletter,granted,2026-09-06T12:00:00Z,Not a registered activity
+cust_1019,,Aster online store,Promotional email and SMS,maybe,2026-09-07T12:00:00Z,Unclear decision

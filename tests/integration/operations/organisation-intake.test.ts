@@ -118,6 +118,37 @@ await t.run(async () => {
     check('staff mark it handled with a note', [handled.status, handled.handled_note !== null], ['HANDLED', true]);
     check('an applied submission cannot be marked handled', (await admin.call(`/api/v1/admin/intake-submissions/${withdrawn.submission_id}/handled`, { note: 'Applied submissions are not staff work.' }, key())).status, 409);
 
+    t.setPhase('response collection by the organisation\'s platform');
+    // Owner decision 2026-10-03: Data Principals never sign in to ORVIA. The platform that submitted the access request
+    // collects the released response with its intake key; staff may download it to hand over. Same release, same receipts.
+    const reviewer = await h.login('reviewer');
+    const requestId = r.rights_request!.id;
+    const collect = (submission: string, bearer: string) => fetch(`${origin}/api/v1/intake/submissions/${submission}/response-package`, { method: 'POST',
+      headers: { authorization: `Bearer ${bearer}` }, signal: AbortSignal.timeout(20000) });
+    check('nothing can be collected before staff release the response', await codes(collect(rights.submission_id, created.key)), { status: 409, codes: ['not_released'] });
+    // Staff take the platform's request through the normal lifecycle (identity was established by the platform's sign-in).
+    const move = (to: string) => ok(admin.call(`/api/v1/admin/rights-requests/${requestId}/transition`, { to, reason: 'Synthetic progression of a platform request.' }, key()), S.schemas.RightsRequest);
+    await move('PENDING_VERIFICATION'); await move('VERIFIED'); await move('SCOPING');
+    await ok(admin.call(`/api/v1/admin/rights-requests/${requestId}/scope`, { items: [{ system_id: system.id, action: 'DISCLOSE_COPY', retention_exception: null, note: 'Synthetic plan item.' }], unresolved_destinations: [] }, key()), S.schemas.RightsRequest);
+    await move('AWAITING_APPROVAL'); await move('EXECUTING');
+    let pkg = await ok(owner.call(`/api/v1/admin/rights-requests/${requestId}/response-packages`, {}, key()), S.schemas.ResponsePackage);
+    pkg = await ok(reviewer.call(`/api/v1/admin/response-packages/${pkg.id}/review`, { redactions: [],
+      kept: pkg.suggestions.map(x => ({ section_id: x.section_id, field: x.field, justification: 'Reviewed: the principal\'s own information (synthetic).' })), unreadable_acknowledged: true }, key()), S.schemas.ResponsePackage);
+    pkg = await ok(reviewer.call(`/api/v1/admin/response-packages/${pkg.id}/release`, { expires_at: hoursFromNow(24 * 7), max_downloads: 2 }, key()), S.schemas.ResponsePackage);
+    const other = await ok(owner.call('/api/v1/admin/intake-clients', { ...keyBody, name: `Other app ${run}` }, key()), S.schemas.IntakeClientCreated);
+    check('a different key of the same organisation cannot collect a submission it did not make', (await collect(rights.submission_id, other.key)).status, 404);
+    check('the consent submission has no response to collect', (await collect(granted.submission_id, created.key)).status, 404);
+    check('a browser page cannot collect it (Origin refused)', (await fetch(`${origin}/api/v1/intake/submissions/${rights.submission_id}/response-package`, { method: 'POST', headers: { authorization: `Bearer ${created.key}`, origin }, signal: AbortSignal.timeout(20000) })).status, 403);
+    const byPlatform = await ok(collect(rights.submission_id, created.key), S.schemas.OwnResponsePackage);
+    check('the platform collects the reviewed copy with its digest', [byPlatform.request_id, byPlatform.content_digest, byPlatform.downloads_remaining], [requestId, pkg.content_digest, 1]);
+    check('an auditor cannot download the copy', (await auditor.call(`/api/v1/admin/response-packages/${pkg.id}/staff-copy`, {}, key())).status, 403);
+    const byStaff = await ok(reviewer.call(`/api/v1/admin/response-packages/${pkg.id}/staff-copy`, {}, key()), S.schemas.OwnResponsePackage);
+    check('staff with release authority download the same copy to hand over', [byStaff.content_digest, byStaff.downloads_remaining], [pkg.content_digest, 0]);
+    check('the allowance is shared: a third collection is refused', await codes(collect(rights.submission_id, created.key)), { status: 409, codes: ['download_allowance_spent'] });
+    const receipts = (await db.query('SELECT channel, collected_by FROM app.rights_response_downloads WHERE package_id=$1 ORDER BY downloaded_at', [pkg.id])).rows;
+    check('each collection left a receipt naming its channel and collector', receipts.map(x => [x.channel, x.collected_by]), [['PLATFORM', created.client.id], ['STAFF', h.users.reviewer!.id]]);
+    check('a receipt cannot be rewritten', await db.query('UPDATE app.rights_response_downloads SET channel=\'PORTAL\', collected_by=NULL WHERE package_id=$1', [pkg.id]).then(() => 'changed', (e: Error) => e.message), 'A download receipt is never altered');
+
     t.setPhase('revocation and immutability');
     const revoked = await ok(owner.call(`/api/v1/admin/intake-clients/${consentOnly.client.id}/revocation`, { reason: 'Rotating the key for the consent-only integration.' }, key()), S.schemas.IntakeClient);
     check('a revoked key is refused at once', [revoked.revoked_at !== null, (await send('/api/v1/intake/consents', consent('GRANTED', hoursFromNow(-1)), consentOnly.key)).status], [true, 401]);

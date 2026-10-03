@@ -155,7 +155,7 @@ npm run status
 npm stop
 ```
 
-The staff workspace is at `https://127.0.0.1:4330/workspace`. The optional Privacy Centre is at `https://127.0.0.1:4330/privacy`; it is on for the synthetic fixture organisations and off for a new organisation. Local credentials, TLS material and machine tokens are generated into the ignored `.local/profiles/rehearsal` directory.
+The staff workspace is at `https://127.0.0.1:4330/workspace`; staff sign in there through the branded sign-in page. The Privacy Centre is a staff module inside the Workspace (Privacy controls → Privacy Centre); the organisation's Data Principals never sign in to ORVIA (owner decision 2026-10-03).
 
 Read the [operator instructions](docs/engineering/local-packaging-and-operation.md) before using the local certificate or handling evidence. Never share secrets or real customer data in development fixtures.
 

@@ -28,6 +28,10 @@ export const ROLE_RESTRICTED_FUNCTIONS: Record<string, readonly (typeof RUNTIME_
   'app.plan_usage()': ['orvia_app'],
   'app.licence_import_guard()': [],
   'app.file_intake_decided_once()': [],
+  // Owner decision 2026-10-03: released rights responses are collected by the organisation's platform or by staff.
+  'app.collect_released_package(uuid,text,uuid,uuid)': [],
+  'app.intake_collect_response(uuid,uuid)': ['orvia_app'],
+  'app.staff_collect_response(uuid,uuid)': ['orvia_app'],
   'app.serialize_licence_import()': [],
   'app.member_seats()': ['orvia_app'],
 };

@@ -1,0 +1,520 @@
+{
+  "task_id": "DPDP",
+  "fixture_kind": "CUSTOMER_LOCAL_SYNTHETIC",
+  "recorded_at": "2026-10-03T12:32:14.149Z",
+  "profile": "codex-a00",
+  "phase": "complete",
+  "assertions": [
+    {
+      "name": "every category is reported exactly once and the report says it was measured",
+      "result": "PASS",
+      "expected": [
+        8,
+        8,
+        true
+      ],
+      "actual": [
+        8,
+        8,
+        true
+      ]
+    },
+    {
+      "name": "the count reported for ROLE_GRANTS is the count of the operations it names",
+      "result": "PASS",
+      "expected": 496,
+      "actual": 496
+    },
+    {
+      "name": "the count reported for OWNER_CHANGES is the count of the operations it names",
+      "result": "PASS",
+      "expected": 0,
+      "actual": 0
+    },
+    {
+      "name": "the count reported for POLICY_PUBLICATION is the count of the operations it names",
+      "result": "PASS",
+      "expected": 2526,
+      "actual": 2526
+    },
+    {
+      "name": "the count reported for CONNECTOR_CREDENTIALS_AND_SCOPE is the count of the operations it names",
+      "result": "PASS",
+      "expected": 3154,
+      "actual": 3154
+    },
+    {
+      "name": "the count reported for SUPPORT_APPROVAL is the count of the operations it names",
+      "result": "PASS",
+      "expected": 96,
+      "actual": 96
+    },
+    {
+      "name": "the count reported for EXPORTS is the count of the operations it names",
+      "result": "PASS",
+      "expected": 450,
+      "actual": 450
+    },
+    {
+      "name": "the count reported for LICENCES is the count of the operations it names",
+      "result": "PASS",
+      "expected": 145,
+      "actual": 145
+    },
+    {
+      "name": "the count reported for UPDATES is the count of the operations it names",
+      "result": "PASS",
+      "expected": 252,
+      "actual": 252
+    },
+    {
+      "name": "a category this build has no route for says so, rather than reading as an auditing gap",
+      "result": "PASS",
+      "expected": [
+        false,
+        0,
+        []
+      ],
+      "actual": [
+        false,
+        0,
+        []
+      ]
+    },
+    {
+      "name": "the categories the scenario just exercised have recorded something",
+      "result": "PASS",
+      "expected": [
+        true,
+        true,
+        true
+      ],
+      "actual": [
+        true,
+        true,
+        true
+      ]
+    },
+    {
+      "name": "a category with something recorded names when it first and last happened",
+      "result": "PASS",
+      "expected": [
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true
+      ],
+      "actual": [
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true
+      ]
+    },
+    {
+      "name": "configuring a connector raises exactly the connector category",
+      "result": "PASS",
+      "expected": [
+        "CONNECTOR_CREDENTIALS_AND_SCOPE"
+      ],
+      "actual": [
+        "CONNECTOR_CREDENTIALS_AND_SCOPE"
+      ]
+    },
+    {
+      "name": "the raised count is still exactly the count of the operations it names",
+      "result": "PASS",
+      "expected": 3156,
+      "actual": 3156
+    },
+    {
+      "name": "the report cannot be told a category is covered",
+      "result": "PASS",
+      "expected": [
+        false,
+        true
+      ],
+      "actual": [
+        false,
+        true
+      ]
+    },
+    {
+      "name": "the trail returns every scoped event that existed when the read began, and only those",
+      "result": "PASS",
+      "expected": [
+        "40b240a6-e72e-459f-9b8f-ee7b06bba6b5",
+        "4190e36e-d3d9-4cf6-887e-f7881c4663ed",
+        "440bf489-e474-4543-9ed7-a9b28619f06e",
+        "57982b87-8178-4044-9454-311e93a60f28",
+        "748d0790-46cb-401f-89d2-6a3fec253771",
+        "792d7740-3b5e-43ae-adeb-ab34b5598e7c",
+        "7b4374dc-d166-4429-816f-bee1bf8ad8b4",
+        "7c9da396-6ea7-4787-a7d4-008cfb7df10f",
+        "8500d169-bba7-4550-850f-6800b40d36a5",
+        "96f42bad-4aec-4ef7-9f78-d75e0bfaa198",
+        "98edd846-17b2-4eac-a098-1b30d2059e51",
+        "a4ae8e93-a314-4e70-ae64-c96c73cf00ed",
+        "b40cbde9-7f0d-4e1a-b8fb-446bc8c9058b",
+        "b40fff30-a733-413b-9609-61edd0209e31",
+        "cbf1009c-cb11-4602-a1e4-0edea2585b77",
+        "d7e1078b-9bb8-4b31-a0f9-99df43e40f7d",
+        "e733a4ab-e57d-49ef-9b66-36e8ab340c57",
+        "f90bfe23-eee6-405e-a614-89071d2652b7"
+      ],
+      "actual": [
+        "40b240a6-e72e-459f-9b8f-ee7b06bba6b5",
+        "4190e36e-d3d9-4cf6-887e-f7881c4663ed",
+        "440bf489-e474-4543-9ed7-a9b28619f06e",
+        "57982b87-8178-4044-9454-311e93a60f28",
+        "748d0790-46cb-401f-89d2-6a3fec253771",
+        "792d7740-3b5e-43ae-adeb-ab34b5598e7c",
+        "7b4374dc-d166-4429-816f-bee1bf8ad8b4",
+        "7c9da396-6ea7-4787-a7d4-008cfb7df10f",
+        "8500d169-bba7-4550-850f-6800b40d36a5",
+        "96f42bad-4aec-4ef7-9f78-d75e0bfaa198",
+        "98edd846-17b2-4eac-a098-1b30d2059e51",
+        "a4ae8e93-a314-4e70-ae64-c96c73cf00ed",
+        "b40cbde9-7f0d-4e1a-b8fb-446bc8c9058b",
+        "b40fff30-a733-413b-9609-61edd0209e31",
+        "cbf1009c-cb11-4602-a1e4-0edea2585b77",
+        "d7e1078b-9bb8-4b31-a0f9-99df43e40f7d",
+        "e733a4ab-e57d-49ef-9b66-36e8ab340c57",
+        "f90bfe23-eee6-405e-a614-89071d2652b7"
+      ]
+    },
+    {
+      "name": "every returned event carries its actor, its domain and the request that caused it",
+      "result": "PASS",
+      "expected": [
+        true,
+        true
+      ],
+      "actual": [
+        true,
+        true
+      ]
+    },
+    {
+      "name": "an owner in another organisation holding the same capability sees none of this trail",
+      "result": "PASS",
+      "expected": [],
+      "actual": []
+    },
+    {
+      "name": "filtering by operation returns that operation and only that one",
+      "result": "PASS",
+      "expected": [
+        true,
+        true
+      ],
+      "actual": [
+        true,
+        true
+      ]
+    },
+    {
+      "name": "the filtered set is the whole filtered set",
+      "result": "PASS",
+      "expected": 2,
+      "actual": 2
+    },
+    {
+      "name": "a data principal acting on their own record is in the same trail, under their own domain",
+      "result": "PASS",
+      "expected": [
+        true,
+        true
+      ],
+      "actual": [
+        true,
+        true
+      ]
+    },
+    {
+      "name": "filtering by actor returns that actor and nobody else",
+      "result": "PASS",
+      "expected": [
+        true,
+        1
+      ],
+      "actual": [
+        true,
+        1
+      ]
+    },
+    {
+      "name": "a filter key the route never declared is refused rather than ignored",
+      "result": "PASS",
+      "expected": 400,
+      "actual": 400
+    },
+    {
+      "name": "a filter value outside the declared vocabulary is refused",
+      "result": "PASS",
+      "expected": 400,
+      "actual": 400
+    },
+    {
+      "name": "a time filter that is not a time is refused",
+      "result": "PASS",
+      "expected": 400,
+      "actual": 400
+    },
+    {
+      "name": "the export carries every event the filter matched and says so structurally",
+      "result": "PASS",
+      "expected": [
+        true,
+        2,
+        2
+      ],
+      "actual": [
+        true,
+        2,
+        2
+      ]
+    },
+    {
+      "name": "the export is the answer to a stated filter, so it cannot read as the whole trail",
+      "result": "PASS",
+      "expected": {
+        "operation": "systems.create",
+        "from": "2026-10-03T12:31:11.603Z"
+      },
+      "actual": {
+        "operation": "systems.create",
+        "from": "2026-10-03T12:31:11.603Z"
+      }
+    },
+    {
+      "name": "the digest covers exactly the events carried, so a recipient can check the file it holds",
+      "result": "PASS",
+      "expected": "4d4f3bd0a1e096e698ce292c746db57f816366d61f8b61e97950955790b4951b",
+      "actual": "4d4f3bd0a1e096e698ce292c746db57f816366d61f8b61e97950955790b4951b"
+    },
+    {
+      "name": "the file is offered as a download rather than rendered into a page",
+      "result": "PASS",
+      "expected": "attachment; filename=\"orvia-audit-trail.json\"",
+      "actual": "attachment; filename=\"orvia-audit-trail.json\""
+    },
+    {
+      "name": "reading the trail does not carry the authority to take it out of the installation",
+      "result": "PASS",
+      "expected": 403,
+      "actual": 403
+    },
+    {
+      "name": "an actor who can neither read nor export is refused",
+      "result": "PASS",
+      "expected": 403,
+      "actual": 403
+    },
+    {
+      "name": "an unfiltered export is the whole scoped trail, or a refusal to narrow the filter, and never a shortened file",
+      "result": "PASS",
+      "expected": [
+        400,
+        [
+          "matched_set_above_export_ceiling"
+        ]
+      ],
+      "actual": [
+        400,
+        [
+          "matched_set_above_export_ceiling"
+        ]
+      ]
+    },
+    {
+      "name": "reading the trail is itself an audited event, attributed to the reader",
+      "result": "PASS",
+      "expected": [
+        true,
+        true
+      ],
+      "actual": [
+        true,
+        true
+      ]
+    },
+    {
+      "name": "reading the coverage report is recorded too",
+      "result": "PASS",
+      "expected": true,
+      "actual": true
+    },
+    {
+      "name": "the act that was just performed is in the trail, against the record it acted on and nothing else",
+      "result": "PASS",
+      "expected": [
+        "STAFF",
+        0
+      ],
+      "actual": [
+        "STAFF",
+        0
+      ]
+    },
+    {
+      "name": "an audit event cannot be edited, even by a role that bypasses row-level security",
+      "result": "PASS",
+      "expected": "REJECTED",
+      "actual": "REJECTED"
+    },
+    {
+      "name": "an audit event cannot be removed",
+      "result": "PASS",
+      "expected": "REJECTED",
+      "actual": "REJECTED"
+    },
+    {
+      "name": "reading the trail does not carry the authority to dispute what is in it",
+      "result": "PASS",
+      "expected": 403,
+      "actual": 403
+    },
+    {
+      "name": "an auditor may read the trail",
+      "result": "PASS",
+      "expected": 200,
+      "actual": 200
+    },
+    {
+      "name": "an auditor who may take the trail away still may not dispute a record in it",
+      "result": "PASS",
+      "expected": 403,
+      "actual": 403
+    },
+    {
+      "name": "an actor holding neither capability cannot read the trail at all",
+      "result": "PASS",
+      "expected": 403,
+      "actual": 403
+    },
+    {
+      "name": "a correction naming an event that does not exist is refused, not created",
+      "result": "PASS",
+      "expected": 404,
+      "actual": 404
+    },
+    {
+      "name": "a correction that says nothing is refused",
+      "result": "PASS",
+      "expected": 400,
+      "actual": 400
+    },
+    {
+      "name": "a dispute outside the declared vocabulary is refused",
+      "result": "PASS",
+      "expected": true,
+      "actual": true
+    },
+    {
+      "name": "the correction names the event it disputes and states that the event is unchanged",
+      "result": "PASS",
+      "expected": [
+        "792d7740-3b5e-43ae-adeb-ab34b5598e7c",
+        true,
+        true
+      ],
+      "actual": [
+        "792d7740-3b5e-43ae-adeb-ab34b5598e7c",
+        true,
+        true
+      ]
+    },
+    {
+      "name": "the disputed event is byte-for-byte what it was before the dispute",
+      "result": "PASS",
+      "expected": {
+        "id": "792d7740-3b5e-43ae-adeb-ab34b5598e7c",
+        "tenant_id": "83f5268d-33b5-485b-ac43-be5efdb5c4c4",
+        "legal_entity_id": "7089114a-d453-49df-a63b-c14ceabfc17d",
+        "environment_id": "46037b4f-440c-44f9-8d3b-3427103e6abe",
+        "actor_id": "6806189c-ce80-4aca-9d9a-d91935cdbc62",
+        "actor_domain": "STAFF",
+        "operation": "systems.create",
+        "resource_id": "f30dfc07-789f-487c-ac23-53398c8bee99",
+        "request_id": "907b73ab-c69e-4f58-93f7-c50740393ef2",
+        "created_at": "2026-10-03T12:32:11.954Z"
+      },
+      "actual": {
+        "id": "792d7740-3b5e-43ae-adeb-ab34b5598e7c",
+        "tenant_id": "83f5268d-33b5-485b-ac43-be5efdb5c4c4",
+        "legal_entity_id": "7089114a-d453-49df-a63b-c14ceabfc17d",
+        "environment_id": "46037b4f-440c-44f9-8d3b-3427103e6abe",
+        "actor_id": "6806189c-ce80-4aca-9d9a-d91935cdbc62",
+        "actor_domain": "STAFF",
+        "operation": "systems.create",
+        "resource_id": "f30dfc07-789f-487c-ac23-53398c8bee99",
+        "request_id": "907b73ab-c69e-4f58-93f7-c50740393ef2",
+        "created_at": "2026-10-03T12:32:11.954Z"
+      }
+    },
+    {
+      "name": "the event now reports that it is disputed, and reports nothing else differently",
+      "result": "PASS",
+      "expected": [
+        1,
+        {
+          "id": "792d7740-3b5e-43ae-adeb-ab34b5598e7c",
+          "operation": "systems.create",
+          "actor_id": "6806189c-ce80-4aca-9d9a-d91935cdbc62",
+          "actor_domain": "STAFF",
+          "resource_id": "f30dfc07-789f-487c-ac23-53398c8bee99",
+          "request_id": "907b73ab-c69e-4f58-93f7-c50740393ef2",
+          "created_at": "2026-10-03T12:32:11.954Z",
+          "corrections": 0
+        }
+      ],
+      "actual": [
+        1,
+        {
+          "id": "792d7740-3b5e-43ae-adeb-ab34b5598e7c",
+          "operation": "systems.create",
+          "actor_id": "6806189c-ce80-4aca-9d9a-d91935cdbc62",
+          "actor_domain": "STAFF",
+          "resource_id": "f30dfc07-789f-487c-ac23-53398c8bee99",
+          "request_id": "907b73ab-c69e-4f58-93f7-c50740393ef2",
+          "created_at": "2026-10-03T12:32:11.954Z",
+          "corrections": 0
+        }
+      ]
+    },
+    {
+      "name": "a correction cannot be edited",
+      "result": "PASS",
+      "expected": "REJECTED",
+      "actual": "REJECTED"
+    },
+    {
+      "name": "a correction cannot be withdrawn",
+      "result": "PASS",
+      "expected": "REJECTED",
+      "actual": "REJECTED"
+    },
+    {
+      "name": "a correction cannot name an event in another organisation, because the reference carries the scope",
+      "result": "PASS",
+      "expected": "REJECTED",
+      "actual": "REJECTED"
+    },
+    {
+      "name": "there is no column on an audit event through which a correction could replace it",
+      "result": "PASS",
+      "expected": 0,
+      "actual": 0
+    }
+  ],
+  "result": "PASS"
+}

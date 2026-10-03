@@ -79,6 +79,8 @@ export const expansionRoutes: Route[] = [
   write('release_response_package', '/response-packages/{id}/release', 'ResponsePackageRelease', 'ResponsePackage', 'rights.release', 200),
   write('revoke_response_package', '/response-packages/{id}/revocation', 'ResponsePackageRevoke', 'ResponsePackage', 'rights.release', 200),
   write('withdraw_response_package', '/response-packages/{id}/withdrawal', undefined, 'ResponsePackage', 'rights.write', 200),
+  // Owner decision 2026-10-03: staff download the released copy to hand it over; counts against the release and leaves a receipt.
+  write('collect_response_package_copy', '/response-packages/{id}/staff-copy', undefined, 'OwnResponsePackage', 'rights.release', 200),
   // The authenticated principal collects their own released copy; each collection counts against its allowance.
   { id: 'own_response_package', method: 'post', path: '/api/v1/portal/me/rights-requests/{id}/response-package', authority: 'PRINCIPAL', params: 'IdPath', response: 'OwnResponsePackage', status: 200, idempotency: true, capability: 'rights.own.read' },
   // EX04 value classification and EX12 access exposure

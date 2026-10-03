@@ -1,0 +1,128 @@
+{
+  "result": "passed",
+  "source_commit": "78cc99a4fa36599e8cf3df3493a63a75a567b134",
+  "source_tree_sha256": "b507518c173437b54f227d98015859a267aa87b090c16f3d6ffab4eddd79ad62",
+  "contract_version": "0.60.0",
+  "profile": "rehearsal",
+  "fixture": "aster-birch-v1",
+  "tests": [
+    {
+      "title": [
+        "",
+        "",
+        "candidate.spec.ts",
+        "B06 branded route fallback, session-aware navigation and captured page errors"
+      ],
+      "status": "passed",
+      "expected_status": "passed",
+      "duration_ms": 8449,
+      "retry": 0,
+      "location": {
+        "file": "/home/user/Cyberfyx-ORVIA/tests/e2e/candidate.spec.ts",
+        "line": 4,
+        "column": 1
+      },
+      "errors": [],
+      "annotations": [
+        {
+          "type": "expect-page-error",
+          "description": "ORVIA_SYNTHETIC_AUDIT_PROBE"
+        }
+      ],
+      "browser_health": {
+        "recorded": true,
+        "counts": {
+          "PAGE_ERROR": 1,
+          "CONSOLE_ERROR": 0,
+          "REACT_WARNING": 0,
+          "HTTP_STATUS": 7,
+          "WARNING": 0
+        },
+        "unexpected": 0,
+        "deliberate_errors_captured": 1,
+        "faults": [],
+        "deliberate_faults": [
+          {
+            "kind": "PAGE_ERROR",
+            "text": "Error: ORVIA_SYNTHETIC_AUDIT_PROBE"
+          }
+        ]
+      },
+      "attachments": []
+    },
+    {
+      "title": [
+        "",
+        "",
+        "candidate.spec.ts",
+        "B06 candidate walkthrough across staff, privacy, enforcement and evidence"
+      ],
+      "status": "passed",
+      "expected_status": "passed",
+      "duration_ms": 81888,
+      "retry": 0,
+      "location": {
+        "file": "/home/user/Cyberfyx-ORVIA/tests/e2e/candidate.spec.ts",
+        "line": 39,
+        "column": 1
+      },
+      "errors": [],
+      "annotations": [],
+      "browser_health": {
+        "recorded": true,
+        "counts": {
+          "PAGE_ERROR": 0,
+          "CONSOLE_ERROR": 0,
+          "REACT_WARNING": 0,
+          "HTTP_STATUS": 1,
+          "WARNING": 0
+        },
+        "unexpected": 0,
+        "deliberate_errors_captured": 0,
+        "faults": [],
+        "deliberate_faults": []
+      },
+      "attachments": []
+    },
+    {
+      "title": [
+        "",
+        "",
+        "candidate.spec.ts",
+        "B06 real dependency outage, malformed ID, denied scope and responsive navigation"
+      ],
+      "status": "passed",
+      "expected_status": "passed",
+      "duration_ms": 16396,
+      "retry": 0,
+      "location": {
+        "file": "/home/user/Cyberfyx-ORVIA/tests/e2e/candidate.spec.ts",
+        "line": 50,
+        "column": 1
+      },
+      "errors": [],
+      "annotations": [],
+      "browser_health": {
+        "recorded": true,
+        "counts": {
+          "PAGE_ERROR": 0,
+          "CONSOLE_ERROR": 0,
+          "REACT_WARNING": 0,
+          "HTTP_STATUS": 3,
+          "WARNING": 0
+        },
+        "unexpected": 0,
+        "deliberate_errors_captured": 0,
+        "faults": [],
+        "deliberate_faults": []
+      },
+      "attachments": []
+    }
+  ],
+  "limitations": [
+    "Raw authenticated traces/error details stay in the protected .local directory.",
+    "Screenshots supplement executable assertions.",
+    "Browser request observations do not qualify all host or browser-process egress.",
+    "Work acceptance and human rehearsals are separate."
+  ]
+}

@@ -120,8 +120,10 @@ export {expect};
 
 export async function loginUi(page:Page,h:BrowserHarness,name:string){
   await h.authWindow();const user=h.users[name]!;const staff=user.domain==='staff';
-  await page.goto(staff?'/workspace/sign-in':'/privacy/sign-in');
-  await page.getByLabel(staff?'Staff email':'Email',{exact:!staff}).fill(user.email);
+  // Data Principals never sign in to ORVIA (owner decision 2026-10-03); only staff sign in through the interface.
+  if(!staff)throw new Error('Only staff sign in to ORVIA');
+  await page.goto('/workspace/sign-in');
+  await page.getByLabel('Email',{exact:true}).fill(user.email);
   await page.getByLabel('Password',{exact:true}).fill(user.password);
   await page.getByRole('button',{name:'Sign in',exact:true}).click();
   if(staff&&user.role!=='AUDITOR'){
@@ -134,24 +136,6 @@ export async function loginUi(page:Page,h:BrowserHarness,name:string){
     }
     await page.getByLabel('Authenticator code',{exact:true}).fill(authenticatorCode(user.totp_uri!));await page.getByRole('button',{name:'Verify authenticator',exact:true}).click();
   }
-  await expect(page.getByRole('heading',{name:'Signed in',exact:true})).toBeVisible();
+  await page.waitForURL(u=>u.pathname==='/workspace');
 }
 
-export async function choicePanel(page:Page,purpose:{id:string;name:string}){
-  let response=page.waitForResponse(r=>r.url().includes('/portal/me/consents?')&&r.request().method()==='GET');await page.goto('/privacy');await response;
-  for(let index=0;index<100;index++){
-    await expect(page.locator('.state-block').filter({hasText:'Loading'})).toHaveCount(0);
-    const card=page.getByRole('region',{name:purpose.name,exact:true});if(await card.count())return card;
-    const next=page.getByRole('button',{name:'Next page',exact:true});await expect(next).toBeEnabled();response=page.waitForResponse(r=>r.url().includes('/portal/me/consents?')&&r.request().method()==='GET');await next.click();await response;
-  }
-  throw new Error('Purpose not found within bounded canonical pagination');
-}
-
-export async function grantUi(page:Page,purpose:{id:string;name:string}){
-  const card=await choicePanel(page,purpose);await card.locator('summary').click();await expect(card.getByRole('button',{name:'Give consent',exact:true})).toBeDisabled();await card.getByRole('checkbox').check();
-  const response=page.waitForResponse(r=>r.url().endsWith(`/consents/${purpose.id}/grant`));await card.getByRole('button',{name:'Give consent',exact:true}).click();const result=await response;expect(result.status()).toBe(202);return result.json();
-}
-export async function withdrawUi(page:Page,purpose:{id:string;name:string}){
-  const card=await choicePanel(page,purpose);await card.getByRole('button',{name:'Withdraw consent',exact:true}).click();const dialog=page.getByRole('dialog',{name:'Withdraw consent'});await expect(dialog.getByRole('checkbox')).toHaveCount(0);
-  const response=page.waitForResponse(r=>r.url().endsWith(`/consents/${purpose.id}/withdraw`));await dialog.getByRole('button',{name:'Withdraw consent',exact:true}).click();const result=await response;expect(result.status()).toBe(202);return result.json();
-}

@@ -1,8 +1,10 @@
 'use client';
 import { usePathname } from 'next/navigation';
 import { createContext, useCallback, useContext, useEffect, useMemo, useState, type ReactNode } from 'react';
+import { useIdleSignOut } from '../shared/idle-sign-out.ts';
 import { vendorAuthClient, accountAuthClient } from '@orvia/auth/client';
 import { NoticeBox } from '../shared/ui.tsx';
+import { BrandMark } from '../shared/brand-mark.tsx';
 
 /**
  * The vendor area of the vendor's own VENDOR_SERVICE installation (revision 1.5
@@ -80,12 +82,15 @@ const ROLE: Record<string, string> = { VENDOR_SUPER_ADMIN: 'Vendor super adminis
 function Shell({ children }: { children: ReactNode }) {
   const { session, signOut } = useVendorSession(); const pathname = usePathname();
   const groups = NAV.map(g => ({ ...g, items: g.items.filter(i => can(session, i.capability)) })).filter(g => g.items.length);
+  useIdleSignOut(!!session, signOut, session?.actor_domain === 'CLIENT_ACCOUNT' ? '/vendor/sign-in?account=client' : '/vendor/sign-in');
+  // Sign-in and first-password set-up render the full-screen branded sign-in (BrandSignIn) without the vendor frame.
+  if ((pathname === '/vendor/sign-in' || pathname === '/vendor/account-setup') && !session) return <>{children}</>;
   return (
     <div className="shell">
       <a className="skip-link" href="#main">Skip to main content</a>
       <div className="environment-banner"><strong>Vendor installation</strong><span className="area">VENDOR_SERVICE</span><span className="meta">No client installation is reachable from here. Client installations send evidence under a mandate their approvers signed, or clients carry sealed packages as files.</span></div>
       <header className="shell-head">
-        <div className="shell-title"><span className="mark">ORVIA</span><span className="rule" aria-hidden="true" /><h1>Vendor &amp; audit</h1></div>
+        <div className="shell-title"><BrandMark /><span className="rule" aria-hidden="true" /><h1>Vendor &amp; audit</h1></div>
         {session ? <div className="shell-context"><span className="context-chip"><span className="k">Role</span><span className="v">{ROLE[session.role] ?? session.role}</span></span>
           <span className="context-chip"><span className="k">Signed in</span><span className="v">{session.name}</span></span>
           <button type="button" className="link" onClick={() => void signOut()}>Sign out</button></div> : <div className="shell-context muted">No vendor session</div>}

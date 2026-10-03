@@ -1,0 +1,17 @@
+{
+  "task_id": "A00",
+  "fixture_kind": "SYNTHETIC_BOOTSTRAP_ONLY",
+  "recorded_at": "2026-10-03T15:59:15.014Z",
+  "results": [
+    {
+      "name": "Birch: the installation enforces FOUNDATION for this organisation",
+      "result": "PASS"
+    },
+    {
+      "name": "Birch: \"Your plan\" shows the tier",
+      "result": "PASS"
+    }
+  ],
+  "result": "PASS",
+  "run": "fb1c768f-df17-4e3c-9928-e4b33943c319"
+}

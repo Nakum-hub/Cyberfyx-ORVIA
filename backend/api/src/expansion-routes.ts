@@ -6,7 +6,7 @@ import { createAgreement, terminateAgreement, agreementList, setTier, standing, 
 import { createPolicy, decidePolicy, acknowledgePolicy, policyList, createIssue, readIssue, recordIssueEvent, issueList, importRegulatoryFramework, createControlTest, controlTestDetail, controlTestList, runControlTest, toggleControlTest, controlTestSweep, alertList, complianceReport } from '../../domain/src/grc/lifecycle.ts';
 import { ropaEntries, ropaEntry, ropaSummary, ropaImpact, declareLocation, locationList, createRopaVersion, approveRopaVersion, ropaVersionList, ropaDiff } from '../../domain/src/mapping/ropa.ts';
 import { createExport, advanceExport, stopExport, exportView, exportList, exportChunk } from '../../domain/src/exports/exports.ts';
-import { preparePackage, reviewPackage, releasePackage, revokePackage, withdrawPackage, packageView, packageList, collectOwnPackage } from '../../domain/src/rights/response-packages.ts';
+import { preparePackage, reviewPackage, releasePackage, revokePackage, withdrawPackage, packageView, packageList, collectOwnPackage, collectStaffCopy } from '../../domain/src/rights/response-packages.ts';
 import { requestRun, runDetail, runList, recordLabels, labelSet, measureQuality, qualityList, exposureList } from '../../domain/src/discovery/classification.ts';
 import { createTransport, enableTransport, disableTransport, revealSigningSecret, transportList, createRouting, decideRouting, routingList, composeMessage, reviewMessage, cancelMessage, messageDetail, messageList } from '../../domain/src/delivery/delivery.ts';
 import { createTopic, retireTopic, topicList, principalCentre, ownCentre, decision as preferenceDecision, recordOwnChoice } from '../../domain/src/preferences/preferences.ts';
@@ -88,6 +88,7 @@ export async function expansionRoute(c: Context, route: RouteDefinition, id: str
     case 'revoke_response_package': return revokePackage(c, id!, input);
     case 'withdraw_response_package': return withdrawPackage(c, id!);
     case 'own_response_package': return collectOwnPackage(c, id!);
+    case 'collect_response_package_copy': return collectStaffCopy(c, id!);
     case 'list_preference_topics': return topicList(c, page);
     case 'create_preference_topic': return createTopic(c, input);
     case 'retire_preference_topic': return retireTopic(c, id!);

@@ -1,4 +1,5 @@
 import { createHash, createHmac, randomUUID } from 'node:crypto';
+import type pg from 'pg';
 import { pathToFileURL } from 'node:url';
 import { runtimeConfig } from '../../../backend/auth/src/config.ts';
 import { renewingEnrollment, workerEnrollment } from '../../../backend/auth/src/machine-profile.ts';
@@ -138,10 +139,28 @@ export function operationsRunner() {
   }
   /** Wakes the caller when a run becomes executable (migration 0081: NOTIFY orvia_operations). Resolves once listening. */
   async function listen(onWake: () => void) {
-    const client = await control.connect();
-    client.on('notification', () => onWake());
-    await client.query('LISTEN orvia_operations');
-    return () => { client.release(); };
+    // The listening connection is held for the life of the runner and is otherwise silent. The loopback relay destroys a
+    // relayed connection idle for five minutes (see app-run.ts), which used to end the runner and with it the whole
+    // application. Keep it active with a heartbeat; if it is lost anyway, log it and reopen the listener. The 30-second
+    // pass keeps running meanwhile, so no work is lost.
+    let client: pg.PoolClient | undefined; let closed = false; let retry: NodeJS.Timeout | undefined;
+    const heartbeat = setInterval(() => { client?.query('SELECT 1').catch(() => { /* the error event reopens it */ }); }, 60_000);
+    const reopenLater = () => { if (!closed) retry = setTimeout(() => { void connect().then(() => onWake(), reopenLater); }, 2000); };
+    const connect = async () => {
+      const next = await control.connect(); let released = false;
+      const drop = (error?: Error) => { if (released) return; released = true; if (client === next) client = undefined; next.release(error ?? true); };
+      next.on('notification', () => onWake());
+      next.on('error', error => {
+        console.error(JSON.stringify({ at: new Date().toISOString(), event: 'operations_listener_lost', code: (error as { code?: string }).code ?? error.message.slice(0, 80) }));
+        drop(error);
+        reopenLater();
+      });
+      try { await next.query('LISTEN orvia_operations'); } catch (error) { drop(error as Error); throw error; }
+      if (closed) { released = true; next.release(); return; }
+      client = next;
+    };
+    try { await connect(); } catch (error) { clearInterval(heartbeat); throw error; }
+    return () => { closed = true; clearInterval(heartbeat); if (retry) clearTimeout(retry); client?.release(); client = undefined; };
   }
   return { once, listen, close: () => Promise.all([control.end(), targets.agent.end(), targets.observer.end()]) };
 }

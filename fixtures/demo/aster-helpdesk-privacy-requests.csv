@@ -1,0 +1,6 @@
+email,name,right_type,description,received_at
+deepa.krishnan@aster.example,Deepa Krishnan,access,Customer asked at the Bengaluru store counter for a copy of her data.,2026-09-28
+manoj.verma@aster.example,Manoj Verma,erasure,Asked by phone to delete his account and order history after closing the account.,2026-09-29
+lakshmi.das@aster.example,Lakshmi Das,correction,Emailed to correct her delivery address and phone number on file.,2026-09-30
+someone.real@example.com,Real Person,access,This address is not synthetic and must be refused on this installation.,2026-09-30
+rahul.khanna@aster.example,Rahul Khanna,refund,This is not a DPDP right and must be reported.,2026-09-30

@@ -1,0 +1,37 @@
+{
+  "task_id": "A00",
+  "fixture_kind": "SYNTHETIC_BOOTSTRAP_ONLY",
+  "recorded_at": "2026-10-03T12:27:32.650Z",
+  "suite": "audit-mandate-browser",
+  "assertions": [
+    {
+      "name": "leadership sees the practice overview from real records",
+      "result": "PASS",
+      "expected": [
+        true,
+        true
+      ],
+      "actual": [
+        true,
+        true
+      ]
+    },
+    {
+      "name": "the client sees the audit address from its trust file",
+      "result": "FAIL",
+      "expected": true,
+      "actual": false
+    },
+    {
+      "name": "unexpected failure in client mandate",
+      "result": "FAIL",
+      "expected": "no error",
+      "actual": "Assertion failed: the client sees the audit address from its trust file"
+    }
+  ],
+  "passed": 1,
+  "failures": 2,
+  "profile": "codex-a00",
+  "test_adapter_only": true,
+  "limitation": "Connector effects are exercised against the synthetic records test adapter; no live customer system was contacted."
+}

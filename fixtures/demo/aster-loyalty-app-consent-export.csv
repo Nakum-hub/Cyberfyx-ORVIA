@@ -1,0 +1,70 @@
+customer_reference,email,system,activity,decision,occurred_at,evidence
+cust_2001,aarav.patel@aster.example,Aster online store,Promotional email and SMS,granted,2026-08-01T09:00:00Z,Loyalty app consent screen v4 #70000
+cust_2001,aarav.patel@aster.example,Aster online store,Personalised recommendations,granted,2026-08-01T09:00:00Z,Loyalty app consent screen v4 #70000
+cust_2002,diya.sharma@aster.example,Aster online store,Promotional email and SMS,granted,2026-08-02T10:07:00Z,Loyalty app consent screen v4 #70001
+cust_2002,diya.sharma@aster.example,Aster online store,Personalised recommendations,declined,2026-08-02T10:07:00Z,Loyalty app consent screen v4 #70001
+cust_2003,ishaan.iyer@aster.example,Aster online store,Promotional email and SMS,granted,2026-08-03T11:14:00Z,Loyalty app consent screen v4 #70002
+cust_2003,ishaan.iyer@aster.example,Aster online store,Personalised recommendations,declined,2026-08-03T11:14:00Z,Loyalty app consent screen v4 #70002
+cust_2003,ishaan.iyer@aster.example,Aster online store,Promotional email and SMS,withdrawn,2026-09-12T18:20:00Z,Loyalty app settings toggle #80002
+cust_2004,saanvi.banerjee@aster.example,Aster online store,Promotional email and SMS,granted,2026-08-04T12:21:00Z,Loyalty app consent screen v4 #70003
+cust_2004,saanvi.banerjee@aster.example,Aster online store,Personalised recommendations,granted,2026-08-04T12:21:00Z,Loyalty app consent screen v4 #70003
+cust_2005,vihaan.reddy@aster.example,Aster online store,Promotional email and SMS,granted,2026-08-05T13:28:00Z,Loyalty app consent screen v4 #70004
+cust_2005,vihaan.reddy@aster.example,Aster online store,Personalised recommendations,declined,2026-08-05T13:28:00Z,Loyalty app consent screen v4 #70004
+cust_2006,myra.kapoor@aster.example,Aster online store,Promotional email and SMS,declined,2026-08-06T14:35:00Z,Loyalty app consent screen v4 #70005
+cust_2006,myra.kapoor@aster.example,Aster online store,Personalised recommendations,declined,2026-08-06T14:35:00Z,Loyalty app consent screen v4 #70005
+cust_2007,reyansh.nair@aster.example,Aster online store,Promotional email and SMS,granted,2026-08-07T15:42:00Z,Loyalty app consent screen v4 #70006
+cust_2007,reyansh.nair@aster.example,Aster online store,Personalised recommendations,granted,2026-08-07T15:42:00Z,Loyalty app consent screen v4 #70006
+cust_2008,anika.chopra@aster.example,Aster online store,Promotional email and SMS,granted,2026-08-08T16:49:00Z,Loyalty app consent screen v4 #70007
+cust_2008,anika.chopra@aster.example,Aster online store,Personalised recommendations,declined,2026-08-08T16:49:00Z,Loyalty app consent screen v4 #70007
+cust_2009,kabir.desai@aster.example,Aster online store,Promotional email and SMS,granted,2026-08-09T17:56:00Z,Loyalty app consent screen v4 #70008
+cust_2009,kabir.desai@aster.example,Aster online store,Personalised recommendations,declined,2026-08-09T17:56:00Z,Loyalty app consent screen v4 #70008
+cust_2010,kiara.mishra@aster.example,Aster online store,Promotional email and SMS,granted,2026-08-10T09:03:00Z,Loyalty app consent screen v4 #70009
+cust_2010,kiara.mishra@aster.example,Aster online store,Personalised recommendations,granted,2026-08-10T09:03:00Z,Loyalty app consent screen v4 #70009
+cust_2010,kiara.mishra@aster.example,Aster online store,Promotional email and SMS,withdrawn,2026-09-19T18:20:00Z,Loyalty app settings toggle #80009
+cust_2011,advik.pillai@aster.example,Aster online store,Promotional email and SMS,granted,2026-08-11T10:10:00Z,Loyalty app consent screen v4 #70010
+cust_2011,advik.pillai@aster.example,Aster online store,Personalised recommendations,declined,2026-08-11T10:10:00Z,Loyalty app consent screen v4 #70010
+cust_2012,navya.saxena@aster.example,Aster online store,Promotional email and SMS,declined,2026-08-12T11:17:00Z,Loyalty app consent screen v4 #70011
+cust_2012,navya.saxena@aster.example,Aster online store,Personalised recommendations,declined,2026-08-12T11:17:00Z,Loyalty app consent screen v4 #70011
+cust_2013,arnav.bhat@aster.example,Aster online store,Promotional email and SMS,granted,2026-08-13T12:24:00Z,Loyalty app consent screen v4 #70012
+cust_2013,arnav.bhat@aster.example,Aster online store,Personalised recommendations,granted,2026-08-13T12:24:00Z,Loyalty app consent screen v4 #70012
+cust_2014,pari.ghosh@aster.example,Aster online store,Promotional email and SMS,granted,2026-08-14T13:31:00Z,Loyalty app consent screen v4 #70013
+cust_2014,pari.ghosh@aster.example,Aster online store,Personalised recommendations,declined,2026-08-14T13:31:00Z,Loyalty app consent screen v4 #70013
+cust_2015,dhruv.rao@aster.example,Aster online store,Promotional email and SMS,granted,2026-08-15T14:38:00Z,Loyalty app consent screen v4 #70014
+cust_2015,dhruv.rao@aster.example,Aster online store,Personalised recommendations,declined,2026-08-15T14:38:00Z,Loyalty app consent screen v4 #70014
+cust_2016,tara.patel@aster.example,Aster online store,Promotional email and SMS,granted,2026-08-16T15:45:00Z,Loyalty app consent screen v4 #70015
+cust_2016,tara.patel@aster.example,Aster online store,Personalised recommendations,granted,2026-08-16T15:45:00Z,Loyalty app consent screen v4 #70015
+cust_2017,yash.sharma@aster.example,Aster online store,Promotional email and SMS,granted,2026-08-17T16:52:00Z,Loyalty app consent screen v4 #70016
+cust_2017,yash.sharma@aster.example,Aster online store,Personalised recommendations,declined,2026-08-17T16:52:00Z,Loyalty app consent screen v4 #70016
+cust_2018,riya.iyer@aster.example,Aster online store,Promotional email and SMS,declined,2026-08-18T17:59:00Z,Loyalty app consent screen v4 #70017
+cust_2018,riya.iyer@aster.example,Aster online store,Personalised recommendations,declined,2026-08-18T17:59:00Z,Loyalty app consent screen v4 #70017
+cust_2018,riya.iyer@aster.example,Aster online store,Promotional email and SMS,withdrawn,2026-09-12T18:20:00Z,Loyalty app settings toggle #80017
+cust_2019,aryan.banerjee@aster.example,Aster online store,Promotional email and SMS,granted,2026-08-19T09:06:00Z,Loyalty app consent screen v4 #70018
+cust_2019,aryan.banerjee@aster.example,Aster online store,Personalised recommendations,granted,2026-08-19T09:06:00Z,Loyalty app consent screen v4 #70018
+cust_2020,zara.reddy@aster.example,Aster online store,Promotional email and SMS,granted,2026-08-20T10:13:00Z,Loyalty app consent screen v4 #70019
+cust_2020,zara.reddy@aster.example,Aster online store,Personalised recommendations,declined,2026-08-20T10:13:00Z,Loyalty app consent screen v4 #70019
+cust_2021,krish.kapoor@aster.example,Aster online store,Promotional email and SMS,granted,2026-08-21T11:20:00Z,Loyalty app consent screen v4 #70020
+cust_2021,krish.kapoor@aster.example,Aster online store,Personalised recommendations,declined,2026-08-21T11:20:00Z,Loyalty app consent screen v4 #70020
+cust_2022,sara.nair@aster.example,Aster online store,Promotional email and SMS,granted,2026-08-22T12:27:00Z,Loyalty app consent screen v4 #70021
+cust_2022,sara.nair@aster.example,Aster online store,Personalised recommendations,granted,2026-08-22T12:27:00Z,Loyalty app consent screen v4 #70021
+cust_2023,atharv.chopra@aster.example,Aster online store,Promotional email and SMS,granted,2026-08-23T13:34:00Z,Loyalty app consent screen v4 #70022
+cust_2023,atharv.chopra@aster.example,Aster online store,Personalised recommendations,declined,2026-08-23T13:34:00Z,Loyalty app consent screen v4 #70022
+cust_2024,nisha.desai@aster.example,Aster online store,Promotional email and SMS,declined,2026-08-24T14:41:00Z,Loyalty app consent screen v4 #70023
+cust_2024,nisha.desai@aster.example,Aster online store,Personalised recommendations,declined,2026-08-24T14:41:00Z,Loyalty app consent screen v4 #70023
+cust_2024,nisha.desai@aster.example,Aster online store,Promotional email and SMS,withdrawn,2026-09-18T18:20:00Z,Loyalty app settings toggle #80023
+cust_2025,om.mishra@aster.example,Aster online store,Promotional email and SMS,granted,2026-08-25T15:48:00Z,Loyalty app consent screen v4 #70024
+cust_2025,om.mishra@aster.example,Aster online store,Personalised recommendations,granted,2026-08-25T15:48:00Z,Loyalty app consent screen v4 #70024
+cust_2026,pooja.pillai@aster.example,Aster online store,Promotional email and SMS,granted,2026-08-26T16:55:00Z,Loyalty app consent screen v4 #70025
+cust_2026,pooja.pillai@aster.example,Aster online store,Personalised recommendations,declined,2026-08-26T16:55:00Z,Loyalty app consent screen v4 #70025
+cust_2027,laksh.saxena@aster.example,Aster online store,Promotional email and SMS,granted,2026-08-27T17:02:00Z,Loyalty app consent screen v4 #70026
+cust_2027,laksh.saxena@aster.example,Aster online store,Personalised recommendations,declined,2026-08-27T17:02:00Z,Loyalty app consent screen v4 #70026
+cust_2028,ira.bhat@aster.example,Aster online store,Promotional email and SMS,granted,2026-08-28T09:09:00Z,Loyalty app consent screen v4 #70027
+cust_2028,ira.bhat@aster.example,Aster online store,Personalised recommendations,granted,2026-08-28T09:09:00Z,Loyalty app consent screen v4 #70027
+cust_2029,rudra.ghosh@aster.example,Aster online store,Promotional email and SMS,granted,2026-08-01T10:16:00Z,Loyalty app consent screen v4 #70028
+cust_2029,rudra.ghosh@aster.example,Aster online store,Personalised recommendations,declined,2026-08-01T10:16:00Z,Loyalty app consent screen v4 #70028
+cust_2030,avni.rao@aster.example,Aster online store,Promotional email and SMS,declined,2026-08-02T11:23:00Z,Loyalty app consent screen v4 #70029
+cust_2030,avni.rao@aster.example,Aster online store,Personalised recommendations,declined,2026-08-02T11:23:00Z,Loyalty app consent screen v4 #70029
+cust_1002,arjun.mehta@aster.example,Aster online store,Promotional email and SMS,withdrawn,2026-09-12T10:00:00Z,Loyalty app settings toggle #81002 (cross-check: website also reports withdrawn)
+cust_1003,kavya.nair@aster.example,Aster online store,Promotional email and SMS,granted,2026-07-03T10:00:00Z,Loyalty app consent screen v4 #71003 (cross-check: matches website)
+cust_1005,ananya.iyer@aster.example,Aster online store,Promotional email and SMS,granted,2026-08-21T10:00:00Z,Loyalty app consent screen v4 #71005 (cross-check: website has no marketing consent for this customer)
+cust_2099,test.user@aster.example,Aster online store,Birthday offers,granted,2026-09-01T10:00:00Z,Activity not registered in ORVIA
+cust 2100,bad.ref@aster.example,Aster online store,Promotional email and SMS,granted,2026-09-01T10:00:00Z,Reference has a space

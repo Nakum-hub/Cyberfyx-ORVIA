@@ -3,6 +3,7 @@ import { limitedBody } from '../../auth/src/server.ts';
 import { AccessError } from '../../authorization/src/index.ts';
 import { scopedTransaction, type Authority } from '../../../database/customer/src/runtime.ts';
 import { intakeKeyDigest, intakeReceipt, submitIntake } from '../../domain/src/registry/intake.ts';
+import { collectForPlatform } from '../../domain/src/rights/response-packages.ts';
 import { runtime } from './runtime.ts';
 import { safeRoute } from './http.ts';
 
@@ -27,7 +28,15 @@ export function intakeRoute(request: Request) {
     const actor: Authority = { actor_domain: 'MACHINE', actor_id: key.id, role: 'INTAKE', capabilities: ['intake.submit'], expires_at: new Date(Date.now() + 60_000).toISOString(),
       scope: { tenant_id: key.tenant_id, legal_entity_id: key.legal_entity_id, environment_id: key.environment_id } };
     const status = path.match(/^\/api\/v1\/intake\/submissions\/([^/]+)$/);
+    const collect = path.match(/^\/api\/v1\/intake\/submissions\/([^/]+)\/response-package$/);
     let result: unknown; let code = 200;
+    if (collect) {
+      // Owner decision 2026-10-03: the platform collects the released response for a rights request it submitted.
+      if (request.method !== 'POST') throw new AccessError(404, 'NOT_FOUND');
+      if (!Id.safeParse(collect[1]).success) throw new AccessError(400, 'VALIDATION_ERROR');
+      const copy = await scopedTransaction(r.pool, actor, tx => collectForPlatform({ tx, actor, requestId }, collect[1]!));
+      return Response.json(schemas.OwnResponsePackage.parse(copy), { status: 200, headers: { 'Cache-Control': 'no-store', 'X-Request-Id': requestId } });
+    }
     if (status) {
       if (request.method !== 'GET') throw new AccessError(404, 'NOT_FOUND');
       if (!Id.safeParse(status[1]).success) throw new AccessError(400, 'VALIDATION_ERROR');

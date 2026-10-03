@@ -118,21 +118,13 @@ const label = (text: string) => new RegExp(`^${text.replace(/[.*+?^${}()|[\]\\]/
 async function staffSignIn(browser: Browser, name: string, viewport = DESKTOP) {
   const p = await newPage(browser, h.config.origin, viewport); const user = h.users[name]!;
   await h.authWindow(); await p.page.goto('/workspace/sign-in');
-  await p.page.getByLabel('Staff email').fill(user.email); await p.page.getByLabel('Password', { exact: true }).fill(user.password);
+  await p.page.getByLabel('Email', { exact: true }).fill(user.email); await p.page.getByLabel('Password', { exact: true }).fill(user.password);
   await p.page.getByRole('button', { name: 'Sign in', exact: true }).click();
   if (user.totp_uri) {
     await p.page.getByLabel('Authenticator code', { exact: true }).fill(authenticatorCode(user.totp_uri));
     await p.page.getByRole('button', { name: 'Verify authenticator', exact: true }).click();
   }
-  await p.page.getByRole('heading', { name: 'Signed in', exact: true }).waitFor({ timeout: 30000 });
-  return p;
-}
-async function principalSignIn(browser: Browser, name: string) {
-  const p = await newPage(browser, h.config.origin); const user = h.users[name]!;
-  await h.authWindow(); await p.page.goto('/privacy/sign-in');
-  await p.page.getByLabel('Email').fill(user.email); await p.page.getByLabel('Password', { exact: true }).fill(user.password);
-  await p.page.getByRole('button', { name: 'Sign in', exact: true }).click();
-  await p.page.getByRole('heading', { name: 'Signed in', exact: true }).waitFor({ timeout: 30000 });
+  await p.page.waitForURL(u => u.pathname === '/workspace', { timeout: 30000 });
   return p;
 }
 async function vendorSignIn(browser: Browser, user: VendorUser, path = '/vendor/sign-in', viewport = DESKTOP) {
@@ -198,7 +190,7 @@ await t.run(async () => {
     // ---------------------------------------------------------------- customer: signed out
     t.setPhase('customer installation, signed out');
     const anon = await newPage(browser, h.config.origin);
-    for (const r of ['/workspace/sign-in', '/privacy/sign-in', '/setup', '/supplier', '/privacy']) record(`signed out: ${r} renders`, await visit(anon, 'customer', 'signed-out', r, r, { shot: true }));
+    for (const r of ['/workspace/sign-in', '/setup', '/supplier']) record(`signed out: ${r} renders`, await visit(anon, 'customer', 'signed-out', r, r, { shot: true }));
     record('signed out: an unknown page is a 404', await visit(anon, 'customer', 'signed-out', '/no-such-page', '/no-such-page', { expectStatus: 404 }));
     record('signed out: vendor pages are 404 on a customer installation', await visit(anon, 'customer', 'signed-out', '/vendor', '/vendor', { expectStatus: 404 }));
     await anon.page.context().close();
@@ -236,14 +228,12 @@ await t.run(async () => {
     }
     }
 
-    // ---------------------------------------------------------------- customer: Data Principal portal
-    t.setPhase('Data Principal portal');
-    const alice = await principalSignIn(browser, 'alice');
-    for (const r of ALL.filter(x => x.startsWith('/privacy') && !dynamic(x) && x !== '/privacy/sign-in')) {
-      record(`principal: ${r}`, await visit(alice, 'customer', 'principal', r, r, { shot: true }));
-      if (r === '/privacy/receipts') { const link = await detailLink(alice.page, '/privacy/receipt/[id]'); if (link) record('principal: /privacy/receipt/[id]', await visit(alice, 'customer', 'principal', '/privacy/receipt/[id]', link, { shot: true })); }
-    }
-    await alice.page.context().close();
+    // ---------------------------------------------------------------- customer: no Data Principal area
+    // Owner decision 2026-10-03: Data Principals never sign in to ORVIA, so the former portal addresses no longer exist.
+    t.setPhase('no Data Principal area');
+    const gone = await newPage(browser, h.config.origin);
+    for (const r of ['/privacy', '/privacy/sign-in', '/privacy/rights']) soft(`no Data Principal area: ${r} is not found`, (await gone.page.goto(h.config.origin + r))?.status() === 404 ? [] : [`${r} still answers`], []);
+    await gone.page.context().close();
 
     // ---------------------------------------------------------------- vendor installation
     t.setPhase('vendor installation');

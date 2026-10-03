@@ -1,0 +1,357 @@
+{
+  "task_id": "A00",
+  "fixture_kind": "SYNTHETIC_BOOTSTRAP_ONLY",
+  "recorded_at": "2026-10-03T12:18:25.396Z",
+  "suite": "canary-grant-admission",
+  "assertions": [
+    {
+      "name": "Diagnostic decoy: synthetic fixture",
+      "result": "PASS",
+      "expected": true,
+      "actual": true
+    },
+    {
+      "name": "Ordinary control: synthetic fixture",
+      "result": "PASS",
+      "expected": true,
+      "actual": true
+    },
+    {
+      "name": "agent cannot act as sender",
+      "result": "PASS",
+      "expected": 401,
+      "actual": 401
+    },
+    {
+      "name": "foreign sender cannot address this target",
+      "result": "PASS",
+      "expected": 404,
+      "actual": 404
+    },
+    {
+      "name": "human staff session cannot admit a send",
+      "result": "PASS",
+      "expected": 403,
+      "actual": 403
+    },
+    {
+      "name": "auditor cannot record a canary receipt",
+      "result": "PASS",
+      "expected": 403,
+      "actual": 403
+    },
+    {
+      "name": "foreign tenant cannot retire the active decoy",
+      "result": "PASS",
+      "expected": 404,
+      "actual": 404
+    },
+    {
+      "name": "registered grant is current in the registry model",
+      "result": "PASS",
+      "expected": "GRANTED",
+      "actual": "GRANTED"
+    },
+    {
+      "name": "registered grant records exactly one consent hit",
+      "result": "PASS",
+      "expected": {
+        "decisions": 0,
+        "sends": 0,
+        "send_hits": 0,
+        "consent_hits": 1
+      },
+      "actual": {
+        "decisions": 0,
+        "sends": 0,
+        "send_hits": 0,
+        "consent_hits": 1
+      }
+    },
+    {
+      "name": "diagnostic admission HTTP status",
+      "result": "PASS",
+      "expected": 200,
+      "actual": 200
+    },
+    {
+      "name": "registry-only grant does not satisfy the separate A00 admission model",
+      "result": "PASS",
+      "expected": "BLOCK",
+      "actual": "BLOCK"
+    },
+    {
+      "name": "diagnostic admission HTTP status",
+      "result": "PASS",
+      "expected": 200,
+      "actual": 200
+    },
+    {
+      "name": "ordinary synthetic control satisfies real published-policy and target gates",
+      "result": "PASS",
+      "expected": "ALLOW",
+      "actual": "ALLOW"
+    },
+    {
+      "name": "adverse A00 grant triggers a second consent hit",
+      "result": "PASS",
+      "expected": {
+        "decisions": 0,
+        "sends": 0,
+        "send_hits": 0,
+        "consent_hits": 1
+      },
+      "actual": {
+        "decisions": 0,
+        "sends": 0,
+        "send_hits": 0,
+        "consent_hits": 1
+      }
+    },
+    {
+      "name": "adverse aggregate has matching grant and no unresolved suppression",
+      "result": "PASS",
+      "expected": {
+        "state": "GRANTED",
+        "matching_notice": true,
+        "no_unresolved_suppression": true
+      },
+      "actual": {
+        "state": "GRANTED",
+        "matching_notice": true,
+        "no_unresolved_suppression": true
+      }
+    },
+    {
+      "name": "independent synthetic target matches generation and has no restriction or quarantine",
+      "result": "PASS",
+      "expected": {
+        "generation": 1,
+        "marketing_restricted": false,
+        "quarantined": false
+      },
+      "actual": {
+        "generation": 1,
+        "marketing_restricted": false,
+        "quarantined": false
+      }
+    },
+    {
+      "name": "diagnostic admission HTTP status",
+      "result": "PASS",
+      "expected": 200,
+      "actual": 200
+    },
+    {
+      "name": "an otherwise-ALLOW marketing send to an active decoy with a recorded grant is BLOCK",
+      "result": "PASS",
+      "expected": "BLOCK",
+      "actual": "BLOCK"
+    },
+    {
+      "name": "the reason is the generic recipient hold, not a canary label",
+      "result": "PASS",
+      "expected": [
+        "RECIPIENT_MARKETING_HOLD"
+      ],
+      "actual": [
+        "RECIPIENT_MARKETING_HOLD"
+      ]
+    },
+    {
+      "name": "one decision and one trap hit are recorded, and no send record",
+      "result": "PASS",
+      "expected": {
+        "decisions": 1,
+        "sends": 0,
+        "send_hits": 1,
+        "consent_hits": 0
+      },
+      "actual": {
+        "decisions": 1,
+        "sends": 0,
+        "send_hits": 1,
+        "consent_hits": 0
+      }
+    },
+    {
+      "name": "the stored decision is BLOCK, so a BLOCK never coexists with an ALLOW send record",
+      "result": "PASS",
+      "expected": "BLOCK",
+      "actual": "BLOCK"
+    },
+    {
+      "name": "admission result does not explicitly reveal the canary",
+      "result": "PASS",
+      "expected": false,
+      "actual": false
+    },
+    {
+      "name": "the staff preview predicts the same BLOCK, so preview and send agree",
+      "result": "PASS",
+      "expected": [
+        "BLOCK",
+        [
+          "RECIPIENT_MARKETING_HOLD"
+        ]
+      ],
+      "actual": [
+        "BLOCK",
+        [
+          "RECIPIENT_MARKETING_HOLD"
+        ]
+      ]
+    },
+    {
+      "name": "the ordinary control is still ALLOW in preview",
+      "result": "PASS",
+      "expected": "ALLOW",
+      "actual": "ALLOW"
+    },
+    {
+      "name": "only send admission and its staff preview may ask for the hold",
+      "result": "PASS",
+      "expected": {
+        "orvia_agent_control": false,
+        "orvia_app": true,
+        "orvia_machine_auth": false,
+        "orvia_sender": true,
+        "orvia_worker": false
+      },
+      "actual": {
+        "orvia_agent_control": false,
+        "orvia_app": true,
+        "orvia_machine_auth": false,
+        "orvia_sender": true,
+        "orvia_worker": false
+      }
+    },
+    {
+      "name": "diagnostic admission HTTP status",
+      "result": "PASS",
+      "expected": 200,
+      "actual": 200
+    },
+    {
+      "name": "same HTTP idempotency key returns the exact observation",
+      "result": "PASS",
+      "expected": {
+        "attempt_id": "2173d2d3-abe4-4495-881e-9543d610b659",
+        "decision": "BLOCK",
+        "send_record_id": null,
+        "admitted_at": null,
+        "evaluated_epoch": 1,
+        "reason_codes": [
+          "RECIPIENT_MARKETING_HOLD"
+        ]
+      },
+      "actual": {
+        "attempt_id": "2173d2d3-abe4-4495-881e-9543d610b659",
+        "decision": "BLOCK",
+        "send_record_id": null,
+        "admitted_at": null,
+        "evaluated_epoch": 1,
+        "reason_codes": [
+          "RECIPIENT_MARKETING_HOLD"
+        ]
+      }
+    },
+    {
+      "name": "diagnostic admission HTTP status",
+      "result": "PASS",
+      "expected": 200,
+      "actual": 200
+    },
+    {
+      "name": "same attempt under a new HTTP key returns the exact observation",
+      "result": "PASS",
+      "expected": {
+        "attempt_id": "2173d2d3-abe4-4495-881e-9543d610b659",
+        "decision": "BLOCK",
+        "send_record_id": null,
+        "admitted_at": null,
+        "evaluated_epoch": 1,
+        "reason_codes": [
+          "RECIPIENT_MARKETING_HOLD"
+        ]
+      },
+      "actual": {
+        "attempt_id": "2173d2d3-abe4-4495-881e-9543d610b659",
+        "decision": "BLOCK",
+        "send_record_id": null,
+        "admitted_at": null,
+        "evaluated_epoch": 1,
+        "reason_codes": [
+          "RECIPIENT_MARKETING_HOLD"
+        ]
+      }
+    },
+    {
+      "name": "replays produce no new decision, send or canary hit",
+      "result": "PASS",
+      "expected": {
+        "decisions": 2,
+        "sends": 0,
+        "send_hits": 2,
+        "consent_hits": 2
+      },
+      "actual": {
+        "decisions": 2,
+        "sends": 0,
+        "send_hits": 2,
+        "consent_hits": 2
+      }
+    },
+    {
+      "name": "changed payload under the same HTTP key is refused",
+      "result": "PASS",
+      "expected": 409,
+      "actual": 409
+    },
+    {
+      "name": "changed payload for the same attempt under a new key is refused",
+      "result": "PASS",
+      "expected": 409,
+      "actual": 409
+    },
+    {
+      "name": "conflicting replays leave durable counts unchanged",
+      "result": "PASS",
+      "expected": {
+        "decisions": 2,
+        "sends": 0,
+        "send_hits": 2,
+        "consent_hits": 2
+      },
+      "actual": {
+        "decisions": 2,
+        "sends": 0,
+        "send_hits": 2,
+        "consent_hits": 2
+      }
+    },
+    {
+      "name": "while a transition is uncommitted, the admission check waits for it (lock timeout 55P03)",
+      "result": "PASS",
+      "expected": "55P03",
+      "actual": "55P03"
+    },
+    {
+      "name": "diagnostic admission HTTP status",
+      "result": "PASS",
+      "expected": 200,
+      "actual": 200
+    },
+    {
+      "name": "after retirement the ordinary consent rules decide again (the recorded grant stands, and its hit stays for review)",
+      "result": "PASS",
+      "expected": "ALLOW",
+      "actual": "ALLOW"
+    }
+  ],
+  "passed": 36,
+  "failures": 0,
+  "profile": "codex-a00",
+  "test_adapter_only": true,
+  "limitation": "Connector effects are exercised against the synthetic records test adapter; no live customer system was contacted."
+}

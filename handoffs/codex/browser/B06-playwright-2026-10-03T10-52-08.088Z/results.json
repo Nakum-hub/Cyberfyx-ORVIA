@@ -1,0 +1,152 @@
+{
+  "result": "passed",
+  "source_commit": "78cc99a4fa36599e8cf3df3493a63a75a567b134",
+  "source_tree_sha256": "b507518c173437b54f227d98015859a267aa87b090c16f3d6ffab4eddd79ad62",
+  "contract_version": "0.60.0",
+  "profile": "rehearsal",
+  "fixture": "aster-birch-v1",
+  "tests": [
+    {
+      "title": [
+        "",
+        "",
+        "workflow.spec.ts",
+        "B03 real target effect, independent read, workflow persistence and evidence export"
+      ],
+      "status": "passed",
+      "expected_status": "passed",
+      "duration_ms": 82776,
+      "retry": 0,
+      "location": {
+        "file": "/home/user/Cyberfyx-ORVIA/tests/e2e/workflow.spec.ts",
+        "line": 7,
+        "column": 1
+      },
+      "errors": [],
+      "annotations": [],
+      "browser_health": {
+        "recorded": true,
+        "counts": {
+          "PAGE_ERROR": 0,
+          "CONSOLE_ERROR": 0,
+          "REACT_WARNING": 0,
+          "HTTP_STATUS": 1,
+          "WARNING": 0
+        },
+        "unexpected": 0,
+        "deliberate_errors_captured": 0,
+        "faults": [],
+        "deliberate_faults": []
+      },
+      "attachments": []
+    },
+    {
+      "title": [
+        "",
+        "",
+        "workflow.spec.ts",
+        "B03 applied response lost, read reconciliation and visible manual obligation"
+      ],
+      "status": "passed",
+      "expected_status": "passed",
+      "duration_ms": 24485,
+      "retry": 0,
+      "location": {
+        "file": "/home/user/Cyberfyx-ORVIA/tests/e2e/workflow.spec.ts",
+        "line": 20,
+        "column": 1
+      },
+      "errors": [],
+      "annotations": [],
+      "browser_health": {
+        "recorded": true,
+        "counts": {
+          "PAGE_ERROR": 0,
+          "CONSOLE_ERROR": 0,
+          "REACT_WARNING": 0,
+          "HTTP_STATUS": 1,
+          "WARNING": 0
+        },
+        "unexpected": 0,
+        "deliberate_errors_captured": 0,
+        "faults": [],
+        "deliberate_faults": []
+      },
+      "attachments": []
+    },
+    {
+      "title": [
+        "",
+        "",
+        "workflow.spec.ts",
+        "B03 acknowledgement without effect remains unresolved and never verified"
+      ],
+      "status": "passed",
+      "expected_status": "passed",
+      "duration_ms": 78668,
+      "retry": 0,
+      "location": {
+        "file": "/home/user/Cyberfyx-ORVIA/tests/e2e/workflow.spec.ts",
+        "line": 34,
+        "column": 1
+      },
+      "errors": [],
+      "annotations": [],
+      "browser_health": {
+        "recorded": true,
+        "counts": {
+          "PAGE_ERROR": 0,
+          "CONSOLE_ERROR": 0,
+          "REACT_WARNING": 0,
+          "HTTP_STATUS": 1,
+          "WARNING": 0
+        },
+        "unexpected": 0,
+        "deliberate_errors_captured": 0,
+        "faults": [],
+        "deliberate_faults": []
+      },
+      "attachments": []
+    },
+    {
+      "title": [
+        "",
+        "",
+        "workflow.spec.ts",
+        "B03 manual task uses its read version, preserves replay and rejects a stale tab"
+      ],
+      "status": "passed",
+      "expected_status": "passed",
+      "duration_ms": 14967,
+      "retry": 0,
+      "location": {
+        "file": "/home/user/Cyberfyx-ORVIA/tests/e2e/workflow.spec.ts",
+        "line": 39,
+        "column": 1
+      },
+      "errors": [],
+      "annotations": [],
+      "browser_health": {
+        "recorded": true,
+        "counts": {
+          "PAGE_ERROR": 0,
+          "CONSOLE_ERROR": 0,
+          "REACT_WARNING": 0,
+          "HTTP_STATUS": 10,
+          "WARNING": 0
+        },
+        "unexpected": 0,
+        "deliberate_errors_captured": 0,
+        "faults": [],
+        "deliberate_faults": []
+      },
+      "attachments": []
+    }
+  ],
+  "limitations": [
+    "Raw authenticated traces/error details stay in the protected .local directory.",
+    "Screenshots supplement executable assertions.",
+    "Browser request observations do not qualify all host or browser-process egress.",
+    "Work acceptance and human rehearsals are separate."
+  ]
+}

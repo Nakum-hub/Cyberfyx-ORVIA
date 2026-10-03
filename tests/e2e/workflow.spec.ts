@@ -1,19 +1,20 @@
-import { test, expect, loginUi, withdrawUi } from './fixture.ts';
+import { test, expect, loginUi } from './fixture.ts';
 import { schemas } from '../../shared/contracts/src/index.ts';
 import { readFileSync } from 'node:fs';
 import { resolve } from 'node:path';
 import { digest } from '../../shared/contracts/src/crypto.ts';
 
-test('B03 real target effect, independent read, workflow persistence and evidence export',async({page,browser,h})=>{
-  const scenario=await h.scenario();await scenario.change('grant');await loginUi(page,h,'owner');const principal=await browser.newContext();const stop=await h.workers();
-  try{const privacy=await principal.newPage();await loginUi(privacy,h,'alice');const receipt=schemas.Receipt.parse(await withdrawUi(privacy,scenario.purpose));const id=receipt.workflow_id!;
+test('B03 real target effect, independent read, workflow persistence and evidence export',async({page,h})=>{
+  // The withdrawal arrives through the API, as it does from an organisation's platform (Data Principals never sign in to ORVIA).
+  const scenario=await h.scenario();await scenario.change('grant');await loginUi(page,h,'owner');const stop=await h.workers();
+  try{const receipt=schemas.Receipt.parse((await scenario.change('withdraw')).receipt);const id=receipt.workflow_id!;
     await page.goto('/workspace/workflows/'+id);await expect(page.getByText('Independently observed',{exact:true})).toBeVisible({timeout:100000});
     const target=(await h.target.query('SELECT marketing_restricted,last_applied_epoch FROM marketing_memberships WHERE resource_id=$1',[scenario.mapping.id])).rows[0];expect(target.marketing_restricted).toBe(true);expect(Number(target.last_applied_epoch)).toBe(receipt.consent_epoch);
     await page.reload();await expect(page.getByText('Independently observed',{exact:true})).toBeVisible();await h.screenshot(page,'workflow');
     await page.getByRole('link',{name:'Evidence for this workflow'}).click();await expect(page.getByRole('heading',{name:'Evidence scope and integrity'})).toBeVisible();await h.screenshot(page,'workflow-evidence');
     const downloaded=page.waitForEvent('download');await page.getByRole('button',{name:'Download local evidence JSON'}).click();const file=await downloaded;const path=resolve(h.publicDirectory,'synthetic-evidence-'+id+'.json');await file.saveAs(path);
     const evidence=schemas.Evidence.parse(JSON.parse(readFileSync(path,'utf8')));expect(evidence.workflow.id).toBe(id);expect(evidence.receipts[0]!.receipt_id).toBe(receipt.receipt_id);const {integrity_digest,...body}=evidence;expect(integrity_digest).toBe(digest(body));
-  }finally{await principal.close();await stop();}
+  }finally{await stop();}
 });
 
 test('B03 applied response lost, read reconciliation and visible manual obligation',async({page,h})=>{

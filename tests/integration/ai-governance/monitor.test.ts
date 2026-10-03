@@ -48,7 +48,9 @@ try{
   phase='durable sweep';
   runtime=workflowActivities();
   const identities=runtime.enrollment.identities.map(identity=>identity.id);
-  const first=await sweepAiGovernance(runtime.scoped,identities);
+  // A sweep takes 20 due jobs per pass, as the worker does. On a long-lived test database earlier runs may have left due
+  // jobs ahead of this one, so drain the queue the way the running worker would before reading this system's outcome.
+  let first=0;for(let pass=0,n=-1;pass<50&&n!==0;pass++){n=await sweepAiGovernance(runtime.scoped,identities);first+=n;}
   check('due jobs were processed',first>0,true);
   detail=S.AiSystemDetail.parse(await (await admin.call(`/api/v1/admin/ai-systems/${ai.id}`)).json());
   check('declared input creates finding without target claim',[detail.finding_open,detail.events[0]?.state],[true,'FINDING']);

@@ -7,44 +7,44 @@
     "Source freshness covers test files only; release qualification also requires the full candidate source and dependency digests.",
     "Independent security/legal review, actual provider conformance and human release approval remain separate gates."
   ],
-  "test_file_digest": "289e671de08d3b49127ed0a78c90d4a760c9c004d5a550dabdd4dd05519d6ce0",
+  "test_file_digest": "07b9caa938c96d5432e6cf5d05c883c952f51a2cd42b059d5d920dcd09aa505f",
   "counts": {
     "UNIT": 66,
     "INTEGRATION": 99,
     "SECURITY": 7,
     "PLAYWRIGHT": 7,
-    "BROWSER_OR_TRANSPORT": 16,
+    "BROWSER_OR_TRANSPORT": 21,
     "SUPPORT": 9
   },
   "entries": [
     {
       "path": "tests/e2e/ai-governance-local.ts",
-      "sha256": "2a049e4d2e65e218d7e6f57de474fb18a78e5f6146f3bd49c4a0ea5413e08bb7",
+      "sha256": "d6d123e0dc31412e9392b4b226cb74be306bc04e5d3d86d90a5447d1c0a2ed2f",
       "kind": "BROWSER_OR_TRANSPORT"
     },
     {
       "path": "tests/e2e/audit-mandate-local.ts",
-      "sha256": "d4ab9a7278441dbc9182f31aa428dc94b01d07609867389ca51be53579712922",
+      "sha256": "2dac47902f14524e4fb74ad5eca3b0e9452e71bb514bce4f3274a956783893b6",
       "kind": "BROWSER_OR_TRANSPORT"
     },
     {
       "path": "tests/e2e/auth.spec.ts",
-      "sha256": "552ef3318250cd29931950df962226b539c2475fb9c7f9032fc9a77c1187ec73",
+      "sha256": "6b9e67e2f307f751fe411a42f059e89383adfda851f6e18dfaad60a1837aac72",
       "kind": "PLAYWRIGHT"
     },
     {
       "path": "tests/e2e/backups-and-recovery-local.ts",
-      "sha256": "9ce0a7c5c70e3ecc7cf86d10e682e14b63ff45b4997bccfb8603518e8d588293",
+      "sha256": "a16f340f426cf1ef8decbac7c3ec7ba62c4138f7b7578fbedae4433459cacb06",
       "kind": "BROWSER_OR_TRANSPORT"
     },
     {
       "path": "tests/e2e/candidate.spec.ts",
-      "sha256": "d0cdc5e4a6f0c1eabb752901969cb7e0afd5f05521d8daee5984db6ede031ce7",
+      "sha256": "a46460bd8b6349b3b55c99bee0706359f6ce464c547616bf428a4a1dea024047",
       "kind": "PLAYWRIGHT"
     },
     {
       "path": "tests/e2e/catalog-discovery-local.ts",
-      "sha256": "cf060b9661a27868a441bb262d24ff3edf95a41fdefdbc7179654286091d2191",
+      "sha256": "730a5c9de8d382ff70f58daa2a4b62da001ad883f430cc74aa16d3af96a67ac5",
       "kind": "BROWSER_OR_TRANSPORT"
     },
     {
@@ -54,37 +54,62 @@
     },
     {
       "path": "tests/e2e/consent.spec.ts",
-      "sha256": "1932b245ead9b9551d7f8b3290e4d74c48bb00e5625de674eaf0d6cacd7198a7",
+      "sha256": "920273e1c171762a22558bebfd7cfb9514e14523f94b76605e1e8716df0a1b2d",
       "kind": "PLAYWRIGHT"
     },
     {
       "path": "tests/e2e/delete-login-local.ts",
-      "sha256": "334410e3d9d632c163ccbcf29c72ec919566adc3de7f0680fd964c75c733576c",
+      "sha256": "f6519d5d8047befca1928a51d5d7b740f96a7d3e1ef093b10f4855d68c3af708",
+      "kind": "BROWSER_OR_TRANSPORT"
+    },
+    {
+      "path": "tests/e2e/demo-data-local.ts",
+      "sha256": "180bdb90e2baaf87a3c54c9bc842bae436cfd574ae3b8b8ba748ed08bc105a42",
+      "kind": "BROWSER_OR_TRANSPORT"
+    },
+    {
+      "path": "tests/e2e/demo-import-local.ts",
+      "sha256": "a02d0743d5ba1be11d8fa6365bb54b3287adbc5fb13c232b8d8a61f51fb50cfb",
+      "kind": "BROWSER_OR_TRANSPORT"
+    },
+    {
+      "path": "tests/e2e/demo-report-pdf-local.ts",
+      "sha256": "529373a3cd8f0aa94428d331945f070d895160658658b3345b21632ecf5b8e68",
+      "kind": "BROWSER_OR_TRANSPORT"
+    },
+    {
+      "path": "tests/e2e/demo-tiers-local.ts",
+      "sha256": "0ea254ad1f58da443cc7032baada874b079ec302789fc641d7b93d70106e5dc4",
       "kind": "BROWSER_OR_TRANSPORT"
     },
     {
       "path": "tests/e2e/dpdpa-audit-local.ts",
-      "sha256": "489a8c9f2783cbbdeda9ad664731ac994f0e976167d43f2a37cc9d81a16d2654",
+      "sha256": "605746fde53bd5a5c4fff8928680afe62dcacc35c33bfcf90419fdd14cbe9dab",
       "kind": "BROWSER_OR_TRANSPORT"
     },
     {
       "path": "tests/e2e/expansion-screens-local.ts",
-      "sha256": "4caff057f94eff98368aa8f0bd6dff4eb8e388a75fff03952462e2b8e054c632",
+      "sha256": "3425b89e44cc6b4c9d0802c056b9ec1075403498064116bab7eca04e82b2541c",
       "kind": "BROWSER_OR_TRANSPORT"
     },
     {
       "path": "tests/e2e/fixture.ts",
-      "sha256": "d1bc1284e37edabca16cb865f8546a7203c22390d1a8cc72293342c8eeff0569",
+      "sha256": "8a7f0496edd866a29a9f7ba29aca4abe7a87534f83ef1f88cb0379cc79c4bcc9",
       "kind": "SUPPORT"
     },
     {
+      "path": "tests/e2e/idle-sign-out-local.ts",
+      "sha256": "b05c8c01a314165041976d5ca441bcead18ea207f40c33f8e44286bf27ee182f",
+      "kind": "BROWSER_OR_TRANSPORT"
+    },
+    {
       "path": "tests/e2e/interface-crawl-local.ts",
-      "sha256": "4321a964077e0edc31ba4cebd50b1c370e4afaa6c182a87141e74b5868596d1a",
+      "sha256": "80b105a6d40ac732b45d98023214fcb4eaa75e0efbdad985f41636e6f7668a04",
       "kind": "BROWSER_OR_TRANSPORT"
     },
     {
       "path": "tests/e2e/operations-screens-local.ts",
-      "sha256": "86cb957f309ee175643cfdb146f460b8147ddc4a418466aba7167fcf586f499f",
+      "sha256": "f4da59c19c5826514c9f142e808d043a7c6b50dbde0ad4a638c5efe02174b261",
       "kind": "BROWSER_OR_TRANSPORT"
     },
     {
@@ -99,7 +124,7 @@
     },
     {
       "path": "tests/e2e/preferences-local.ts",
-      "sha256": "96bc3ab394d1027e1b6040a8af863c0d60e0a858eb75de27cf2cedb9d704ee66",
+      "sha256": "8eeecf0c4faf0e0e0f7483db555b3512aa71a8b66128e4411a4fee03cf4554fb",
       "kind": "BROWSER_OR_TRANSPORT"
     },
     {
@@ -109,7 +134,7 @@
     },
     {
       "path": "tests/e2e/registry-forms-local.ts",
-      "sha256": "e333bb279d46e0d4e756350a95fc9fed501ff79c94caa33c1d4dd3ecf271d3a5",
+      "sha256": "96ae18b3a10797f15375ec0683b13e8133d1d77f1e754521291a942102140159",
       "kind": "BROWSER_OR_TRANSPORT"
     },
     {
@@ -119,17 +144,17 @@
     },
     {
       "path": "tests/e2e/sign-in-hydration-local.ts",
-      "sha256": "ccfa3fcb5bb79da4cb6ed1292436cf66419c7862fd17f204e3a16c57f27a2eef",
+      "sha256": "f38b2b6200f1383bc819a4c50a95aef63a3fc8f7d951cd1980d053799698bab9",
       "kind": "BROWSER_OR_TRANSPORT"
     },
     {
       "path": "tests/e2e/start-smoke-local.ts",
-      "sha256": "307eb28291732d6bb8646c1db0ebb76f58e77face0b6b3877c9cc4e57dc3e6e5",
+      "sha256": "fabae1a140c7441930ecf1689feeeea541f91444475d53dca65f79c68de78197",
       "kind": "BROWSER_OR_TRANSPORT"
     },
     {
       "path": "tests/e2e/team-local.ts",
-      "sha256": "119dc5e370b9352b8e1cd88eb9fb85ae446a8f6f0d3751dc32c3d3deb6a9f8f3",
+      "sha256": "c8f1de9be29bea12ced56637a52ff45c20f4e277059f9801196f79bec79903a3",
       "kind": "BROWSER_OR_TRANSPORT"
     },
     {
@@ -154,7 +179,7 @@
     },
     {
       "path": "tests/e2e/workflow.spec.ts",
-      "sha256": "b4b60a1f4b54bf922e93985a5a2645eb7de8b894438b44366830b292a9c96286",
+      "sha256": "a9b15726968d2856a518f43cc0370004442dbff4c694cfc7d439d352c7063f00",
       "kind": "PLAYWRIGHT"
     },
     {
@@ -174,7 +199,7 @@
     },
     {
       "path": "tests/integration/ai-governance/monitor.test.ts",
-      "sha256": "2ad481ee9f96409bd47d00a440560d9559848f1d960f02a2f4499fe8b63f6053",
+      "sha256": "1f807aae9ea523813fef3e93516f51fa10c061ee4eb19d2d77c2ff59c569d2ef",
       "kind": "INTEGRATION"
     },
     {
@@ -234,7 +259,7 @@
     },
     {
       "path": "tests/integration/discovery/catalog-flow.test.ts",
-      "sha256": "765238f6d7ac7efff5936068a6437f90a84d5bb0d559ed5cf425af8bde80e47d",
+      "sha256": "ecc7b2b06f3eadd59807b5630dbdf74fa00dfc7fef9e1e640ff1e3faf48b8847",
       "kind": "INTEGRATION"
     },
     {
@@ -534,7 +559,7 @@
     },
     {
       "path": "tests/integration/operations/organisation-intake.test.ts",
-      "sha256": "419cca5625dcc5c63de86f76e81c9284e817ee93aa8eba63c905f1335d713076",
+      "sha256": "ea52d1bf6183b88a3f0bea0787511b8e693b23da09e69e15ed6db8a37f52b9e6",
       "kind": "INTEGRATION"
     },
     {
@@ -809,7 +834,7 @@
     },
     {
       "path": "tests/unit/deployment-boundary.test.ts",
-      "sha256": "c385cf87f5e8aba895bb0c68867261b3d5b3b6730a0a700997a2852780af8f00",
+      "sha256": "a8ac9265a402959406bac3f8b98eaf0724ca18071f4286c1d3cd7d66d4763201",
       "kind": "UNIT"
     },
     {
@@ -819,7 +844,7 @@
     },
     {
       "path": "tests/unit/file-intake.test.ts",
-      "sha256": "09be68912c68964376c2f3eaf3bab5b6bca508620e9cc37e1eeecd51022a726d",
+      "sha256": "f3ecdf9f862b9a9520e1fa426f9a27b79c022c77c81be68d3122c953de36eed1",
       "kind": "UNIT"
     },
     {
@@ -944,7 +969,7 @@
     },
     {
       "path": "tests/unit/rights.test.ts",
-      "sha256": "f86a5ce2ebf16294b2036982b164a547a8ec39100fd37dbc44b98bc26a946526",
+      "sha256": "43975db207547ff33ee42645fc06883085582acb73737b59c2b833cf1d37eb0e",
       "kind": "UNIT"
     },
     {

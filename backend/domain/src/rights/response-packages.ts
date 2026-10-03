@@ -223,3 +223,37 @@ export async function purgeEndedPackages(c: Context) {
       OR (state='RELEASED' AND coalesce(revoked_at, delivery_expires_at)<clock_timestamp()-make_interval(days=>${PURGE_AFTER_DAYS})))`, scope(c));
   return r.rowCount ?? 0;
 }
+
+/**
+ * Owner decision 2026-10-03: the organisation's Data Principals never sign in to ORVIA. A released response reaches the
+ * person through the organisation's own platform, which collects it with the intake key that submitted the request, or a
+ * staff member who may release responses downloads it to hand over. Both run through one database function that applies
+ * the release (expiry, revocation, allowance), counts the download and writes a receipt naming the channel.
+ */
+const COLLECTED_LIMITS = [
+  'This copy contains what the listed systems returned when it was prepared, and what the organisation holds about the person in ORVIA.',
+  'A section marked unavailable or not supported could not be read automatically; the organisation acknowledged this before releasing the copy.',
+  'Information about other people has been withheld where marked.',
+];
+async function deliveredCopy(c: Context, row: Row | undefined, channel: 'PLATFORM' | 'STAFF') {
+  if (!row) refuse(404, 'id', 'not_found');
+  if (row.delivery === 'NOT_RELEASED') refuse(409, 'delivery', 'not_released');
+  if (row.delivery === 'REVOKED') refuse(409, 'delivery', 'delivery_revoked');
+  if (row.delivery === 'EXPIRED') refuse(409, 'delivery', 'delivery_expired');
+  if (row.delivery === 'EXHAUSTED') refuse(409, 'delivery', 'download_allowance_spent');
+  await audit(c, channel === 'PLATFORM' ? 'rights_response.collect_by_platform' : 'rights_response.collect_by_staff', row.package_id);
+  return X.OwnResponsePackage.parse({
+    request_id: row.request_id, version: row.version, released_at: iso(row.released_at), expires_at: iso(row.expires_at),
+    downloads_remaining: row.downloads_remaining, content_digest: row.content_digest, content: row.content, limits: COLLECTED_LIMITS,
+  });
+}
+/** The organisation's platform collects the released response for a rights request its intake key submitted. */
+export async function collectForPlatform(c: Context, submissionId: string) {
+  const row = (await c.tx.query('SELECT * FROM app.intake_collect_response($1,$2)', [submissionId, randomUUID()])).rows[0];
+  return deliveredCopy(c, row, 'PLATFORM');
+}
+/** A staff member who may release responses downloads the released copy to hand it over. */
+export async function collectStaffCopy(c: Context, packageId: string) {
+  const row = (await c.tx.query('SELECT * FROM app.staff_collect_response($1,$2)', [packageId, randomUUID()])).rows[0];
+  return deliveredCopy(c, row, 'STAFF');
+}

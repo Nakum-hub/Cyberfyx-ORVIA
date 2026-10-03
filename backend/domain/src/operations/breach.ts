@@ -98,7 +98,7 @@ export async function breachView(c: Context, id: string) {
     affected_count: row.affected_count, affected_count_state: row.affected_count_state, data_category_ids: row.data_category_ids, activity_ids: row.activity_ids, system_ids: row.system_ids, engagement_ids: row.engagement_ids,
     facts: row.facts, mitigation: row.mitigation, recorded_at: iso(row.recorded_at),
     tasks: tasks.map(t => ({ id: t.id, requirement_id: t.requirement_id, requirement_version: t.requirement_version, package_row_id: t.package_row_id, kind: t.kind, timer_rule: t.timer_rule,
-      due_at: iso(t.due_at), legal_status: t.legal_status, unresolved_reason: t.unresolved_reason, state: t.state, overdue: t.state === 'OPEN' && t.due_at !== null && t.due_at.getTime() < Date.now(),
+      due_at: iso(t.due_at), legal_status: t.legal_status, unresolved_reason: t.unresolved_reason, state: t.state, overdue: t.state === 'OPEN' && t.legal_status !== 'NOT_YET_IN_FORCE' && t.due_at !== null && t.due_at.getTime() < Date.now(),
       completed_at: iso(t.completed_at), communication_evidence_reference: t.communication_evidence_reference, completion_note: t.completion_note, created_at: iso(t.created_at) })) });
 }
 export async function breachList(c: Context, page: Page) {

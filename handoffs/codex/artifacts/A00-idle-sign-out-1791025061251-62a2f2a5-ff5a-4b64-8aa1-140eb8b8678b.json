@@ -1,0 +1,36 @@
+{
+  "task_id": "A00",
+  "fixture_kind": "SYNTHETIC_BOOTSTRAP_ONLY",
+  "recorded_at": "2026-10-03T10:57:41.251Z",
+  "results": [
+    {
+      "name": "the idle limit is 30 minutes",
+      "result": "PASS"
+    },
+    {
+      "name": "the staff member is in the Workspace",
+      "result": "PASS"
+    },
+    {
+      "name": "29 minutes without activity still keeps them signed in",
+      "result": "PASS"
+    },
+    {
+      "name": "activity restarts the 30 minutes",
+      "result": "PASS"
+    },
+    {
+      "name": "after 30 minutes without activity they are back on the sign-in page",
+      "result": "PASS"
+    },
+    {
+      "name": "the sign-in page says why",
+      "result": "PASS"
+    },
+    {
+      "name": "the server no longer accepts the old session",
+      "result": "PASS"
+    }
+  ],
+  "result": "PASS"
+}

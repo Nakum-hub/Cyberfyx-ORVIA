@@ -163,7 +163,10 @@ export function ReportsScreen() {
 
         {query.data && (
           <NoticeBox tone="info" title="Ready to print">
-            <p>Use your browser’s Print command and choose “Save as PDF”. The builder above is hidden in print; what follows is the report.</p>
+            <p>
+              <button type="button" className="primary" onClick={() => window.print()}>Save as PDF</button>
+              {' '}Opens the print dialog: choose “Save as PDF” as the destination. The builder above is hidden in print; what follows is the report.
+            </p>
             <p>
               Or take the tables as spreadsheets:
               {' '}

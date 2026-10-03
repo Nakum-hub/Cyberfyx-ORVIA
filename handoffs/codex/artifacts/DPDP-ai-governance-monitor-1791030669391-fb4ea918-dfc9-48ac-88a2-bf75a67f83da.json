@@ -1,0 +1,51 @@
+{
+  "task_id": "DPDP",
+  "fixture_kind": "CUSTOMER_LOCAL_SYNTHETIC",
+  "recorded_at": "2026-10-03T12:31:09.392Z",
+  "profile": "codex-a00",
+  "phase": "durable sweep",
+  "assertions": [
+    {
+      "name": "asset/activity mapped",
+      "expected": 201,
+      "actual": 201,
+      "result": "PASS"
+    },
+    {
+      "name": "activity/purpose mapped",
+      "expected": 201,
+      "actual": 201,
+      "result": "PASS"
+    },
+    {
+      "name": "no monitoring outcome invented at registration",
+      "expected": null,
+      "actual": null,
+      "result": "PASS"
+    },
+    {
+      "name": "due jobs were processed",
+      "expected": true,
+      "actual": true,
+      "result": "PASS"
+    },
+    {
+      "name": "declared input creates finding without target claim",
+      "expected": [
+        true,
+        "FINDING"
+      ],
+      "actual": [
+        false,
+        null
+      ],
+      "result": "FAIL"
+    }
+  ],
+  "result": "FAIL",
+  "error": {
+    "name": "Error",
+    "code": "UNCLASSIFIED"
+  },
+  "detail": "Assertion failed: declared input creates finding without target claim; actual=[false,null]"
+}

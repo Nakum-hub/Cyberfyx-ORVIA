@@ -1,0 +1,67 @@
+{
+  "task_id": "A00",
+  "fixture_kind": "SYNTHETIC_BOOTSTRAP_ONLY",
+  "recorded_at": "2026-10-03T15:59:44.542Z",
+  "results": [
+    {
+      "name": "Birch: the installation enforces FOUNDATION for this organisation",
+      "result": "PASS"
+    },
+    {
+      "name": "Birch: \"Your plan\" shows the tier",
+      "result": "PASS"
+    },
+    {
+      "name": "Birch: the navigation marks the modules outside Tier 1 (Control / Enterprise)",
+      "result": "PASS"
+    },
+    {
+      "name": "Birch: Tier 1 work (create_purposes) passes the plan check",
+      "result": "PASS"
+    },
+    {
+      "name": "Birch: Tier 2 work (create_catalog_discovery_target) is refused by the server: not in the plan",
+      "result": "FAIL",
+      "detail": "{\"status\":400,\"codes\":[\"invalid_type\",\"invalid_type\",\"invalid_type\"]}"
+    },
+    {
+      "name": "Birch: Tier 3 work (create_grc_audit) is refused by the server: not in the plan",
+      "result": "FAIL",
+      "detail": "{\"status\":400,\"codes\":[\"invalid_type\",\"invalid_type\",\"invalid_type\",\"invalid_type\",\"invalid_type\"]}"
+    },
+    {
+      "name": "Birch: what is already recorded in a locked module stays readable",
+      "result": "PASS"
+    },
+    {
+      "name": "Birch: a protective control (create_rights_request) is never gated by the plan",
+      "result": "PASS"
+    },
+    {
+      "name": "Aster: the installation enforces ENTERPRISE for this organisation",
+      "result": "PASS"
+    },
+    {
+      "name": "Aster: \"Your plan\" shows the tier",
+      "result": "PASS"
+    },
+    {
+      "name": "Aster: nothing in the navigation is marked as outside the plan",
+      "result": "PASS"
+    },
+    {
+      "name": "Aster: Tier 1 work (create_purposes) passes the plan check",
+      "result": "PASS"
+    },
+    {
+      "name": "Aster: Tier 2 work (create_catalog_discovery_target) passes the plan check",
+      "result": "PASS"
+    },
+    {
+      "name": "Aster: Tier 3 work (create_grc_audit) passes the plan check",
+      "result": "PASS"
+    }
+  ],
+  "result": "FAIL",
+  "run": "b81b1af0-4c79-41bc-ba0f-3baec9f9cdc1"
+}

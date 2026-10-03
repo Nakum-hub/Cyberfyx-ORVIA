@@ -23,3 +23,6 @@ output/playwright/downloads/
 
 # Personal Claude Code permissions (owner-approved, not shared)
 .claude/settings.local.json
+
+# Regulatory packages built on this machine are signed with its own local release key; never commit them.
+artifacts/regulatory/

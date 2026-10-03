@@ -3,6 +3,8 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import { ENTITLEMENTS, classifyRoute, routes } from '../../shared/contracts/src/index.ts';
 import { detectFile } from '../../backend/domain/src/onboarding/file-intake.ts';
+import { detectCsv, parseCsv, resolvePrivacyRequests } from '../../backend/domain/src/onboarding/csv-import.ts';
+import { readFileSync } from 'node:fs';
 import { example } from '../../shared/contracts/src/examples.ts';
 import { officeFixture } from '../../shared/testing/src/office-fixture.ts';
 
@@ -42,4 +44,41 @@ test('anything else is a document or unreadable, never silently something else',
   const badRow = detectFile('estate.jsonl', Buffer.from('{"row_key":"x"}'));
   assert.equal(badRow.kind, 'UNRECOGNISED');
   assert.match(badRow.detail, /Line 1/);
+});
+
+test('CSV exports from the organisation\'s own systems are recognised by header (contract 0.61.0)', () => {
+  const consent = Buffer.from('Customer Reference,email,System,Activity,Decision,occurred_at\ncust_1,a@aster.example,Aster online store,Marketing,granted,2026-09-01\n');
+  const requests = Buffer.from('email,name,right_type,description\na@aster.example,A Person,access,Please send me my data.\n');
+  assert.equal(detectFile('consents.csv', consent).kind, 'CONSENT_EXPORT');
+  assert.equal(detectFile('requests.csv', requests).kind, 'PRIVACY_REQUESTS');
+  assert.equal(detectFile('notes.csv', Buffer.from('a,b\n1,2\n')).kind, 'DOCUMENT');
+  assert.equal(detectFile('empty.csv', Buffer.from('customer_reference,system,activity,decision\n')).kind, 'UNRECOGNISED');
+});
+test('CSV parsing handles quotes, embedded commas, doubled quotes and CRLF', () => {
+  assert.deepEqual(parseCsv('a,b\r\n"x, y","say ""hi"""\r\n'), [['a', 'b'], ['x, y', 'say "hi"']]);
+});
+test('a privacy requests export is checked row by row; nothing is guessed', () => {
+  const r = resolvePrivacyRequests([
+    { line: 2, values: { email: 'p@aster.example', name: 'P', right_type: 'Erasure', description: 'Please erase my account data.' } },
+    { line: 3, values: { email: 'not-an-email', name: 'Q', right_type: 'access', description: 'Please send my data.' } },
+    { line: 4, values: { email: 'r@aster.example', name: 'R', right_type: 'refund', description: 'I want my money back.' } },
+  ]);
+  assert.equal(r.apply.length, 1); assert.equal(r.apply[0]!.right, 'ERASURE');
+  assert.deepEqual(r.skipped.map(s => s.line), [3, 4]);
+});
+
+test('the synthetic demonstration files in fixtures/demo are recognised and reviewed as fixtures/demo/README.md says', () => {
+  const read = (f: string) => readFileSync(new URL(`../../fixtures/demo/${f}`, import.meta.url), 'utf8');
+  for (const [file, kind, rows] of [['aster-crm-consent-export.csv', 'CONSENT_EXPORT', 8], ['aster-loyalty-app-consent-export.csv', 'CONSENT_EXPORT', 69],
+    ['aster-helpdesk-privacy-requests.csv', 'PRIVACY_REQUESTS', 5], ['aster-email-privacy-requests-october.csv', 'PRIVACY_REQUESTS', 9]] as const) {
+    const d = detectCsv(read(file));
+    assert.ok(d && 'kind' in d, file); assert.equal(d.kind, kind, file); assert.equal(d.lines.length, rows, file);
+    for (const l of d.lines) if (l.values.email) assert.match(l.values.email, /@aster\.example$|@example\.com$/, `${file} line ${l.line}: synthetic addresses only`);
+  }
+  const helpdesk = detectCsv(read('aster-helpdesk-privacy-requests.csv')) as { lines: Parameters<typeof resolvePrivacyRequests>[0] };
+  assert.equal(resolvePrivacyRequests(helpdesk.lines).apply.length, 4);
+  const october = detectCsv(read('aster-email-privacy-requests-october.csv')) as { lines: Parameters<typeof resolvePrivacyRequests>[0] };
+  const r = resolvePrivacyRequests(october.lines);
+  assert.equal(r.apply.length, 8); assert.deepEqual(r.skipped.map(s => s.line), [10]);
+  assert.deepEqual([...new Set(r.apply.map(a => a.right))].sort(), ['ACCESS', 'CORRECTION', 'ERASURE', 'GRIEVANCE', 'NOMINATION']);
 });

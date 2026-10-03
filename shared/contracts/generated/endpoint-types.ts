@@ -383,6 +383,7 @@ export interface EndpointMap {
   release_response_package: { request: import('zod').infer<typeof import('../src/index.ts').schemas.ResponsePackageRelease>; response: import('zod').infer<typeof import('../src/index.ts').schemas.ResponsePackage> };
   revoke_response_package: { request: import('zod').infer<typeof import('../src/index.ts').schemas.ResponsePackageRevoke>; response: import('zod').infer<typeof import('../src/index.ts').schemas.ResponsePackage> };
   withdraw_response_package: { request: undefined; response: import('zod').infer<typeof import('../src/index.ts').schemas.ResponsePackage> };
+  collect_response_package_copy: { request: undefined; response: import('zod').infer<typeof import('../src/index.ts').schemas.OwnResponsePackage> };
   own_response_package: { request: undefined; response: import('zod').infer<typeof import('../src/index.ts').schemas.OwnResponsePackage> };
   request_classification_run: { request: import('zod').infer<typeof import('../src/index.ts').schemas.ClassificationRunRequest>; response: import('zod').infer<typeof import('../src/index.ts').schemas.ClassificationRun> };
   list_classification_runs: { request: undefined; response: import('zod').infer<typeof import('../src/index.ts').schemas.ClassificationRunList> };

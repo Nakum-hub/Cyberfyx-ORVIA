@@ -47,7 +47,8 @@ test('there is no vendor actor anywhere in this product', () => {
   assert.deepEqual(supplierRoutes.map(route => [route.path.startsWith('/api/v1/supplier/'), route.capability]), supplierRoutes.map(() => [true, 'supplier.respond']));
   const intakeRoutes = routes.filter(route => route.authority === 'INTAKE_CLIENT');
   assert.deepEqual(intakeRoutes.map(route => [route.path.startsWith('/api/v1/intake/'), route.capability]), intakeRoutes.map(() => [true, 'intake.submit']));
-  assert.equal(intakeRoutes.length, 3);
+  // Owner decision 2026-10-03 adds the platform's collection of a released rights response (fourth route).
+  assert.equal(intakeRoutes.length, 4);
   assert.ok(!authorities.some(a => /VENDOR/i.test(a)), 'a vendor authority exists');
   // And the audit trail cannot attribute an act to a vendor either, which is
   // what FR-M33-02's separation rests on.

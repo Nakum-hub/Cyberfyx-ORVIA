@@ -48,11 +48,11 @@ await t.run(async () => {
     const admin = await page(browser); const user = h.users.admin!;
     await h.authWindow();
     await admin.goto('/workspace/sign-in');
-    await admin.getByLabel('Staff email').fill(user.email); await admin.getByLabel('Password', { exact: true }).fill(user.password);
+    await admin.getByLabel('Email', { exact: true }).fill(user.email); await admin.getByLabel('Password', { exact: true }).fill(user.password);
     await admin.getByRole('button', { name: 'Sign in', exact: true }).click();
     await admin.getByLabel('Authenticator code', { exact: true }).fill(authenticatorCode(user.totp_uri!));
     await admin.getByRole('button', { name: 'Verify authenticator', exact: true }).click();
-    await admin.getByRole('heading', { name: 'Signed in', exact: true }).waitFor();
+    await admin.waitForURL(u => u.pathname === '/workspace');
     await admin.goto('/workspace/team');
     await admin.getByText(`${used} of ${used + 1}`).waitFor();
     check('the screen shows one free seat', await admin.getByText('1 available').count() > 0, true);
@@ -73,7 +73,7 @@ await t.run(async () => {
     const newcomer = await page(browser);
     await h.authWindow();
     await newcomer.goto('/workspace/sign-in');
-    await newcomer.getByLabel('Staff email').fill(email); await newcomer.getByLabel('Password', { exact: true }).fill(shown!);
+    await newcomer.getByLabel('Email', { exact: true }).fill(email); await newcomer.getByLabel('Password', { exact: true }).fill(shown!);
     await newcomer.getByRole('button', { name: 'Sign in', exact: true }).click();
     await newcomer.getByRole('heading', { name: 'Choose your own password' }).waitFor();
     const chosen = `Browser-${randomUUID()}`;
@@ -90,7 +90,7 @@ await t.run(async () => {
     const uri = (await newcomer.locator('code').first().textContent())!;
     await newcomer.getByLabel('Authenticator code', { exact: true }).fill(authenticatorCode(uri));
     await newcomer.getByRole('button', { name: 'Verify authenticator', exact: true }).click();
-    await newcomer.getByRole('heading', { name: 'Signed in', exact: true }).waitFor();
+    await newcomer.waitForURL(u => u.pathname === '/workspace');
     const session = await newcomer.evaluate(() => fetch('/api/v1/session', { credentials: 'same-origin' }).then(r => r.json()));
     check('the member has a workspace session with the member role', [(session as { role?: string }).role, (session as { mfa_verified?: boolean }).mfa_verified], ['MEMBER', true]);
     await admin.reload();

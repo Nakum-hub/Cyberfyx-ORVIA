@@ -61,8 +61,7 @@ export default async function EntryPage() {
           <p style={{ marginBottom: 0, color: 'var(--accent)', fontWeight: 600, fontSize: 13.5 }}>Open the staff workspace →</p>
         </a>
         <p className="muted" style={{ marginTop: 'var(--s4)' }}>
-          <a href="/workspace/sign-in">Staff sign in</a>. Your customers do not start here: they use your own website or app, or, if you
-          turn it on in the Privacy Centre module, the Privacy Centre link you publish there.
+          <a href="/workspace/sign-in">Staff sign in</a>. ORVIA is used by your organisation&apos;s staff; the people whose data you process keep using your own website, store or app, which sends their privacy choices and requests here.
         </p>
       </section>
 

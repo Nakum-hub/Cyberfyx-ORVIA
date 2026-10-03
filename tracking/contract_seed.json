@@ -1,5 +1,5 @@
 {
-  "contract_version": "0.58.0",
+  "contract_version": "0.61.0",
   "review_status": "PENDING_WORK_REVIEW",
   "accepted_baseline": "0.2.1",
   "review_commit": null,
@@ -3179,6 +3179,16 @@
       "capability": "intake.submit"
     },
     {
+      "id": "intake_response_package",
+      "method": "post",
+      "path": "/api/v1/intake/submissions/{id}/response-package",
+      "authority": "INTAKE_CLIENT",
+      "params": "IdPath",
+      "response": "OwnResponsePackage",
+      "status": 200,
+      "capability": "intake.submit"
+    },
+    {
       "id": "list_erasure_intimations_due",
       "method": "get",
       "path": "/api/v1/admin/erasure-intimations/due",
@@ -4255,6 +4265,17 @@
       "status": 200,
       "idempotency": true,
       "capability": "rights.write",
+      "params": "IdPath"
+    },
+    {
+      "id": "collect_response_package_copy",
+      "method": "post",
+      "path": "/api/v1/admin/response-packages/{id}/staff-copy",
+      "authority": "STAFF",
+      "response": "OwnResponsePackage",
+      "status": 200,
+      "idempotency": true,
+      "capability": "rights.release",
       "params": "IdPath"
     },
     {

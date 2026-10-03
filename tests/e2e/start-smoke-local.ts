@@ -65,7 +65,7 @@ try {
   for (const [path, expect] of [
     ['/workspace', /Overview|Attention|privacy/i], ['/workspace/plan', /Your plan/], ['/workspace/files', /Files/], ['/workspace/team', /Team/],
     ['/workspace/rights', /request/i], ['/workspace/consent-records', /consent/i], ['/workspace/personal-data-breaches', /breach/i],
-    ['/workspace/organisation-intake', /intake/i], ['/workspace/privacy-centre', /Address for your customers/], ['/workspace/registry-notices', /notice/i], ['/workspace/processors', /processor/i],
+    ['/workspace/organisation-intake', /intake/i], ['/workspace/privacy-centre', /Where your Data Principals' privacy data comes from/], ['/workspace/registry-notices', /notice/i], ['/workspace/processors', /processor/i],
     ['/workspace/regulatory', /regulatory|package/i], ['/workspace/audit-trail', /audit/i],
   ] as const) await visit(cpage, 'customer', h.config.origin, path, expect);
   // The Privacy Centre is a Workspace module (owner decision 2026-10-03): listed in the navigation; the entry page is staff-only.

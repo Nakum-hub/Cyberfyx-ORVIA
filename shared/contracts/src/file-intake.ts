@@ -16,7 +16,8 @@ const A = '/api/v1/admin';
 
 /** 10 MiB per file. A larger export is split before it is dropped or uploaded. */
 export const FILE_INTAKE_MAX_BYTES = 10_485_760;
-export const FileIntakeKind = z.enum(['LICENCE', 'RELEASE', 'REGULATORY_PACKAGE', 'DATA_ASSET_INVENTORY', 'ESTATE_ROWS', 'DOCUMENT', 'UNRECOGNISED']);
+/** CONSENT_EXPORT and PRIVACY_REQUESTS (contract 0.61.0): CSV exports from the organisation's own systems, recognised by header. */
+export const FileIntakeKind = z.enum(['LICENCE', 'RELEASE', 'REGULATORY_PACKAGE', 'DATA_ASSET_INVENTORY', 'ESTATE_ROWS', 'CONSENT_EXPORT', 'PRIVACY_REQUESTS', 'DOCUMENT', 'UNRECOGNISED']);
 export const FileIntakeSource = z.enum(['MANUAL_UPLOAD', 'INBOX_FOLDER']);
 export const FileIntakeState = z.enum(['STAGED', 'ROUTED', 'KEPT', 'REJECTED']);
 export const FileIntakeSubjectKind = z.enum(['PROCESSOR', 'SYSTEM', 'INCIDENT', 'BREACH', 'RIGHTS_REQUEST', 'PURPOSE', 'NOTICE']);

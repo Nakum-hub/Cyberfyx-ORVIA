@@ -1,0 +1,62 @@
+{
+  "task_id": "A00",
+  "fixture_kind": "SYNTHETIC_BOOTSTRAP_ONLY",
+  "recorded_at": "2026-10-03T17:09:40.776Z",
+  "results": [
+    {
+      "name": "Board or management pack: the report builds and offers \"Save as PDF\"",
+      "result": "PASS"
+    },
+    {
+      "name": "Board or management pack: a PDF is produced (9 page(s), 497 KB)",
+      "result": "PASS"
+    },
+    {
+      "name": "Board or management pack: the PDF leaves out the workspace (navigation, builder, buttons)",
+      "result": "PASS"
+    },
+    {
+      "name": "Board or management pack: the PDF carries the report with the demonstration data",
+      "result": "FAIL",
+      "detail": "ORVIA Privacy record Organisation Synthetic legal entity · Synthetic environment Period From the beginning of the record — up to the moment this was generated Generated 10/3/2026, 17:09:34 UTC Profile CUSTOMER_LOCAL_SYNTHETIC Content digest f15876bc29d3a7d46303a237ae29ff0f73d50b9cd53b2fe7a12351d1d6e"
+    },
+    {
+      "name": "Response to a regulator or auditor: the report builds and offers \"Save as PDF\"",
+      "result": "PASS"
+    },
+    {
+      "name": "Response to a regulator or auditor: a PDF is produced (21 page(s), 533 KB)",
+      "result": "PASS"
+    },
+    {
+      "name": "Response to a regulator or auditor: the PDF leaves out the workspace (navigation, builder, buttons)",
+      "result": "PASS"
+    },
+    {
+      "name": "Response to a regulator or auditor: the PDF carries the report with the demonstration data",
+      "result": "FAIL",
+      "detail": "ORVIA Privacy record Organisation Synthetic legal entity · Synthetic environment Period From the beginning of the record — up to the moment this was generated Generated 10/3/2026, 17:09:35 UTC Profile CUSTOMER_LOCAL_SYNTHETIC Content digest efd6ca14a4c02b4d5dfd20c01e0fa4e3f26d33e8ca921b2bc31785ec79c"
+    },
+    {
+      "name": "Full privacy record: the report builds and offers \"Save as PDF\"",
+      "result": "PASS"
+    },
+    {
+      "name": "Full privacy record: a PDF is produced (22 page(s), 543 KB)",
+      "result": "PASS"
+    },
+    {
+      "name": "Full privacy record: the PDF leaves out the workspace (navigation, builder, buttons)",
+      "result": "PASS"
+    },
+    {
+      "name": "Full privacy record: the PDF carries the report with the demonstration data",
+      "result": "PASS"
+    },
+    {
+      "name": "no page error or server error while building and printing",
+      "result": "PASS"
+    }
+  ],
+  "result": "FAIL"
+}

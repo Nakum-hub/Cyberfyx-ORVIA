@@ -1,6 +1,26 @@
 {
-  "name": "@orvia/web", "version": "0.0.0", "private": true, "type": "module",
-  "scripts": { "dev": "tsx ../../scripts/web.ts dev", "build": "tsx ../../scripts/web.ts build", "start": "tsx ../../scripts/web.ts start" },
-  "dependencies": { "@orvia/contracts": "workspace:*", "@orvia/auth": "workspace:*", "@orvia/backend": "workspace:*", "next": "16.3.5", "react": "19.3.0", "react-dom": "19.3.0", "zod": "4.6.5" },
-  "devDependencies": { "tailwindcss": "4.3.3", "@tailwindcss/postcss": "4.3.3" }
+  "name": "@orvia/web",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "tsx ../../scripts/web.ts dev",
+    "build": "tsx ../../scripts/web.ts build",
+    "start": "tsx ../../scripts/web.ts start"
+  },
+  "dependencies": {
+    "@fontsource/montserrat": "5.3.0",
+    "@orvia/auth": "workspace:*",
+    "@orvia/backend": "workspace:*",
+    "@orvia/contracts": "workspace:*",
+    "framer-motion": "13.5.0",
+    "next": "16.3.5",
+    "react": "19.3.0",
+    "react-dom": "19.3.0",
+    "zod": "4.6.5"
+  },
+  "devDependencies": {
+    "@tailwindcss/postcss": "4.3.3",
+    "tailwindcss": "4.3.3"
+  }
 }
