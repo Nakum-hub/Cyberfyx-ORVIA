@@ -34,9 +34,18 @@ ORVIA reviews the file, organises it according to the DPDP Act into the right mo
 - T1.4 Tests: integration test of both CSVs (good rows, unresolvable rows, a real address refused), an e2e upload,
   approval and module check, and demo data CSVs under `fixtures/demo/`.
 
-### T2 Policy graph and every module show the data correctly  `[ ]`
-- Check the privacy graph and control map with demo data, and that a manual import and the automatic intake land in
-  the same modules. Extend `test:e2e:demo-data` with the graph and control-map assertions.
+### T2 Policy graph and every module show the data correctly  `[~]`
+Checked 2026-10-03 (screenshots, Aster owner): Records of processing shows the 3 demo activities with their gaps;
+People & targets, Decision preview and the Privacy Centre show the demo data; the manual import and the automatic intake
+land in the same Data Principals / Consent records / Privacy requests (proved by `test:e2e:demo-import`).
+Still to do:
+- **Data inventory is empty** with the demo data: `demo:data` registers systems and activities in the registry but
+  creates no privacy-graph data assets. Add `create_data_asset` / `create_relationship` calls to `scripts/demo-data.ts`
+  (customer profile, order history, marketing preferences on the Aster online store), then link
+  `graph_activity_id` so Records of processing stops flagging "Declared system not in the graph".
+- **Control map is cluttered** with "Synthetic workflow …" rows left by earlier test suites on the rehearsal database.
+  Before the CEO demo either restore the clean snapshot taken after `demo:data` or filter the map to the demo systems.
+- Extend `test:e2e:demo-data` with inventory and control-map assertions once the assets exist.
 
 ### T3 Tier-based access visible in the interface  `[x]` (npm run demo:tier; npm run test:e2e:demo-tiers 13/13). Owner input: confirm Tier 2/3 options and seats (placeholders 25 and 100 in backend/vendor/plans/catalogue.ts)
 - Demo: two organisations on the rehearsal installation (Aster = ENTERPRISE, Birch = FOUNDATION), each with a licence
@@ -52,6 +61,14 @@ ORVIA reviews the file, organises it according to the DPDP Act into the right mo
 ### T5 Vendor side: super admin and admin, records, creating members  `[ ]`
 - Vendor owner and admin: organisations, licences, engagements, team. Create a member with a setup code. Check with
   Playwright, then add to the guide and the demo check.
+
+### T7 Desktop layout: fit the screen, scroll inside, tabs instead of long pages  `[x]` (demo-tiers 15/15 incl. 2 layout checks; demo-import 12/12; demo-data 38/38)
+- Owner request 2026-10-03. On a desktop window the shell is viewport height; navigation and content scroll separately;
+  every screen with 3+ sections gets a sticky "On this page" tab bar under its heading
+  (`frontend/src/components/shared/section-tabs.tsx`, CSS "Desktop fit" block in `globals.css`); tables scroll inside
+  themselves with a sticky header (max 60vh). Nothing is hidden, so existing browser suites keep reading page text.
+- Not done: the full interface crawl (`UI1` crawl script) was not rerun on the new layout: NOT_RUN. Rerun it, and the
+  other e2e suites that take full-page screenshots (they now capture only the visible pane).
 
 ### T6 Everything else important for the demo  `[ ]`
 - Rerun the full interface crawl after T1 to T5; update `docs/demo/CEO_DEMO_V1.md`; push.
