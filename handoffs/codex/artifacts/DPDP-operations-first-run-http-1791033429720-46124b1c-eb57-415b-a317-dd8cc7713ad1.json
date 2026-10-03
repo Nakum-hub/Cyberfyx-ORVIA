@@ -1,0 +1,93 @@
+{
+  "task_id": "DPDP",
+  "fixture_kind": "CUSTOMER_LOCAL_SYNTHETIC",
+  "recorded_at": "2026-10-03T13:17:09.721Z",
+  "suite": "first-run-http",
+  "assertions": [
+    {
+      "name": "the state of a set-up installation is COMPLETED and not cached",
+      "result": "PASS",
+      "expected": [
+        200,
+        {
+          "state": "COMPLETED"
+        },
+        "no-store"
+      ],
+      "actual": [
+        200,
+        {
+          "state": "COMPLETED"
+        },
+        "no-store"
+      ]
+    },
+    {
+      "name": "setup cannot take over a set-up installation",
+      "result": "PASS",
+      "expected": {
+        "status": 409,
+        "codes": [
+          "setup_already_completed"
+        ]
+      },
+      "actual": {
+        "status": 409,
+        "codes": [
+          "setup_already_completed"
+        ]
+      }
+    },
+    {
+      "name": "a request carrying a session cookie is refused",
+      "result": "PASS",
+      "expected": {
+        "status": 400,
+        "codes": [
+          "no_credentials_accepted"
+        ]
+      },
+      "actual": {
+        "status": 400,
+        "codes": [
+          "no_credentials_accepted"
+        ]
+      }
+    },
+    {
+      "name": "a request from another origin is refused",
+      "result": "PASS",
+      "expected": 403,
+      "actual": 403
+    },
+    {
+      "name": "a short password is rejected before anything else",
+      "result": "PASS",
+      "expected": 400,
+      "actual": 400
+    },
+    {
+      "name": "an unknown field is rejected",
+      "result": "PASS",
+      "expected": 400,
+      "actual": 400
+    },
+    {
+      "name": "the setup page offers sign-in, not a setup form",
+      "result": "PASS",
+      "expected": [
+        1,
+        0
+      ],
+      "actual": [
+        1,
+        0
+      ]
+    }
+  ],
+  "passed": 7,
+  "failures": 0,
+  "profile": "codex-a00",
+  "test_adapter_only": true,
+  "limitation": "Connector effects are exercised against the synthetic records test adapter; no live customer system was contacted."
+}

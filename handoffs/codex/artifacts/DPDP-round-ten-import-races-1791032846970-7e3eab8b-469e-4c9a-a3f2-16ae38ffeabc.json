@@ -1,0 +1,26 @@
+{
+  "task_id": "DPDP",
+  "fixture_kind": "CUSTOMER_LOCAL_SYNTHETIC",
+  "recorded_at": "2026-10-03T13:07:26.971Z",
+  "observations": [
+    {
+      "name": "lower sequence",
+      "accepted": false,
+      "code": "23514",
+      "message": "stale_sequence"
+    },
+    {
+      "name": "unsequenced after sequenced",
+      "accepted": false,
+      "code": "23514",
+      "message": "stale_sequence"
+    },
+    {
+      "name": "second edition trial",
+      "accepted": false,
+      "code": "23514",
+      "message": "trial_already_used"
+    }
+  ],
+  "result": "PASS"
+}

@@ -1,0 +1,33 @@
+{
+  "task_id": "A00",
+  "fixture_kind": "SYNTHETIC_BOOTSTRAP_ONLY",
+  "recorded_at": "2026-10-03T11:59:18.351Z",
+  "results": [
+    {
+      "name": "owner signs in through the branded page and lands in the Workspace",
+      "result": "PASS"
+    },
+    {
+      "name": "Privacy requests shows the access request",
+      "result": "PASS"
+    },
+    {
+      "name": "Privacy requests shows the erasure request",
+      "result": "PASS"
+    },
+    {
+      "name": "Privacy requests shows the correction request",
+      "result": "PASS"
+    },
+    {
+      "name": "Privacy requests shows the grievance request",
+      "result": "PASS"
+    },
+    {
+      "name": "Privacy requests shows the nomination request",
+      "result": "PASS"
+    }
+  ],
+  "result": "PASS",
+  "dataset_loaded_at": "2026-10-03T11:57:14.259Z"
+}

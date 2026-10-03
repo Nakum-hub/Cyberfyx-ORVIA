@@ -1,0 +1,170 @@
+{
+  "task_id": "A00",
+  "fixture_kind": "SYNTHETIC_BOOTSTRAP_ONLY",
+  "recorded_at": "2026-10-03T12:16:20.497Z",
+  "suite": "licence-tiers",
+  "assertions": [
+    {
+      "name": "the FOUNDATION licence is in force",
+      "result": "PASS",
+      "expected": [
+        "FOUNDATION",
+        "ACTIVE"
+      ],
+      "actual": [
+        "FOUNDATION",
+        "ACTIVE"
+      ]
+    },
+    {
+      "name": "protective wind-down passes the plan gate and reaches scoped resource validation: toggle_control_test",
+      "result": "PASS",
+      "expected": {
+        "status": 404,
+        "gated": false,
+        "codes": [
+          "not_found"
+        ]
+      },
+      "actual": {
+        "status": 404,
+        "gated": false,
+        "codes": [
+          "not_found"
+        ]
+      }
+    },
+    {
+      "name": "protective wind-down passes the plan gate and reaches scoped resource validation: change_audit_mandate_state",
+      "result": "PASS",
+      "expected": {
+        "status": 404,
+        "gated": false,
+        "codes": [
+          "not_found"
+        ]
+      },
+      "actual": {
+        "status": 404,
+        "gated": false,
+        "codes": [
+          "not_found"
+        ]
+      }
+    },
+    {
+      "name": "a FOUNDATION installation is refused every Control and Enterprise write",
+      "result": "FAIL",
+      "expected": [],
+      "actual": [
+        "respond_grc_audit_request",
+        "review_grc_audit_response",
+        "close_grc_audit",
+        "create_grc_framework",
+        "create_grc_control",
+        "create_grc_risk",
+        "submit_grc_evidence",
+        "review_grc_evidence",
+        "propose_grc_treatment",
+        "review_grc_treatment",
+        "create_catalog_discovery_target",
+        "approve_catalog_discovery_target",
+        "create_ai_system",
+        "record_ai_event",
+        "create_mapping",
+        "evaluate",
+        "start_test",
+        "derive_gaps",
+        "assign_gap",
+        "close_gap",
+        "create_assessment",
+        "complete_assessment",
+        "declare_snapshot",
+        "start_restore",
+        "acknowledge_conflict",
+        "release_restore",
+        "start_connection",
+        "record_connectivity",
+        "record_scoped_identity",
+        "approve_resources",
+        "change_enablement",
+        "create_retention_hold",
+        "release_retention_hold",
+        "bind_connector",
+        "create_rights_run",
+        "create_retention_run",
+        "evaluate_run",
+        "decide_run",
+        "execute_run",
+        "create_impact_template",
+        "publish_impact_template",
+        "create_impact_assessment",
+        "answer_impact_assessment",
+        "submit_impact_assessment",
+        "decide_impact_assessment",
+        "revise_impact_assessment",
+        "create_impact_finding",
+        "record_impact_finding_event",
+        "impact_escalation_sweep",
+        "create_supplier_link",
+        "create_grc_policy",
+        "decide_grc_policy",
+        "acknowledge_grc_policy",
+        "create_grc_issue",
+        "record_grc_issue_event",
+        "import_regulatory_framework",
+        "create_control_test",
+        "run_control_test",
+        "toggle_control_test",
+        "control_test_sweep",
+        "prepare_response_package",
+        "review_response_package",
+        "release_response_package",
+        "request_classification_run",
+        "label_classification",
+        "measure_classification",
+        "create_delivery_transport",
+        "enable_delivery_transport",
+        "reveal_transport_signing_secret",
+        "create_alert_routing",
+        "decide_alert_routing",
+        "compose_outbound_message",
+        "review_outbound_message",
+        "review_policy_discovery",
+        "record_ai_model_version",
+        "approve_ai_model_version",
+        "deploy_ai_model_version",
+        "submit_evidence_file",
+        "confirm_evidence_personal_data",
+        "create_audit_engagement",
+        "create_audit_package",
+        "add_audit_package_item",
+        "add_audit_package_exception",
+        "approve_audit_package",
+        "export_audit_package",
+        "receive_signed_audit_document",
+        "link_audit_finding",
+        "close_audit_engagement",
+        "create_audit_mandate",
+        "approve_audit_mandate",
+        "change_audit_mandate_state",
+        "decide_audit_channel_request",
+        "submit_audit_package_over_channel",
+        "import_audit_channel_document",
+        "create_audit_finding_response",
+        "approve_audit_finding_response"
+      ]
+    },
+    {
+      "name": "unexpected failure in foundation licence",
+      "result": "FAIL",
+      "expected": "no error",
+      "actual": "Assertion failed: a FOUNDATION installation is refused every Control and Enterprise write"
+    }
+  ],
+  "passed": 3,
+  "failures": 2,
+  "profile": "codex-a00",
+  "test_adapter_only": true,
+  "limitation": "Connector effects are exercised against the synthetic records test adapter; no live customer system was contacted."
+}

@@ -1,0 +1,207 @@
+{
+  "task_id": "DPDP",
+  "fixture_kind": "CUSTOMER_LOCAL_SYNTHETIC",
+  "recorded_at": "2026-10-03T12:31:04.791Z",
+  "suite": "ai-model-versions",
+  "assertions": [
+    {
+      "name": "a trained model must name its training data",
+      "result": "PASS",
+      "expected": 400,
+      "actual": 400
+    },
+    {
+      "name": "a rule-based model needs no training data",
+      "result": "PASS",
+      "expected": 201,
+      "actual": 201
+    },
+    {
+      "name": "a training cut-off in the future is refused",
+      "result": "PASS",
+      "expected": [
+        "in_the_future"
+      ],
+      "actual": [
+        "in_the_future"
+      ]
+    },
+    {
+      "name": "an unknown dataset is refused",
+      "result": "PASS",
+      "expected": 404,
+      "actual": 404
+    },
+    {
+      "name": "an auditor cannot record a version",
+      "result": "PASS",
+      "expected": 403,
+      "actual": 403
+    },
+    {
+      "name": "a version is recorded as a draft with its evidence",
+      "result": "PASS",
+      "expected": [
+        "DRAFT",
+        2,
+        "Evaluation report EV-3 (synthetic)",
+        true
+      ],
+      "actual": [
+        "DRAFT",
+        2,
+        "Evaluation report EV-3 (synthetic)",
+        true
+      ]
+    },
+    {
+      "name": "the same label is not recorded twice",
+      "result": "PASS",
+      "expected": [
+        "already_recorded"
+      ],
+      "actual": [
+        "already_recorded"
+      ]
+    },
+    {
+      "name": "the recorder cannot approve",
+      "result": "PASS",
+      "expected": 403,
+      "actual": 403
+    },
+    {
+      "name": "approval is refused while a training dataset is not mapped to the training purpose, naming it",
+      "result": "PASS",
+      "expected": [
+        409,
+        [
+          "training_data_not_mapped_to_training_purpose",
+          "e7676318-f164-44e4-ac2a-fc60b0c5e402"
+        ]
+      ],
+      "actual": [
+        409,
+        [
+          "training_data_not_mapped_to_training_purpose",
+          "e7676318-f164-44e4-ac2a-fc60b0c5e402"
+        ]
+      ]
+    },
+    {
+      "name": "once every dataset is mapped, a second person approves it",
+      "result": "PASS",
+      "expected": [
+        "APPROVED",
+        true
+      ],
+      "actual": [
+        "APPROVED",
+        true
+      ]
+    },
+    {
+      "name": "an approved version is deployed",
+      "result": "PASS",
+      "expected": "DEPLOYED",
+      "actual": "DEPLOYED"
+    },
+    {
+      "name": "a draft cannot be deployed",
+      "result": "PASS",
+      "expected": [
+        "only_an_approved_version_is_deployed"
+      ],
+      "actual": [
+        "only_an_approved_version_is_deployed"
+      ]
+    },
+    {
+      "name": "deploying the next version retires the previous one: one deployed at a time",
+      "result": "PASS",
+      "expected": [
+        "RETIRED",
+        "DEPLOYED",
+        1
+      ],
+      "actual": [
+        "RETIRED",
+        "DEPLOYED",
+        1
+      ]
+    },
+    {
+      "name": "a withdrawal for the training purpose after the cut-off flags a retraining decision",
+      "result": "PASS",
+      "expected": [
+        true,
+        true
+      ],
+      "actual": [
+        true,
+        true
+      ]
+    },
+    {
+      "name": "Operations attention asks for a retraining decision and claims no unlearning",
+      "result": "PASS",
+      "expected": [
+        true,
+        true
+      ],
+      "actual": [
+        true,
+        true
+      ]
+    },
+    {
+      "name": "an open finding on the AI use blocks approval",
+      "result": "PASS",
+      "expected": [
+        "the_ai_use_has_an_open_finding"
+      ],
+      "actual": [
+        "the_ai_use_has_an_open_finding"
+      ]
+    },
+    {
+      "name": "an approved version is not deployed while the AI use is not currently approved",
+      "result": "PASS",
+      "expected": [
+        "the_ai_use_is_not_currently_approved"
+      ],
+      "actual": [
+        "the_ai_use_is_not_currently_approved"
+      ]
+    },
+    {
+      "name": "an approved version's training facts cannot be rewritten",
+      "result": "PASS",
+      "expected": "model_version_transition_refused",
+      "actual": "model_version_transition_refused"
+    },
+    {
+      "name": "a version cannot be deleted",
+      "result": "PASS",
+      "expected": "model_version_is_retained",
+      "actual": "model_version_is_retained"
+    },
+    {
+      "name": "an auditor reads model versions",
+      "result": "PASS",
+      "expected": 200,
+      "actual": 200
+    },
+    {
+      "name": "another tenant sees nothing",
+      "result": "PASS",
+      "expected": 404,
+      "actual": 404
+    }
+  ],
+  "passed": 21,
+  "failures": 0,
+  "profile": "codex-a00",
+  "test_adapter_only": true,
+  "limitation": "Connector effects are exercised against the synthetic records test adapter; no live customer system was contacted."
+}

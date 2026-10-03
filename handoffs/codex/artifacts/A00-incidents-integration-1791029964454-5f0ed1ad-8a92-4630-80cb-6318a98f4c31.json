@@ -1,0 +1,40 @@
+{
+  "task_id": "A00",
+  "fixture_kind": "SYNTHETIC_BOOTSTRAP_ONLY",
+  "recorded_at": "2026-10-03T12:19:24.454Z",
+  "profile": "codex-a00",
+  "phase": "incident intake",
+  "assertions": [
+    {
+      "name": "recording an obligation rule requires approval authority",
+      "result": "PASS",
+      "expected": 403,
+      "actual": 403
+    },
+    {
+      "name": "a rule names its own source and the clock it runs from",
+      "result": "PASS",
+      "expected": [
+        "BECAME_AWARE_AT",
+        72,
+        true
+      ],
+      "actual": [
+        "BECAME_AWARE_AT",
+        72,
+        true
+      ]
+    },
+    {
+      "name": "a second rule can run from a different clock entirely",
+      "result": "PASS",
+      "expected": "DETECTED_AT",
+      "actual": "DETECTED_AT"
+    }
+  ],
+  "result": "FAIL",
+  "error": {
+    "name": "TypeError",
+    "code": "UNCLASSIFIED"
+  }
+}

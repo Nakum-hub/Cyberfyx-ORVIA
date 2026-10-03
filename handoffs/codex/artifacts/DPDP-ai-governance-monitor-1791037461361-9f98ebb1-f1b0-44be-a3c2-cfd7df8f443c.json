@@ -1,0 +1,70 @@
+{
+  "task_id": "DPDP",
+  "fixture_kind": "CUSTOMER_LOCAL_SYNTHETIC",
+  "recorded_at": "2026-10-03T14:24:21.361Z",
+  "profile": "codex-a00",
+  "phase": "complete",
+  "assertions": [
+    {
+      "name": "asset/activity mapped",
+      "expected": 201,
+      "actual": 201,
+      "result": "PASS"
+    },
+    {
+      "name": "activity/purpose mapped",
+      "expected": 201,
+      "actual": 201,
+      "result": "PASS"
+    },
+    {
+      "name": "no monitoring outcome invented at registration",
+      "expected": null,
+      "actual": null,
+      "result": "PASS"
+    },
+    {
+      "name": "due jobs were processed",
+      "expected": true,
+      "actual": true,
+      "result": "PASS"
+    },
+    {
+      "name": "declared input creates finding without target claim",
+      "expected": [
+        true,
+        "FINDING"
+      ],
+      "actual": [
+        true,
+        "FINDING"
+      ],
+      "result": "PASS"
+    },
+    {
+      "name": "worker identifies local asset reference",
+      "expected": "asset:9162303c-b2c9-4a2a-9e72-cdee9db0c9cf",
+      "actual": "asset:9162303c-b2c9-4a2a-9e72-cdee9db0c9cf",
+      "result": "PASS"
+    },
+    {
+      "name": "monitor record does not claim verification",
+      "expected": true,
+      "actual": true,
+      "result": "PASS"
+    },
+    {
+      "name": "successful schedule prevents immediate duplicate",
+      "expected": 0,
+      "actual": 0,
+      "result": "PASS"
+    },
+    {
+      "name": "finding appears in scoped report",
+      "expected": true,
+      "actual": true,
+      "result": "PASS"
+    }
+  ],
+  "result": "PASS"
+}

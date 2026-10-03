@@ -1,0 +1,161 @@
+{
+  "task_id": "A00",
+  "fixture_kind": "SYNTHETIC_BOOTSTRAP_ONLY",
+  "recorded_at": "2026-10-03T12:33:14.507Z",
+  "results": [
+    {
+      "name": "owner signs in through the branded page and lands in the Workspace",
+      "result": "PASS"
+    },
+    {
+      "name": "Privacy requests shows the access request",
+      "result": "PASS"
+    },
+    {
+      "name": "Privacy requests shows the erasure request",
+      "result": "PASS"
+    },
+    {
+      "name": "Privacy requests shows the correction request",
+      "result": "PASS"
+    },
+    {
+      "name": "Privacy requests shows the grievance request",
+      "result": "PASS"
+    },
+    {
+      "name": "Privacy requests shows the nomination request",
+      "result": "PASS"
+    },
+    {
+      "name": "the server holds exactly the 5 requests the store sent, all received through the store",
+      "result": "PASS"
+    },
+    {
+      "name": "each store request shows identity established (the store signs its customers in)",
+      "result": "PASS"
+    },
+    {
+      "name": "the server holds 19 consent records for the store's two consent activities",
+      "result": "PASS"
+    },
+    {
+      "name": "3 of them read withdrawn on the server",
+      "result": "PASS"
+    },
+    {
+      "name": "the screen lists 12 marketing records",
+      "result": "PASS"
+    },
+    {
+      "name": "the screen lists 7 recommendation records",
+      "result": "PASS"
+    },
+    {
+      "name": "the screen shows 3 withdrawn records",
+      "result": "PASS"
+    },
+    {
+      "name": "each withdrawal has a propagation run on the screen",
+      "result": "PASS"
+    },
+    {
+      "name": "every propagation run is completed and independently verified",
+      "result": "PASS"
+    },
+    {
+      "name": "the store's intake key is listed and active",
+      "result": "PASS"
+    },
+    {
+      "name": "27 submissions received from the store",
+      "result": "PASS"
+    },
+    {
+      "name": "consent changes are described by activity name, not an identifier",
+      "result": "PASS"
+    },
+    {
+      "name": "no submission is waiting for staff",
+      "result": "PASS"
+    },
+    {
+      "name": "the breach shows 320 people affected (estimated)",
+      "result": "PASS"
+    },
+    {
+      "name": "the breach shows its DPDP tasks",
+      "result": "PASS"
+    },
+    {
+      "name": "the published privacy notice is listed",
+      "result": "PASS"
+    },
+    {
+      "name": "processing activity \"Order fulfilment and delivery\" is listed",
+      "result": "PASS"
+    },
+    {
+      "name": "processing activity \"Promotional email and SMS\" is listed",
+      "result": "PASS"
+    },
+    {
+      "name": "processing activity \"Personalised recommendations\" is listed",
+      "result": "PASS"
+    },
+    {
+      "name": "both retention rules are listed",
+      "result": "PASS"
+    },
+    {
+      "name": "the delivery processor engagement is listed",
+      "result": "PASS"
+    },
+    {
+      "name": "Privacy Centre tab \"Consents\" opens its screen",
+      "result": "PASS"
+    },
+    {
+      "name": "Privacy Centre tab \"Data Principals\" opens its screen",
+      "result": "PASS"
+    },
+    {
+      "name": "Privacy Centre tab \"Requests\" opens its screen",
+      "result": "PASS"
+    },
+    {
+      "name": "Privacy Centre tab \"Sources\" opens its screen",
+      "result": "PASS"
+    },
+    {
+      "name": "no page error or server error on any owner screen",
+      "result": "PASS"
+    },
+    {
+      "name": "admin (ORG_ADMIN) signs in through the branded page",
+      "result": "PASS"
+    },
+    {
+      "name": "member (MEMBER) signs in through the branded page",
+      "result": "PASS"
+    },
+    {
+      "name": "a member cannot change the registry",
+      "result": "PASS"
+    },
+    {
+      "name": "auditor (AUDITOR) signs in through the branded page",
+      "result": "PASS"
+    },
+    {
+      "name": "the auditor can read but cannot change the registry",
+      "result": "PASS"
+    },
+    {
+      "name": "reviewer (ORG_SUPER_ADMIN) signs in through the branded page",
+      "result": "PASS"
+    }
+  ],
+  "result": "PASS",
+  "dataset_loaded_at": "2026-10-03T12:31:33.255Z"
+}
