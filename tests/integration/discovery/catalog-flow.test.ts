@@ -11,6 +11,7 @@ import { sweepCatalogDiscovery } from '../../../services/worker/src/catalog-disc
 import { observerEnrollment } from '../../../backend/auth/src/machine-profile.ts';
 import { sweepAiGovernance } from '../../../services/worker/src/ai-governance-monitor.ts';
 import * as S from '../../../shared/contracts/src/index.ts';
+import { allPageList } from '../../../shared/testing/src/all-pages.ts';
 
 const profile=loadProfile();
 if(profile.profile!=='codex-a00')throw new Error('Synthetic codex-a00 profile only');
@@ -54,6 +55,9 @@ try{
   check('missing relation receives separate approval',(await owner.call(`${path}/${missingTarget.id}/approve`,{},key())).status,200);
   phase='worker observation';
   runtime=workflowActivities();
+  // The global sweep is bounded; prioritise only this fixture's two approved jobs.
+  await db.query('UPDATE app.catalog_discovery_jobs SET next_run_at=clock_timestamp() - make_interval(years => 10) WHERE target_id=ANY($1::uuid[])',
+    [[target.id,missingTarget.id]]);
   const processed=await sweepCatalogDiscovery(runtime.scoped,runtime.enrollment.identities.map(x=>x.id),
     observerEnrollment(runtime.config).identities,runtime.observer);
   check('due catalog jobs processed',processed>=2,true);
@@ -119,21 +123,22 @@ try{
     const current=S.CatalogDiscoveryDetail.parse(await (await auditor.call(`${path}/${failedTarget.id}`)).json());
     check(`failure state after attempt ${attempt}`,[current.job?.state,current.job?.attempts,current.observations.length],
       [attempt===3?'EXHAUSTED':'RETRY',attempt,0]);
-    if(attempt<3)await db.query('UPDATE app.catalog_discovery_jobs SET next_run_at=clock_timestamp() WHERE target_id=$1',[failedTarget.id]);
+    // Due before every other target the long-lived profile holds (a sweep reads the ten due longest), so it is read next.
+    if(attempt<3)await db.query('UPDATE app.catalog_discovery_jobs SET next_run_at=clock_timestamp() - make_interval(years => 10) WHERE target_id=$1',[failedTarget.id]);
   }
   const failedGaps=(await db.query(`SELECT source,subject_kind,state FROM app.coverage_gaps
     WHERE subject_id=$1 AND source='CATALOG_READ_EXHAUSTED'`,[failedTarget.id])).rows;
   check('exhausted observer creates one durable target gap',failedGaps,
     [{source:'CATALOG_READ_EXHAUSTED',subject_kind:'CATALOG_TARGET',state:'OPEN'}]);
   check('other tenant cannot see exhausted target gap',(await birch.call('/api/v1/admin/gaps?limit=100')).status,200);
-  const otherGaps=await (await birch.call('/api/v1/admin/gaps?limit=100')).json() as {items:{subject_id:string}[]};
+  const otherGaps=await allPageList(p=>birch.call(p),'/api/v1/admin/gaps',value=>S.schemas.GapList.parse(value));
   check('other tenant gap page excludes target',otherGaps.items.some(x=>x.subject_id===failedTarget.id),false);
   phase='schema drift';
   let driftColumnAdded=false;
   try{
     await targetDb.query('ALTER TABLE public.marketing_memberships ADD COLUMN orvia_catalog_drift_marker text');
     driftColumnAdded=true;
-    await db.query('UPDATE app.catalog_discovery_jobs SET next_run_at=clock_timestamp() WHERE target_id=$1',[target.id]);
+    await db.query('UPDATE app.catalog_discovery_jobs SET next_run_at=clock_timestamp() - make_interval(years => 10) WHERE target_id=$1',[target.id]);
     check('changed relation is rescanned',await sweepCatalogDiscovery(runtime.scoped,
       runtime.enrollment.identities.map(x=>x.id),observerEnrollment(runtime.config).identities,runtime.observer)>=1,true);
     const changed=S.CatalogDiscoveryDetail.parse(await (await auditor.call(`${path}/${target.id}`)).json());

@@ -1,0 +1,231 @@
+[
+  {
+    "file": "R7V-candidate-webkit-interface-crawl-local-diagnostic.jsonl",
+    "request_id": "382b2eaa-d312-4207-8902-7dbe80cc5f2b",
+    "status": 503,
+    "url": "http://127.0.0.1:4310/api/v1/admin/update-plans?limit=20",
+    "issuing_page": "http://127.0.0.1:4310/workspace/updates",
+    "observer_started_at": "2026-09-30T19:22:07.253Z",
+    "observer_response_at": "2026-09-30T19:22:20.229Z",
+    "observed_interval_ms": 12976,
+    "operation": null,
+    "opa_calls": [
+      {
+        "dependency": "OPA",
+        "error": "TimeoutError",
+        "elapsed_ms": 3217
+      },
+      {
+        "dependency": "OPA",
+        "error": "TimeoutError",
+        "elapsed_ms": 2153
+      }
+    ],
+    "opa_scope": "customer admin authorize only; earlier preload did not instrument vendor policy calls",
+    "policy_engine_lines_in_request_context": null,
+    "note": "Older preload did not bind policy-engine console lines to the request. Original lines remain in the same diagnostic file; use the request-bound OPA trace for correlation, not timestamp proximity alone."
+  },
+  {
+    "file": "R7V-candidate-webkit-interface-crawl-local-diagnostic.jsonl",
+    "request_id": "fdaf2663-1c70-454e-8560-6855e207696b",
+    "status": 503,
+    "url": "http://127.0.0.1:4310/api/v1/session",
+    "issuing_page": "http://127.0.0.1:4310/workspace/regulatory/impacts",
+    "observer_started_at": "2026-09-30T20:00:10.030Z",
+    "observer_response_at": "2026-09-30T20:00:16.965Z",
+    "observed_interval_ms": 6935,
+    "operation": {
+      "request_id": "fdaf2663-1c70-454e-8560-6855e207696b",
+      "operation": "SESSION_READ",
+      "name": "APIError",
+      "code": "UNCLASSIFIED"
+    },
+    "opa_calls": [],
+    "opa_scope": "customer admin authorize only; earlier preload did not instrument vendor policy calls",
+    "policy_engine_lines_in_request_context": null,
+    "note": "Older preload did not bind policy-engine console lines to the request. Original lines remain in the same diagnostic file; use the request-bound OPA trace for correlation, not timestamp proximity alone."
+  },
+  {
+    "file": "R7V-candidate-webkit-interface-crawl-local-diagnostic.jsonl",
+    "request_id": "779d158f-2ca2-4bb9-be57-383fa688fa7e",
+    "status": 503,
+    "url": "http://127.0.0.1:4310/api/v1/admin/restore-runs?limit=25",
+    "issuing_page": "http://127.0.0.1:4310/workspace/restores",
+    "observer_started_at": "2026-09-30T20:01:14.136Z",
+    "observer_response_at": "2026-09-30T20:01:21.494Z",
+    "observed_interval_ms": 7358,
+    "operation": {
+      "request_id": "779d158f-2ca2-4bb9-be57-383fa688fa7e",
+      "operation": "BUSINESS",
+      "name": "APIError",
+      "code": "UNCLASSIFIED"
+    },
+    "opa_calls": [],
+    "opa_scope": "customer admin authorize only; earlier preload did not instrument vendor policy calls",
+    "policy_engine_lines_in_request_context": null,
+    "note": "Older preload did not bind policy-engine console lines to the request. Original lines remain in the same diagnostic file; use the request-bound OPA trace for correlation, not timestamp proximity alone."
+  },
+  {
+    "file": "R7V-candidate-webkit-interface-crawl-local-diagnostic.jsonl",
+    "request_id": "a1102ab8-0f30-4c08-bb7f-12d4ae29aa0a",
+    "status": 503,
+    "url": "http://127.0.0.1:4310/api/v1/admin/backup-snapshots?limit=25",
+    "issuing_page": "http://127.0.0.1:4310/workspace/restores",
+    "observer_started_at": "2026-09-30T20:01:21.481Z",
+    "observer_response_at": "2026-09-30T20:01:32.813Z",
+    "observed_interval_ms": 11332,
+    "operation": null,
+    "opa_calls": [
+      {
+        "dependency": "OPA",
+        "status": 200,
+        "elapsed_ms": 564
+      },
+      {
+        "dependency": "OPA",
+        "error": "TimeoutError",
+        "elapsed_ms": 2759
+      },
+      {
+        "dependency": "OPA",
+        "error": "TimeoutError",
+        "elapsed_ms": 2008
+      }
+    ],
+    "opa_scope": "customer admin authorize only; earlier preload did not instrument vendor policy calls",
+    "policy_engine_lines_in_request_context": null,
+    "note": "Older preload did not bind policy-engine console lines to the request. Original lines remain in the same diagnostic file; use the request-bound OPA trace for correlation, not timestamp proximity alone."
+  },
+  {
+    "file": "R7V-final-firefox-interface-crawl-local-diagnostic.jsonl",
+    "request_id": "0935f508-4e69-4f74-81a5-f7e1f40cb979",
+    "status": 503,
+    "url": "http://127.0.0.1:4340/api/v1/vendor/engagements/bcded913-08f1-450e-a15d-5b818b4ad465/reports",
+    "issuing_page": "http://127.0.0.1:4340/vendor/engagements/bcded913-08f1-450e-a15d-5b818b4ad465",
+    "observer_started_at": "2026-09-30T18:34:31.324Z",
+    "observer_response_at": "2026-09-30T18:34:34.104Z",
+    "observed_interval_ms": 2780,
+    "operation": null,
+    "opa_calls": [],
+    "opa_scope": "customer admin authorize only; earlier preload did not instrument vendor policy calls",
+    "policy_engine_lines_in_request_context": null,
+    "note": "Older preload did not bind policy-engine console lines to the request. Original lines remain in the same diagnostic file; use the request-bound OPA trace for correlation, not timestamp proximity alone."
+  },
+  {
+    "file": "R7V-journey-settled-chromium-audit-mandate-local-diagnostic.jsonl",
+    "request_id": "eb9b1c0b-21d8-43ff-8b5a-eed5fb7e511f",
+    "status": 503,
+    "url": "http://127.0.0.1:4340/api/v1/vendor/engagements/135b9df0-bbe7-4c20-9f26-087f378e2eeb",
+    "issuing_page": "http://127.0.0.1:4340/vendor/engagements/135b9df0-bbe7-4c20-9f26-087f378e2eeb",
+    "observer_started_at": "2026-10-01T05:38:41.579Z",
+    "observer_response_at": "2026-10-01T05:38:44.449Z",
+    "observed_interval_ms": 2870,
+    "operation": null,
+    "opa_calls": [
+      {
+        "dependency": "OPA",
+        "error": "TimeoutError",
+        "elapsed_ms": 2137
+      }
+    ],
+    "opa_scope": "customer and vendor authorize",
+    "policy_engine_lines_in_request_context": [],
+    "note": "Policy-engine payloads are captured within this HTTP request async context. Empty arrays mean no calls or failures were observed within the stated instrumentation scope; they do not identify another cause."
+  },
+  {
+    "file": "R7V-ready-webkit-interface-crawl-local-diagnostic.jsonl",
+    "request_id": "6d234c50-d1f0-43b4-a7b1-b18e6d1724f0",
+    "status": 503,
+    "url": "http://127.0.0.1:4310/api/v1/admin/overview",
+    "issuing_page": "http://127.0.0.1:4310/workspace",
+    "observer_started_at": "2026-09-30T17:42:00.674Z",
+    "observer_response_at": "2026-09-30T17:42:09.072Z",
+    "observed_interval_ms": 8398,
+    "operation": null,
+    "opa_calls": [
+      {
+        "dependency": "OPA",
+        "error": "TimeoutError",
+        "elapsed_ms": 2647
+      },
+      {
+        "dependency": "OPA",
+        "error": "TimeoutError",
+        "elapsed_ms": 2003
+      }
+    ],
+    "opa_scope": "customer admin authorize only; earlier preload did not instrument vendor policy calls",
+    "policy_engine_lines_in_request_context": null,
+    "note": "Older preload did not bind policy-engine console lines to the request. Original lines remain in the same diagnostic file; use the request-bound OPA trace for correlation, not timestamp proximity alone."
+  },
+  {
+    "file": "R7V-resumed-firefox-audit-mandate-local-diagnostic.jsonl",
+    "request_id": "0ec3d03d-4f96-4f52-8586-4690e1ed442a",
+    "status": 503,
+    "url": "http://127.0.0.1:4340/api/v1/vendor/session",
+    "issuing_page": "http://127.0.0.1:4340/vendor/sign-in",
+    "observer_started_at": "2026-10-01T04:55:37.348Z",
+    "observer_response_at": "2026-10-01T04:55:42.576Z",
+    "observed_interval_ms": 5228,
+    "operation": null,
+    "opa_calls": [],
+    "opa_scope": "customer admin authorize only; earlier preload did not instrument vendor policy calls",
+    "policy_engine_lines_in_request_context": [],
+    "note": "Policy-engine payloads are captured within this HTTP request async context. Empty arrays mean no calls or failures were observed within the stated instrumentation scope; they do not identify another cause."
+  },
+  {
+    "file": "R7V-resumed-webkit-expansion-screens-local-diagnostic.jsonl",
+    "request_id": "021f2a69-40e4-4e99-b566-246d1663b9cd",
+    "status": 503,
+    "url": "http://127.0.0.1:4310/api/v1/admin/impact-templates?limit=25",
+    "issuing_page": "http://127.0.0.1:4310/workspace/impact-assessments",
+    "observer_started_at": "2026-10-01T04:14:35.948Z",
+    "observer_response_at": "2026-10-01T04:14:39.928Z",
+    "observed_interval_ms": 3980,
+    "operation": {
+      "request_id": "021f2a69-40e4-4e99-b566-246d1663b9cd",
+      "operation": "BUSINESS",
+      "name": "APIError",
+      "code": "UNCLASSIFIED"
+    },
+    "opa_calls": [],
+    "opa_scope": "customer admin authorize only; earlier preload did not instrument vendor policy calls",
+    "policy_engine_lines_in_request_context": null,
+    "note": "Older preload did not bind policy-engine console lines to the request. Original lines remain in the same diagnostic file; use the request-bound OPA trace for correlation, not timestamp proximity alone."
+  },
+  {
+    "file": "R7V-resumed-webkit-interface-crawl-local-diagnostic.jsonl",
+    "request_id": "8aa0dea0-2963-4028-aeb1-c987a7deb1c6",
+    "status": 503,
+    "url": "http://127.0.0.1:4340/api/v1/vendor/engagements",
+    "issuing_page": "http://127.0.0.1:4340/vendor/engagements",
+    "observer_started_at": "2026-10-01T04:11:31.134Z",
+    "observer_response_at": "2026-10-01T04:11:36.821Z",
+    "observed_interval_ms": 5687,
+    "operation": null,
+    "opa_calls": [],
+    "opa_scope": "customer admin authorize only; earlier preload did not instrument vendor policy calls",
+    "policy_engine_lines_in_request_context": null,
+    "note": "Older preload did not bind policy-engine console lines to the request. Original lines remain in the same diagnostic file; use the request-bound OPA trace for correlation, not timestamp proximity alone."
+  },
+  {
+    "file": "R7V-resumed-webkit-interface-crawl-local-diagnostic.jsonl",
+    "request_id": "2fe170ba-0506-4df5-9f9b-5c96548fad4f",
+    "status": 503,
+    "url": "http://127.0.0.1:4340/api/v1/vendor/organisations",
+    "issuing_page": "http://127.0.0.1:4340/vendor/engagements",
+    "observer_started_at": "2026-10-01T04:11:31.138Z",
+    "observer_response_at": "2026-10-01T04:11:37.939Z",
+    "observed_interval_ms": 6801,
+    "operation": {
+      "request_id": "2fe170ba-0506-4df5-9f9b-5c96548fad4f",
+      "operation": "VENDOR",
+      "name": "APIError",
+      "code": "UNCLASSIFIED"
+    },
+    "opa_calls": [],
+    "opa_scope": "customer admin authorize only; earlier preload did not instrument vendor policy calls",
+    "policy_engine_lines_in_request_context": null,
+    "note": "Older preload did not bind policy-engine console lines to the request. Original lines remain in the same diagnostic file; use the request-bound OPA trace for correlation, not timestamp proximity alone."
+  }
+]

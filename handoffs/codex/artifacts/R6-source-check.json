@@ -1,0 +1,21 @@
+{
+  "base": "425bf116fd712bedf2489ff442028a2548c882b9",
+  "hydration_and_forms": "UNCHANGED",
+  "protected_paths": "UNCHANGED",
+  "e2e_assertions": "UNCHANGED",
+  "master_sha256": "c51102a7cda5fe15c1346e8c34167c406e186c691e9ba86576a3d8fd03bb550b",
+  "app_files": [
+    {
+      "file": "frontend/src/app/globals.css",
+      "sha256": "7fdc3514bb2be8c3d4a325c51a9c2851fa901131bff89de05e61eb15adb74be5"
+    },
+    {
+      "file": "frontend/src/components/shared/shell.tsx",
+      "sha256": "889f216e42435ea8232f50332a757729d41b6c18336ccc5153aa6f19ff3fb99d"
+    },
+    {
+      "file": "frontend/src/components/shared/ui.tsx",
+      "sha256": "9f59d2f2e35836aa18797f881749707dfaea776bce5877d114531fd1e79623dd"
+    }
+  ]
+}

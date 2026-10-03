@@ -1,3 +1,4 @@
+import { allPageList } from '../../../shared/testing/src/all-pages.ts';
 import assert from 'node:assert/strict';
 import { randomUUID } from 'node:crypto';
 import * as S from '../../../shared/contracts/src/index.ts';
@@ -37,7 +38,7 @@ try {
   const policyResponse=await author.call('/api/v1/admin/policies',policyInput,key());check('author policy draft',policyResponse.status,201);const policy=S.Policy.parse(await policyResponse.json());
   const publishPath=`/api/v1/admin/policies/${policy.id}/publish`;const reauthPath=`/api/v1/admin/policies/${policy.id}/reauthenticate`;
   const approval={version_id:policy.version_id,digest:policy.digest,reauthentication_id:randomUUID()};
-  check('draft purpose hidden in own portal',(S.schemas.ConsentList.parse(await (await alice.call('/api/v1/portal/me/consents?limit=100')).json())).items.some(i=>i.purpose_id===purpose.id),false);
+  check('draft purpose hidden in own portal',((await allPageList(p => alice.call(p), '/api/v1/portal/me/consents', value => S.schemas.ConsentList.parse(value)))).items.some(i=>i.purpose_id===purpose.id),false);
   check('unauthorized author publication denied',(await author.call(publishPath,approval,key())).status,403);
   const selfResponse=await owner.call('/api/v1/admin/policies',policyInput,key());const selfPolicy=S.Policy.parse(await selfResponse.json());
   check('authorized reviewer cannot approve own version',(await owner.call(`/api/v1/admin/policies/${selfPolicy.id}/publish`,{...approval,version_id:selfPolicy.version_id,digest:selfPolicy.digest},key())).status,403);
@@ -58,8 +59,8 @@ try {
   check('control map exposes actual declared edge',edges.some(e=>e.resource_id===mapping.id&&e.observed_restrict===null),true);
   check('control map pagination preserves all scoped mappings',edges.map(e=>e.resource_id).sort(),(await adminDb.query('SELECT id FROM app.target_mappings WHERE tenant_id=$1 AND legal_entity_id=$2 AND environment_id=$3 ORDER BY id',[scope.tenant_id,scope.legal_entity_id,scope.environment_id])).rows.map(r=>r.id));
   async function choice() {
-    let cursor:string|null=null;
-    do {const page=S.schemas.ConsentList.parse(await (await alice.call('/api/v1/portal/me/consents?limit=100'+(cursor?'&cursor='+cursor:''))).json());const found=page.items.find(i=>i.purpose_id===purpose.id);if(found)return found;cursor=page.next_cursor;}while(cursor);
+    const found=(await allPageList(p=>alice.call(p),'/api/v1/portal/me/consents',value=>S.schemas.ConsentList.parse(value))).items.find(i=>i.purpose_id===purpose.id);
+    if(found)return found;
     throw new Error('Persisted scenario purpose missing');
   }
   const first=await choice();check('published notice available to own principal',first.notice?.version_id,notice.version_id);
@@ -107,8 +108,7 @@ try {
   await harness.stop();await harness.start();
   const restarted=S.ReceiptView.parse(await (await alice.call(`/api/v1/portal/me/receipts/${receipt.receipt_id}`)).json());
   check('restart preserves original receipt',restarted.receipt,receipt);check('restart preserves current epoch',restarted.current.consent_epoch,4);
-  let policyAfterRestart:ReturnType<typeof S.Policy.parse>|undefined;let policyCursor:string|null=null;
-  do {const page=S.schemas.PolicyList.parse(await (await owner.call('/api/v1/admin/policies?limit=100'+(policyCursor?'&cursor='+policyCursor:''))).json());policyAfterRestart=page.items.find(item=>item.id===policy.id);policyCursor=page.next_cursor;}while(!policyAfterRestart&&policyCursor);
+  const policyAfterRestart=(await allPageList(p=>owner.call(p),'/api/v1/admin/policies',value=>S.schemas.PolicyList.parse(value))).items.find(item=>item.id===policy.id);
   check('restart preserves exact published configuration',policyAfterRestart,publishedPolicy);
   check('restart preserves exact notice content',(await choice()).notice?.content,notice.content);
 } catch(error) {console.error(safeError(error));console.error(harness.diagnostics);process.exitCode=1;}

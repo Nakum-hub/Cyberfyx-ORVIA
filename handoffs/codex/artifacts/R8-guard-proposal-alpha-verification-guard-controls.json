@@ -1,0 +1,134 @@
+{
+  "diagnostic_only": true,
+  "not_rls_or_http_qualification": true,
+  "scratch_database": "orvia_r8_verification_5d1c542173594d19a8699853a1823ea1",
+  "cases": [
+    {
+      "name": "baseline refuses same-attempt inconclusive promotion even with fresh proof",
+      "expected": "23514",
+      "actual": "23514"
+    },
+    {
+      "name": "proposal permits fresh same-transaction independent read",
+      "expected": "ACCEPTED",
+      "actual": "ACCEPTED"
+    },
+    {
+      "name": "same-transaction proof survives a genuine savepoint",
+      "expected": "ACCEPTED",
+      "actual": "ACCEPTED"
+    },
+    {
+      "name": "caller-supplied transaction stamp is overwritten",
+      "expected": "ACCEPTED",
+      "actual": "ACCEPTED"
+    },
+    {
+      "name": "historical pre-migration proof cannot qualify",
+      "expected": "23514",
+      "actual": "23514"
+    },
+    {
+      "name": "committed proof from a prior transaction cannot qualify",
+      "expected": "23514",
+      "actual": "23514"
+    },
+    {
+      "name": "fresh verification cannot reuse committed historical evidence",
+      "expected": "23514",
+      "actual": "23514"
+    },
+    {
+      "name": "wrong action",
+      "expected": "23514",
+      "actual": "23514"
+    },
+    {
+      "name": "wrong scope",
+      "expected": "23514",
+      "actual": "23514"
+    },
+    {
+      "name": "non-independent method",
+      "expected": "23514",
+      "actual": "23514"
+    },
+    {
+      "name": "failed proof",
+      "expected": "23514",
+      "actual": "23514"
+    },
+    {
+      "name": "inconclusive proof",
+      "expected": "23514",
+      "actual": "23514"
+    },
+    {
+      "name": "wrong evidence entity",
+      "expected": "23514",
+      "actual": "23514"
+    },
+    {
+      "name": "wrong evidence origin",
+      "expected": "23514",
+      "actual": "23514"
+    },
+    {
+      "name": "wrong evidence method",
+      "expected": "23514",
+      "actual": "23514"
+    },
+    {
+      "name": "missing evidence",
+      "expected": "23514",
+      "actual": "23514"
+    },
+    {
+      "name": "no proof",
+      "expected": "23514",
+      "actual": "23514"
+    },
+    {
+      "name": "FAILED verification retains original guard",
+      "expected": "23514",
+      "actual": "23514"
+    },
+    {
+      "name": "NONE target effect cannot use exception",
+      "expected": "23514",
+      "actual": "23514"
+    },
+    {
+      "name": "changing historical target result cannot use exception",
+      "expected": "23514",
+      "actual": "23514"
+    },
+    {
+      "name": "identity guard unchanged",
+      "expected": "23514",
+      "actual": "23514"
+    },
+    {
+      "name": "terminal guard unchanged",
+      "expected": "23514",
+      "actual": "23514"
+    },
+    {
+      "name": "verification transaction stamp cannot be rewritten",
+      "expected": "23514",
+      "actual": "23514"
+    },
+    {
+      "name": "evidence transaction stamp cannot be rewritten",
+      "expected": "23514",
+      "actual": "23514"
+    },
+    {
+      "name": "full xid8 distinguishes equal lower32 transaction IDs",
+      "expected": "ACCEPTED",
+      "actual": "ACCEPTED"
+    }
+  ],
+  "exit_code": 0,
+  "cleanup": "OWN_SCRATCH_REMOVED"
+}

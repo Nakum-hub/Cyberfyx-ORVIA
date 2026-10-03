@@ -1,0 +1,304 @@
+{
+  "suite": "vendor-audit",
+  "database": "orvia_vendor_test_d8c5589b7bf843d68749bf22ff9870a4",
+  "passed": 74,
+  "failed": 0,
+  "results": [
+    {
+      "name": "schema: every vendor table forces row-level security",
+      "result": "PASS"
+    },
+    {
+      "name": "schema: the migration runner refuses a vendor table without forced row-level security",
+      "result": "PASS"
+    },
+    {
+      "name": "setup: no code issued",
+      "result": "PASS"
+    },
+    {
+      "name": "setup: wrong code refused and counted",
+      "result": "PASS"
+    },
+    {
+      "name": "setup: completes and creates super admin and admin",
+      "result": "PASS"
+    },
+    {
+      "name": "setup: closed afterwards",
+      "result": "PASS"
+    },
+    {
+      "name": "vendor API refuses a session without MFA",
+      "result": "PASS"
+    },
+    {
+      "name": "super admin with MFA reads the team",
+      "result": "PASS"
+    },
+    {
+      "name": "unauthenticated vendor API is 401",
+      "result": "PASS"
+    },
+    {
+      "name": "admin cannot create another vendor admin",
+      "result": "PASS"
+    },
+    {
+      "name": "admin creates audit members",
+      "result": "PASS"
+    },
+    {
+      "name": "auditor cannot manage the team",
+      "result": "PASS"
+    },
+    {
+      "name": "auditor cannot read the team",
+      "result": "PASS"
+    },
+    {
+      "name": "typed DELETE required",
+      "result": "PASS"
+    },
+    {
+      "name": "delete login is permanent",
+      "result": "PASS"
+    },
+    {
+      "name": "admin cannot delete the super admin",
+      "result": "PASS"
+    },
+    {
+      "name": "organisation created",
+      "result": "PASS"
+    },
+    {
+      "name": "client vendor-account created",
+      "result": "PASS"
+    },
+    {
+      "name": "engagement refuses an unknown requirement",
+      "result": "PASS"
+    },
+    {
+      "name": "engagement created with a one-time code",
+      "result": "PASS"
+    },
+    {
+      "name": "only the code digest is stored",
+      "result": "PASS"
+    },
+    {
+      "name": "lead cannot be the reviewer",
+      "result": "PASS"
+    },
+    {
+      "name": "reviewer role must fit",
+      "result": "PASS"
+    },
+    {
+      "name": "independence: auditor (not lead) cannot declare",
+      "result": "PASS"
+    },
+    {
+      "name": "independence: certification wording refused",
+      "result": "PASS"
+    },
+    {
+      "name": "independence declared by lead",
+      "result": "PASS"
+    },
+    {
+      "name": "practice: engagement accepted and work programme approved",
+      "result": "PASS"
+    },
+    {
+      "name": "vendor staff cannot upload as a client",
+      "result": "PASS"
+    },
+    {
+      "name": "client account cannot open the vendor area",
+      "result": "PASS"
+    },
+    {
+      "name": "tampered manifest refused",
+      "result": "PASS"
+    },
+    {
+      "name": "one changed content byte refused",
+      "result": "PASS"
+    },
+    {
+      "name": "expired package refused",
+      "result": "PASS"
+    },
+    {
+      "name": "unknown engagement code refused",
+      "result": "PASS"
+    },
+    {
+      "name": "another organisation's engagement code refused",
+      "result": "PASS"
+    },
+    {
+      "name": "package for a different engagement refused",
+      "result": "PASS"
+    },
+    {
+      "name": "clean package accepted",
+      "result": "PASS"
+    },
+    {
+      "name": "same package twice refused",
+      "result": "PASS"
+    },
+    {
+      "name": "personal data without processing agreement is quarantined",
+      "result": "PASS"
+    },
+    {
+      "name": "evidence encrypted at rest",
+      "result": "PASS"
+    },
+    {
+      "name": "malware screen refuses the EICAR test file",
+      "result": "PASS"
+    },
+    {
+      "name": "admin (not on team) cannot open the inbox",
+      "result": "PASS"
+    },
+    {
+      "name": "inbox lists received packages and refusals",
+      "result": "PASS"
+    },
+    {
+      "name": "decrypted content matches its hash",
+      "result": "PASS"
+    },
+    {
+      "name": "quarantined content cannot be opened",
+      "result": "PASS"
+    },
+    {
+      "name": "processing agreement releases quarantine",
+      "result": "PASS"
+    },
+    {
+      "name": "access log records views and downloads",
+      "result": "PASS"
+    },
+    {
+      "name": "item review recorded",
+      "result": "PASS"
+    },
+    {
+      "name": "MEETS refused without reviewed effective work",
+      "result": "PASS"
+    },
+    {
+      "name": "MEETS recorded once reviewed effective work supports it",
+      "result": "PASS"
+    },
+    {
+      "name": "checklist shows expected vs received and results",
+      "result": "PASS"
+    },
+    {
+      "name": "finding raised",
+      "result": "PASS"
+    },
+    {
+      "name": "finding must cite provisions of its requirement",
+      "result": "PASS"
+    },
+    {
+      "name": "findings file verifies with the trusted audit key",
+      "result": "PASS"
+    },
+    {
+      "name": "altered findings file fails verification",
+      "result": "PASS"
+    },
+    {
+      "name": "only the lead drafts",
+      "result": "PASS"
+    },
+    {
+      "name": "report wording guard",
+      "result": "PASS"
+    },
+    {
+      "name": "lead drafts report",
+      "result": "PASS"
+    },
+    {
+      "name": "sign before approval refused",
+      "result": "PASS"
+    },
+    {
+      "name": "lead cannot approve own report",
+      "result": "PASS"
+    },
+    {
+      "name": "auditor cannot approve",
+      "result": "PASS"
+    },
+    {
+      "name": "engagement reviewer approves",
+      "result": "PASS"
+    },
+    {
+      "name": "signed report verifies and binds its PDF hash",
+      "result": "PASS"
+    },
+    {
+      "name": "signed report is immutable",
+      "result": "PASS"
+    },
+    {
+      "name": "signed state cannot be reverted",
+      "result": "PASS"
+    },
+    {
+      "name": "upload into a closed engagement refused",
+      "result": "PASS"
+    },
+    {
+      "name": "nothing purged before the retention period",
+      "result": "PASS"
+    },
+    {
+      "name": "retention purge destroys evidence, keeps reports and findings, and is recorded",
+      "result": "PASS"
+    },
+    {
+      "name": "installation kind cannot be changed",
+      "result": "PASS"
+    },
+    {
+      "name": "configured kind is VENDOR_SERVICE",
+      "result": "PASS"
+    },
+    {
+      "name": "staff login and workspace API are 404 on the vendor installation",
+      "result": "PASS"
+    },
+    {
+      "name": "orvia_vendor_app cannot read identity tables directly",
+      "result": "PASS"
+    },
+    {
+      "name": "every vendor table forces row-level security",
+      "result": "PASS"
+    },
+    {
+      "name": "orvia_vendor_app cannot bypass RLS on packages",
+      "result": "PASS"
+    },
+    {
+      "name": "upload rate limit applies",
+      "result": "PASS"
+    }
+  ]
+}

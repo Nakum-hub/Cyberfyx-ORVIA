@@ -1,0 +1,10 @@
+{"prerequisite_command":["C:\\Cyberfyx-projects\\Cyberfyx_ORVIA\\.local\\tools\\node-v24.21.0-win-x64\\node.exe","--import","tsx","scripts/machine-init.ts","confirm:codex-a00"]}
+Local machine enrollment and isolated synthetic targets provisioned; credentials remain protected; existing target restrictions preserved.
+{"prerequisite":"MACHINE_ENROLLMENT","code":0,"signal":null}
+{"request_id":"056ee09d-c95d-4860-ae80-6df1b44f13ef","operation":"VENDOR","name":"APIError","code":"UNCLASSIFIED"}
+TypeError: Cannot read properties of undefined (reading 'email')
+    at member (C:\Cyberfyx-projects\Cyberfyx_ORVIA\.worktrees\round8\tests\integration\vendor\audit-practice.test.ts:40:38)
+    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+    at async <anonymous> (C:\Cyberfyx-projects\Cyberfyx_ORVIA\.worktrees\round8\tests\integration\vendor\audit-practice.test.ts:45:13)
+
+audit-practice: 0/1 passed

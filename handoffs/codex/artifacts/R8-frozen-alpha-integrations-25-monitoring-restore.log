@@ -1,0 +1,39 @@
+Authentication fixture idle window: 61s remaining; controls unchanged.
+Authentication fixture idle window: 31s remaining; controls unchanged.
+Authentication fixture idle window: 1s remaining; controls unchanged.
+PASS the key reference refuses a PEM body rather than storing it
+PASS the key reference refuses a base64 blob rather than storing it
+PASS the key reference refuses a sentence rather than storing it
+PASS the snapshot never claims this product made, holds or verified the archive
+PASS it counts exactly the domains it says it covers
+PASS the counts are read from this installation rather than supplied by the caller
+PASS and the statement carries a digest over what was read
+PASS the database itself refuses to let a declared snapshot be changed
+PASS a restore begins in quarantine and says so
+PASS the withdrawal made after the snapshot is reported as a conflict
+PASS the outstanding count is the conflicts nobody has decided, not a summary
+PASS and nothing is attributed to anyone yet
+PASS a restore cannot leave quarantine while a changed decision is outstanding
+PASS an administrator who may record a restore may not release one
+PASS an auditor may read the reconciliation
+PASS but may not release it
+PASS a pair whose decision never changed cannot be acknowledged to clear the queue
+PASS every conflict now names who decided it and when
+PASS a decision already taken cannot be quietly replaced with a different one
+PASS the restore leaves quarantine only once nothing is outstanding, and says when
+PASS and it never claims to have reinstated anything
+PASS releasing twice is refused rather than silently repeated
+PASS the database refuses to return a released restore to quarantine
+PASS the withdrawal stands after the restore was released
+PASS and the principal is still shown as withdrawn in their own portal
+PASS deciding that the current state prevails is recorded as such, not as a restoration
+PASS backup status is now a measurement rather than an absence
+PASS and it says what a declaration is not evidence of
+PASS the preflight backup gate is earned by a reconciled restore, not asserted
+PASS the gate still states that this product cannot see the archive
+PASS the snapshot list is a read of statements and carries no archive content
+PASS both declared snapshots are listed for a reader holding health.read
+PASS a member without the capability is refused the list
+Artifact: handoffs/codex/artifacts/A00-restore-integration-1790858499418-7c650cfb-823a-4fe7-9237-a690eea7ddfb.json
+
+33 assertions, 0 failures.

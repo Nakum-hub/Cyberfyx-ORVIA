@@ -1,0 +1,187 @@
+owner /workspace: networkidle + 400ms, loading=false, pending=0
+owner /workspace/ai-governance: networkidle + 400ms, loading=false, pending=0
+owner /workspace/assessments: networkidle + 400ms, loading=false, pending=0
+owner /workspace/audit-coverage: networkidle + 400ms, loading=false, pending=0
+owner /workspace/audit-retention: networkidle + 400ms, loading=false, pending=0
+owner /workspace/audit-trail: networkidle + 400ms, loading=false, pending=0
+owner /workspace/capabilities: networkidle + 400ms, loading=false, pending=0
+owner /workspace/catalog-discovery: networkidle + 400ms, loading=false, pending=0
+owner /workspace/compliance: networkidle + 400ms, loading=false, pending=0
+owner /workspace/configuration: networkidle + 400ms, loading=false, pending=0
+owner /workspace/connections: networkidle + 400ms, loading=false, pending=0
+owner /workspace/consent-records: networkidle + 400ms, loading=false, pending=0
+owner /workspace/contact-preferences: networkidle + 400ms, loading=false, pending=0
+owner /workspace/control-map: networkidle + 400ms, loading=false, pending=0
+owner /workspace/coverage: networkidle + 400ms, loading=false, pending=0
+owner /workspace/data-principals: networkidle + 400ms, loading=false, pending=0
+owner /workspace/delivery: networkidle + 400ms, loading=false, pending=0
+owner /workspace/dpdpa-audit: networkidle + 400ms, loading=false, pending=0
+owner /workspace/estate-imports: networkidle + 400ms, loading=false, pending=0
+owner /workspace/evidence: networkidle + 400ms, loading=false, pending=0
+owner /workspace/failures: networkidle + 400ms, loading=false, pending=0
+owner /workspace/findings: networkidle + 400ms, loading=false, pending=0
+owner /workspace/gaps: networkidle + 400ms, loading=false, pending=0
+owner /workspace/grc: networkidle + 400ms, loading=false, pending=0
+owner /workspace/grc/audits: networkidle + 400ms, loading=false, pending=0
+owner /workspace/impact-assessments: networkidle + 400ms, loading=false, pending=0
+owner /workspace/imports: networkidle + 400ms, loading=false, pending=0
+owner /workspace/incidents: networkidle + 400ms, loading=false, pending=0
+owner /workspace/installed-versions: networkidle + 400ms, loading=false, pending=0
+owner /workspace/inventory: networkidle + 400ms, loading=false, pending=0
+owner /workspace/inventory/search: networkidle + 400ms, loading=false, pending=0
+owner /workspace/message-templates: networkidle + 400ms, loading=false, pending=0
+owner /workspace/my-login: networkidle + 400ms, loading=false, pending=0
+owner /workspace/notification-rules: networkidle + 400ms, loading=false, pending=0
+owner /workspace/notifications: networkidle + 400ms, loading=true, pending=0
+owner /workspace/notifications: additional 1000ms, loading=true, pending=0
+owner /workspace/notifications: additional 2000ms, loading=false, pending=0
+owner /workspace/notifications: after bringToFront + 1000ms, loading=false, pending=0
+owner /workspace/operations-attention: networkidle + 400ms, loading=true, pending=0
+owner /workspace/operations-attention: additional 1000ms, loading=false, pending=0
+owner /workspace/operations-attention: after bringToFront + 1000ms, loading=false, pending=0
+owner /workspace/operations-evidence: networkidle + 400ms, loading=true, pending=0
+owner /workspace/operations-evidence: additional 1000ms, loading=true, pending=0
+owner /workspace/operations-evidence: additional 2000ms, loading=false, pending=1
+owner /workspace/operations-evidence: after bringToFront + 1000ms, loading=false, pending=0
+owner /workspace/operations-runs: networkidle + 400ms, loading=false, pending=0
+owner /workspace/organisation-intake: networkidle + 400ms, loading=true, pending=0
+owner /workspace/organisation-intake: additional 1000ms, loading=true, pending=0
+owner /workspace/organisation-intake: additional 2000ms, loading=true, pending=0
+owner /workspace/organisation-intake: additional 5000ms, loading=false, pending=0
+owner /workspace/organisation-intake: after bringToFront + 1000ms, loading=false, pending=0
+owner /workspace/organisation-profile: networkidle + 400ms, loading=true, pending=0
+owner /workspace/organisation-profile: additional 1000ms, loading=true, pending=0
+owner /workspace/organisation-profile: additional 2000ms, loading=false, pending=0
+owner /workspace/organisation-profile: after bringToFront + 1000ms, loading=false, pending=0
+owner /workspace/personal-data-breaches: networkidle + 400ms, loading=true, pending=0
+owner /workspace/personal-data-breaches: additional 1000ms, loading=true, pending=0
+owner /workspace/personal-data-breaches: additional 2000ms, loading=false, pending=1
+owner /workspace/personal-data-breaches: after bringToFront + 1000ms, loading=false, pending=0
+owner /workspace/policy-preview: networkidle + 400ms, loading=true, pending=0
+owner /workspace/policy-preview: additional 1000ms, loading=true, pending=0
+owner /workspace/policy-preview: additional 2000ms, loading=false, pending=0
+owner /workspace/policy-preview: after bringToFront + 1000ms, loading=false, pending=0
+owner /workspace/preflight: networkidle + 400ms, loading=true, pending=0
+owner /workspace/preflight: additional 1000ms, loading=false, pending=0
+owner /workspace/preflight: after bringToFront + 1000ms, loading=false, pending=0
+owner /workspace/principals: networkidle + 400ms, loading=true, pending=0
+owner /workspace/principals: additional 1000ms, loading=true, pending=1
+owner /workspace/principals: additional 2000ms, loading=false, pending=0
+owner /workspace/principals: after bringToFront + 1000ms, loading=false, pending=0
+owner /workspace/processing-activities: networkidle + 400ms, loading=false, pending=0
+owner /workspace/processor-engagements: networkidle + 400ms, loading=true, pending=0
+owner /workspace/processor-engagements: additional 1000ms, loading=true, pending=0
+owner /workspace/processor-engagements: additional 2000ms, loading=false, pending=1
+owner /workspace/processor-engagements: after bringToFront + 1000ms, loading=false, pending=1
+owner /workspace/processors: networkidle + 400ms, loading=true, pending=0
+owner /workspace/processors: additional 1000ms, loading=true, pending=0
+owner /workspace/processors: additional 2000ms, loading=false, pending=0
+owner /workspace/processors: after bringToFront + 1000ms, loading=false, pending=0
+owner /workspace/readiness: networkidle + 400ms, loading=true, pending=0
+owner /workspace/readiness: additional 1000ms, loading=true, pending=0
+owner /workspace/readiness: additional 2000ms, loading=false, pending=0
+owner /workspace/readiness: after bringToFront + 1000ms, loading=false, pending=0
+owner /workspace/records-of-processing: networkidle + 400ms, loading=true, pending=0
+owner /workspace/records-of-processing: additional 1000ms, loading=true, pending=0
+owner /workspace/records-of-processing: additional 2000ms, loading=false, pending=1
+owner /workspace/records-of-processing: after bringToFront + 1000ms, loading=false, pending=1
+owner /workspace/registry-notices: networkidle + 400ms, loading=true, pending=0
+owner /workspace/registry-notices: additional 1000ms, loading=true, pending=0
+owner /workspace/registry-notices: additional 2000ms, loading=false, pending=1
+owner /workspace/registry-notices: after bringToFront + 1000ms, loading=false, pending=0
+owner /workspace/registry-retention: networkidle + 400ms, loading=true, pending=0
+owner /workspace/registry-retention: additional 1000ms, loading=false, pending=1
+owner /workspace/registry-retention: after bringToFront + 1000ms, loading=false, pending=0
+owner /workspace/registry-setup: networkidle + 400ms, loading=true, pending=0
+owner /workspace/registry-setup: additional 1000ms, loading=false, pending=1
+owner /workspace/registry-setup: after bringToFront + 1000ms, loading=false, pending=1
+owner /workspace/regulatory: networkidle + 400ms, loading=true, pending=0
+owner /workspace/regulatory: additional 1000ms, loading=true, pending=0
+owner /workspace/regulatory: additional 2000ms, loading=true, pending=0
+owner /workspace/regulatory: additional 5000ms, loading=false, pending=0
+owner /workspace/regulatory: after bringToFront + 1000ms, loading=false, pending=0
+owner /workspace/regulatory/applicability: networkidle + 400ms, loading=true, pending=0
+owner /workspace/regulatory/applicability: additional 1000ms, loading=false, pending=1
+owner /workspace/regulatory/applicability: after bringToFront + 1000ms, loading=false, pending=0
+owner /workspace/regulatory/impacts: networkidle + 400ms, loading=true, pending=0
+owner /workspace/regulatory/impacts: additional 1000ms, loading=false, pending=0
+owner /workspace/regulatory/impacts: after bringToFront + 1000ms, loading=false, pending=0
+owner /workspace/releases: networkidle + 400ms, loading=true, pending=0
+owner /workspace/releases: additional 1000ms, loading=false, pending=0
+owner /workspace/releases: after bringToFront + 1000ms, loading=false, pending=0
+owner /workspace/reports: networkidle + 400ms, loading=true, pending=0
+owner /workspace/reports: additional 1000ms, loading=true, pending=0
+owner /workspace/reports: additional 2000ms, loading=false, pending=0
+owner /workspace/reports: after bringToFront + 1000ms, loading=false, pending=0
+owner /workspace/representation: networkidle + 400ms, loading=true, pending=0
+owner /workspace/representation: additional 1000ms, loading=false, pending=1
+owner /workspace/representation: after bringToFront + 1000ms, loading=false, pending=0
+owner /workspace/restores: networkidle + 400ms, loading=true, pending=0
+owner /workspace/restores: additional 1000ms, loading=true, pending=0
+owner /workspace/restores: additional 2000ms, loading=false, pending=0
+owner /workspace/restores: after bringToFront + 1000ms, loading=false, pending=0
+owner /workspace/retention: networkidle + 400ms, loading=true, pending=0
+owner /workspace/retention: additional 1000ms, loading=false, pending=1
+owner /workspace/retention: after bringToFront + 1000ms, loading=false, pending=0
+owner /workspace/retention/holds: networkidle + 400ms, loading=true, pending=0
+owner /workspace/retention/holds: additional 1000ms, loading=true, pending=0
+owner /workspace/retention/holds: additional 2000ms, loading=false, pending=0
+owner /workspace/retention/holds: after bringToFront + 1000ms, loading=false, pending=0
+owner /workspace/retention/outcomes: networkidle + 400ms, loading=true, pending=0
+owner /workspace/retention/outcomes: additional 1000ms, loading=true, pending=0
+owner /workspace/retention/outcomes: additional 2000ms, loading=false, pending=0
+owner /workspace/retention/outcomes: after bringToFront + 1000ms, loading=false, pending=0
+owner /workspace/rights: networkidle + 400ms, loading=false, pending=1
+owner /workspace/support-canaries: networkidle + 400ms, loading=true, pending=0
+owner /workspace/support-canaries: additional 1000ms, loading=true, pending=0
+owner /workspace/support-canaries: additional 2000ms, loading=false, pending=0
+owner /workspace/support-canaries: after bringToFront + 1000ms, loading=false, pending=0
+owner /workspace/support-cases: networkidle + 400ms, loading=true, pending=0
+owner /workspace/support-cases: additional 1000ms, loading=true, pending=0
+owner /workspace/support-cases: additional 2000ms, loading=false, pending=0
+owner /workspace/support-cases: after bringToFront + 1000ms, loading=false, pending=0
+owner /workspace/team: networkidle + 400ms, loading=true, pending=0
+owner /workspace/team: additional 1000ms, loading=true, pending=0
+owner /workspace/team: additional 2000ms, loading=false, pending=0
+owner /workspace/team: after bringToFront + 1000ms, loading=false, pending=0
+owner /workspace/test-lab: networkidle + 400ms, loading=true, pending=1
+owner /workspace/test-lab: additional 1000ms, loading=false, pending=0
+owner /workspace/test-lab: after bringToFront + 1000ms, loading=false, pending=0
+owner /workspace/third-parties: networkidle + 400ms, loading=false, pending=1
+owner /workspace/updates: networkidle + 400ms, loading=true, pending=0
+owner /workspace/updates: additional 1000ms, loading=false, pending=1
+owner /workspace/updates: after bringToFront + 1000ms, loading=false, pending=0
+owner /workspace/vendor-visibility: networkidle + 400ms, loading=false, pending=1
+owner /workspace/website-consent: networkidle + 400ms, loading=true, pending=0
+owner /workspace/website-consent: additional 1000ms, loading=true, pending=0
+owner /workspace/website-consent: additional 2000ms, loading=true, pending=0
+owner /workspace/website-consent: additional 5000ms, loading=false, pending=0
+owner /workspace/website-consent: after bringToFront + 1000ms, loading=false, pending=0
+owner /workspace/workflows: networkidle + 400ms, loading=true, pending=0
+owner /workspace/workflows: additional 1000ms, loading=true, pending=0
+owner /workspace/workflows: additional 2000ms, loading=false, pending=0
+owner /workspace/workflows: after bringToFront + 1000ms, loading=false, pending=0
+admin /workspace: networkidle + 400ms, loading=true, pending=0
+admin /workspace: additional 1000ms, loading=true, pending=0
+admin /workspace: additional 2000ms, loading=false, pending=0
+admin /workspace: after bringToFront + 1000ms, loading=false, pending=0
+admin /workspace/coverage: networkidle + 400ms, loading=true, pending=0
+admin /workspace/coverage: additional 1000ms, loading=true, pending=0
+admin /workspace/coverage: additional 2000ms, loading=false, pending=1
+admin /workspace/coverage: after bringToFront + 1000ms, loading=false, pending=0
+admin /workspace/data-principals: networkidle + 400ms, loading=true, pending=0
+admin /workspace/data-principals: additional 1000ms, loading=true, pending=0
+admin /workspace/data-principals: additional 2000ms, loading=true, pending=0
+admin /workspace/data-principals: additional 5000ms, loading=false, pending=0
+admin /workspace/data-principals: after bringToFront + 1000ms, loading=false, pending=0
+auditor /workspace: networkidle + 400ms, loading=true, pending=0
+auditor /workspace: additional 1000ms, loading=false, pending=0
+auditor /workspace: after bringToFront + 1000ms, loading=false, pending=0
+auditor /workspace/coverage: networkidle + 400ms, loading=true, pending=0
+auditor /workspace/coverage: additional 1000ms, loading=true, pending=0
+auditor /workspace/coverage: additional 2000ms, loading=false, pending=0
+auditor /workspace/coverage: after bringToFront + 1000ms, loading=false, pending=0
+auditor /workspace/data-principals: networkidle + 400ms, loading=true, pending=1
+auditor /workspace/data-principals: additional 1000ms, loading=false, pending=0
+auditor /workspace/data-principals: after bringToFront + 1000ms, loading=false, pending=0
+WebKit loading diagnostic saved; no application mutation.

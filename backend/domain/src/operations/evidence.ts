@@ -18,13 +18,14 @@ const evidenceView = (e: EvidenceRow) => O.EvidenceRecord.parse({ ...only(O.Evid
 export async function evidenceList(c: Context, page: Page, query: unknown) {
   const q = (query ?? {}) as { requirement_id?: string; entity_id?: string };
   const rows = (await c.tx.query(`SELECT * FROM app.evidence_records WHERE ${predicate} AND ($4::text IS NULL OR $4=ANY(requirement_ids)) AND ($5::uuid IS NULL OR entity_id=$5)
-    AND ($6::uuid IS NULL OR id>$6) ORDER BY id LIMIT $7`, [...scope(c), q.requirement_id ?? null, q.entity_id ?? null, page.cursor, page.limit + 1])).rows as EvidenceRow[];
+    AND ($6::uuid IS NULL OR (recorded_at,id) < (SELECT recorded_at,id FROM app.evidence_records WHERE ${predicate} AND ($4::text IS NULL OR $4=ANY(requirement_ids)) AND ($5::uuid IS NULL OR entity_id=$5)
+    AND id=$6)) ORDER BY recorded_at DESC, id DESC LIMIT $7`, [...scope(c), q.requirement_id ?? null, q.entity_id ?? null, page.cursor, page.limit + 1])).rows as EvidenceRow[];
   const paged = pageOf(rows, page.limit, r => r.id);
   return { items: paged.items.map(evidenceView), next_cursor: paged.next_cursor };
 }
 
 export async function eventList(c: Context, page: Page) {
-  const rows = (await c.tx.query(`SELECT * FROM app.operational_events WHERE ${predicate} AND ($4::uuid IS NULL OR id>$4) ORDER BY id LIMIT $5`, [...scope(c), page.cursor, page.limit + 1])).rows;
+  const rows = (await c.tx.query(`SELECT * FROM app.operational_events WHERE ${predicate} AND ($4::uuid IS NULL OR (occurred_at,id) < (SELECT occurred_at,id FROM app.operational_events WHERE ${predicate} AND id=$4)) ORDER BY occurred_at DESC, id DESC LIMIT $5`, [...scope(c), page.cursor, page.limit + 1])).rows;
   const paged = pageOf(rows, page.limit, r => r.id);
   return { items: paged.items.map(e => O.OperationalEvent.parse({ id: e.id, event_type: e.event_type, subject_kind: e.subject_kind, subject_id: e.subject_id, payload: e.payload, occurred_at: iso(e.occurred_at), actor_id: e.actor_id, correlation_id: e.correlation_id })), next_cursor: paged.next_cursor };
 }

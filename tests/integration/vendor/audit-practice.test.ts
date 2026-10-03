@@ -11,11 +11,13 @@ import assert from 'node:assert/strict';
 import { randomUUID } from 'node:crypto';
 import { writeFileSync, mkdirSync } from 'node:fs';
 import { vendorHarness } from './harness.ts';
-import { acceptEngagement, evidenceFor, paper, ok, ACCEPTANCE, METHODOLOGY } from './practice-flow.ts';
+import { acceptEngagement, approveCriteria, evidenceFor, paper, ok, ACCEPTANCE, METHODOLOGY } from './practice-flow.ts';
 import { packageFileBytes, sha256, verifyAuditDocument, type AuditPackageManifest } from '../../../shared/contracts/src/audit-exchange.ts';
 import { engagementCodeDigest } from '../../../backend/vendor/audit/service.ts';
 import { rate } from '../../../backend/vendor/audit/practice.ts';
-import { installationTrust } from '../../../scripts/credentials.ts';
+import { installationTrust, vendorSigningKey } from '../../../scripts/credentials.ts';
+import { fixturePackage, signFixture } from '../../../shared/testing/src/regulatory-fixture.ts';
+import { generateKeyPairSync } from 'node:crypto';
 
 const results: { name: string; result: 'PASS' | 'FAIL'; detail?: string }[] = [];
 function check(name: string, actual: unknown, expected: unknown) {
@@ -35,6 +37,12 @@ try {
   await anon.json(`${V}/setup`, { setup_code: setup, owner: { name: 'Practice Owner', email: owner.email, password: owner.password }, admin: { name: 'Practice Admin', email: admin.email, password: admin.password } });
   const own = await h.login(owner); const adm = await h.login(admin);
   const member = async (name: string, role: string) => { const r = await adm.json(`${V}/team`, { name, email: `${name.toLowerCase().replace(/\W/g, '')}@practice.example`, role });
+    if(r.status!==201) {
+      const publicCode=r.data?.error?.code;
+      const safeCode=['SERVICE_UNAVAILABLE','UNAUTHENTICATED','FORBIDDEN','VALIDATION_ERROR','RATE_LIMITED'].includes(publicCode)?publicCode:'UNKNOWN';
+      throw new Error(`Synthetic VENDOR_TEAM_CREATE rejected (${r.status}, ${safeCode})`);
+    }
+    if(typeof r.data?.member?.email!=='string'||typeof r.data?.member?.user_id!=='string'||typeof r.data?.one_time_password!=='string')throw new Error('Synthetic VENDOR_TEAM_CREATE INVALID_SUCCESS_SHAPE');
     const u = { email: r.data.member.email, password: r.data.one_time_password, domain: 'vendor' as const, id: r.data.member.user_id as string } as { email: string; password: string; totp?: string; domain: 'vendor'; id: string };
     return { u, s: await h.login(u) }; };
   const L = await member('Lead Auditor', 'LEAD_AUDITOR'); const A = await member('Field Auditor', 'AUDITOR');
@@ -59,7 +67,11 @@ try {
   const fixture = state.criteria[0];
   check('practice: baseline recorded as TEST_FIXTURE criteria with its digest', [fixture.distribution, fixture.requirements > 20, /^[a-f0-9]{64}$/.test(fixture.digest)], ['TEST_FIXTURE', true, true]);
   check('practice: an administrator cannot approve criteria', (await adm.json(`${V}/criteria/${fixture.id}/approve`, {})).status, 403);
-  await ok(reviewer.json(`${V}/criteria/${fixture.id}/approve`, {}), 'approve criteria');
+  const fixtureEvidence = (await reviewer.json(`${V}/criteria/${fixture.id}/evidence`)).data;
+  check('criteria evidence: a test-fixture version shows its sources and that package provenance is unknown', [fixtureEvidence.distribution, fixtureEvidence.sources.length > 0, fixtureEvidence.package, fixtureEvidence.open_verification_items, /not recorded from a signed package/.test(fixtureEvidence.limitation)],
+    ['TEST_FIXTURE', true, null, null, true]);
+  check('criteria evidence: approval without a review is refused', (await reviewer.json(`${V}/criteria/${fixture.id}/approve`, {})).status, 400);
+  await approveCriteria(reviewer, fixture.id);
   const bad = METHODOLOGY('RM-BAD'); bad.matrix[4]![4] = 'LOW';
   check('methodology: a matrix whose rating falls as risk rises is refused', code(await lead.json(`${V}/practice/methodologies`, bad)), [400, 'ratings_must_not_decrease_with_likelihood_or_impact']);
   state = await ok(lead.json(`${V}/practice/methodologies`, METHODOLOGY('RM-A')), 'methodology');
@@ -352,6 +364,52 @@ try {
   await ok(own.json(`${V}/holds/${hold.items[0].id}/release`, { reason: 'Inquiry closed; no further hold needed.' }), 'release');
   check('hold: once released, retention purges the evidence', (await adm.json(`${V}/retention/sweep`, {})).data.purged.map((p: { engagement_id: string }) => p.engagement_id).includes(e.id), true);
   check('findings: every finding ends closed with a recorded closure type', (await h.operator.query("SELECT count(*)::int AS n FROM vendor.findings WHERE engagement_id=$1 AND status<>'CLOSED'", [e.id])).rows[0].n, 0);
+
+  // ---------------------------------------------------------------- production criteria from the signed official package (vendor contract 0.5.0)
+  // A synthetic package shaped as PRODUCTION (official host URLs, hashed sources) and signed with this vendor's release key.
+  const release = vendorSigningKey('release');
+  const fixtureClaims = fixturePackage({ version: `9.${Math.floor(Math.random() * 1e6)}.0`, previous_version: null, effective_from: new Date().toISOString(), requirement_effective_from: today });
+  const productionClaims = { ...fixtureClaims, distribution: 'PRODUCTION' as const, release_notes: ['SYNTHETIC production-shaped package for automated validation only.'],
+    open_verification_items: ['Approver re-downloads each source and confirms its digest (synthetic).'],
+    sources: fixtureClaims.sources.map((src, i) => ({ ...src, official_url: `https://www.meity.gov.in/static/uploads/synthetic-${i}.pdf`, artifact_digest: 'a'.repeat(64), retrieved_at: new Date().toISOString(), verification: 'ARTIFACT_HASHED' as const })) };
+  const signedProduction = signFixture(productionClaims as unknown as typeof fixtureClaims, release.key_id, release.private);
+  const PC = `${V}/practice/criteria/production`;
+  check('production criteria: an auditor cannot record them', (await auditor.json(PC, signedProduction)).status, 403);
+  check('production criteria: a TEST_FIXTURE package is refused', code(await lead.json(PC, signFixture(fixtureClaims, release.key_id, release.private))), [409, 'not_a_production_package']);
+  const stranger = generateKeyPairSync('ed25519');
+  check('production criteria: a package signed with another key is refused', code(await lead.json(PC, signFixture(productionClaims as unknown as typeof fixtureClaims, randomUUID(), stranger.privateKey.export({ format: 'der', type: 'pkcs8' }).toString('base64')))), [409, 'not_signed_with_this_vendor_release_key']);
+  const tampered = structuredClone(signedProduction); tampered.package.claims.requirements[0]!.title = 'Tampered after signing';
+  check('production criteria: a package changed after signing is refused', code(await lead.json(PC, tampered)), [409, 'invalid_signature']);
+  const recorded = await ok(lead.json(PC, signedProduction), 'record production criteria');
+  const prod = recorded.criteria.find((x: { version: string }) => x.version === productionClaims.version);
+  check('production criteria: recorded as PRODUCTION with every requirement and a digest', [prod?.distribution, prod?.requirements, /^[a-f0-9]{64}$/.test(prod?.digest ?? '')], ['PRODUCTION', productionClaims.requirements.length, true]);
+  check('production criteria: the same version cannot be recorded twice', (await lead.json(PC, signedProduction)).status >= 400, true);
+  check('production criteria: recorded unapproved; a REAL engagement cannot use them yet', [prod?.approved_by, code(await adm.json(`${V}/engagements/${e0.id}/configure`, { use_kind: 'REAL', criteria_version_id: prod.id, methodology_id: unapproved.id, commercial_owner_id: null, implementation_owner_id: null }))], [null, [409, 'production_criteria_not_approved']]);
+  const evidence = (await reviewer2.json(`${V}/criteria/${prod.id}/evidence`)).data;
+  check('criteria evidence: the approver sees every source with its hash, the signed package identity and the open verification items before approving',
+    [evidence.sources.length, evidence.sources.every((x: { retrieved_and_hashed: boolean; artifact_digest: string }) => x.retrieved_and_hashed && x.artifact_digest === 'a'.repeat(64)), evidence.package?.package_version, evidence.package?.signing_key_id, evidence.open_verification_items, evidence.review],
+    [productionClaims.sources.length, true, productionClaims.version, release.key_id, productionClaims.open_verification_items, null]);
+  check('criteria evidence: it says a signature does not prove the sources were checked', /does not prove that anyone checked the source documents/.test(evidence.limitation), true);
+  check('criteria evidence: an unknown version is 404', (await reviewer2.json(`${V}/criteria/${randomUUID()}/evidence`)).status, 404);
+  check('criteria evidence: readable with the same access as the practice summary (an auditor reads it) but an auditor cannot approve', [(await auditor.json(`${V}/criteria/${prod.id}/evidence`)).status, (await auditor.json(`${V}/criteria/${prod.id}/approve`, {})).status], [200, 403]);
+  const review = { expected_digest: evidence.digest, review_reference: 'Sources re-downloaded and digests compared, review note RV-1 (synthetic).', acknowledged_open_items_digest: evidence.open_items_digest };
+  // The recorder (lead) holds no approval capability at all, so the request stops at authorisation; the database two-person
+  // check (approved_by <> recorded_by) is the second line and is covered with the fixture criteria above.
+  check('criteria approval: the recorder cannot approve', (await lead.json(`${V}/criteria/${prod.id}/approve`, review)).status, 403);
+  check('criteria approval: a digest other than the version reviewed is refused', code(await reviewer2.json(`${V}/criteria/${prod.id}/approve`, { ...review, expected_digest: 'b'.repeat(64) })), [409, 'criteria_digest_does_not_match_the_version_reviewed']);
+  check('criteria approval: open items not acknowledged are refused', code(await reviewer2.json(`${V}/criteria/${prod.id}/approve`, { ...review, acknowledged_open_items_digest: 'c'.repeat(64) })), [409, 'open_verification_items_not_acknowledged']);
+  check('criteria approval: a review reference with contact details is refused', code(await reviewer2.json(`${V}/criteria/${prod.id}/approve`, { ...review, review_reference: 'Checked by reviewer at reviewer@example.com' })), [400, 'review_reference_must_not_contain_contact_details']);
+  check('criteria approval: the refusals approved nothing', (await reviewer2.json(`${V}/criteria/${prod.id}/evidence`)).data.approved_by, null);
+  const direct = await h.operator.query(`UPDATE vendor.criteria_versions SET approved_by=$2, approved_at=now() WHERE id=$1`, [prod.id, randomUUID()]).then(() => 'approved', (e: { message: string }) => e.message);
+  check('criteria approval: the database refuses a production approval without a review', direct, 'production_criteria_review_required');
+  await ok(reviewer2.json(`${V}/criteria/${prod.id}/approve`, review), 'approve production criteria');
+  const approvedEvidence = (await reviewer2.json(`${V}/criteria/${prod.id}/evidence`)).data;
+  check('criteria approval: the review reference and acknowledged items are kept with the approval', approvedEvidence.review, { review_reference: review.review_reference, acknowledged_open_items_digest: evidence.open_items_digest });
+  check('criteria approval: a second approval is refused', code(await reviewer2.json(`${V}/criteria/${prod.id}/approve`, review)), [409, 'already_approved']);
+  check('criteria approval: approved content cannot be rewritten', await h.operator.query(`UPDATE vendor.criteria_versions SET requirements='[]'::jsonb WHERE id=$1`, [prod.id]).then(() => 'rewritten', (e: { message: string }) => e.message), 'criteria_content_is_immutable');
+  check('criteria approval: the review cannot be rewritten afterwards', await h.operator.query(`UPDATE vendor.criteria_versions SET review_reference='Rewritten review reference' WHERE id=$1`, [prod.id]).then(() => 'rewritten', (e: { message: string }) => e.message), 'criteria_already_approved');
+  const gate = await own.json(`${V}/practice/activations`, { gate: 'PRODUCTION_CRITERIA', reference: `Signed package ${productionClaims.version} (synthetic)` });
+  check('production criteria: once approved, the production-criteria gate can be recorded', [gate.status, gate.data.gates_missing?.includes('PRODUCTION_CRITERIA')], [200, false]);
 } catch (error) { results.push({ name: 'suite', result: 'FAIL', detail: String((error as Error).stack ?? error).slice(0, 800) }); console.error(error); }
 finally {
   await h.close();

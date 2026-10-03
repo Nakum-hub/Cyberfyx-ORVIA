@@ -1,0 +1,1 @@
+[{"name":"client-overview","path":"/workspace","status":200,"errors":[]},{"name":"client-list","path":"/workspace/rights","status":200,"errors":[]},{"name":"dpdpa-audit","path":"/workspace/dpdpa-audit","status":200,"errors":[]},{"name":"vendor-overview","status":200,"errors":[]}]

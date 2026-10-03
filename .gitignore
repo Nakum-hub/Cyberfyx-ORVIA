@@ -1,4 +1,6 @@
 node_modules/
+# Also the symlinks a linked worktree uses instead of installed directories.
+node_modules
 .next/
 dist/
 # Anchored, and it has to stay anchored. Unanchored, this matched every
@@ -18,3 +20,6 @@ dist/
 output/playwright/downloads/
 # Isolated checkouts contain their own Git history and ignored local runtime data.
 /.worktrees/
+
+# Personal Claude Code permissions (owner-approved, not shared)
+.claude/settings.local.json

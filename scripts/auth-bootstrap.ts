@@ -62,6 +62,10 @@ try {
       if (user.domain === 'principal') {
         await tx.query('INSERT INTO app.principal_references VALUES ($1,$2,$3,$4,$5,$6,true) ON CONFLICT DO NOTHING', [t,l,e,user.principal_id,`Synthetic ${name}`,user.email]);
         await tx.query('INSERT INTO principal_auth.authority (user_id,tenant_id,legal_entity_id,environment_id,principal_id) VALUES ($1,$2,$3,$4,$5) ON CONFLICT DO NOTHING', [user.id,t,l,e,user.principal_id]);
+        // The Privacy Centre is off for a new organisation (revision 1.7); the synthetic fixture organisations exercise it, so it is on here.
+        await tx.query(`INSERT INTO app.privacy_centre_settings(tenant_id,legal_entity_id,environment_id,id,enabled,reason,changed_by)
+          SELECT $1::uuid,$2::uuid,$3::uuid,$4::uuid,true,'Synthetic fixture organisation: Privacy Centre on for the journeys.',$5::uuid
+          WHERE NOT EXISTS (SELECT 1 FROM app.privacy_centre_settings WHERE tenant_id=$1 AND legal_entity_id=$2 AND environment_id=$3)`, [t,l,e,randomUUID(),profile.installation_id]);
       } else await tx.query('INSERT INTO staff_auth.authority (user_id,tenant_id,legal_entity_id,environment_id,role) VALUES ($1,$2,$3,$4,$5) ON CONFLICT DO NOTHING', [user.id,t,l,e,user.role]);
       await tx.query(`INSERT INTO app.audit_events (id,tenant_id,legal_entity_id,environment_id,actor_id,actor_domain,operation,resource_id,request_id)
         VALUES ($1,$2,$3,$4,$5,'MACHINE','protected-bootstrap.identity-checked',$6,$7)`, [randomUUID(),t,l,e,profile.installation_id,user.id,randomUUID()]);

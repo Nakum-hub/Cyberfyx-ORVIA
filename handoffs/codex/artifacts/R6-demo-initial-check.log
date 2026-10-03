@@ -1,0 +1,25 @@
+{"checked":25,"pages_with_issues":[]}
+node : node:internal/modules/run_main:107
+At line:2 char:175
++ ... tion).Path; node node_modules/tsx/dist/cli.mjs handoffs/codex/round6- ...
++                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (node:internal/modules/run_main:107:String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+ 
+    triggerUncaughtException(
+    ^
+
+AssertionError [ERR_ASSERTION]: The journey mandate must still be present
+    at <anonymous> 
+(C:\Cyberfyx-projects\Cyberfyx_ORVIA\.worktrees\design-round6\handoffs\codex\round6-demo-check.ts:67:10)
+    at runNextTicks (node:internal/process/task_queues:65:5)
+    at process.processImmediate (node:internal/timers:541:9) {
+  generatedMessage: false,
+  code: 'ERR_ASSERTION',
+  actual: 'None',
+  expected: 'None',
+  operator: 'notStrictEqual',
+  diff: 'simple'
+}
+
+Node.js v24.21.0

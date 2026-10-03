@@ -52,7 +52,7 @@ export async function caseProfile(c: Context, requestId: string) {
     overdue: row.due_at !== null && row.due_at.getTime() < Date.now() && !['CLOSED', 'COMPLETED', 'REJECTED'].includes(row.state), run_ids: runs, recorded_at: iso(row.recorded_at) });
 }
 export async function caseProfileList(c: Context, page: Page) {
-  const rows = (await c.tx.query(`SELECT rights_request_id FROM app.rights_case_profiles WHERE ${predicate} AND ($4::uuid IS NULL OR rights_request_id>$4) ORDER BY rights_request_id LIMIT $5`, [...scope(c), page.cursor, page.limit + 1])).rows;
+  const rows = (await c.tx.query(`SELECT rights_request_id FROM app.rights_case_profiles WHERE ${predicate} AND ($4::uuid IS NULL OR (recorded_at,rights_request_id) < (SELECT recorded_at,rights_request_id FROM app.rights_case_profiles WHERE ${predicate} AND rights_request_id=$4)) ORDER BY recorded_at DESC, rights_request_id DESC LIMIT $5`, [...scope(c), page.cursor, page.limit + 1])).rows;
   const paged = pageOf(rows, page.limit, r => r.rights_request_id);
   const items = [];
   for (const row of paged.items) items.push(await caseProfile(c, row.rights_request_id));

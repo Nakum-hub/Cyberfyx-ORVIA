@@ -1,0 +1,25 @@
+{"prerequisite_command":["C:\\Cyberfyx-projects\\Cyberfyx_ORVIA\\.local\\tools\\node-v24.21.0-win-x64\\node.exe","--import","tsx","scripts/machine-init.ts","confirm:codex-a00"]}
+Local machine enrollment and isolated synthetic targets provisioned; credentials remain protected; existing target restrictions preserved.
+{"prerequisite":"MACHINE_ENROLLMENT","code":0,"signal":null}
+Authentication fixture idle window: 32s remaining; controls unchanged.
+Authentication fixture idle window: 2s remaining; controls unchanged.
+AuthLoginFailure: Synthetic login failed
+    at failedAuthResponse (C:\Cyberfyx-projects\Cyberfyx_ORVIA\.worktrees\round8\backend\auth\src\errors.ts:52:10)
+    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+    at async HttpFixture.login (C:\Cyberfyx-projects\Cyberfyx_ORVIA\.worktrees\round8\shared\testing\src\http-fixture.ts:68:36)
+    at async HttpFixture.h.login (C:\Cyberfyx-projects\Cyberfyx_ORVIA\.worktrees\round8\shared\testing\src\operations-fixture.ts:26:88)
+    at async Object.ensurePackage (C:\Cyberfyx-projects\Cyberfyx_ORVIA\.worktrees\round8\shared\testing\src\operations-fixture.ts:50:19)
+    at async <anonymous> (C:\Cyberfyx-projects\Cyberfyx_ORVIA\.worktrees\round8\tests\integration\operations\runner.test.ts:22:5)
+    at async Object.run (C:\Cyberfyx-projects\Cyberfyx_ORVIA\.worktrees\round8\shared\testing\src\operations-fixture.ts:117:28)
+    at async <anonymous> (C:\Cyberfyx-projects\Cyberfyx_ORVIA\.worktrees\round8\tests\integration\operations\runner.test.ts:19:1) {
+  http_status: 503,
+  response_code: 'SERVICE_UNAVAILABLE',
+  request_id: '92b2f846-8b35-4dce-9cf4-7382e52651f9',
+  code: 'AUTH_LOGIN_FAILED'
+}
+Server diagnostics (safe codes only): {"event":"AUTH_DEPENDENCY_FAILURE","request_id":"92b2f846-8b35-4dce-9cf4-7382e52651f9","domain":"staff","stage":"AUTH_LIBRARY_HANDLER","causes":[{"name":"Error","code":"UNCLASSIFIED"},{"name":"Error","code":"UNCLASSIFIED"},{"name":"Error","code":"UNCLASSIFIED"}]}
+{"request_id":"92b2f846-8b35-4dce-9cf4-7382e52651f9","operation":"AUTH_STAFF","name":"Error","code":"UNCLASSIFIED"}
+
+Artifact: handoffs/codex/artifacts/A00-operations-runner-1790913263239-f4609fde-2473-4ce1-beef-a724458b1b29.json
+
+1 assertions, 1 failures.

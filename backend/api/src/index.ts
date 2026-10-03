@@ -1,8 +1,9 @@
 export { businessRoute } from './business.ts';
 export { machineRoute } from './machine.ts';
 export { supplierRoute } from './supplier.ts';
+export { intakeRoute } from './intake.ts';
 export { cmpSdkRoute, cmpConsentRoute } from './cmp.ts';
-export { setupStateRoute, setupCompleteRoute } from './setup.ts';
+export { setupStateRoute, setupCompleteRoute, ownerRecoveryRoute } from './setup.ts';
 export { readinessRoute } from './readiness.ts';
 export { sessionRoute } from './session.ts';
 export { listPrincipals, createPrincipal } from './admin-principals.ts';

@@ -1,0 +1,10 @@
+PASS healthy policies satisfy every privacy test
+FAIL defect 'withdrawn consent still allows marketing' did not produce usable failed-test evidence (OPA execution/evaluation error)
+FAIL defect 'an unresolved suppression is ignored' did not produce usable failed-test evidence (OPA execution/evaluation error)
+FAIL defect 'a restored, quarantined installation may send' did not produce usable failed-test evidence (OPA execution/evaluation error)
+FAIL defect 'the default decision allows' did not produce usable failed-test evidence (OPA execution/evaluation error)
+FAIL defect 'an expired service condition still sends' did not produce usable failed-test evidence (OPA execution/evaluation error)
+FAIL defect 'owner approvals without MFA' did not produce usable failed-test evidence (OPA execution/evaluation error)
+FAIL defect 'an administrator may release rights responses' did not produce usable failed-test evidence (OPA execution/evaluation error)
+FAIL defect 'an auditor may write' did not produce usable failed-test evidence (OPA execution/evaluation error)
+{"label":"policy-fault-after","fault":true,"gate_exit_code":1,"calls":[{"index":0,"exit_code":0,"execution_fault":false,"semantic_test_failures":0,"errors":0},{"index":1,"exit_code":1,"execution_fault":true,"semantic_test_failures":0,"errors":null},{"index":2,"exit_code":1,"execution_fault":true,"semantic_test_failures":0,"errors":null},{"index":3,"exit_code":1,"execution_fault":true,"semantic_test_failures":0,"errors":null},{"index":4,"exit_code":1,"execution_fault":true,"semantic_test_failures":0,"errors":null},{"index":5,"exit_code":1,"execution_fault":true,"semantic_test_failures":0,"errors":null},{"index":6,"exit_code":1,"execution_fault":true,"semantic_test_failures":0,"errors":null},{"index":7,"exit_code":1,"execution_fault":true,"semantic_test_failures":0,"errors":null},{"index":8,"exit_code":1,"execution_fault":true,"semantic_test_failures":0,"errors":null}],"healthy_control":true,"all_mutants_semantically_detected":false}

@@ -1,0 +1,90 @@
+R7 webkit interface-crawl-local: suite entry point with passive diagnostic instrumentation
+Continuing at Data Principal portal; retaining 376 preceding checks and all their failures. Portal pages are rechecked to restore browser state.
+PASS principal: /privacy
+PASS principal: /privacy/notices
+PASS principal: /privacy/preferences
+PASS principal: /privacy/receipts
+PASS principal: /privacy/rights
+PASS vendor signed out: /vendor/sign-in renders
+PASS vendor signed out: /vendor/setup renders
+PASS vendor signed out: the client workspace is 404 on the vendor installation
+PASS vendor users from the browser journeys are available for the crawl
+PASS vendor admin: /vendor
+PASS vendor admin: /vendor/engagements
+PASS vendor admin: /vendor/licences
+PASS vendor admin: /vendor/organisations
+PASS vendor admin: /vendor/organisations/[id]
+PASS vendor admin: /vendor/payments
+PASS vendor admin: /vendor/practice
+PASS vendor admin: /vendor/retention
+PASS vendor admin: /vendor/support
+PASS vendor admin: /vendor/team
+PASS vendor admin: /vendor/upload
+PASS vendor admin: the engagement workspace has nine tabs
+PASS vendor admin: workspace tab "Overview"
+PASS vendor admin: workspace tab "Scope and applicability"
+PASS vendor admin: workspace tab "Plan"
+PASS vendor admin: workspace tab "Requests"
+PASS vendor admin: workspace tab "Evidence"
+PASS vendor admin: workspace tab "Tests and working papers"
+PASS vendor admin: workspace tab "Findings and actions"
+PASS vendor admin: workspace tab "Report"
+PASS vendor admin: workspace tab "Follow-up"
+PASS vendor admin: arrow keys move between workspace tabs
+PASS vendor lead: /vendor
+PASS vendor lead: /vendor/engagements
+PASS vendor lead: /vendor/licences
+PASS vendor lead: /vendor/organisations
+PASS vendor lead: /vendor/payments
+PASS vendor lead: /vendor/practice
+PASS vendor lead: /vendor/retention
+PASS vendor lead: /vendor/support
+PASS vendor lead: /vendor/team
+PASS vendor lead: /vendor/upload
+PASS vendor lead: the engagement workspace has nine tabs
+PASS vendor lead: workspace tab "Overview"
+PASS vendor lead: workspace tab "Scope and applicability"
+PASS vendor lead: workspace tab "Plan"
+PASS vendor lead: workspace tab "Requests"
+PASS vendor lead: workspace tab "Evidence"
+PASS vendor lead: workspace tab "Tests and working papers"
+PASS vendor lead: workspace tab "Findings and actions"
+PASS vendor lead: workspace tab "Report"
+PASS vendor lead: workspace tab "Follow-up"
+PASS vendor lead: arrow keys move between workspace tabs
+PASS vendor reviewer: /vendor
+PASS vendor reviewer: /vendor/engagements
+PASS vendor reviewer: /vendor/licences
+PASS vendor reviewer: /vendor/organisations
+PASS vendor reviewer: /vendor/payments
+PASS vendor reviewer: /vendor/practice
+PASS vendor reviewer: /vendor/retention
+PASS vendor reviewer: /vendor/support
+PASS vendor reviewer: /vendor/team
+PASS vendor reviewer: /vendor/upload
+PASS vendor reviewer: the engagement workspace has nine tabs
+PASS vendor reviewer: workspace tab "Overview"
+PASS vendor reviewer: workspace tab "Scope and applicability"
+PASS vendor reviewer: workspace tab "Plan"
+PASS vendor reviewer: workspace tab "Requests"
+PASS vendor reviewer: workspace tab "Evidence"
+PASS vendor reviewer: workspace tab "Tests and working papers"
+PASS vendor reviewer: workspace tab "Findings and actions"
+PASS vendor reviewer: workspace tab "Report"
+PASS vendor reviewer: workspace tab "Follow-up"
+PASS vendor reviewer: arrow keys move between workspace tabs
+PASS client account: /vendor/upload
+PASS client account: the vendor area is refused, not broken
+
+interface crawl: 68 visits, 0 with issues
+FAIL the crawl found nothing wrong on any page, tab or link {"expected":[],"actual":["preceding interrupted run: FAIL owner: /workspace/personal-data-breaches/[id] (78f85c8c) {\"expected\":[],\"actual\":[\"pageerror: /127.0.0.1:4310/api/v1/admin/systems?limit=100 due to access control checks.\",\"pageerror: /127.0.0.1:4310/api/v1/admin/processor-engagements?limit=100 due to access control checks.\"]}","preceding interrupted run: FAIL owner: /workspace/updates {\"expected\":[],\"actual\":[\"API 503 GET /api/v1/admin/update-plans\"]}","preceding interrupted run: FAIL admin: /workspace/policy-preview {\"expected\":[],\"actual\":[\"pageerror: /127.0.0.1:4310/api/v1/admin/personal-data-categories?limit=100 due to access control checks.\",\"pageerror: /127.0.0.1:4310/api/v1/admin/systems?limit=100 due to access control checks.\"]}","preceding interrupted run: FAIL auditor: /workspace/policy-preview {\"expected\":[],\"actual\":[\"pageerror: /127.0.0.1:4310/api/v1/admin/personal-data-categories?limit=100 due to access control checks.\",\"pageerror: /127.0.0.1:4310/api/v1/admin/systems?limit=100 due to access control checks.\",\"pageerror: /127.0.0.1:4310/api/v1/admin/processor-engagements?limit=100 due to access control checks.\"]}"]}
+Error: Assertion failed: the crawl found nothing wrong on any page, tab or link
+    at check (C:\Cyberfyx-projects\Cyberfyx_ORVIA\.worktrees\design-round6\shared\testing\src\operations-fixture.ts:29:147)
+    at <anonymous> (C:\Cyberfyx-projects\Cyberfyx_ORVIA\.worktrees\design-round6\tests\e2e\interface-crawl-local.ts:314:5)
+    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+    at async Object.run (C:\Cyberfyx-projects\Cyberfyx_ORVIA\.worktrees\design-round6\shared\testing\src\operations-fixture.ts:117:28)
+    at async <anonymous> (C:\Cyberfyx-projects\Cyberfyx_ORVIA\.worktrees\design-round6\tests\e2e\interface-crawl-local.ts:173:1)
+Server diagnostics (safe codes only): 
+Artifact: handoffs/codex/artifacts/A00-operations-interface-crawl-1790831194134-c0d0d5c3-a224-40f2-a1ee-2f055024bf06.json
+
+2 assertions, 2 failures.

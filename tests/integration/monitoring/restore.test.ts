@@ -1,3 +1,4 @@
+import { allPageList } from '../../../shared/testing/src/all-pages.ts';
 // M32 backup declaration and restore reconciliation integration suite (FR-M32-03).
 // Under test: the one failure a backup subsystem exists to prevent in a privacy
 // product -- a restore that quietly reinstates consent somebody has since
@@ -199,7 +200,7 @@ try {
     Object.keys(declared).sort(),
     ['archive_is_held_by_the_customer', 'counts', 'covers', 'encryption_was_not_verified_by_this_product',
       'id', 'key_reference', 'limits', 'note', 'state_digest', 'taken_at', 'taken_by']);
-  const list = S.schemas.BackupSnapshotList.parse(await (await owner.call('/api/v1/admin/backup-snapshots?limit=100')).json());
+  const list = (await allPageList(p => owner.call(p), '/api/v1/admin/backup-snapshots', value => S.schemas.BackupSnapshotList.parse(value)));
   check('both declared snapshots are listed for a reader holding health.read',
     [list.items.some(i => i.id === declared.id), list.items.some(i => i.id === snapshot.id)], [true, true]);
   check('a member without the capability is refused the list',

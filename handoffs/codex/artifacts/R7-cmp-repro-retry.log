@@ -1,0 +1,17 @@
+node : C:\Cyberfyx-projects\Cyberfyx_ORVIA\.worktrees\design-round6\shared\testing\src\http-fixture.ts:41
+At line:2 char:246
++ ... trace.mjs'; node node_modules/tsx/dist/cli.mjs handoffs/codex/round7- ...
++                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (C:\Cyberfyx-pro...p-fixture.ts:41:String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+ 
+        if(this.child.exitCode!==null)throw new Error('Owned web process failed to start');
+                                            ^
+
+Error: Owned web process failed to start
+    at HttpFixture.start 
+(C:\Cyberfyx-projects\Cyberfyx_ORVIA\.worktrees\design-round6\shared\testing\src\http-fixture.ts:41:45)
+    at async <anonymous> 
+(C:\Cyberfyx-projects\Cyberfyx_ORVIA\.worktrees\design-round6\handoffs\codex\round7-cmp-repro.ts:11:3)
+
+Node.js v24.21.0

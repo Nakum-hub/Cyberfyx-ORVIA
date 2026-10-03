@@ -1,0 +1,63 @@
+{
+  "task_id": "DPDP",
+  "fixture_kind": "CUSTOMER_LOCAL_SYNTHETIC",
+  "recorded_at": "2026-10-01T17:49:20.387Z",
+  "suite": "canary-retirement",
+  "assertions": [
+    {
+      "name": "Pending retirement: fixture is synthetic",
+      "result": "PASS",
+      "expected": true,
+      "actual": true
+    },
+    {
+      "name": "created canary has no activation history",
+      "result": "PASS",
+      "expected": [
+        "PENDING",
+        null,
+        null
+      ],
+      "actual": [
+        "PENDING",
+        null,
+        null
+      ]
+    },
+    {
+      "name": "administrator without sensitive access cannot retire a canary",
+      "result": "PASS",
+      "expected": 403,
+      "actual": 403
+    },
+    {
+      "name": "read-only auditor cannot retire a canary",
+      "result": "PASS",
+      "expected": 403,
+      "actual": 403
+    },
+    {
+      "name": "foreign tenant cannot retire this canary",
+      "result": "PASS",
+      "expected": 404,
+      "actual": 404
+    },
+    {
+      "name": "pending canary retirement succeeds at the HTTP boundary",
+      "result": "FAIL",
+      "expected": 200,
+      "actual": 503
+    },
+    {
+      "name": "unexpected failure in pending retirement regression",
+      "result": "FAIL",
+      "expected": "no error",
+      "actual": "Assertion failed: pending canary retirement succeeds at the HTTP boundary"
+    }
+  ],
+  "passed": 5,
+  "failures": 2,
+  "profile": "codex-a00",
+  "test_adapter_only": true,
+  "limitation": "Connector effects are exercised against the synthetic records test adapter; no live customer system was contacted."
+}

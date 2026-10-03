@@ -154,12 +154,16 @@ try {
 
   // 7. Production build -----------------------------------------------------
   const { buildInputIdentity, recordWebBuild, webBuildCurrent } = await import('./build-state.ts');
+  const { loadWorkerWorkflowBundle } = await import('../services/worker/src/workflow-bundle.ts');
   const identity = buildInputIdentity();
-  if (webBuildCurrent(PROFILE_DIRECTORY, identity)) done(`Production build current (${identity.files} inputs)`);
+  let workerBundleCurrent = false;
+  try { loadWorkerWorkflowBundle(); workerBundleCurrent = true; } catch { /* Explicit build below; no runtime fallback. */ }
+  if (webBuildCurrent(PROFILE_DIRECTORY, identity) && workerBundleCurrent) done(`Production build current (${identity.files} inputs)`);
   else {
     stage('Building the application (first run after a source change)...');
     const built = await runScript('scripts/web.ts', ['build']);
     if (built.code !== 0) throw new OperatorError('The production build failed.', 'The previous build, if any, is untouched.\n\nFix the compilation errors reported above and run:\n  npm start');
+    loadWorkerWorkflowBundle();
     recordWebBuild(PROFILE_DIRECTORY, identity);
     done('Production build created');
   }

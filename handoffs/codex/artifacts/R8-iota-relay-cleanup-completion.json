@@ -1,0 +1,15 @@
+{
+    "confirmed_label":  "frozen-iota",
+    "original_cleanup_failure_retained":  true,
+    "started_at":  "2026-10-02T04:07:32.8249839Z",
+    "command":  [
+                    "docker",
+                    "rm",
+                    "orvia-round8-frozen-iota-temporal-loopback"
+                ],
+    "volumes_deleted":  false,
+    "independent_active_suite":  "tests/integration/vendor/audit-practice.test.ts",
+    "confirmed_running":  false,
+    "exit_code":  0,
+    "ended_at":  "2026-10-02T04:07:33.3371132Z"
+}

@@ -1,0 +1,13 @@
+PASS staff processed only a first batch
+PASS the runner reports no errors
+PASS the runner finished the import from its checkpoint
+PASS the run was left evaluating
+PASS the runner completed the evaluation into a dry run
+PASS the runner never approves: the dry run still waits
+PASS nothing was erased before approval
+PASS after approval the runner executes and every erasure is verified
+PASS running again applies nothing twice
+PASS verification was independent of execution
+Artifact: handoffs/codex/artifacts/A00-operations-runner-1790859672854-532b7a4a-9ebb-4039-8a19-74d8a5045c1e.json
+
+10 assertions, 0 failures.

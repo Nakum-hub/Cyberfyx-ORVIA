@@ -1,0 +1,16 @@
+{
+  "task_id": "A00",
+  "fixture_kind": "SYNTHETIC_BOOTSTRAP_ONLY",
+  "recorded_at": "2026-10-01T10:06:10.803Z",
+  "profile": "codex-a00",
+  "migrations": [
+    "0079_withdrawal_canaries",
+    "0080_ai_model_versions",
+    "0081_operations_wake",
+    "0082_real_principal_admission",
+    "0083_owner_recovery_rls",
+    "0084_server_only_functions"
+  ],
+  "result": "APPLIED",
+  "transaction": "single PostgreSQL transaction; advisory lock serializes this runner"
+}

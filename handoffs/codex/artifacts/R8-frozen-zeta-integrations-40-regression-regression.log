@@ -1,0 +1,115 @@
+{"prerequisite_command":["C:\\Cyberfyx-projects\\Cyberfyx_ORVIA\\.local\\tools\\node-v24.21.0-win-x64\\node.exe","--import","tsx","scripts/machine-init.ts","confirm:codex-a00"]}
+Local machine enrollment and isolated synthetic targets provisioned; credentials remain protected; existing target restrictions preserved.
+{"prerequisite":"MACHINE_ENROLLMENT","code":0,"signal":null}
+{"prerequisite_command":["docker","network","inspect","--format","{{index .Labels \"com.docker.compose.project\"}}","orvia-codex-a00_private"],"exit_code":0,"signal":null}
+{"prerequisite_command":["docker","network","inspect","--format","{{index .Labels \"com.docker.compose.project\"}}","orvia-codex-a00_loopback_access"],"exit_code":0,"signal":null}
+{"prerequisite_command":["docker","inspect","--format","{{json .Config.Labels}}","orvia-codex-a00-temporal-1"],"exit_code":0,"signal":null}
+{"prerequisite_command":["docker","inspect","--format","{{.State.Running}}","orvia-codex-a00-temporal-1"],"exit_code":0,"signal":null}
+{"prerequisite_command":["docker","inspect","--format","{{json .NetworkSettings.Networks}}","orvia-codex-a00-temporal-1"],"exit_code":0,"signal":null}
+{"prerequisite_command":["docker","start","orvia-codex-a00-temporal-1"],"exit_code":0,"signal":null}
+{"prerequisite_command":["docker","image","inspect","node@sha256:2fe369e969550cde8e867afc3fe370b260140cab4a23d467074295b42163d553"],"exit_code":0,"signal":null}
+{"prerequisite_command":["docker","create","--pull=never","--name","orvia-round8-frozen-zeta-temporal-loopback","--label","orvia.round8.run=frozen-zeta","--network","orvia-codex-a00_private","--publish","127.0.0.1:57233:7233","--read-only","--user","node","--cap-drop","ALL","--security-opt","no-new-privileges=true","--memory","256m","--mount","type=bind,src=C:\\Cyberfyx-projects\\Cyberfyx_ORVIA\\.worktrees\\round8\\infrastructure\\loopback.mjs,dst=/app/loopback.mjs,readonly","node@sha256:2fe369e969550cde8e867afc3fe370b260140cab4a23d467074295b42163d553","node","/app/loopback.mjs"],"exit_code":0,"signal":null}
+{"prerequisite_command":["docker","network","connect","orvia-codex-a00_loopback_access","orvia-round8-frozen-zeta-temporal-loopback"],"exit_code":0,"signal":null}
+{"prerequisite_command":["docker","start","orvia-round8-frozen-zeta-temporal-loopback"],"exit_code":0,"signal":null}
+Dependency ready: codex-a00 Temporal namespace
+Authentication fixture idle window: 22s remaining; controls unchanged.
+PASS anonymous test start denied
+PASS principal test start denied
+PASS auditor test start denied
+PASS delegated admin cannot run privileged faults
+PASS unenrolled tenant cannot run Aster fixture
+PASS another lane profile denied
+PASS arbitrary scenario rejected
+Authentication fixture idle window: 61s remaining; controls unchanged.
+Authentication fixture idle window: 31s remaining; controls unchanged.
+Authentication fixture idle window: 1s remaining; controls unchanged.
+PASS MARKETING_WITHDRAWAL_HEALTHY accepted
+PASS pending run is durably NOT_RUN
+PASS pending request replay stable
+PASS overlapping fixture execution denied
+PASS anonymous run history denied
+PASS principal run history denied
+PASS scoped run history contains queued run
+PASS scoped run history paging terminates
+PASS foreign tenant run history excludes queued run
+PASS foreign tenant cannot read run
+PASS principal cannot read run
+PASS protected runner executed real assertions
+PASS MARKETING_WITHDRAWAL_HEALTHY actual result
+PASS assertions separately persisted
+PASS broken fixture actual synthetic send count
+PASS violation assertion derives from actual effect
+PASS expected fault flag does not turn FAIL into PASS
+PASS committed acceptance replay remains immutable
+PASS local evidence links actual test run
+Authentication fixture idle window: 2s remaining; controls unchanged.
+PASS MARKETING_WITHDRAWAL_BROKEN_CONTROL accepted
+PASS pending run is durably NOT_RUN
+PASS pending request replay stable
+PASS overlapping fixture execution denied
+PASS anonymous run history denied
+PASS principal run history denied
+PASS scoped run history contains queued run
+PASS scoped run history paging terminates
+PASS foreign tenant run history excludes queued run
+PASS foreign tenant cannot read run
+PASS principal cannot read run
+PASS protected runner executed real assertions
+PASS MARKETING_WITHDRAWAL_BROKEN_CONTROL actual result
+PASS assertions separately persisted
+PASS broken fixture actual synthetic send count
+PASS violation assertion derives from actual effect
+PASS expected fault flag does not turn FAIL into PASS
+PASS committed acceptance replay remains immutable
+PASS local evidence links actual test run
+Authentication fixture idle window: 21s remaining; controls unchanged.
+PASS MARKETING_WITHDRAWAL_HEALTHY accepted
+PASS pending run is durably NOT_RUN
+PASS pending request replay stable
+PASS overlapping fixture execution denied
+PASS anonymous run history denied
+PASS principal run history denied
+PASS scoped run history contains queued run
+PASS scoped run history paging terminates
+PASS foreign tenant run history excludes queued run
+PASS foreign tenant cannot read run
+PASS principal cannot read run
+PASS protected runner executed real assertions
+PASS MARKETING_WITHDRAWAL_HEALTHY actual result
+PASS assertions separately persisted
+PASS broken fixture actual synthetic send count
+PASS violation assertion derives from actual effect
+PASS expected fault flag does not turn FAIL into PASS
+PASS committed acceptance replay remains immutable
+PASS local evidence links actual test run
+Authentication fixture idle window: 29s remaining; controls unchanged.
+PASS TARGET_RESTORE_QUARANTINE accepted
+PASS pending run is durably NOT_RUN
+PASS pending request replay stable
+PASS overlapping fixture execution denied
+PASS anonymous run history denied
+PASS principal run history denied
+PASS scoped run history contains queued run
+PASS scoped run history paging terminates
+PASS foreign tenant run history excludes queued run
+PASS foreign tenant cannot read run
+PASS principal cannot read run
+PASS protected runner executed real assertions
+PASS TARGET_RESTORE_QUARANTINE actual result
+PASS assertions separately persisted
+PASS broken fixture actual synthetic send count
+PASS violation assertion derives from actual effect
+PASS recovery journal artifact exists
+PASS expected fault flag does not turn FAIL into PASS
+PASS committed acceptance replay remains immutable
+PASS local evidence links actual test run
+PASS runner actually began before interruption
+PASS interrupted run remains durable
+PASS interrupted run becomes explicit ERROR
+PASS interruption creates no success fallback
+PASS interruption assertion separately persisted
+PASS terminal outcome cannot be rewritten
+Artifact: handoffs/codex/artifacts/A00-regression-integration-1790876429513-856c1e43-9c2a-4394-9831-c654b5d5ef36.json
+{"prerequisite_command":["docker","stop","--timeout","20","orvia-round8-frozen-zeta-temporal-loopback"],"exit_code":0,"signal":null}
+{"prerequisite_command":["docker","rm","orvia-round8-frozen-zeta-temporal-loopback"],"exit_code":0,"signal":null}
+{"prerequisite_command":["docker","stop","--timeout","20","orvia-codex-a00-temporal-1"],"exit_code":0,"signal":null}

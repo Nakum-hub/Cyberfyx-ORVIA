@@ -1,4 +1,5 @@
 'use client';
+import { BackupObligations } from './backup-obligations.tsx';
 import { useState } from 'react';
 import { useCollection, useMutation, usePagedQuery, useQuery } from '../../shared/api.ts';
 import { useDirectory } from '../../shared/directory.ts';
@@ -69,6 +70,7 @@ export function RegistryRetention() {
         </QueryBoundary>
       </Section>
       <ErasureIntimations />
+      <BackupObligations />
       <RetentionForms onSaved={() => { rules.refresh(); holds.refresh(); }} />
     </>
   );
@@ -228,6 +230,7 @@ function ErasureIntimations() {
 
 export function ProcessorEngagements() {
   const engagements = usePagedQuery('list_processor_engagements', { limit: 50 });
+  const allEngagements = useCollection('list_processor_engagements');
   const sharing = usePagedQuery('list_data_sharing_links', { limit: 50 });
   const directory = useDirectory(['systems']);
   return (
@@ -272,9 +275,10 @@ export function ProcessorEngagements() {
           )}
         </QueryBoundary>
       </Section>
-      <EngagementForm engagements={engagements.data?.items ?? []} onSaved={() => engagements.refresh()} />
-      <EngagementLifecycle engagements={engagements.data?.items ?? []} onSaved={() => engagements.refresh()} />
-      <SharingForm engagements={engagements.data?.items ?? []} onSaved={() => sharing.refresh()} />
+      <EngagementForm engagements={allEngagements.data?.items ?? []} onSaved={() => { engagements.refresh(); allEngagements.refresh(); }} />
+      {/* The forms choose from every engagement, not only the page of the table on screen. */}
+      <EngagementLifecycle engagements={allEngagements.data?.items ?? []} onSaved={() => { engagements.refresh(); allEngagements.refresh(); }} />
+      <SharingForm engagements={allEngagements.data?.items ?? []} onSaved={() => sharing.refresh()} />
     </>
   );
 }

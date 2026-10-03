@@ -1,0 +1,37 @@
+R7 chromium operations-screens-local: suite entry point with passive diagnostic instrumentation
+Authentication fixture idle window: 61s remaining; controls unchanged.
+Authentication fixture idle window: 31s remaining; controls unchanged.
+Authentication fixture idle window: 1s remaining; controls unchanged.
+PASS registration is accepted
+PASS a breach registered on screen is pinned with deadlines from the package
+PASS correcting the facts keeps the pinned package and deadlines
+PASS a profile version is recorded; unknown SDF status leaves no obligation open (history is kept)
+PASS a person is registered with a keyed reference and no stored identifier
+PASS a relationship context is recorded with unknown evidence kept unknown
+PASS a representative starts unverified
+PASS the person who recorded a representative cannot verify them
+PASS a different staff member verifies the representative
+PASS child status is recorded with its guardian
+PASS a consent record starts unknown, never granted
+PASS a withdrawal recorded on screen opens exactly one propagation run
+PASS the run suppresses in the linked system
+PASS termination closes the engagement and requires return or deletion
+PASS a processor statement is recorded as a confirmation, never as verified
+PASS a data share names exactly one recipient
+PASS a safeguard is recorded with its evidence
+PASS a manual-only binding declares no automated action
+PASS a case profile is pinned to the package in force at receipt
+PASS execution is accepted
+PASS starting execution plans an erasure that waits for a second person
+PASS an estate file with an invalid row is refused whole in the browser
+PASS uploaded rows are applied from the checkpoint
+PASS the history lookup names the version in effect at each time
+PASS delivery evidence is recorded against the version shown
+PASS an imported package waits for a second approver and is not in force
+PASS an exemption is recorded with its basis and keeps the original
+PASS evidence records and operational events are listed
+PASS no request left the local origin
+PASS no page or console error occurred
+Artifact: handoffs/codex/artifacts/A00-operations-operations-screens-browser-1790885567922-b2072d67-8e5a-412b-aa1c-9e59eebb6aa3.json
+
+30 assertions, 0 failures.

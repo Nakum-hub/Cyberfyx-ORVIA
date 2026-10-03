@@ -126,7 +126,7 @@ export async function submitEvidenceFile(c: Context, controlId: string, input: u
   return fileView(await fileRow(c, id));
 }
 export async function evidenceFileList(c: Context, page: Page) {
-  const rows = (await c.tx.query(`SELECT ${FILE_COLUMNS} FROM app.evidence_files WHERE ${predicate} AND ($4::uuid IS NULL OR id>$4) ORDER BY id LIMIT $5`, [...scope(c), page.cursor, page.limit + 1])).rows;
+  const rows = (await c.tx.query(`SELECT ${FILE_COLUMNS} FROM app.evidence_files WHERE ${predicate} AND ($4::uuid IS NULL OR (uploaded_at,id) < (SELECT uploaded_at,id FROM app.evidence_files WHERE ${predicate} AND id=$4)) ORDER BY uploaded_at DESC, id DESC LIMIT $5`, [...scope(c), page.cursor, page.limit + 1])).rows;
   const items = rows.slice(0, page.limit).map(fileView);
   return D.EvidenceFileList.parse({ items, next_cursor: rows.length > page.limit ? Buffer.from(items.at(-1)!.id).toString('base64url') : null });
 }
@@ -168,7 +168,7 @@ export async function engagement(c: Context, id: string) {
   return D.AuditEngagement.parse({ ...engagementBase(r), packages: await packageSummaries(c, id), imports: imports.map(importSummary) });
 }
 export async function engagementList(c: Context, page: Page) {
-  const rows = (await c.tx.query(`SELECT * FROM app.audit_engagements WHERE ${predicate} AND ($4::uuid IS NULL OR id>$4) ORDER BY id LIMIT $5`, [...scope(c), page.cursor, page.limit + 1])).rows;
+  const rows = (await c.tx.query(`SELECT * FROM app.audit_engagements WHERE ${predicate} AND ($4::uuid IS NULL OR (created_at,id) < (SELECT created_at,id FROM app.audit_engagements WHERE ${predicate} AND id=$4)) ORDER BY created_at DESC, id DESC LIMIT $5`, [...scope(c), page.cursor, page.limit + 1])).rows;
   const items = rows.slice(0, page.limit).map(engagementBase);
   return D.AuditEngagementList.parse({ items, next_cursor: rows.length > page.limit ? Buffer.from(items.at(-1)!.id).toString('base64url') : null });
 }

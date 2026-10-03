@@ -1,0 +1,37 @@
+{"prerequisite_command":["C:\\Cyberfyx-projects\\Cyberfyx_ORVIA\\.local\\tools\\node-v24.21.0-win-x64\\node.exe","--import","tsx","scripts/machine-init.ts","confirm:codex-a00"]}
+Local machine enrollment and isolated synthetic targets provisioned; credentials remain protected; existing target restrictions preserved.
+{"prerequisite":"MACHINE_ENROLLMENT","code":0,"signal":null}
+PASS auditor cannot terminate the engagement
+PASS foreign tenant cannot read the disposition run
+PASS the durable control really contains manual pending work
+PASS the actual scoped admission matches owned executable or manual-waiting work
+PASS the owned scope reports no background errors
+PASS manual-only waiting consumes no background execution audit
+PASS manual action state, target outcome, verification and attempts remain intact
+PASS manual waiting is not promoted to successful completion
+PASS all synthetic rows import in the declared bounded batch
+PASS the genuine run has more actions than one execution batch
+PASS auditor cannot execute this run
+PASS the actual scoped admission matches owned executable or manual-waiting work
+PASS the owned scope reports no background errors
+PASS a progressing run continues through both batches
+PASS all target records are independently read back suppressed
+PASS the actual scoped admission matches owned executable or manual-waiting work
+PASS the owned scope reports no background errors
+PASS actual durable uncertain result remains inconclusive and unverified
+PASS uncertainty is not reported as completed verified
+PASS target execution is not repeated while verification is unavailable
+PASS the recovery owns exactly one existing action
+PASS a row edit cannot promote uncertainty without a fresh independent verification
+PASS auditor cannot recover the uncertain action
+PASS foreign tenant cannot recover the uncertain action
+PASS a real independent read recovers the run
+PASS recovery preserves action identity, effect uncertainty and original attempt
+PASS exactly one new independent PASS is linked to new matching connector evidence
+PASS target operation ledger is unchanged by read-only recovery
+PASS dispatch attempt history is unchanged by read-only recovery
+PASS recovered target is independently read back suppressed
+PASS earlier manual waiting still remains pending after all other work
+Artifact: handoffs/codex/artifacts/A00-operations-runner-persisted-progress-1790913215705-7781530b-a6cd-42b1-bfa8-d974580657c7.json
+
+31 assertions, 0 failures.

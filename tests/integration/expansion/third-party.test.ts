@@ -1,3 +1,4 @@
+import { allPageList } from '../../../shared/testing/src/all-pages.ts';
 // EX08 third-party lifecycle through the real HTTP boundary.
 // Under test: agreements with purpose/region/sub-processor restrictions and
 // expiry compared with recorded engagements; supersession and termination;
@@ -152,7 +153,7 @@ await t.run(async () => {
   st = await ok(admin.call(`/api/v1/admin/processors/${processor.id}/third-party-standing`), Standing);
   check('terminating the agreement leaves active processing without an agreement', st.violations.some(v => v.kind === 'NO_AGREEMENT_IN_FORCE'), true);
   check('an agreement is terminated once', (await admin.call(`/api/v1/admin/processor-agreements/${corrected.id}/termination`, { reason: 'A second termination must fail.' }, key())).status, 409);
-  const summary = await ok(admin.call('/api/v1/admin/third-party-standing?limit=100'), S.schemas.ThirdPartySummaryList);
+  const summary = await allPageList(p => admin.call(p), '/api/v1/admin/third-party-standing', value => S.schemas.ThirdPartySummaryList.parse(value));
   check('the overview lists the processor with its gaps', summary.items.find(i => i.processor_id === processor.id)?.violations.includes('NO_AGREEMENT_IN_FORCE'), true);
   check('another tenant cannot read the standing', (await birch.call(`/api/v1/admin/processors/${processor.id}/third-party-standing`)).status, 404);
   check('an auditor can read standing but cannot record an agreement', [(await auditor.call(`/api/v1/admin/processors/${processor.id}/third-party-standing`)).status,

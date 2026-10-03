@@ -40,9 +40,14 @@ test('there is no vendor actor anywhere in this product', () => {
   // questionnaire through a link customer staff issued: one draft assessment,
   // expiring, revocable, no account. It is not the ORVIA vendor, and it carries
   // exactly one capability that grants nothing beyond that questionnaire.
-  assert.deepEqual(authorities, ['MACHINE', 'PRINCIPAL', 'PUBLIC', 'STAFF', 'STAFF_OR_PRINCIPAL', 'SUPPLIER_LINK']);
+  // INTAKE_CLIENT (revision 1.7) is the customer organisation's own website or app sending what its signed-in customers did,
+  // with a key customer staff created: server-to-server, revocable, able only to add and read its own submissions.
+  assert.deepEqual(authorities, ['INTAKE_CLIENT', 'MACHINE', 'PRINCIPAL', 'PUBLIC', 'STAFF', 'STAFF_OR_PRINCIPAL', 'SUPPLIER_LINK']);
   const supplierRoutes = routes.filter(route => route.authority === 'SUPPLIER_LINK');
   assert.deepEqual(supplierRoutes.map(route => [route.path.startsWith('/api/v1/supplier/'), route.capability]), supplierRoutes.map(() => [true, 'supplier.respond']));
+  const intakeRoutes = routes.filter(route => route.authority === 'INTAKE_CLIENT');
+  assert.deepEqual(intakeRoutes.map(route => [route.path.startsWith('/api/v1/intake/'), route.capability]), intakeRoutes.map(() => [true, 'intake.submit']));
+  assert.equal(intakeRoutes.length, 3);
   assert.ok(!authorities.some(a => /VENDOR/i.test(a)), 'a vendor authority exists');
   // And the audit trail cannot attribute an act to a vendor either, which is
   // what FR-M33-02's separation rests on.

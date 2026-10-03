@@ -1,0 +1,23 @@
+[
+  {
+    "engine": "chromium",
+    "result": "PASS",
+    "delayed_content_ms": 2546,
+    "plain_vendor_loading_status": "AWAITED",
+    "permanently_stuck_loader": "REJECTED_AS_REQUIRED"
+  },
+  {
+    "engine": "webkit",
+    "result": "PASS",
+    "delayed_content_ms": 2565,
+    "plain_vendor_loading_status": "AWAITED",
+    "permanently_stuck_loader": "REJECTED_AS_REQUIRED"
+  },
+  {
+    "engine": "firefox",
+    "result": "PASS",
+    "delayed_content_ms": 2580,
+    "plain_vendor_loading_status": "AWAITED",
+    "permanently_stuck_loader": "REJECTED_AS_REQUIRED"
+  }
+]

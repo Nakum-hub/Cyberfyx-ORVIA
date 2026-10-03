@@ -1,0 +1,39 @@
+{"prerequisite_command":["C:\\Cyberfyx-projects\\Cyberfyx_ORVIA\\.local\\tools\\node-v24.21.0-win-x64\\node.exe","--import","tsx","scripts/machine-init.ts","confirm:codex-a00"]}
+Local machine enrollment and isolated synthetic targets provisioned; credentials remain protected; existing target restrictions preserved.
+{"prerequisite":"MACHINE_ENROLLMENT","code":0,"signal":null}
+Authentication fixture idle window: 61s remaining; controls unchanged.
+Authentication fixture idle window: 31s remaining; controls unchanged.
+Authentication fixture idle window: 1s remaining; controls unchanged.
+PASS a discovery needs an enabled site
+PASS a read-only role cannot request a discovery
+PASS an origin the site does not have is refused
+PASS a second request while one is queued is refused
+PASS the declared link is followed, not the footer link
+PASS the policy text, title, language, terms link and digest are kept; no findings on a first discovery
+PASS only the home page and the one policy document were read (no crawl)
+PASS the third-party tracker on the page was never contacted
+PASS the retrieved text can be read and matches the digest
+PASS no attention for a healthy first discovery
+PASS a recheck of the same text says unchanged
+PASS changed text is flagged for review
+PASS a changed policy raises Operations attention
+PASS a read-only role cannot record the review
+PASS the review is recorded with who and when, and clears attention
+PASS a discovery is reviewed once
+PASS without a declaration, a link named "Privacy Policy" is found and the site is told to declare it
+PASS a Hindi link text (गोपनीयता नीति) is recognised
+PASS no policy at all is HIGH and nothing else is read; a link merely containing "privacy" is not taken
+PASS a missing policy raises attention
+PASS a policy declared on an unapproved origin is reported and never fetched
+PASS a broken policy address is HIGH and its text is not kept
+PASS a near-empty policy page is HIGH
+PASS none of these discoveries contacted the third-party tracker
+PASS no rediscovery is scheduled within a week of the last
+PASS a week later the worker queues and runs a rediscovery by itself
+PASS another tenant sees nothing
+PASS a completed discovery's text cannot be rewritten
+PASS a discovery cannot be deleted
+PASS a disabled site takes no new discovery
+Artifact: handoffs/codex/artifacts/A00-operations-policy-discovery-1790873196461-d7780a99-cbed-4220-b5e8-91ad8d4973da.json
+
+30 assertions, 0 failures.

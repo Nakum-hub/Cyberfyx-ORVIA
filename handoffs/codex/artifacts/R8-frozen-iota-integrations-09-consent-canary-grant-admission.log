@@ -1,0 +1,39 @@
+{"prerequisite_command":["C:\\Cyberfyx-projects\\Cyberfyx_ORVIA\\.local\\tools\\node-v24.21.0-win-x64\\node.exe","--import","tsx","scripts/machine-init.ts","confirm:codex-a00"]}
+Local machine enrollment and isolated synthetic targets provisioned; credentials remain protected; existing target restrictions preserved.
+{"prerequisite":"MACHINE_ENROLLMENT","code":0,"signal":null}
+Authentication fixture idle window: 61s remaining; controls unchanged.
+Authentication fixture idle window: 31s remaining; controls unchanged.
+Authentication fixture idle window: 1s remaining; controls unchanged.
+PASS Diagnostic decoy: synthetic fixture
+PASS Ordinary control: synthetic fixture
+PASS agent cannot act as sender
+PASS foreign sender cannot address this target
+PASS human staff session cannot admit a send
+PASS auditor cannot record a canary receipt
+PASS foreign tenant cannot retire the active decoy
+PASS registered grant is current in the registry model
+PASS registered grant records exactly one consent hit
+PASS diagnostic admission HTTP status
+PASS registry-only grant does not satisfy the separate A00 admission model
+PASS diagnostic admission HTTP status
+PASS ordinary synthetic control satisfies real published-policy and target gates
+PASS adverse A00 grant triggers a second consent hit
+PASS adverse aggregate has matching grant and no unresolved suppression
+PASS independent synthetic target matches generation and has no restriction or quarantine
+PASS diagnostic admission HTTP status
+DIAGNOSTIC canary grant admission observation {"stage":"ACTIVE_CANARY_WITH_REGISTRY_AND_A00_GRANTS","result":{"attempt_id":"5248b436-50a4-4d37-a843-fa462278667a","decision":"ALLOW","send_record_id":"c6848ddb-dec1-4908-ade7-ff79de788489","admitted_at":"2026-10-02T03:18:52.813Z","evaluated_epoch":1,"reason_codes":["CURRENT_MARKETING_AUTHORITY"]},"before":{"decisions":1,"sends":0,"send_hits":1,"consent_hits":2},"after":{"decisions":2,"sends":1,"send_hits":2,"consent_hits":2},"delta":{"decisions":1,"sends":1,"send_hits":1,"consent_hits":0},"gates":{"state":"GRANTED","matching_notice":true,"no_unresolved_suppression":true},"target":{"generation":1,"marketing_restricted":false,"quarantined":false},"ordinary_control":{"attempt_id":"b94dc434-2d3a-4dae-bd33-85d179b575a5","decision":"ALLOW","send_record_id":"ca4e646e-9484-42c8-a0de-c03f55bd3edf","admitted_at":"2026-10-02T03:18:52.674Z","evaluated_epoch":1,"reason_codes":["CURRENT_MARKETING_AUTHORITY"]},"classification":"OBSERVED_ALLOW_CONTRADICTS_UNCONDITIONAL_BLOCK_COMMENT","migration_comment_claim":"SEND_ADMISSION decision is BLOCK","policy_acceptance":"NOT_ASSERTED_OWNER_DECISION_PENDING"}
+PASS diagnostic obtains a determinate result rather than claiming an outage as policy behavior
+PASS observed decision and durable effects agree, with exactly one trap hit
+PASS admission result does not explicitly reveal the canary
+PASS diagnostic admission HTTP status
+PASS same HTTP idempotency key returns the exact observation
+PASS diagnostic admission HTTP status
+PASS same attempt under a new HTTP key returns the exact observation
+PASS replays produce no new decision, send or canary hit
+PASS changed payload under the same HTTP key is refused
+PASS changed payload for the same attempt under a new key is refused
+PASS conflicting replays leave durable counts unchanged
+Artifact: handoffs/codex/artifacts/A00-operations-canary-grant-admission-diagnostic-1790911133071-f372e23b-8604-440a-96d1-772e89e69b62.json
+
+28 assertions, 0 failures.
+Artifact: handoffs/codex/artifacts/A00-canary-grant-admission-observation-1790911133073-4cf0fbd6-923c-4bad-82b1-4da6fbb18047.json

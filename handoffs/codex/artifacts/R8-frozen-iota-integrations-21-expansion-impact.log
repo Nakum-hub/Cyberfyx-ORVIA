@@ -1,0 +1,50 @@
+{"prerequisite_command":["C:\\Cyberfyx-projects\\Cyberfyx_ORVIA\\.local\\tools\\node-v24.21.0-win-x64\\node.exe","--import","tsx","scripts/machine-init.ts","confirm:codex-a00"]}
+Local machine enrollment and isolated synthetic targets provisioned; credentials remain protected; existing target restrictions preserved.
+{"prerequisite":"MACHINE_ENROLLMENT","code":0,"signal":null}
+Authentication fixture idle window: 61s remaining; controls unchanged.
+Authentication fixture idle window: 31s remaining; controls unchanged.
+Authentication fixture idle window: 1s remaining; controls unchanged.
+PASS a question rule must trigger on a valid answer
+PASS a new template starts as a draft, version 1
+PASS an organisation admin cannot publish
+PASS an assessment cannot use a draft template
+PASS a super admin who did not author it publishes it
+PASS the author cannot publish their own template
+PASS the same key records the next version
+PASS a template keeps its kind across versions
+PASS an assessment of a missing subject is refused
+PASS a new assessment is a draft that names what is missing
+PASS it cannot be submitted incomplete
+PASS an answer outside the choices is refused
+PASS an answer without the evidence its question requires is still missing
+PASS the cited evidence completes the answers
+PASS submission raises one finding from the answer rule, which blocks approval
+PASS answers cannot change after submission
+PASS an organisation admin cannot decide
+PASS an unresolved finding blocks approval
+PASS a resolution without evidence is refused by the contract
+PASS a planned remediation still blocks approval
+PASS an admin without approval authority cannot accept the risk
+PASS a second person accepts the risk with an expiry; it no longer blocks
+PASS an independent approver approves and a review date is set from the template
+PASS a decision is taken once
+PASS the creator and submitter cannot approve their own assessment
+PASS a different super admin records the rejection
+PASS a retest is a new draft revision carrying prior answers forward
+PASS a decided assessment is revised once
+PASS approving the retest supersedes the predecessor, which is kept
+PASS an overdue open finding is flagged
+PASS the sweep escalates the overdue finding
+PASS a second sweep escalates it no more
+PASS an open finding cannot be reopened
+PASS an answer cannot be edited at the database
+PASS an assessment cannot be deleted at the database
+PASS a published template version cannot be rewritten at the database
+PASS an approved assessment cannot be moved back to draft at the database
+PASS another tenant cannot read the assessment
+PASS an auditor can read assessments
+PASS an auditor cannot create one
+PASS the list filters by status
+Artifact: handoffs/codex/artifacts/A00-operations-impact-assessments-1790912306511-36cc3ce3-37b7-434a-8529-922bb8930cab.json
+
+41 assertions, 0 failures.

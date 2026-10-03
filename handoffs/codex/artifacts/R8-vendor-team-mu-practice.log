@@ -1,0 +1,114 @@
+PASS practice: real use is refused until every gate is recorded
+PASS practice: an auditor cannot record criteria
+PASS practice: baseline recorded as TEST_FIXTURE criteria with its digest
+PASS practice: an administrator cannot approve criteria
+PASS methodology: a matrix whose rating falls as risk rises is refused
+PASS configure: an unapproved methodology is refused
+PASS methodology: a reviewer who did not record it approves it
+PASS configure: a REAL engagement on test-fixture criteria is refused
+PASS gates: only the super administrator records a gate
+PASS gates: a former legal-review gate name is refused by the contract
+PASS gates: the database refuses a new row under a legacy gate name
+PASS gates: all four gates are missing on a fresh vendor database
+PASS gates: a development audit key cannot pass the production key gate
+PASS gates: production criteria gate needs approved production criteria
+PASS fieldwork before acceptance is refused
+PASS channel requests before acceptance are refused
+PASS independence: a commercial owner cannot be the engagement reviewer
+PASS acceptance: a statutory SDF claim needs applicability basis and eligibility evidence
+PASS acceptance: the statutory SDF audit is not offered (decision D1), even with basis and evidence
+PASS acceptance: the database refuses a statutory SDF acceptance too
+PASS acceptance: licence independence cannot be declared false
+PASS acceptance: an administrator cannot decide it
+PASS acceptance: refused while a conflict is open
+PASS conflict: a safeguard must be stated
+PASS independence: a person with prior implementation work stays barred from review authority
+PASS acceptance: a REAL engagement is refused while activation gates are missing
+PASS acceptance: recorded with the decider and rationale
+PASS acceptance: terms and configuration are fixed once decided
+PASS independence: engagement file is team-only; an administrator sees acceptance but no fieldwork
+PASS scope: the acceptance helper answers a team member and not a person outside the team (application role)
+PASS scope: the conclusion-support helper says nothing to a person outside the team (application role)
+PASS scope: the application role cannot call the internal review-bar helper
+PASS scope: no vendor definer function is executable by PUBLIC
+PASS understanding: contact details are redacted before storage
+PASS understanding: the preparer cannot review it
+PASS applicability: an unresolved decision must state its question
+PASS applicability: provisions must be cited by the requirement
+PASS scope: a requirement without an applicability decision cannot be scoped
+PASS scope: unresolved applicability is carried as a stated limitation
+PASS scope: the lead cannot approve the scope
+PASS scope: a direct edit of the engagement scope is refused
+PASS scope: a revision needs a reason and an impact assessment
+PASS scope: the approved revision becomes the engagement scope, with its change shown
+PASS risk: ratings come from the approved matrix and residual steps
+PASS risk: a client-supplied rating is never used; computed HIGH
+PASS plan: a high residual risk without an operating-effectiveness procedure blocks approval
+PASS plan: record-level testing is always operating effectiveness
+PASS fieldwork: a working paper before the programme is approved is refused
+PASS plan: the author of the programme cannot approve it
+PASS plan: a procedure added after approval un-approves the programme until re-approved
+PASS evidence: a management statement cannot be registered as a document
+PASS evidence: provenance, hash and access are recorded
+PASS evidence: an assertion is never high-reliability
+PASS working paper: assertions alone cannot support EFFECTIVE
+PASS working paper: stale evidence cannot support EFFECTIVE
+PASS working paper: contradictory evidence blocks EFFECTIVE
+PASS working paper: free text is screened and versioned with a digest
+PASS requests: an overdue open request is flagged
+PASS requests: accepting before any response is refused
+PASS requests: a response links registered evidence
+PASS requests: lifecycle recorded with every event
+PASS sampling: operating effectiveness needs a tested population
+PASS sampling: passed plus exceptions must equal tested
+PASS sampling: a complete population names its completeness evidence
+PASS sampling: an assertion does not prove completeness
+PASS sampling: a sample from an unverified population cannot support EFFECTIVE
+PASS sampling: interviews alone are not proof even with a population
+PASS sampling: aggregates are no substitute for record-level testing
+PASS working paper: a sample with exceptions cannot be EFFECTIVE
+PASS working paper: evidence not evaluated for this procedure cannot support it
+PASS review: the preparer cannot review their own paper
+PASS review: an open review note blocks review
+PASS review: only the preparer answers a note
+PASS review: a reviewed working paper version is immutable
+PASS finding: rests on an adverse working paper for its requirement
+PASS finding: a recommendation is never a command
+PASS finding: carries criteria, condition, cause, consequence and severity rationale
+PASS finding: the legacy event route cannot set retest or closure
+PASS finding: status cannot be set to RETEST_PASSED without a retest
+PASS MEETS refused while a statutory finding is open
+PASS retest: needs a management response first
+PASS retest: a paper that is not a retest procedure for this finding is refused
+PASS retest: evidence collected before the finding cannot pass it
+PASS retest: a reviewer outside the engagement cannot even see the finding
+PASS retest: RETEST_PASSED only with the retest procedure, fresh evidence and a different reviewer
+PASS closure: an auditor cannot close as verified remediation
+PASS closure: verified remediation recorded and final
+PASS risk acceptance: refused unless the client proposed it
+PASS risk acceptance: at most one year
+PASS closure: risk accepted needs an acceptance record
+PASS risk acceptance: the finding stays on file, closed as risk accepted
+PASS report: approval refused while a scoped requirement has no conclusion
+PASS report: approval binds the snapshot digest
+PASS report: the bound digest cannot be changed
+PASS report: signing refuses a snapshot changed after approval
+PASS report: signed document carries the snapshot digest, criteria, coverage and visible marks
+PASS report: the PDF shows the synthetic, test-fixture and development-key marks and the executive summary
+PASS report: accepted risk and unobtainable evidence stay visible
+PASS correction: only a signed report is corrected
+PASS correction: the corrected report names what it supersedes and the original is superseded
+PASS hold: an administrator cannot authorise a legal hold
+PASS hold: retention does not purge an engagement under an active hold
+PASS hold: once released, retention purges the evidence
+PASS findings: every finding ends closed with a recorded closure type
+PASS production criteria: an auditor cannot record them
+PASS production criteria: a TEST_FIXTURE package is refused
+PASS production criteria: a package signed with another key is refused
+PASS production criteria: a package changed after signing is refused
+PASS production criteria: recorded as PRODUCTION with every requirement and a digest
+PASS production criteria: the same version cannot be recorded twice
+PASS production criteria: recorded unapproved; a REAL engagement cannot use them yet
+PASS production criteria: once approved, the production-criteria gate can be recorded
+
+audit-practice: 112/112 passed

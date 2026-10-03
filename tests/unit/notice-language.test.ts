@@ -111,5 +111,7 @@ test('recording a language choice is the principal’s own act', () => {
   assert.equal(set.capability, 'consent.own.write');
   // Staff may read which languages exist; they do not set anybody's choice.
   const staff = language.filter(route => route.authority === 'STAFF');
-  assert.deepEqual(staff.map(route => route.method), ['get']);
+  // Staff routes about languages only read (availability, and the Eighth Schedule drift report).
+  assert.ok(staff.length >= 1 && staff.every(route => route.method === 'get'), `a staff language route writes: ${staff.filter(r => r.method !== 'get').map(r => r.id).join(', ')}`);
+  assert.ok(staff.some(route => route.id === 'notice_language_drift'));
 });

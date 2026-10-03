@@ -4,7 +4,6 @@ import { WorkflowIdReusePolicy } from '@temporalio/common';
 import { createPrivateKey,randomUUID } from 'node:crypto';
 import { readFileSync } from 'node:fs';
 import { resolve } from 'node:path';
-import { fileURLToPath } from 'node:url';
 import { runtimeConfig } from '../../../backend/auth/src/config.ts';
 import { renewingEnrollment, workerEnrollment } from '../../../backend/auth/src/machine-profile.ts';
 import { servicePool,machineAuthority } from '../../../backend/auth/src/machine.ts';
@@ -13,6 +12,7 @@ import { prepareWorkflow,actionReceipt,observeAction,finishWorkflow } from '../.
 import { predicate,scopeValues,audit,type Context } from '../../../backend/domain/src/shared/transaction.ts';
 import { connectTemporal } from './probe-client.ts';
 import { reconcile } from '../../../backend/domain/src/evidence/evidence.ts';
+import { loadWorkerWorkflowBundle } from './workflow-bundle.ts';
 
 export function workflowActivities() {
  const config=runtimeConfig();const currentEnrollment=renewingEnrollment(()=>workerEnrollment(config));
@@ -37,9 +37,16 @@ export function workflowActivities() {
 }
 export type Activities=ReturnType<typeof workflowActivities>['activities'];
 export async function createWithdrawalWorker() {
- const runtime=workflowActivities();const connection=await NativeConnection.connect({address:`127.0.0.1:${runtime.config.temporal_port}`});
- const worker=await Worker.create({connection,namespace:runtime.config.temporal_namespace,taskQueue:'orvia-withdrawals-v1',workflowsPath:fileURLToPath(new URL('./withdrawal-workflows.ts',import.meta.url)),activities:runtime.activities,maxConcurrentActivityTaskExecutions:2,maxConcurrentWorkflowTaskExecutions:2,maxCachedWorkflows:10});
- return {...runtime,worker,connection};
+ const workflowBundle=loadWorkerWorkflowBundle();
+ const runtime=workflowActivities();let connection:NativeConnection|undefined;
+ try {
+  connection=await NativeConnection.connect({address:`127.0.0.1:${runtime.config.temporal_port}`});
+  const worker=await Worker.create({connection,namespace:runtime.config.temporal_namespace,taskQueue:'orvia-withdrawals-v1',workflowBundle,activities:runtime.activities,maxConcurrentActivityTaskExecutions:2,maxConcurrentWorkflowTaskExecutions:2,maxCachedWorkflows:10});
+  return {...runtime,worker,connection};
+ } catch(error) {
+  await Promise.allSettled([connection?.close(),runtime.close()]);
+  throw error;
+ }
 }
 export async function dispatchOutbox(runtime: ReturnType<typeof workflowActivities>, afterStart?: (workflowId: string,eventId: string)=>Promise<void>) {
  const temporal=await connectTemporal(runtime.config);let count=0;

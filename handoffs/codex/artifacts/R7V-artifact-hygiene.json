@@ -1,0 +1,5 @@
+{
+  "files_checked": 285,
+  "findings": [],
+  "scope": "New R7V text artifacts and staged A00/crawl text artifacts; heuristic credential scan plus manual instrumentation review, not a general secret-scanner certification."
+}

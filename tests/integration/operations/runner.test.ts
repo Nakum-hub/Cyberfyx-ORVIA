@@ -1,3 +1,4 @@
+import { allPageList } from '../../../shared/testing/src/all-pages.ts';
 // DPDP operations: background runner (implementation plan s7 "jobs and timers").
 // Under test: work left mid-way by staff is resumed by the enrolled WORKER
 // identity: an estate import still processing completes, a retention evaluation
@@ -60,7 +61,7 @@ await t.run(async () => {
     check('after approval the runner executes and every erasure is verified', [done.status, done.counts.verified], ['COMPLETED_VERIFIED', 30]);
     await runner.once();
     check('running again applies nothing twice', Number((await target.pool.query('SELECT count(*) n FROM subject_operations WHERE system_id=$1', [system.id])).rows[0].n), 30);
-    const actions = await ok(admin.call(`/api/v1/admin/workflow-runs/${run.id}/actions?limit=100`), S.schemas.DownstreamActionList);
+    const actions = await allPageList(p => admin.call(p), `/api/v1/admin/workflow-runs/${run.id}/actions`, value => S.schemas.DownstreamActionList.parse(value));
     check('verification was independent of execution', actions.items.every(a => a.verifications[0]?.method === 'INDEPENDENT_READ_BACK'), true);
   } finally { await runner.close(); await target.end(); }
 });

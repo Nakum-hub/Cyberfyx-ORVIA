@@ -1,0 +1,2 @@
+FAIL healthy policies do not satisfy the privacy tests
+{"label":"policy-fault-before","fault":true,"gate_exit_code":1,"calls":[],"healthy_control":false,"all_mutants_semantically_detected":true}

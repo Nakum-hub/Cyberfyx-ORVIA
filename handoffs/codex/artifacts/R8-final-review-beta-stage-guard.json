@@ -1,0 +1,11 @@
+{
+  "diagnostic_only": true,
+  "stage_command_exit_code": 1,
+  "git_add_started": false,
+  "error_class": "PNG_METADATA_ALLOWLIST_INCOMPLETE",
+  "observed_webkit_metadata": { "sBIT_length": 4, "iCCP_length": 260, "occurrences_each": 204 },
+  "historical_empty_png": "output/playwright/round8/matrix-final-eta/webkit/customer-owner-desktop-workspace_registry_retention.png",
+  "historical_empty_png_bytes": 0,
+  "application_tests_repeated": false,
+  "screenshots_modified": false
+}

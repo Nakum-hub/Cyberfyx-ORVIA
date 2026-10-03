@@ -1,3 +1,4 @@
+import { allPageList } from '../../../shared/testing/src/all-pages.ts';
 import assert from 'node:assert/strict';
 import { randomUUID } from 'node:crypto';
 import { execFile,spawn,type ChildProcess } from 'node:child_process';
@@ -9,6 +10,7 @@ import { createMarketingScenario } from '../../../shared/testing/src/scenario.ts
 import { writeEvidence,safeError } from '../../../shared/testing/src/evidence.ts';
 import { connectDatabase } from '../../../database/customer/src/index.ts';
 import { loadProfile } from '../../../shared/testing/src/config.ts';
+import { customerEnvironment } from '../../../scripts/credentials.ts';
 import * as S from '../../../shared/contracts/src/index.ts';
 import { digest } from '../../../shared/contracts/src/crypto.ts';
 import { observerEnrollment,agentEnrollment,senderEnrollment } from '../../../backend/auth/src/machine-profile.ts';
@@ -18,7 +20,7 @@ const assertions:{name:string;result:'PASS'|'FAIL';expected:unknown;actual:unkno
 function check(name:string,actual:unknown,expected:unknown){try{assert.deepEqual(actual,expected);assertions.push({name,result:'PASS',expected,actual});console.log('PASS '+name);}catch{assertions.push({name,result:'FAIL',expected,actual});throw new Error('Assertion failed');}}
 const run=promisify(execFile);
 const cli=(file:string,args:string[]=[])=>run(process.execPath,['--import','tsx',file,`confirm:${profile.profile}`,...args],{encoding:'utf8',windowsHide:true,timeout:60000});
-function start(file:string){const child=spawn(process.execPath,['--import','tsx',file],{windowsHide:true,stdio:['ignore','pipe','pipe'],env:{...process.env,ORVIA_WORKSPACE_ROOT:process.cwd()}});child.stdout?.on('data',c=>{output+=c;});child.stderr?.on('data',c=>{output+=c;});children.push(child);return child;}
+function start(file:string){const child=spawn(process.execPath,['--import','tsx',file],{windowsHide:true,stdio:['ignore','pipe','pipe'],env:customerEnvironment({...process.env,ORVIA_WORKSPACE_ROOT:process.cwd()},profile.profile)});child.stdout?.on('data',c=>{output+=c;});child.stderr?.on('data',c=>{output+=c;});children.push(child);return child;}
 async function stop(child:ChildProcess){if(child.exitCode===null&&child.signalCode===null){const closed=once(child,'close');child.kill();await closed;}}
 async function until<T>(read:()=>Promise<T>,ready:(value:T)=>boolean){for(let i=0;i<160;i++){const value=await read();if(ready(value))return value;await new Promise(r=>setTimeout(r,500));}throw new Error('Durable state timeout');}
 const clients=new Map<string,ReturnType<HttpFixture['browser']>>();const login=h.login.bind(h);h.login=async name=>{let browser=clients.get(name);if(!browser){browser=await login(name);clients.set(name,browser);}return browser;};
@@ -73,7 +75,7 @@ try{
  const assigned=S.Workflow.parse(await (await member.call('/api/v1/admin/workflows/'+manualId)).json());check('member sees only exact assigned workflow',assigned.id,manualId);
  check('member still cannot see other workflow',(await member.call('/api/v1/admin/workflows/'+mandatoryId)).status,404);
  const assignments=(await db.query('SELECT workflow_id FROM app.workflow_assignments WHERE staff_actor_id=$1 ORDER BY workflow_id',[h.users.member!.id])).rows.map(r=>r.workflow_id);
- check('member list equals exact persisted assignments',S.schemas.WorkflowList.parse(await (await member.call('/api/v1/admin/workflows?limit=100')).json()).items.map(w=>w.id).sort(),assignments);
+ check('member list equals exact persisted assignments',(await allPageList(p => member.call(p), '/api/v1/admin/workflows', value => S.schemas.WorkflowList.parse(value))).items.map(w=>w.id).sort(),assignments);
  const task=assigned.obligations[0]!;const storedVersion=Number((await db.query('SELECT manual_version FROM app.obligations WHERE id=$1',[task.id])).rows[0].manual_version);
  check('manual task read exposes authoritative stored version',task.task_version,storedVersion);
  const attestation={statement:'Synthetic operator reports completing the declared manual restriction task.',evidence_record_ids:[manualWithdrawal.receipt.receipt_id],expected_task_version:task.task_version};

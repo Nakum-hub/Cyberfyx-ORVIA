@@ -8,6 +8,16 @@
 
 **2026-09-29 owner decision (revision 1.6 addendum):** read `docs/engineering/V1_BASELINE_REV_1_6_AUDIT_MANDATE.md`: audit mandate, ORVIA-generated signed evidence, auditor-driven requests over an outbound-only channel, continuous assurance under a separate mandate; file fallback retained. **2026-09-30 owner decision:** real engagements may proceed without an external legal review (recorded in that addendum); a signed engagement letter and processing agreement with each client, and the per-item exception for any personal data, remain required.
 
+**2026-09-30 owner decision (revision 1.7 addendum):** read `docs/engineering/V1_BASELINE_REV_1_7_ORGANISATION_INTAKE.md`: the organisation's own website or app sends consent changes and rights requests to its installation with an intake key (Rule 14(1)); the Privacy Centre is optional and off by default.
+
+**2026-09-30 owner decision (revision 1.8 addendum):** read `docs/engineering/V1_BASELINE_REV_1_8_OWNER_RECOVERY.md`: customer-held owner recovery by a protected command on the installation server (OPEN-07).
+
+**2026-10-01 owner decision (revision 1.9 addendum):** read `docs/engineering/V1_BASELINE_REV_1_9_REAL_PRINCIPALS.md`: real people are admitted on a qualified installation only by a one-way protected command on its server (go-live C1); Data Principal identifiers are email only.
+
+**2026-10-01 owner decisions (revision 1.10 addendum):** read `docs/engineering/V1_BASELINE_REV_1_10_CANARY_AND_CRITERIA_REVIEW.md`: an active withdrawal canary is never admitted for marketing; real-person decoys are allowed but nothing is ever delivered to them; production criteria evidence is shown and acknowledged before approval; a restore older than the erasure ledger is flagged for manual review, never reported as complete.
+
+**No assumptions about how people reach a feature (added 2026-09-30).** Every feature meant for the organisation's customers (Data Principals) or staff must state which channel those people actually use to reach it, checked against the law (for Data Principals, Rule 14(1)) and against the kinds of organisation it is sold to. A question about user behaviour or product direction that the master, the addenda, the law or the owner has not settled goes to the owner as an open question before it is built. Record the answer in an addendum.
+
 Build ORVIA Version 1 as a customer-local, production-intended product. The earlier internal prototype is historical engineering evidence, not the delivery target. Read, in order:
 1. `ORVIA_V1_Unified_Master_Rev_1_4_Vendor_Support_and_Data_Onboarding.md` (repository root) — approved product baseline, **document revision 1.4** (vendor support and data onboarding update, 19 September 2026). This supersedes `docs/source/ORVIA_Version_1_Unified_Master_with_Version_2_AI_Roadmap.md` and `ORVIA_V1_Master_with_Engineering_Breakdown(full idea).md`, both still revision 1.3 and kept only as historical reference — do not treat either as the current baseline for new work.
 2. `docs/prototype/SOURCE_ALIGNMENT.md` and `docs/prototype/EXECUTION_PLAN.md` — historical bounded sprint addendum, written against revision 1.3; use as evidence of prior work, not as a limit on Version 1 scope. Re-check any section they cite against the 1.4 master.

@@ -45,7 +45,7 @@ export async function createTemplate(c: Context, input: unknown) {
 }
 
 export async function templateList(c: Context, page: Page) {
-  const result = await c.tx.query(`SELECT document FROM app.notification_templates WHERE ${predicate} AND ($4::uuid IS NULL OR id>$4) ORDER BY id LIMIT $5`, [...scopeValues(c.actor), page.cursor, page.limit + 1]);
+  const result = await c.tx.query(`SELECT document FROM app.notification_templates WHERE ${predicate} AND ($4::uuid IS NULL OR (recorded_at,id) < (SELECT recorded_at,id FROM app.notification_templates WHERE ${predicate} AND id=$4)) ORDER BY recorded_at DESC, id DESC LIMIT $5`, [...scopeValues(c.actor), page.cursor, page.limit + 1]);
   return paged(result.rows.map(row => S.Template.parse(row.document)), page);
 }
 
@@ -122,7 +122,7 @@ export async function createNotificationTask(c: Context, input: unknown) {
 export async function notificationTaskList(c: Context, page: Page) {
   const result = await c.tx.query(`SELECT t.*,m.document AS template FROM app.notification_tasks t
     JOIN app.notification_templates m ON m.tenant_id=t.tenant_id AND m.legal_entity_id=t.legal_entity_id AND m.environment_id=t.environment_id AND m.id=t.template_id
-    WHERE t.tenant_id=$1 AND t.legal_entity_id=$2 AND t.environment_id=$3 AND ($4::uuid IS NULL OR t.id>$4) ORDER BY t.id LIMIT $5`,
+    WHERE t.tenant_id=$1 AND t.legal_entity_id=$2 AND t.environment_id=$3 AND ($4::uuid IS NULL OR (t.created_at,t.id) < (SELECT created_at,id FROM app.notification_tasks WHERE ${predicate} AND id=$4)) ORDER BY t.created_at DESC, t.id DESC LIMIT $5`,
   [...scopeValues(c.actor), page.cursor, page.limit + 1]);
   const items = [];
   for (const row of result.rows) items.push(await assembleTask(c, row as TaskRow));

@@ -1,0 +1,121 @@
+{
+  "task_id": "A00",
+  "fixture_kind": "SYNTHETIC_BOOTSTRAP_ONLY",
+  "recorded_at": "2026-10-01T17:00:15.267Z",
+  "suite": "schema-drift",
+  "assertions": [
+    {
+      "name": "the first read records the three columns and a digest, without values",
+      "result": "PASS",
+      "expected": [
+        "OBSERVED_METADATA",
+        [
+          "id",
+          "email",
+          "signup_date"
+        ],
+        true,
+        true
+      ],
+      "actual": [
+        "OBSERVED_METADATA",
+        [
+          "id",
+          "email",
+          "signup_date"
+        ],
+        true,
+        true
+      ]
+    },
+    {
+      "name": "an unchanged re-read keeps the digest and opens no gap",
+      "result": "PASS",
+      "expected": [
+        "697909d38ad1c78ac607cf530f6ff24f749d413364cb7db01d22d4a59427b118",
+        0
+      ],
+      "actual": [
+        "697909d38ad1c78ac607cf530f6ff24f749d413364cb7db01d22d4a59427b118",
+        0
+      ]
+    },
+    {
+      "name": "the next read records the new column and a new digest",
+      "result": "PASS",
+      "expected": [
+        true,
+        true
+      ],
+      "actual": [
+        true,
+        true
+      ]
+    },
+    {
+      "name": "one HIGH schema-change gap tells staff to review the mapping",
+      "result": "PASS",
+      "expected": [
+        1,
+        "HIGH",
+        "OPEN",
+        true
+      ],
+      "actual": [
+        1,
+        "HIGH",
+        "OPEN",
+        true
+      ]
+    },
+    {
+      "name": "the gap is visible to staff in the coverage list",
+      "result": "PASS",
+      "expected": true,
+      "actual": true
+    },
+    {
+      "name": "a further unchanged read does not duplicate the gap",
+      "result": "PASS",
+      "expected": 1,
+      "actual": 1
+    },
+    {
+      "name": "an observer that can write is refused: no observation is recorded and the job retries",
+      "result": "PASS",
+      "expected": [
+        4,
+        "RETRY",
+        true
+      ],
+      "actual": [
+        4,
+        "RETRY",
+        true
+      ]
+    },
+    {
+      "name": "a dropped table is reported MISSING, not unchanged",
+      "result": "PASS",
+      "expected": "MISSING",
+      "actual": "MISSING"
+    },
+    {
+      "name": "an expired observer authority is refused before any read",
+      "result": "PASS",
+      "expected": "Current observer machine authority required",
+      "actual": "Current observer machine authority required"
+    },
+    {
+      "name": "another tenant cannot see the target or its observations",
+      "result": "PASS",
+      "expected": 404,
+      "actual": 404
+    }
+  ],
+  "passed": 10,
+  "failures": 0,
+  "profile": "codex-a00",
+  "test_adapter_only": true,
+  "limitation": "Connector effects are exercised against the synthetic records test adapter; no live customer system was contacted."
+}

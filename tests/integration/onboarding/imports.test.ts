@@ -1,3 +1,4 @@
+import { allPageList } from '../../../shared/testing/src/all-pages.ts';
 // M29 typed local import integration suite (FR-M29-04).
 // Under test: one typed path driven end to end — rows land in quarantine, the
 // preview names what each would collide with, a conflict blocks the apply until
@@ -169,7 +170,7 @@ try {
 
   // --- provenance and authority -------------------------------------------------------
   phase = 'authority';
-  const listed = S.schemas.ImportBatchList.parse(await (await staff.call('/api/v1/admin/imports?limit=100')).json());
+  const listed = (await allPageList(p => staff.call(p), '/api/v1/admin/imports', value => S.schemas.ImportBatchList.parse(value)));
   check('every batch is listed with the source the customer named and the moment it describes',
     [listed.items.some(i => i.id === first.id), listed.items.some(i => i.id === third.id),
       listed.items.find(i => i.id === third.id)!.source_reference.includes('wrong environment')], [true, true, true]);

@@ -1,0 +1,22 @@
+PASS a data principal can raise their own request without any member of staff
+PASS and it is recorded as open, with no response released yet
+PASS the status page says a state is not a promise about the outcome
+PASS the request is about the person who made it, taken from their session
+PASS acting for themselves is recorded as self-authority, with no mandate
+PASS identity is established from the authenticated session rather than re-guessed
+PASS and the channel records how the request actually arrived
+PASS there is no field through which one person could raise a request about another
+PASS another principal raising their own request gets their own record
+PASS and cannot read the first principal’s request even knowing its identifier
+PASS a principal’s own list contains their request and not the other person’s
+PASS the requester is not shown the organisation’s internal working notes
+PASS nor another principal’s identifier
+PASS and the shape carries only the fields the contract declares
+PASS the portal request is the same record staff handle, not a parallel one
+PASS raising a request in the portal is recorded in the audit trail
+PASS a request that says almost nothing is refused rather than recorded empty
+PASS a right this Act does not provide cannot be raised
+PASS a member of staff cannot use the portal route to act as a principal
+Artifact: handoffs/codex/artifacts/A00-portal-rights-integration-1790859939685-edd4ac45-c9b2-494d-b37e-04908078d059.json
+
+19 assertions, 0 failures.

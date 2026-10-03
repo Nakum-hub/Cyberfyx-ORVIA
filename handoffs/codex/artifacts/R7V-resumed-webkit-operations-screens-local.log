@@ -1,0 +1,20 @@
+R7 webkit operations-screens-local: suite entry point with passive diagnostic instrumentation
+PASS registration is accepted
+PASS a breach registered on screen is pinned with deadlines from the package
+PASS correcting the facts keeps the pinned package and deadlines
+locator.waitFor: Timeout 30000ms exceeded.
+Call log:
+[2m  - waiting for getByRole('form', { name: 'Record profile version' }).getByText('A designation cites the Government notification that made it.') to be visible[22m
+
+    at <anonymous> (C:\Cyberfyx-projects\Cyberfyx_ORVIA\.worktrees\design-round6\tests\e2e\operations-screens-local.ts:121:90)
+    at async Object.run (C:\Cyberfyx-projects\Cyberfyx_ORVIA\.worktrees\design-round6\shared\testing\src\operations-fixture.ts:117:28)
+    at async <anonymous> (C:\Cyberfyx-projects\Cyberfyx_ORVIA\.worktrees\design-round6\tests\e2e\operations-screens-local.ts:29:1) {
+  log: [
+    "  - waiting for getByRole('form', { name: 'Record profile version' }).getByText('A designation cites the Government notification that made it.') to be visible"
+  ],
+  name: 'TimeoutError'
+}
+Server diagnostics (safe codes only): 
+Artifact: handoffs/codex/artifacts/A00-operations-operations-screens-browser-1790829344053-99f23250-e5bf-48e9-8bb0-13c1e3ce0cda.json
+
+4 assertions, 1 failures.

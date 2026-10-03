@@ -18,6 +18,8 @@ export function classifyTest(path: string) {
   if (/^tests\/security\/.+\.ts$/.test(path)) return 'SECURITY';
   if (/^tests\/e2e\/.+\.spec\.ts$/.test(path)) return 'PLAYWRIGHT';
   if (/^tests\/e2e\/.+-(local|preflight)\.ts$/.test(path)) return 'BROWSER_OR_TRANSPORT';
+  // OPA policy tests: run by scripts/policy-gate.sh (CI job "Privacy policy regression gate") with the pinned OPA image.
+  if (/^tests\/policy\/.+_test\.rego$/.test(path)) return 'POLICY';
   throw new Error(`Unclassified test file: ${path}. Review its prerequisites before adding it.`);
 }
 const sha256 = (value: Buffer | string) => createHash('sha256').update(value).digest('hex');

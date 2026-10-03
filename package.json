@@ -11,6 +11,8 @@
   "scripts": {
     "setup": "tsx scripts/setup-orvia.ts",
     "setup:code": "tsx scripts/setup-code.ts",
+    "owner:recovery-code": "tsx scripts/owner-recovery-code.ts",
+    "principals:admit-real": "tsx scripts/real-principals.ts",
     "vendor:init": "tsx scripts/vendor-init.ts",
     "vendor:setup-code": "tsx scripts/vendor-setup-code.ts",
     "start": "tsx scripts/start-orvia.ts",
@@ -70,6 +72,8 @@
     "operations:runner": "tsx services/worker/src/operations-runner.ts",
     "test:e2e:registry-forms": "tsx tests/e2e/registry-forms-local.ts",
     "test:e2e:operations-screens": "tsx tests/e2e/operations-screens-local.ts",
+    "test:e2e:backups-recovery": "tsx tests/e2e/backups-and-recovery-local.ts",
+    "test:e2e:vendor-production-criteria": "tsx tests/e2e/vendor-production-criteria-local.ts",
     "test:migration-upgrade": "tsx tests/integration/migration/upgrade.test.ts",
     "verify:suites": "tsx scripts/verify-suites.ts",
     "capacity:probe": "tsx scripts/capacity-probe.ts",

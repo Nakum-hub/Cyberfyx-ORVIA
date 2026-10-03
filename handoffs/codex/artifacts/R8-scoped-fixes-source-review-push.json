@@ -1,0 +1,12 @@
+{
+  "branch": "codex/round8",
+  "source_commit": "f07cf733bfb22ad958ef4a5b3ba345b90fd43af6",
+  "remote_commit": "f07cf733bfb22ad958ef4a5b3ba345b90fd43af6",
+  "push_exit_code": 0,
+  "remote_verification_exit_code": 0,
+  "publication_status": "REVIEW_ONLY",
+  "qualification_status": "QUALIFICATION_INCOMPLETE",
+  "new_build_qualification": false,
+  "original_integration_outcomes": { "pass": 40, "fail": 4, "exit_code": 1 },
+  "full_battery_repeated_after_scoped_fixes": false
+}

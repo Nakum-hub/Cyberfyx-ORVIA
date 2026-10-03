@@ -1,0 +1,12 @@
+✔ installed APIError exposes only bounded status and exact session stage (6.8252ms)
+✔ only own bounded numeric status or known enum is admitted (0.3794ms)
+✔ getters and hostile descriptor proxies cannot execute or replace the failure (1.5013ms)
+✔ actual vendor boundary retains503 audit/envelope and logs bounded429 stage even with debug enabled (35.4862ms)
+ℹ tests 4
+ℹ suites 0
+ℹ pass 4
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 20666.3256

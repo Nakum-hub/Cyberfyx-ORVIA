@@ -17,6 +17,7 @@
 | Security and privacy | Independent threat assessment and penetration test, dependency and secret review, tenant and role isolation, customer-local data/egress evidence | OPEN: qualification not recorded |
 | Operations and recovery | Clean install and upgrade, backup/restore, monitoring, incident handling, retention, rollback, supported hardware, failure drills | OPEN: full production exercise not recorded |
 | Supply and licensing | Production signing/key custody, update provenance, commercial provider/terms and licence behavior as applicable | OPEN: provider and signing decisions unresolved |
+| Real people as principals | Synthetic `@aster.example` / `@birch.example` only by default. A qualified installation admits real people by the one-way protected server command `principals:admit-real` (revision 1.9, migration 0082); development and test profiles refuse it; identifiers are email only | OPEN: mechanism built and tested on a scratch customer database; no installation is qualified yet, so none has run it |
 | Candidate and sign-off | Immutable source/lockfile/build identity, repeatable acceptance on that exact build, human release approval | OPEN: frozen candidate not identified |
 
 ## Rules for status changes

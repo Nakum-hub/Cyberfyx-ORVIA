@@ -1,0 +1,67 @@
+{
+  "task_id": "DPDP",
+  "fixture_kind": "CUSTOMER_LOCAL_SYNTHETIC",
+  "recorded_at": "2026-10-01T09:40:49.848Z",
+  "suite": "schema-drift",
+  "assertions": [
+    {
+      "name": "the first read records the three columns and a digest, without values",
+      "result": "PASS",
+      "expected": [
+        "OBSERVED_METADATA",
+        [
+          "id",
+          "email",
+          "signup_date"
+        ],
+        true,
+        true
+      ],
+      "actual": [
+        "OBSERVED_METADATA",
+        [
+          "id",
+          "email",
+          "signup_date"
+        ],
+        true,
+        true
+      ]
+    },
+    {
+      "name": "an unchanged re-read keeps the digest and opens no gap",
+      "result": "PASS",
+      "expected": [
+        "9dbe787d3d814904d7d4a142cdf41c35c251d8990355b83344c39346ca71b4e7",
+        0
+      ],
+      "actual": [
+        "9dbe787d3d814904d7d4a142cdf41c35c251d8990355b83344c39346ca71b4e7",
+        0
+      ]
+    },
+    {
+      "name": "the next read records the new column and a new digest",
+      "result": "FAIL",
+      "expected": [
+        true,
+        true
+      ],
+      "actual": [
+        false,
+        false
+      ]
+    },
+    {
+      "name": "unexpected failure in a column is added",
+      "result": "FAIL",
+      "expected": "no error",
+      "actual": "Assertion failed: the next read records the new column and a new digest"
+    }
+  ],
+  "passed": 2,
+  "failures": 2,
+  "profile": "codex-a00",
+  "test_adapter_only": true,
+  "limitation": "Connector effects are exercised against the synthetic records test adapter; no live customer system was contacted."
+}

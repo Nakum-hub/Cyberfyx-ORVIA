@@ -1,3 +1,4 @@
+import { allPageList } from '../../../shared/testing/src/all-pages.ts';
 // EX06 general impact assessments through the real HTTP boundary.
 // Under test: versioned templates published by someone other than the author;
 // required answers and evidence enforced at submission; answer rules raising
@@ -102,6 +103,6 @@ await t.run(async () => {
   check('another tenant cannot read the assessment', (await birch.call(`/api/v1/admin/impact-assessments/${created.id}`)).status, 404);
   check('an auditor can read assessments', (await auditor.call('/api/v1/admin/impact-assessments?limit=10')).status, 200);
   check('an auditor cannot create one', (await auditor.call('/api/v1/admin/impact-assessments', { template_id: template.id, subject_kind: 'ORGANISATION', subject_id: null, title: 'Auditor attempt', owner_reference: 'x-ref', due_at: hoursFromNow(24) }, key())).status, 403);
-  const listed = await ok(admin.call('/api/v1/admin/impact-assessments?status=SUPERSEDED&limit=100'), S.schemas.ImpactAssessmentList);
+  const listed = await allPageList(p => admin.call(p), '/api/v1/admin/impact-assessments?status=SUPERSEDED', value => S.schemas.ImpactAssessmentList.parse(value));
   check('the list filters by status', listed.items.every(i => i.status === 'SUPERSEDED') && listed.items.some(i => i.id === created.id), true);
 });

@@ -5,6 +5,7 @@ import { adapterFor, type ConnectorAction } from '../../../../connectors/src/sha
 import { audit, type Context } from '../shared/transaction.ts';
 import { settleExecution } from '../rights/rights.ts';
 import { coveringHolds, runView } from './runs.ts';
+import { recordErasureInBackups } from '../registry/backups.ts';
 import { emit, predicate, recordEvidence, refuse, scope, type OperationsEnv } from './shared.ts';
 
 /**
@@ -21,6 +22,38 @@ import { emit, predicate, recordEvidence, refuse, scope, type OperationsEnv } fr
 const MAX_ATTEMPTS = 3;
 const RETRYABLE = new Set(['TARGET_UNAVAILABLE', 'TARGET_TIMEOUT']);
 const SETTLED = new Set(['verified', 'failed', 'inconclusive', 'not_supported', 'blocked', 'cancelled']);
+// Shared with the runner's progress probe: only the exact next executable batch
+// matters, not manual confirmations, audit timestamps or aggregate run counts.
+const ACTIONABLE = `action_type<>'DISPOSITION_CONFIRMATION' AND (
+      state IN ('pending','executing','succeeded_unverified') OR (state='failed' AND last_error_code=ANY($5::text[]) AND attempts<$6) OR (state='inconclusive' AND verification<>'VERIFIED' AND attempts<$6))`;
+// Canonical openness used by settlement and supervised admission alike.
+const OPEN = `(state<>ALL($7::text[]) OR (state='failed' AND last_error_code=ANY($5::text[]) AND attempts<$6))`;
+// Aliases are fixed internal choices; callers cannot supply SQL identifiers.
+function actionPredicate(alias: '' | 'a') {
+  return alias === '' ? ACTIONABLE : ACTIONABLE.replace(/\b(action_type|state|last_error_code|attempts|verification)\b/g, 'a.$1');
+}
+function openPredicate(alias: '' | 'a') {
+  return alias === '' ? OPEN : OPEN.replace(/\b(state|last_error_code|attempts)\b/g, 'a.$1');
+}
+/** Internal admission; manual waiting must not monopolise the oldest-run queue. */
+export async function pendingExecutionRunIds(c: Context, limit: number): Promise<string[]> {
+  const rows = (await c.tx.query(`SELECT r.id FROM app.workflow_runs r
+    WHERE r.tenant_id=$1 AND r.legal_entity_id=$2 AND r.environment_id=$3
+      AND r.status IN ('APPROVED','RUNNING') AND r.rights_request_id IS NULL
+      AND (r.status='APPROVED' OR EXISTS (
+        SELECT 1 FROM app.downstream_actions a WHERE a.tenant_id=r.tenant_id AND a.legal_entity_id=r.legal_entity_id AND a.environment_id=r.environment_id AND a.run_id=r.id AND ${actionPredicate('a')}
+      ) OR NOT EXISTS (
+        SELECT 1 FROM app.downstream_actions a WHERE a.tenant_id=r.tenant_id AND a.legal_entity_id=r.legal_entity_id AND a.environment_id=r.environment_id AND a.run_id=r.id AND ${openPredicate('a')}
+      )) ORDER BY r.created_at,r.id LIMIT $4`,
+    [...scope(c), limit, [...RETRYABLE], MAX_ATTEMPTS, [...SETTLED]])).rows;
+  return rows.map(row => row.id as string);
+}
+/** Internal persisted-state fingerprint; never a public DTO or business cache. */
+export async function executionProgress(c: Context, id: string, limit: number): Promise<string | null> {
+  const rows = (await c.tx.query(`SELECT id,state,target_result,verification,attempts,last_error_code FROM app.downstream_actions WHERE ${predicate} AND run_id=$4 AND ${actionPredicate('')} ORDER BY ordinal,id LIMIT $7`,
+    [...scope(c), id, [...RETRYABLE], MAX_ATTEMPTS, limit])).rows;
+  return rows.length ? digest(rows) : null;
+}
 type ActionRow = { id: string; run_id: string; ordinal: number; subject_id: string | null; system_id: string | null; target_reference: string | null; action_type: string; idempotency_key: string;
   state: string; target_result: string; verification: string; attempts: number; last_error_code: string | null; hold_ids: string[] };
 
@@ -42,7 +75,11 @@ async function verifyAction(c: Context, env: OperationsEnv, run: { id: string; p
     [...scope(c), randomUUID(), row.id, result.method, result.verifier, result.expected, result.observed, result.result, result.failure_reason, evidenceId]);
   if (result.result === 'PASS') {
     await setAction(c, row.id, { state: 'verified', verification: 'VERIFIED', last_error_code: null });
-    if (row.action_type === 'ERASE' || row.action_type === 'ANONYMISE') await emit(c, 'erasure_action_verified', 'downstream_action', row.id, { run_id: run.id }, run.id);
+    if (row.action_type === 'ERASE' || row.action_type === 'ANONYMISE') {
+      await emit(c, 'erasure_action_verified', 'downstream_action', row.id, { run_id: run.id }, run.id);
+      // EX07: the live copy is verified erased; the system's backups still hold it until they age out (never reported as erased).
+      await recordErasureInBackups(c, row);
+    }
   } else if (result.result === 'FAIL') {
     await setAction(c, row.id, { state: 'failed', verification: 'FAILED', last_error_code: 'VERIFICATION_FAILED' });
     await emit(c, 'verification_failed', 'downstream_action', row.id, { run_id: run.id, reason: result.failure_reason }, run.id);
@@ -64,9 +101,8 @@ export async function executeRun(c: Context, env: OperationsEnv, id: string, inp
   if (!['APPROVED', 'RUNNING', 'PARTIALLY_FAILED'].includes(run.status)) refuse(409, 'status', run.status === 'DRY_RUN_READY' ? 'run_requires_approval' : 'run_is_not_executable');
   if (run.status === 'APPROVED') await c.tx.query(`UPDATE app.workflow_runs SET status='RUNNING',started_at=COALESCE(started_at,clock_timestamp()),updated_at=clock_timestamp() WHERE ${predicate} AND id=$4`, [...s, id]);
   // Pending work first; then actions interrupted mid-flight; then bounded retries of transient failures and re-verification.
-  const rows = (await c.tx.query(`SELECT * FROM app.downstream_actions WHERE ${predicate} AND run_id=$4 AND action_type<>'DISPOSITION_CONFIRMATION' AND (
-      state IN ('pending','executing','succeeded_unverified') OR (state='failed' AND last_error_code=ANY($5::text[]) AND attempts<$6) OR (state='inconclusive' AND verification<>'VERIFIED' AND attempts<$6))
-    ORDER BY ordinal LIMIT $7 FOR UPDATE`, [...s, id, [...RETRYABLE], MAX_ATTEMPTS, value.limit])).rows as ActionRow[];
+  const rows = (await c.tx.query(`SELECT * FROM app.downstream_actions WHERE ${predicate} AND run_id=$4 AND ${actionPredicate('')}
+    ORDER BY ordinal,id LIMIT $7 FOR UPDATE`, [...s, id, [...RETRYABLE], MAX_ATTEMPTS, value.limit])).rows as ActionRow[];
   const bindingRows = (await c.tx.query(`SELECT system_id,adapter,holds_data_categories FROM app.connector_bindings WHERE ${predicate} AND valid_to IS NULL AND system_id=ANY($4::uuid[])`, [...s, [...new Set(rows.map(r => r.system_id).filter(Boolean))]])).rows;
   const binding = new Map(bindingRows.map(b => [b.system_id, b]));
   for (const row of rows) {
@@ -117,7 +153,7 @@ export async function executeRun(c: Context, env: OperationsEnv, id: string, inp
 export async function settleRun(c: Context, id: string) {
   const s = scope(c);
   const run = (await c.tx.query(`SELECT * FROM app.workflow_runs WHERE ${predicate} AND id=$4`, [...s, id])).rows[0];
-  const actions = (await c.tx.query(`SELECT * FROM app.downstream_actions WHERE ${predicate} AND run_id=$4 ORDER BY ordinal`, [...s, id])).rows;
+  const actions = (await c.tx.query(`SELECT *,${openPredicate('')} AS execution_open FROM app.downstream_actions WHERE ${predicate} AND run_id=$4 ORDER BY ordinal`, [...s, id, [...RETRYABLE], MAX_ATTEMPTS, [...SETTLED]])).rows;
   if (run.kind === 'RETENTION_ERASURE') {
     await c.tx.query(`UPDATE app.retention_states rs SET state=CASE WHEN a.all_verified THEN 'ERASED' WHEN a.any_failed THEN 'FAILED' ELSE rs.state END
       FROM (SELECT subject_id,bool_and(state='verified') all_verified,bool_or(state IN ('failed','inconclusive')) any_failed FROM app.downstream_actions
@@ -126,7 +162,7 @@ export async function settleRun(c: Context, id: string) {
     [...s, id, run.retention_rule_id]);
   }
   if (!['RUNNING', 'PARTIALLY_FAILED', 'APPROVED'].includes(run.status)) return;
-  const open = actions.some(a => !SETTLED.has(a.state) || (a.state === 'failed' && RETRYABLE.has(a.last_error_code) && a.attempts < MAX_ATTEMPTS));
+  const open = actions.some(a => a.execution_open);
   if (open) return;
   // The V1 request receives outcomes only once nothing is still in flight, so it never records a premature failure.
   if (run.rights_request_id && c.actor.actor_domain === 'STAFF') await syncRightsOutcomes(c, run.rights_request_id, actions);

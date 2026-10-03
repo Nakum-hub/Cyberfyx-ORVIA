@@ -1,0 +1,154 @@
+[
+  {
+    "file": "backend/domain/src/operations/runs.ts",
+    "function": "actionList",
+    "table": "downstream_actions",
+    "timestamp": "created_at",
+    "before": "SELECT * FROM app.downstream_actions WHERE ${predicate} AND run_id=$4 AND ($5::text IS NULL OR state=$5) AND ($6::uuid IS NULL OR id>$6) ORDER BY id LIMIT $7",
+    "after": "SELECT * FROM app.downstream_actions WHERE ${predicate} AND run_id=$4 AND ($5::text IS NULL OR state=$5) AND ($6::uuid IS NULL OR (created_at,id) < (SELECT created_at,id FROM app.downstream_actions WHERE ${predicate} AND run_id=$4 AND ($5::text IS NULL OR state=$5) AND id=$6)) ORDER BY created_at DESC,id DESC LIMIT $7"
+  },
+  {
+    "file": "backend/domain/src/operations/runs.ts",
+    "function": "runList",
+    "table": "workflow_runs",
+    "timestamp": "created_at",
+    "before": "SELECT id FROM app.workflow_runs WHERE ${predicate} AND ($4::text IS NULL OR kind=$4) AND ($5::text IS NULL OR status=$5) AND ($6::uuid IS NULL OR id>$6) ORDER BY id LIMIT $7",
+    "after": "SELECT id FROM app.workflow_runs WHERE ${predicate} AND ($4::text IS NULL OR kind=$4) AND ($5::text IS NULL OR status=$5) AND ($6::uuid IS NULL OR (created_at,id) < (SELECT created_at,id FROM app.workflow_runs WHERE ${predicate} AND ($4::text IS NULL OR kind=$4) AND ($5::text IS NULL OR status=$5) AND id=$6)) ORDER BY created_at DESC,id DESC LIMIT $7"
+  },
+  {
+    "file": "backend/domain/src/registry/connectors.ts",
+    "function": "bindingList",
+    "table": "connector_bindings",
+    "timestamp": "recorded_at",
+    "before": "SELECT * FROM app.connector_bindings WHERE ${predicate} AND ($4::uuid IS NULL OR id>$4) ORDER BY id LIMIT $5",
+    "after": "SELECT * FROM app.connector_bindings WHERE ${predicate} AND ($4::uuid IS NULL OR (recorded_at,id) < (SELECT recorded_at,id FROM app.connector_bindings WHERE ${predicate} AND id=$4)) ORDER BY recorded_at DESC,id DESC LIMIT $5"
+  },
+  {
+    "file": "backend/domain/src/registry/consent.ts",
+    "function": "consentRecordList",
+    "table": "consent_records",
+    "timestamp": "recorded_at",
+    "before": "SELECT id FROM app.consent_records WHERE ${predicate} AND ($4::uuid IS NULL OR id>$4) ORDER BY id LIMIT $5",
+    "after": "SELECT id FROM app.consent_records WHERE ${predicate} AND ($4::uuid IS NULL OR (recorded_at,id) < (SELECT recorded_at,id FROM app.consent_records WHERE ${predicate} AND id=$4)) ORDER BY recorded_at DESC,id DESC LIMIT $5"
+  },
+  {
+    "file": "backend/domain/src/registry/notices.ts",
+    "function": "noticeList",
+    "table": "registry_notices",
+    "timestamp": "recorded_at",
+    "before": "SELECT id FROM app.registry_notices WHERE ${predicate} AND ($4::uuid IS NULL OR id>$4) ORDER BY id LIMIT $5",
+    "after": "SELECT id FROM app.registry_notices WHERE ${predicate} AND ($4::uuid IS NULL OR (recorded_at,id) < (SELECT recorded_at,id FROM app.registry_notices WHERE ${predicate} AND id=$4)) ORDER BY recorded_at DESC,id DESC LIMIT $5"
+  },
+  {
+    "file": "backend/domain/src/registry/notices.ts",
+    "function": "deliveryList",
+    "table": "notice_delivery_evidence",
+    "timestamp": "recorded_at",
+    "before": "SELECT * FROM app.notice_delivery_evidence WHERE ${predicate} AND ($4::uuid IS NULL OR id>$4) ORDER BY id LIMIT $5",
+    "after": "SELECT * FROM app.notice_delivery_evidence WHERE ${predicate} AND ($4::uuid IS NULL OR (recorded_at,id) < (SELECT recorded_at,id FROM app.notice_delivery_evidence WHERE ${predicate} AND id=$4)) ORDER BY recorded_at DESC,id DESC LIMIT $5"
+  },
+  {
+    "file": "backend/domain/src/registry/principals.ts",
+    "function": "principalCategoryList",
+    "table": "data_principal_categories",
+    "timestamp": "recorded_at",
+    "before": "SELECT * FROM app.data_principal_categories WHERE ${predicate} AND ($4::uuid IS NULL OR id>$4) ORDER BY id LIMIT $5",
+    "after": "SELECT * FROM app.data_principal_categories WHERE ${predicate} AND ($4::uuid IS NULL OR (recorded_at,id) < (SELECT recorded_at,id FROM app.data_principal_categories WHERE ${predicate} AND id=$4)) ORDER BY recorded_at DESC,id DESC LIMIT $5"
+  },
+  {
+    "file": "backend/domain/src/registry/principals.ts",
+    "function": "dataCategoryList",
+    "table": "personal_data_categories",
+    "timestamp": "recorded_at",
+    "before": "SELECT * FROM app.personal_data_categories WHERE ${predicate} AND ($4::uuid IS NULL OR id>$4) ORDER BY id LIMIT $5",
+    "after": "SELECT * FROM app.personal_data_categories WHERE ${predicate} AND ($4::uuid IS NULL OR (recorded_at,id) < (SELECT recorded_at,id FROM app.personal_data_categories WHERE ${predicate} AND id=$4)) ORDER BY recorded_at DESC,id DESC LIMIT $5"
+  },
+  {
+    "file": "backend/domain/src/registry/principals.ts",
+    "function": "subjectList",
+    "table": "data_principals",
+    "timestamp": "recorded_at",
+    "before": "SELECT p.id,p.principal_id,p.status,p.recorded_at,\r\n      (SELECT count(*)::int FROM app.data_principal_relationships r WHERE r.tenant_id=p.tenant_id AND r.legal_entity_id=p.legal_entity_id AND r.environment_id=p.environment_id AND r.subject_id=p.id) relationship_count\r\n    FROM app.data_principals p WHERE p.tenant_id=$1 AND p.legal_entity_id=$2 AND p.environment_id=$3\r\n      AND ($4::uuid IS NULL OR EXISTS(SELECT 1 FROM app.data_principal_relationships r WHERE r.tenant_id=p.tenant_id AND r.legal_entity_id=p.legal_entity_id AND r.environment_id=p.environment_id AND r.subject_id=p.id AND r.category_id=$4))\r\n      AND ($5::uuid IS NULL OR EXISTS(SELECT 1 FROM app.data_principal_references f WHERE f.tenant_id=p.tenant_id AND f.legal_entity_id=p.legal_entity_id AND f.environment_id=p.environment_id AND f.subject_id=p.id AND f.system_id=$5 AND ($6::text IS NULL OR f.target_reference=$6)))\r\n      AND ($9::uuid IS NULL OR p.principal_id=$9)\r\n      AND ($7::uuid IS NULL OR p.id>$7) ORDER BY p.id LIMIT $8",
+    "after": "SELECT p.id,p.principal_id,p.status,p.recorded_at,\r\n      (SELECT count(*)::int FROM app.data_principal_relationships r WHERE r.tenant_id=p.tenant_id AND r.legal_entity_id=p.legal_entity_id AND r.environment_id=p.environment_id AND r.subject_id=p.id) relationship_count\r\n    FROM app.data_principals p WHERE p.tenant_id=$1 AND p.legal_entity_id=$2 AND p.environment_id=$3\r\n      AND ($4::uuid IS NULL OR EXISTS(SELECT 1 FROM app.data_principal_relationships r WHERE r.tenant_id=p.tenant_id AND r.legal_entity_id=p.legal_entity_id AND r.environment_id=p.environment_id AND r.subject_id=p.id AND r.category_id=$4))\r\n      AND ($5::uuid IS NULL OR EXISTS(SELECT 1 FROM app.data_principal_references f WHERE f.tenant_id=p.tenant_id AND f.legal_entity_id=p.legal_entity_id AND f.environment_id=p.environment_id AND f.subject_id=p.id AND f.system_id=$5 AND ($6::text IS NULL OR f.target_reference=$6)))\r\n      AND ($9::uuid IS NULL OR p.principal_id=$9)\r\n      AND ($7::uuid IS NULL OR (p.recorded_at,p.id) < (SELECT p.recorded_at,p.id FROM app.data_principals p WHERE p.tenant_id=$1 AND p.legal_entity_id=$2 AND p.environment_id=$3\r\n      AND ($4::uuid IS NULL OR EXISTS(SELECT 1 FROM app.data_principal_relationships r WHERE r.tenant_id=p.tenant_id AND r.legal_entity_id=p.legal_entity_id AND r.environment_id=p.environment_id AND r.subject_id=p.id AND r.category_id=$4))\r\n      AND ($5::uuid IS NULL OR EXISTS(SELECT 1 FROM app.data_principal_references f WHERE f.tenant_id=p.tenant_id AND f.legal_entity_id=p.legal_entity_id AND f.environment_id=p.environment_id AND f.subject_id=p.id AND f.system_id=$5 AND ($6::text IS NULL OR f.target_reference=$6)))\r\n      AND ($9::uuid IS NULL OR p.principal_id=$9) AND p.id=$7)) ORDER BY p.recorded_at DESC,p.id DESC LIMIT $8"
+  },
+  {
+    "file": "backend/domain/src/registry/principals.ts",
+    "function": "representativeList",
+    "table": "data_principal_representatives",
+    "timestamp": "recorded_at",
+    "before": "SELECT * FROM app.data_principal_representatives WHERE ${predicate} AND ($4::uuid IS NULL OR id>$4) ORDER BY id LIMIT $5",
+    "after": "SELECT * FROM app.data_principal_representatives WHERE ${predicate} AND ($4::uuid IS NULL OR (recorded_at,id) < (SELECT recorded_at,id FROM app.data_principal_representatives WHERE ${predicate} AND id=$4)) ORDER BY recorded_at DESC,id DESC LIMIT $5"
+  },
+  {
+    "file": "backend/domain/src/registry/processing.ts",
+    "function": "purposeList",
+    "table": "registry_purposes",
+    "timestamp": "recorded_at",
+    "before": "SELECT id FROM app.registry_purposes WHERE ${predicate} AND ($4::uuid IS NULL OR id>$4) ORDER BY id LIMIT $5",
+    "after": "SELECT id FROM app.registry_purposes WHERE ${predicate} AND ($4::uuid IS NULL OR (recorded_at,id) < (SELECT recorded_at,id FROM app.registry_purposes WHERE ${predicate} AND id=$4)) ORDER BY recorded_at DESC,id DESC LIMIT $5"
+  },
+  {
+    "file": "backend/domain/src/registry/processing.ts",
+    "function": "conditionList",
+    "table": "processing_conditions",
+    "timestamp": "recorded_at",
+    "before": "SELECT * FROM app.processing_conditions WHERE ${predicate} AND ($4::uuid IS NULL OR id>$4) ORDER BY id LIMIT $5",
+    "after": "SELECT * FROM app.processing_conditions WHERE ${predicate} AND ($4::uuid IS NULL OR (recorded_at,id) < (SELECT recorded_at,id FROM app.processing_conditions WHERE ${predicate} AND id=$4)) ORDER BY recorded_at DESC,id DESC LIMIT $5"
+  },
+  {
+    "file": "backend/domain/src/registry/processing.ts",
+    "function": "safeguardList",
+    "table": "security_safeguards",
+    "timestamp": "recorded_at",
+    "before": "SELECT * FROM app.security_safeguards WHERE ${predicate} AND ($4::uuid IS NULL OR id>$4) ORDER BY id LIMIT $5",
+    "after": "SELECT * FROM app.security_safeguards WHERE ${predicate} AND ($4::uuid IS NULL OR (recorded_at,id) < (SELECT recorded_at,id FROM app.security_safeguards WHERE ${predicate} AND id=$4)) ORDER BY recorded_at DESC,id DESC LIMIT $5"
+  },
+  {
+    "file": "backend/domain/src/registry/processing.ts",
+    "function": "activityList",
+    "table": "registry_activities",
+    "timestamp": "recorded_at",
+    "before": "SELECT a.id FROM app.registry_activities a WHERE a.tenant_id=$1 AND a.legal_entity_id=$2 AND a.environment_id=$3\r\n    AND ($4::uuid IS NULL OR EXISTS(SELECT 1 FROM app.registry_activity_links l WHERE l.tenant_id=a.tenant_id AND l.legal_entity_id=a.legal_entity_id AND l.environment_id=a.environment_id AND l.activity_id=a.id AND l.system_id=$4 AND l.valid_from<=$6 AND (l.valid_to IS NULL OR l.valid_to>$6)))\r\n    AND ($5::uuid IS NULL OR EXISTS(SELECT 1 FROM app.registry_activity_links l WHERE l.tenant_id=a.tenant_id AND l.legal_entity_id=a.legal_entity_id AND l.environment_id=a.environment_id AND l.activity_id=a.id AND l.data_category_id=$5 AND l.valid_from<=$6 AND (l.valid_to IS NULL OR l.valid_to>$6)))\r\n    AND ($7::uuid IS NULL OR a.id>$7) ORDER BY a.id LIMIT $8",
+    "after": "SELECT a.id FROM app.registry_activities a WHERE a.tenant_id=$1 AND a.legal_entity_id=$2 AND a.environment_id=$3\r\n    AND ($4::uuid IS NULL OR EXISTS(SELECT 1 FROM app.registry_activity_links l WHERE l.tenant_id=a.tenant_id AND l.legal_entity_id=a.legal_entity_id AND l.environment_id=a.environment_id AND l.activity_id=a.id AND l.system_id=$4 AND l.valid_from<=$6 AND (l.valid_to IS NULL OR l.valid_to>$6)))\r\n    AND ($5::uuid IS NULL OR EXISTS(SELECT 1 FROM app.registry_activity_links l WHERE l.tenant_id=a.tenant_id AND l.legal_entity_id=a.legal_entity_id AND l.environment_id=a.environment_id AND l.activity_id=a.id AND l.data_category_id=$5 AND l.valid_from<=$6 AND (l.valid_to IS NULL OR l.valid_to>$6)))\r\n    AND ($7::uuid IS NULL OR (a.recorded_at,a.id) < (SELECT a.recorded_at,a.id FROM app.registry_activities a WHERE a.tenant_id=$1 AND a.legal_entity_id=$2 AND a.environment_id=$3\r\n    AND ($4::uuid IS NULL OR EXISTS(SELECT 1 FROM app.registry_activity_links l WHERE l.tenant_id=a.tenant_id AND l.legal_entity_id=a.legal_entity_id AND l.environment_id=a.environment_id AND l.activity_id=a.id AND l.system_id=$4 AND l.valid_from<=$6 AND (l.valid_to IS NULL OR l.valid_to>$6)))\r\n    AND ($5::uuid IS NULL OR EXISTS(SELECT 1 FROM app.registry_activity_links l WHERE l.tenant_id=a.tenant_id AND l.legal_entity_id=a.legal_entity_id AND l.environment_id=a.environment_id AND l.activity_id=a.id AND l.data_category_id=$5 AND l.valid_from<=$6 AND (l.valid_to IS NULL OR l.valid_to>$6))) AND a.id=$7)) ORDER BY a.recorded_at DESC,a.id DESC LIMIT $8"
+  },
+  {
+    "file": "backend/domain/src/registry/processors.ts",
+    "function": "engagementList",
+    "table": "processor_engagements",
+    "timestamp": "recorded_at",
+    "before": "SELECT e.id FROM app.processor_engagements e WHERE e.tenant_id=$1 AND e.legal_entity_id=$2 AND e.environment_id=$3\n    AND ($4::timestamptz IS NULL OR (e.effective_from<=$4 AND (e.effective_to IS NULL OR e.effective_to>$4)))\n    AND ($5::uuid IS NULL OR EXISTS(SELECT 1 FROM app.registry_activity_links l WHERE l.tenant_id=e.tenant_id AND l.legal_entity_id=e.legal_entity_id AND l.environment_id=e.environment_id AND l.engagement_id=e.id AND l.activity_id=$5\n      AND ($4::timestamptz IS NULL OR (l.valid_from<=$4 AND (l.valid_to IS NULL OR l.valid_to>$4)))))\n    AND ($6::uuid IS NULL OR e.id>$6) ORDER BY e.id LIMIT $7",
+    "after": "SELECT e.id FROM app.processor_engagements e WHERE e.tenant_id=$1 AND e.legal_entity_id=$2 AND e.environment_id=$3\n    AND ($4::timestamptz IS NULL OR (e.effective_from<=$4 AND (e.effective_to IS NULL OR e.effective_to>$4)))\n    AND ($5::uuid IS NULL OR EXISTS(SELECT 1 FROM app.registry_activity_links l WHERE l.tenant_id=e.tenant_id AND l.legal_entity_id=e.legal_entity_id AND l.environment_id=e.environment_id AND l.engagement_id=e.id AND l.activity_id=$5\n      AND ($4::timestamptz IS NULL OR (l.valid_from<=$4 AND (l.valid_to IS NULL OR l.valid_to>$4)))))\n    AND ($6::uuid IS NULL OR (e.recorded_at,e.id) < (SELECT e.recorded_at,e.id FROM app.processor_engagements e WHERE e.tenant_id=$1 AND e.legal_entity_id=$2 AND e.environment_id=$3\n    AND ($4::timestamptz IS NULL OR (e.effective_from<=$4 AND (e.effective_to IS NULL OR e.effective_to>$4)))\n    AND ($5::uuid IS NULL OR EXISTS(SELECT 1 FROM app.registry_activity_links l WHERE l.tenant_id=e.tenant_id AND l.legal_entity_id=e.legal_entity_id AND l.environment_id=e.environment_id AND l.engagement_id=e.id AND l.activity_id=$5\n      AND ($4::timestamptz IS NULL OR (l.valid_from<=$4 AND (l.valid_to IS NULL OR l.valid_to>$4))))) AND e.id=$6)) ORDER BY e.recorded_at DESC,e.id DESC LIMIT $7"
+  },
+  {
+    "file": "backend/domain/src/registry/processors.ts",
+    "function": "sharingList",
+    "table": "data_sharing_links",
+    "timestamp": "recorded_at",
+    "before": "SELECT d.* FROM app.data_sharing_links d WHERE d.tenant_id=$1 AND d.legal_entity_id=$2 AND d.environment_id=$3\n    AND ($4::uuid IS NULL OR d.activity_id=$4)\n    AND ($5::uuid IS NULL OR d.activity_id IN (SELECT l.activity_id FROM app.registry_activity_links l JOIN app.data_principal_relationships r ON r.tenant_id=l.tenant_id AND r.legal_entity_id=l.legal_entity_id AND r.environment_id=l.environment_id AND r.category_id=l.principal_category_id\n      WHERE l.tenant_id=d.tenant_id AND l.legal_entity_id=d.legal_entity_id AND l.environment_id=d.environment_id AND l.link_kind='PRINCIPAL_CATEGORY' AND r.subject_id=$5))\n    AND ($6::uuid IS NULL OR d.id>$6) ORDER BY d.id LIMIT $7",
+    "after": "SELECT d.* FROM app.data_sharing_links d WHERE d.tenant_id=$1 AND d.legal_entity_id=$2 AND d.environment_id=$3\n    AND ($4::uuid IS NULL OR d.activity_id=$4)\n    AND ($5::uuid IS NULL OR d.activity_id IN (SELECT l.activity_id FROM app.registry_activity_links l JOIN app.data_principal_relationships r ON r.tenant_id=l.tenant_id AND r.legal_entity_id=l.legal_entity_id AND r.environment_id=l.environment_id AND r.category_id=l.principal_category_id\n      WHERE l.tenant_id=d.tenant_id AND l.legal_entity_id=d.legal_entity_id AND l.environment_id=d.environment_id AND l.link_kind='PRINCIPAL_CATEGORY' AND r.subject_id=$5))\n    AND ($6::uuid IS NULL OR (d.recorded_at,d.id) < (SELECT d.recorded_at,d.id FROM app.data_sharing_links d WHERE d.tenant_id=$1 AND d.legal_entity_id=$2 AND d.environment_id=$3\n    AND ($4::uuid IS NULL OR d.activity_id=$4)\n    AND ($5::uuid IS NULL OR d.activity_id IN (SELECT l.activity_id FROM app.registry_activity_links l JOIN app.data_principal_relationships r ON r.tenant_id=l.tenant_id AND r.legal_entity_id=l.legal_entity_id AND r.environment_id=l.environment_id AND r.category_id=l.principal_category_id\n      WHERE l.tenant_id=d.tenant_id AND l.legal_entity_id=d.legal_entity_id AND l.environment_id=d.environment_id AND l.link_kind='PRINCIPAL_CATEGORY' AND r.subject_id=$5)) AND d.id=$6)) ORDER BY d.recorded_at DESC,d.id DESC LIMIT $7"
+  },
+  {
+    "file": "backend/domain/src/registry/retention.ts",
+    "function": "ruleList",
+    "table": "retention_rules",
+    "timestamp": "recorded_at",
+    "before": "SELECT * FROM app.retention_rules WHERE ${predicate} AND ($4::uuid IS NULL OR id>$4) ORDER BY id LIMIT $5",
+    "after": "SELECT * FROM app.retention_rules WHERE ${predicate} AND ($4::uuid IS NULL OR (recorded_at,id) < (SELECT recorded_at,id FROM app.retention_rules WHERE ${predicate} AND id=$4)) ORDER BY recorded_at DESC,id DESC LIMIT $5"
+  },
+  {
+    "file": "backend/domain/src/registry/retention.ts",
+    "function": "holdList",
+    "table": "retention_holds",
+    "timestamp": "recorded_at",
+    "before": "SELECT * FROM app.retention_holds WHERE ${predicate} AND ($4::uuid IS NULL OR subject_id=$4) AND ($5::text IS NULL OR (state='ACTIVE')=($5='true'))\n    AND ($6::uuid IS NULL OR id>$6) ORDER BY id LIMIT $7",
+    "after": "SELECT * FROM app.retention_holds WHERE ${predicate} AND ($4::uuid IS NULL OR subject_id=$4) AND ($5::text IS NULL OR (state='ACTIVE')=($5='true'))\n    AND ($6::uuid IS NULL OR (recorded_at,id) < (SELECT recorded_at,id FROM app.retention_holds WHERE ${predicate} AND ($4::uuid IS NULL OR subject_id=$4) AND ($5::text IS NULL OR (state='ACTIVE')=($5='true')) AND id=$6)) ORDER BY recorded_at DESC,id DESC LIMIT $7"
+  },
+  {
+    "file": "backend/domain/src/registry/retention.ts",
+    "function": "intimationList",
+    "table": "erasure_intimations",
+    "timestamp": "recorded_at",
+    "before": "SELECT * FROM app.erasure_intimations WHERE ${predicate} AND ($4::uuid IS NULL OR subject_id=$4) AND ($5::uuid IS NULL OR id>$5) ORDER BY id LIMIT $6",
+    "after": "SELECT * FROM app.erasure_intimations WHERE ${predicate} AND ($4::uuid IS NULL OR subject_id=$4) AND ($5::uuid IS NULL OR (recorded_at,id) < (SELECT recorded_at,id FROM app.erasure_intimations WHERE ${predicate} AND ($4::uuid IS NULL OR subject_id=$4) AND id=$5)) ORDER BY recorded_at DESC,id DESC LIMIT $6"
+  }
+]

@@ -1,0 +1,353 @@
+{
+  "task_id": "DPDP",
+  "fixture_kind": "CUSTOMER_LOCAL_SYNTHETIC",
+  "recorded_at": "2026-10-01T04:09:09.165Z",
+  "suite": "policy-discovery",
+  "assertions": [
+    {
+      "name": "a discovery needs an enabled site",
+      "result": "PASS",
+      "expected": [
+        "site_not_enabled"
+      ],
+      "actual": [
+        "site_not_enabled"
+      ]
+    },
+    {
+      "name": "a read-only role cannot request a discovery",
+      "result": "PASS",
+      "expected": 403,
+      "actual": 403
+    },
+    {
+      "name": "an origin the site does not have is refused",
+      "result": "PASS",
+      "expected": [
+        "origin_not_approved_for_this_site"
+      ],
+      "actual": [
+        "origin_not_approved_for_this_site"
+      ]
+    },
+    {
+      "name": "a second request while one is queued is refused",
+      "result": "PASS",
+      "expected": [
+        "discovery_already_queued"
+      ],
+      "actual": [
+        "discovery_already_queued"
+      ]
+    },
+    {
+      "name": "the declared link is followed, not the footer link",
+      "result": "PASS",
+      "expected": [
+        "COMPLETED",
+        "DECLARED_LINK",
+        "http://127.0.0.1:38521/legal/privacy",
+        200
+      ],
+      "actual": [
+        "COMPLETED",
+        "DECLARED_LINK",
+        "http://127.0.0.1:38521/legal/privacy",
+        200
+      ]
+    },
+    {
+      "name": "the policy text, title, language, terms link and digest are kept; no findings on a first discovery",
+      "result": "PASS",
+      "expected": [
+        "Privacy policy",
+        "en",
+        "http://127.0.0.1:38521/legal/terms",
+        true,
+        true,
+        null,
+        []
+      ],
+      "actual": [
+        "Privacy policy",
+        "en",
+        "http://127.0.0.1:38521/legal/terms",
+        true,
+        true,
+        null,
+        []
+      ]
+    },
+    {
+      "name": "only the home page and the one policy document were read (no crawl)",
+      "result": "PASS",
+      "expected": [
+        "/",
+        "/legal/privacy"
+      ],
+      "actual": [
+        "/",
+        "/legal/privacy"
+      ]
+    },
+    {
+      "name": "the third-party tracker on the page was never contacted",
+      "result": "PASS",
+      "expected": 0,
+      "actual": 0
+    },
+    {
+      "name": "the retrieved text can be read and matches the digest",
+      "result": "PASS",
+      "expected": [
+        true,
+        "4009e9450f6a73496dcad8f7b17aabdd01cf7058f3b1aa0687a63de071c4a7bd"
+      ],
+      "actual": [
+        true,
+        "4009e9450f6a73496dcad8f7b17aabdd01cf7058f3b1aa0687a63de071c4a7bd"
+      ]
+    },
+    {
+      "name": "no attention for a healthy first discovery",
+      "result": "PASS",
+      "expected": false,
+      "actual": false
+    },
+    {
+      "name": "a recheck of the same text says unchanged",
+      "result": "PASS",
+      "expected": [
+        false,
+        "9a553290-4713-4d02-90bb-e640832c5d7d",
+        []
+      ],
+      "actual": [
+        false,
+        "9a553290-4713-4d02-90bb-e640832c5d7d",
+        []
+      ]
+    },
+    {
+      "name": "changed text is flagged for review",
+      "result": "PASS",
+      "expected": [
+        true,
+        [
+          "POLICY_CHANGED"
+        ],
+        true
+      ],
+      "actual": [
+        true,
+        [
+          "POLICY_CHANGED"
+        ],
+        true
+      ]
+    },
+    {
+      "name": "a changed policy raises Operations attention",
+      "result": "PASS",
+      "expected": true,
+      "actual": true
+    },
+    {
+      "name": "a read-only role cannot record the review",
+      "result": "PASS",
+      "expected": 403,
+      "actual": 403
+    },
+    {
+      "name": "the review is recorded with who and when, and clears attention",
+      "result": "PASS",
+      "expected": [
+        true,
+        true,
+        false
+      ],
+      "actual": [
+        true,
+        true,
+        false
+      ]
+    },
+    {
+      "name": "a discovery is reviewed once",
+      "result": "PASS",
+      "expected": [
+        "already_reviewed"
+      ],
+      "actual": [
+        "already_reviewed"
+      ]
+    },
+    {
+      "name": "without a declaration, a link named \"Privacy Policy\" is found and the site is told to declare it",
+      "result": "PASS",
+      "expected": [
+        "LINK_TEXT",
+        "http://127.0.0.1:38521/privacy-notice",
+        true,
+        true
+      ],
+      "actual": [
+        "LINK_TEXT",
+        "http://127.0.0.1:38521/privacy-notice",
+        true,
+        true
+      ]
+    },
+    {
+      "name": "a Hindi link text (गोपनीयता नीति) is recognised",
+      "result": "PASS",
+      "expected": [
+        "LINK_TEXT",
+        "http://127.0.0.1:38521/hi/privacy"
+      ],
+      "actual": [
+        "LINK_TEXT",
+        "http://127.0.0.1:38521/hi/privacy"
+      ]
+    },
+    {
+      "name": "no policy at all is HIGH and nothing else is read; a link merely containing \"privacy\" is not taken",
+      "result": "PASS",
+      "expected": [
+        "NOT_FOUND",
+        [
+          "POLICY_NOT_FOUND"
+        ],
+        null,
+        [
+          "/"
+        ]
+      ],
+      "actual": [
+        "NOT_FOUND",
+        [
+          "POLICY_NOT_FOUND"
+        ],
+        null,
+        [
+          "/"
+        ]
+      ]
+    },
+    {
+      "name": "a missing policy raises attention",
+      "result": "PASS",
+      "expected": true,
+      "actual": true
+    },
+    {
+      "name": "a policy declared on an unapproved origin is reported and never fetched",
+      "result": "PASS",
+      "expected": [
+        "DECLARED_LINK",
+        [
+          "POLICY_ON_UNAPPROVED_ORIGIN"
+        ],
+        null,
+        0
+      ],
+      "actual": [
+        "DECLARED_LINK",
+        [
+          "POLICY_ON_UNAPPROVED_ORIGIN"
+        ],
+        null,
+        0
+      ]
+    },
+    {
+      "name": "a broken policy address is HIGH and its text is not kept",
+      "result": "PASS",
+      "expected": [
+        [
+          "POLICY_UNREACHABLE"
+        ],
+        404,
+        null
+      ],
+      "actual": [
+        [
+          "POLICY_UNREACHABLE"
+        ],
+        404,
+        null
+      ]
+    },
+    {
+      "name": "a near-empty policy page is HIGH",
+      "result": "PASS",
+      "expected": true,
+      "actual": true
+    },
+    {
+      "name": "none of these discoveries contacted the third-party tracker",
+      "result": "PASS",
+      "expected": 0,
+      "actual": 0
+    },
+    {
+      "name": "no rediscovery is scheduled within a week of the last",
+      "result": "PASS",
+      "expected": 9,
+      "actual": 9
+    },
+    {
+      "name": "a week later the worker queues and runs a rediscovery by itself",
+      "result": "PASS",
+      "expected": [
+        "SCHEDULE",
+        "COMPLETED",
+        "DECLARED_LINK"
+      ],
+      "actual": [
+        "SCHEDULE",
+        "COMPLETED",
+        "DECLARED_LINK"
+      ]
+    },
+    {
+      "name": "another tenant sees nothing",
+      "result": "PASS",
+      "expected": [
+        404,
+        404
+      ],
+      "actual": [
+        404,
+        404
+      ]
+    },
+    {
+      "name": "a completed discovery's text cannot be rewritten",
+      "result": "PASS",
+      "expected": "policy_discovery_transition_refused",
+      "actual": "policy_discovery_transition_refused"
+    },
+    {
+      "name": "a discovery cannot be deleted",
+      "result": "PASS",
+      "expected": "policy_discovery_is_retained",
+      "actual": "policy_discovery_is_retained"
+    },
+    {
+      "name": "a disabled site takes no new discovery",
+      "result": "PASS",
+      "expected": [
+        "site_not_enabled"
+      ],
+      "actual": [
+        "site_not_enabled"
+      ]
+    }
+  ],
+  "passed": 30,
+  "failures": 0,
+  "profile": "codex-a00",
+  "test_adapter_only": true,
+  "limitation": "Connector effects are exercised against the synthetic records test adapter; no live customer system was contacted."
+}

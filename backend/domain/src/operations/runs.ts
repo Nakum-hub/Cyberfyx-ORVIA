@@ -375,7 +375,7 @@ export async function actionView(c: Context, row: ActionRow) {
 }
 export async function actionList(c: Context, id: string, page: Page, query: unknown) {
   const state = (query as { state?: string } | undefined)?.state ?? null;
-  const rows = (await c.tx.query(`SELECT * FROM app.downstream_actions WHERE ${predicate} AND run_id=$4 AND ($5::text IS NULL OR state=$5) AND ($6::uuid IS NULL OR id>$6) ORDER BY id LIMIT $7`,
+  const rows = (await c.tx.query(`SELECT * FROM app.downstream_actions WHERE ${predicate} AND run_id=$4 AND ($5::text IS NULL OR state=$5) AND ($6::uuid IS NULL OR (created_at,id) < (SELECT created_at,id FROM app.downstream_actions WHERE ${predicate} AND run_id=$4 AND ($5::text IS NULL OR state=$5) AND id=$6)) ORDER BY created_at DESC,id DESC LIMIT $7`,
     [...scope(c), id, state, page.cursor, page.limit + 1])).rows as ActionRow[];
   const paged = pageOf(rows, page.limit, r => r.id);
   const items = [];
@@ -443,7 +443,7 @@ export async function runView(c: Context, id: string) {
 }
 export async function runList(c: Context, page: Page, query: unknown) {
   const q = (query ?? {}) as { kind?: string; status?: string };
-  const rows = (await c.tx.query(`SELECT id FROM app.workflow_runs WHERE ${predicate} AND ($4::text IS NULL OR kind=$4) AND ($5::text IS NULL OR status=$5) AND ($6::uuid IS NULL OR id>$6) ORDER BY id LIMIT $7`,
+  const rows = (await c.tx.query(`SELECT id FROM app.workflow_runs WHERE ${predicate} AND ($4::text IS NULL OR kind=$4) AND ($5::text IS NULL OR status=$5) AND ($6::uuid IS NULL OR (created_at,id) < (SELECT created_at,id FROM app.workflow_runs WHERE ${predicate} AND ($4::text IS NULL OR kind=$4) AND ($5::text IS NULL OR status=$5) AND id=$6)) ORDER BY created_at DESC,id DESC LIMIT $7`,
     [...scope(c), q.kind ?? null, q.status ?? null, page.cursor, page.limit + 1])).rows;
   const paged = pageOf(rows, page.limit, r => r.id);
   const items = [];

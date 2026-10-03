@@ -1,0 +1,38 @@
+{"prerequisite_command":["C:\\Cyberfyx-projects\\Cyberfyx_ORVIA\\.local\\tools\\node-v24.21.0-win-x64\\node.exe","--import","tsx","scripts/machine-init.ts","confirm:codex-a00"]}
+Local machine enrollment and isolated synthetic targets provisioned; credentials remain protected; existing target restrictions preserved.
+{"prerequisite":"MACHINE_ENROLLMENT","code":0,"signal":null}
+{"prerequisite_command":["docker","network","inspect","--format","{{index .Labels \"com.docker.compose.project\"}}","orvia-codex-a00_private"],"exit_code":0,"signal":null}
+{"prerequisite_command":["docker","network","inspect","--format","{{index .Labels \"com.docker.compose.project\"}}","orvia-codex-a00_loopback_access"],"exit_code":0,"signal":null}
+{"prerequisite_command":["docker","inspect","--format","{{json .Config.Labels}}","orvia-codex-a00-temporal-1"],"exit_code":0,"signal":null}
+{"prerequisite_command":["docker","inspect","--format","{{.State.Running}}","orvia-codex-a00-temporal-1"],"exit_code":0,"signal":null}
+{"prerequisite_command":["docker","inspect","--format","{{json .NetworkSettings.Networks}}","orvia-codex-a00-temporal-1"],"exit_code":0,"signal":null}
+{"prerequisite_command":["docker","start","orvia-codex-a00-temporal-1"],"exit_code":0,"signal":null}
+{"prerequisite_command":["docker","image","inspect","node@sha256:2fe369e969550cde8e867afc3fe370b260140cab4a23d467074295b42163d553"],"exit_code":0,"signal":null}
+{"prerequisite_command":["docker","create","--pull=never","--name","orvia-round8-frozen-zeta-temporal-loopback","--label","orvia.round8.run=frozen-zeta","--network","orvia-codex-a00_private","--publish","127.0.0.1:57233:7233","--read-only","--user","node","--cap-drop","ALL","--security-opt","no-new-privileges=true","--memory","256m","--mount","type=bind,src=C:\\Cyberfyx-projects\\Cyberfyx_ORVIA\\.worktrees\\round8\\infrastructure\\loopback.mjs,dst=/app/loopback.mjs,readonly","node@sha256:2fe369e969550cde8e867afc3fe370b260140cab4a23d467074295b42163d553","node","/app/loopback.mjs"],"exit_code":0,"signal":null}
+{"prerequisite_command":["docker","network","connect","orvia-codex-a00_loopback_access","orvia-round8-frozen-zeta-temporal-loopback"],"exit_code":0,"signal":null}
+{"prerequisite_command":["docker","start","orvia-round8-frozen-zeta-temporal-loopback"],"exit_code":0,"signal":null}
+Dependency ready: codex-a00 Temporal namespace
+PASS protected machine setup completed
+PASS synthetic target initially has marketing membership
+PASS observer cannot mutate target
+PASS withdrawal is accepted with worker stopped
+PASS injected stop after real Temporal acceptance
+PASS outbox delivery marker rolled back
+PASS Temporal retained accepted workflow despite DB rollback
+PASS dispatcher resumes stable workflow identity
+PASS duplicate dispatcher pass creates no new work
+{
+  name: 'Error',
+  code: 'UNCLASSIFIED',
+  message: 'Timed out waiting for actual durable state',
+  sites: [
+    '    at until (C:\\Cyberfyx-projects\\Cyberfyx_ORVIA\\.worktrees\\round8\\tests\\integration\\workflows\\workflow.test.ts:33:204)',
+    '    at async <anonymous> (C:\\Cyberfyx-projects\\Cyberfyx_ORVIA\\.worktrees\\round8\\tests\\integration\\workflows\\workflow.test.ts:52:19)'
+  ]
+}
+
+
+Artifact: handoffs/codex/artifacts/A00-workflow-integration-1790876917275-9295da77-4a7d-4185-86a4-db52621e4aba.json
+{"prerequisite_command":["docker","stop","--timeout","20","orvia-round8-frozen-zeta-temporal-loopback"],"exit_code":0,"signal":null}
+{"prerequisite_command":["docker","rm","orvia-round8-frozen-zeta-temporal-loopback"],"exit_code":0,"signal":null}
+{"prerequisite_command":["docker","stop","--timeout","20","orvia-codex-a00-temporal-1"],"exit_code":0,"signal":null}

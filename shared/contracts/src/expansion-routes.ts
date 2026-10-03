@@ -115,6 +115,24 @@ export const expansionRoutes: Route[] = [
   read('cmp_consent_stats', '/cmp-sites/{id}/consent-stats', 'CmpConsentStats', 'registry.read'),
   list('list_cmp_scans', '/cmp-sites/{id}/scans', 'CmpScanList', 'registry.read'),
   write('request_cmp_scan', '/cmp-sites/{id}/scans', 'CmpScanRequest', 'CmpScan', 'registry.write'),
+  list('list_policy_discoveries', '/cmp-sites/{id}/policy-discoveries', 'PolicyDiscoveryList', 'registry.read'),
+  write('request_policy_discovery', '/cmp-sites/{id}/policy-discoveries', 'PolicyDiscoveryRequest', 'PolicyDiscovery', 'registry.write'),
+  read('policy_discovery_text', '/policy-discoveries/{id}/text', 'PolicyDiscoveryText', 'registry.read'),
+  write('review_policy_discovery', '/policy-discoveries/{id}/review', 'PolicyDiscoveryReview', 'PolicyDiscovery', 'registry.write', 200),
+  // Custom-model version governance (ORVIA records and gates the organisation's model versions; it runs no model).
+  list('list_ai_model_versions', '/ai-systems/{id}/model-versions', 'AiModelVersionList', 'ai_governance.read'),
+  write('record_ai_model_version', '/ai-systems/{id}/model-versions', 'AiModelVersionCreate', 'AiModelVersion', 'ai_governance.write'),
+  write('approve_ai_model_version', '/ai-model-versions/{id}/approval', undefined, 'AiModelVersion', 'ai_governance.approve', 200),
+  write('deploy_ai_model_version', '/ai-model-versions/{id}/deployment', undefined, 'AiModelVersion', 'ai_governance.approve', 200),
+  write('retire_ai_model_version', '/ai-model-versions/{id}/retirement', undefined, 'AiModelVersion', 'ai_governance.write', 200),
+  // Withdrawal canaries: which principals are canaries is sensitive, so every route needs sensitive registry access.
+  list('list_withdrawal_canaries', '/withdrawal-canaries', 'WithdrawalCanaryList', 'registry.sensitive.read'),
+  write('create_withdrawal_canary', '/withdrawal-canaries', 'WithdrawalCanaryCreate', 'WithdrawalCanary', 'registry.sensitive.write'),
+  write('activate_withdrawal_canary', '/withdrawal-canaries/{id}/activation', undefined, 'WithdrawalCanary', 'registry.sensitive.write', 200),
+  write('retire_withdrawal_canary', '/withdrawal-canaries/{id}/retirement', undefined, 'WithdrawalCanary', 'registry.sensitive.write', 200),
+  write('record_canary_receipt', '/withdrawal-canaries/{id}/hits', 'CanaryHitReport', 'CanaryHit', 'registry.sensitive.write'),
+  list('list_canary_hits', '/canary-hits', 'CanaryHitList', 'registry.sensitive.read', 'CanaryHitQuery'),
+  write('review_canary_hit', '/canary-hits/{id}/review', 'CanaryHitReview', 'CanaryHit', 'registry.sensitive.write', 200),
   // A visitor's choice, posted by the banner script from an approved site origin. The site key is public; the origin is checked.
   { id: 'record_cmp_consent', method: 'post', path: '/api/v1/cmp/{id}/consents', authority: 'PUBLIC', params: 'IdPath', request: 'CmpConsentSubmit', response: 'CmpConsentReceipt', status: 201, capability: 'cmp.record', maximum_body_bytes: 4096 },
   // Supplier-facing: a bearer link token scoped to one draft assessment; no ORVIA account.
@@ -138,4 +156,5 @@ export const expansionRoutes: Route[] = [
   // First-run setup: public, served by frontend/src/app/api/v1/setup/route.ts; authorised by the installer's one-time code, not a role
   { id: 'first_run_state', method: 'get', path: '/api/v1/setup', authority: 'PUBLIC', response: 'FirstRunState', status: 200, capability: 'setup.first_run' },
   { id: 'first_run_complete', method: 'post', path: '/api/v1/setup', authority: 'PUBLIC', request: 'FirstRunSetup', response: 'FirstRunCompleted', status: 201, capability: 'setup.first_run', maximum_body_bytes: 8192 },
+  { id: 'owner_recovery', method: 'post', path: '/api/v1/setup/owner-recovery', authority: 'PUBLIC', request: 'OwnerRecoveryComplete', response: 'OwnerRecoveryCompleted', status: 200, capability: 'setup.owner_recovery', maximum_body_bytes: 4096 },
 ];

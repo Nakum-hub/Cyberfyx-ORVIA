@@ -1,0 +1,115 @@
+{
+  "task_id": "DPDP",
+  "fixture_kind": "CUSTOMER_LOCAL_SYNTHETIC",
+  "recorded_at": "2026-09-30T18:52:03.116Z",
+  "suite": "owner-recovery",
+  "assertions": [
+    {
+      "name": "no code is issued for the administrator",
+      "result": "PASS"
+    },
+    {
+      "name": "no code is issued for an unknown email",
+      "result": "PASS"
+    },
+    {
+      "name": "a code is issued for the owner (email in any case), in the expected form",
+      "result": "PASS"
+    },
+    {
+      "name": "only its digest is stored, valid for 30 minutes",
+      "result": "PASS"
+    },
+    {
+      "name": "issuing is recorded in the audit trail",
+      "result": "PASS"
+    },
+    {
+      "name": "the application role cannot read the codes",
+      "result": "PASS"
+    },
+    {
+      "name": "the application role cannot issue a code",
+      "result": "PASS"
+    },
+    {
+      "name": "the administrator's email with the owner's code is refused without a counted attempt",
+      "result": "PASS"
+    },
+    {
+      "name": "wrong code 1 is refused",
+      "result": "PASS"
+    },
+    {
+      "name": "wrong code 2 is refused",
+      "result": "PASS"
+    },
+    {
+      "name": "wrong code 3 is refused",
+      "result": "PASS"
+    },
+    {
+      "name": "wrong code 4 is refused",
+      "result": "PASS"
+    },
+    {
+      "name": "the fifth wrong code locks it, and then even the right code is refused",
+      "result": "PASS"
+    },
+    {
+      "name": "an expired code is refused",
+      "result": "PASS"
+    },
+    {
+      "name": "the right code recovers the owner login (code accepted in lower case with spaces)",
+      "result": "PASS"
+    },
+    {
+      "name": "the password is replaced, the authenticator removed and every session ended",
+      "result": "PASS"
+    },
+    {
+      "name": "exactly one owner remains, the same login",
+      "result": "PASS"
+    },
+    {
+      "name": "the administrator is untouched",
+      "result": "PASS"
+    },
+    {
+      "name": "the recovery is recorded in the audit trail",
+      "result": "PASS"
+    },
+    {
+      "name": "a used code cannot be used again",
+      "result": "PASS"
+    },
+    {
+      "name": "the scratch database was removed",
+      "result": "PASS"
+    },
+    {
+      "name": "HTTP: wrong details get one undifferentiated refusal",
+      "result": "PASS"
+    },
+    {
+      "name": "HTTP: the owner's real email with no valid code gets the same refusal (no email probing)",
+      "result": "PASS"
+    },
+    {
+      "name": "HTTP: a request carrying cookies is refused",
+      "result": "PASS"
+    },
+    {
+      "name": "HTTP: a foreign origin is refused",
+      "result": "PASS"
+    },
+    {
+      "name": "HTTP: a short password is refused before anything is checked",
+      "result": "PASS"
+    }
+  ],
+  "passed": 26,
+  "failures": 0,
+  "scratch_database": "orvia_owner_recovery_917655ed37ae"
+}

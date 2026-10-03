@@ -1,0 +1,125 @@
+{
+  "task_id": "A00",
+  "fixture_kind": "SYNTHETIC_BOOTSTRAP_ONLY",
+  "recorded_at": "2026-10-01T09:13:10.092Z",
+  "suite": "operations-screens-browser",
+  "assertions": [
+    {
+      "name": "registration is accepted",
+      "result": "PASS",
+      "expected": 201,
+      "actual": 201
+    },
+    {
+      "name": "a breach registered on screen is pinned with deadlines from the package",
+      "result": "PASS",
+      "expected": [
+        "be35c72e-5c3a-4ddb-9971-d0c16f0acd86",
+        "UNKNOWN",
+        true
+      ],
+      "actual": [
+        "be35c72e-5c3a-4ddb-9971-d0c16f0acd86",
+        "UNKNOWN",
+        true
+      ]
+    },
+    {
+      "name": "correcting the facts keeps the pinned package and deadlines",
+      "result": "PASS",
+      "expected": [
+        40,
+        "9cb00e35-cc8d-4323-9827-83f1569d51c3",
+        [
+          null,
+          null,
+          "2026-10-04T07:10:39.025Z"
+        ]
+      ],
+      "actual": [
+        40,
+        "9cb00e35-cc8d-4323-9827-83f1569d51c3",
+        [
+          null,
+          null,
+          "2026-10-04T07:10:39.025Z"
+        ]
+      ]
+    },
+    {
+      "name": "a profile version is recorded; unknown SDF status leaves no obligation open (history is kept)",
+      "result": "PASS",
+      "expected": [
+        "UNKNOWN",
+        "dpo@synthetic.example",
+        0
+      ],
+      "actual": [
+        "UNKNOWN",
+        "dpo@synthetic.example",
+        0
+      ]
+    },
+    {
+      "name": "a person is registered with a keyed reference and no stored identifier",
+      "result": "PASS",
+      "expected": [
+        1,
+        true
+      ],
+      "actual": [
+        1,
+        true
+      ]
+    },
+    {
+      "name": "a relationship context is recorded with unknown evidence kept unknown",
+      "result": "PASS",
+      "expected": [
+        "ACTIVE",
+        "UNKNOWN",
+        null
+      ],
+      "actual": [
+        "ACTIVE",
+        "UNKNOWN",
+        null
+      ]
+    },
+    {
+      "name": "a representative starts unverified",
+      "result": "PASS",
+      "expected": "UNVERIFIED",
+      "actual": "UNVERIFIED"
+    },
+    {
+      "name": "the person who recorded a representative cannot verify them",
+      "result": "PASS",
+      "expected": 403,
+      "actual": 403
+    },
+    {
+      "name": "a different staff member verifies the representative",
+      "result": "PASS",
+      "expected": [
+        "VERIFIED",
+        true
+      ],
+      "actual": [
+        "VERIFIED",
+        true
+      ]
+    },
+    {
+      "name": "unexpected failure in data principal",
+      "result": "FAIL",
+      "expected": "no error",
+      "actual": "locator.waitFor: Timeout 30000ms exceeded.\nCall log:\n\u001b[2m  - waiting for getByRole('form', { name: 'Record child status' }).getByText('A known status is recorded with the evidence it rests on.') to be visible\u001b[22m\n"
+    }
+  ],
+  "passed": 9,
+  "failures": 1,
+  "profile": "codex-a00",
+  "test_adapter_only": true,
+  "limitation": "Connector effects are exercised against the synthetic records test adapter; no live customer system was contacted."
+}

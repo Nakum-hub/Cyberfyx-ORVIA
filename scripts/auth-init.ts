@@ -4,6 +4,7 @@ import { randomBytes } from 'node:crypto';
 import { loadProfile } from '../shared/testing/src/config.ts';
 import { runtimeRoles } from '../backend/auth/src/config.ts';
 import { connectDatabase } from '../database/customer/src/index.ts';
+import { revokeServerOnly } from '../database/customer/src/server-only.ts';
 import { privateDirectory } from './local-private.ts';
 import { safeError } from '../shared/testing/src/evidence.ts';
 
@@ -43,6 +44,7 @@ try {
     await tx.query('GRANT SELECT,INSERT ON app.purpose_versions,app.notice_versions,app.policy_versions,app.policy_systems,app.systems,app.target_mappings,app.publication_proofs,app.policy_approvals,app.consent_aggregates,app.consent_interactions,app.consent_events,app.workflows,app.outbox_events TO orvia_app');
     await tx.query('GRANT UPDATE ON app.purpose_versions,app.notice_versions,app.policy_versions,app.publication_proofs,app.consent_aggregates,app.consent_interactions TO orvia_app');
     await tx.query('GRANT EXECUTE ON ALL FUNCTIONS IN SCHEMA app TO orvia_app');
+    await revokeServerOnly(tx);
     for (const [schema, role] of [['staff_auth', 'orvia_staff_auth'], ['principal_auth', 'orvia_principal_auth']]) {
       await tx.query(`GRANT USAGE ON SCHEMA ${schema} TO ${role}`);
       for (const table of ['user', 'session', 'account', 'verification', 'twoFactor', 'rateLimit']) {

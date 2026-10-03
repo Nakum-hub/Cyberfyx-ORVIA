@@ -1,0 +1,11 @@
+{
+  "diagnostic_only": true,
+  "source_file": "handoffs/codex/artifacts/R8-body-trace-webkit-operations.log",
+  "source_sha256": "731d21e71b759f860d155e381edf5ec01eb35269644958cff719388120ac2ffb",
+  "source_bytes": 3366,
+  "nul_count": 1682,
+  "encoding": "UTF16LE_BOM",
+  "publication_encoding": "UTF8_JSON_ESCAPED",
+  "original_unchanged": true,
+  "text": "R7 webkit operations-screens-local: suite entry point with passive diagnostic instrumentation\r\nPASS registration is accepted\r\nPASS a breach registered on screen is pinned with deadlines from the package\r\nPASS correcting the facts keeps the pinned package and deadlines\r\nPASS a profile version is recorded; unknown SDF status leaves no obligation open (history is kept)\r\nPASS a person is registered with a keyed reference and no stored identifier\r\nPASS a relationship context is recorded with unknown evidence kept unknown\r\nPASS a representative starts unverified\r\nPASS the person who recorded a representative cannot verify them\r\nnode : page.waitForResponse: Timeout 30000ms exceeded while waiting for event \"response\"\r\nAt line:2 char:254\r\n+ ... ody-trace'; node node_modules/tsx/dist/cli.mjs handoffs/codex/round8- ...\r\n+                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\r\n    + CategoryInfo          : NotSpecified: (page.waitForRes...vent \"response\":String) [], RemoteException\r\n    + FullyQualifiedErrorId : NativeCommandError\r\n \r\n    at <anonymous> (C:\\Cyberfyx-projects\\Cyberfyx_ORVIA\\.worktrees\\round8\\tests\\e2e\\operations-screens-local.ts:178:39)\r\n    at async Object.run \r\n(C:\\Cyberfyx-projects\\Cyberfyx_ORVIA\\.worktrees\\round8\\shared\\testing\\src\\operations-fixture.ts:117:28)\r\n    at async <anonymous> \r\n(C:\\Cyberfyx-projects\\Cyberfyx_ORVIA\\.worktrees\\round8\\tests\\e2e\\operations-screens-local.ts:30:1) {\r\n  log: [],\r\n  name: 'TimeoutError'\r\n}\r\nServer diagnostics (safe codes only): \r\nArtifact: handoffs/codex/artifacts/A00-operations-operations-screens-browser-1790839994933-d1f4783a-0d69-43bb-82a9-1d7a28a28b8f.json\r\n\r\n9 assertions, 1 failures.\r\n"
+}

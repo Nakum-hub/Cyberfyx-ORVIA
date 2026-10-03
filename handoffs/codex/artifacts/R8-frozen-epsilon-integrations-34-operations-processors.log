@@ -1,0 +1,21 @@
+{"prerequisite_command":["C:\\Cyberfyx-projects\\Cyberfyx_ORVIA\\.local\\tools\\node-v24.21.0-win-x64\\node.exe","--import","tsx","scripts/machine-init.ts","confirm:codex-a00"]}
+Local machine enrollment and isolated synthetic targets provisioned; credentials remain protected; existing target restrictions preserved.
+{"prerequisite":"MACHINE_ENROLLMENT","code":0,"signal":null}
+AuthLoginFailure: Synthetic login failed
+    at failedAuthResponse (C:\Cyberfyx-projects\Cyberfyx_ORVIA\.worktrees\round8\backend\auth\src\errors.ts:52:10)
+    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+    at async HttpFixture.login (C:\Cyberfyx-projects\Cyberfyx_ORVIA\.worktrees\round8\shared\testing\src\http-fixture.ts:68:36)
+    at async HttpFixture.h.login (C:\Cyberfyx-projects\Cyberfyx_ORVIA\.worktrees\round8\shared\testing\src\operations-fixture.ts:26:88)
+    at async Object.ensurePackage (C:\Cyberfyx-projects\Cyberfyx_ORVIA\.worktrees\round8\shared\testing\src\operations-fixture.ts:50:19)
+    at async <anonymous> (C:\Cyberfyx-projects\Cyberfyx_ORVIA\.worktrees\round8\tests\integration\operations\processors.test.ts:16:3)
+    at async Object.run (C:\Cyberfyx-projects\Cyberfyx_ORVIA\.worktrees\round8\shared\testing\src\operations-fixture.ts:117:28)
+    at async <anonymous> (C:\Cyberfyx-projects\Cyberfyx_ORVIA\.worktrees\round8\tests\integration\operations\processors.test.ts:15:1) {
+  http_status: 429,
+  response_code: 'UNKNOWN',
+  request_id: '9d5ca404-f9af-4d46-bc23-9ac78f0e501f',
+  code: 'AUTH_LOGIN_FAILED'
+}
+Server diagnostics (safe codes only): 
+Artifact: handoffs/codex/artifacts/A00-operations-processors-1790869432070-b2a10894-8404-4135-a23c-7b63dd66b61d.json
+
+1 assertions, 1 failures.

@@ -1,0 +1,334 @@
+{
+  "script": "docs/demo/DEMO_SCRIPT.md",
+  "checked": 53,
+  "dataProof": {
+    "mandate_engagement": "ENG-MB-238f8db7",
+    "delivery_rows": 2,
+    "mandate": "None",
+    "mandate_history_states": "ENDED",
+    "report_engagement": "ENG-3c4a0d8b",
+    "signed_reports": 1,
+    "signed_findings": 1
+  },
+  "pages_with_issues": [],
+  "visits": [
+    {
+      "role": "client owner",
+      "route": "/workspace",
+      "status": 200,
+      "issues": []
+    },
+    {
+      "role": "client owner",
+      "route": "/workspace/operations-attention",
+      "status": 200,
+      "issues": []
+    },
+    {
+      "role": "client owner",
+      "route": "/workspace/configuration",
+      "status": 200,
+      "issues": []
+    },
+    {
+      "role": "client owner",
+      "route": "/workspace/processing-activities",
+      "status": 200,
+      "issues": []
+    },
+    {
+      "role": "client owner",
+      "route": "/workspace/registry-notices",
+      "status": 200,
+      "issues": []
+    },
+    {
+      "role": "client owner",
+      "route": "/workspace/website-consent",
+      "status": 200,
+      "issues": []
+    },
+    {
+      "role": "client owner",
+      "route": "/workspace/consent-records",
+      "status": 200,
+      "issues": []
+    },
+    {
+      "role": "client owner",
+      "route": "/workspace/operations-runs",
+      "status": 200,
+      "issues": []
+    },
+    {
+      "role": "client owner",
+      "route": "/workspace/rights",
+      "status": 200,
+      "issues": []
+    },
+    {
+      "role": "client owner",
+      "route": "/workspace/personal-data-breaches",
+      "status": 200,
+      "issues": []
+    },
+    {
+      "role": "client owner",
+      "route": "/workspace/processors",
+      "status": 200,
+      "issues": []
+    },
+    {
+      "role": "client owner",
+      "route": "/workspace/processor-engagements",
+      "status": 200,
+      "issues": []
+    },
+    {
+      "role": "client owner",
+      "route": "/workspace/registry-retention",
+      "status": 200,
+      "issues": []
+    },
+    {
+      "role": "client owner",
+      "route": "/workspace/retention/outcomes",
+      "status": 200,
+      "issues": []
+    },
+    {
+      "role": "client owner",
+      "route": "/workspace/inventory",
+      "status": 200,
+      "issues": []
+    },
+    {
+      "role": "client owner",
+      "route": "/workspace/catalog-discovery",
+      "status": 200,
+      "issues": []
+    },
+    {
+      "role": "client owner",
+      "route": "/workspace/grc",
+      "status": 200,
+      "issues": []
+    },
+    {
+      "role": "client owner",
+      "route": "/workspace/compliance",
+      "status": 200,
+      "issues": []
+    },
+    {
+      "role": "client owner",
+      "route": "/workspace/impact-assessments",
+      "status": 200,
+      "issues": []
+    },
+    {
+      "role": "client owner",
+      "route": "/workspace/assessments",
+      "status": 200,
+      "issues": []
+    },
+    {
+      "role": "client owner",
+      "route": "/workspace/ai-governance",
+      "status": 200,
+      "issues": []
+    },
+    {
+      "role": "client owner",
+      "route": "/workspace/dpdpa-audit",
+      "status": 200,
+      "issues": []
+    },
+    {
+      "role": "client owner",
+      "route": "/workspace/vendor-visibility",
+      "status": 200,
+      "issues": []
+    },
+    {
+      "role": "client owner",
+      "route": "/workspace/audit-trail",
+      "status": 200,
+      "issues": []
+    },
+    {
+      "role": "client owner",
+      "route": "/workspace/dpdpa-audit#mandate-engagement",
+      "status": 200,
+      "issues": []
+    },
+    {
+      "role": "client owner",
+      "route": "/workspace/dpdpa-audit#signed-report-and-findings",
+      "status": 200,
+      "issues": []
+    },
+    {
+      "role": "vendor administrator",
+      "route": "/vendor",
+      "status": 200,
+      "issues": []
+    },
+    {
+      "role": "vendor administrator",
+      "route": "/vendor/organisations",
+      "status": 200,
+      "issues": []
+    },
+    {
+      "role": "vendor administrator",
+      "route": "/vendor/licences",
+      "status": 200,
+      "issues": []
+    },
+    {
+      "role": "vendor administrator",
+      "route": "/vendor/engagements",
+      "status": 200,
+      "issues": []
+    },
+    {
+      "role": "vendor administrator",
+      "route": "/vendor/practice",
+      "status": 200,
+      "issues": []
+    },
+    {
+      "role": "vendor administrator",
+      "route": "/vendor/support",
+      "status": 200,
+      "issues": []
+    },
+    {
+      "role": "vendor administrator",
+      "route": "/vendor/payments",
+      "status": 200,
+      "issues": []
+    },
+    {
+      "role": "lead auditor",
+      "route": "/vendor/engagements/88f23172-5c51-4fd1-954a-b46db8343407",
+      "status": 200,
+      "issues": []
+    },
+    {
+      "role": "lead auditor",
+      "route": "/vendor/engagements/88f23172-5c51-4fd1-954a-b46db8343407#Overview",
+      "status": 200,
+      "issues": []
+    },
+    {
+      "role": "lead auditor",
+      "route": "/vendor/engagements/88f23172-5c51-4fd1-954a-b46db8343407#Scope and applicability",
+      "status": 200,
+      "issues": []
+    },
+    {
+      "role": "lead auditor",
+      "route": "/vendor/engagements/88f23172-5c51-4fd1-954a-b46db8343407#Plan",
+      "status": 200,
+      "issues": []
+    },
+    {
+      "role": "lead auditor",
+      "route": "/vendor/engagements/88f23172-5c51-4fd1-954a-b46db8343407#Requests",
+      "status": 200,
+      "issues": []
+    },
+    {
+      "role": "lead auditor",
+      "route": "/vendor/engagements/88f23172-5c51-4fd1-954a-b46db8343407#Evidence1",
+      "status": 200,
+      "issues": []
+    },
+    {
+      "role": "lead auditor",
+      "route": "/vendor/engagements/88f23172-5c51-4fd1-954a-b46db8343407#Tests and working papers",
+      "status": 200,
+      "issues": []
+    },
+    {
+      "role": "lead auditor",
+      "route": "/vendor/engagements/88f23172-5c51-4fd1-954a-b46db8343407#Findings and actions1",
+      "status": 200,
+      "issues": []
+    },
+    {
+      "role": "lead auditor",
+      "route": "/vendor/engagements/88f23172-5c51-4fd1-954a-b46db8343407#Report",
+      "status": 200,
+      "issues": []
+    },
+    {
+      "role": "lead auditor",
+      "route": "/vendor/engagements/88f23172-5c51-4fd1-954a-b46db8343407#Follow-up",
+      "status": 200,
+      "issues": []
+    },
+    {
+      "role": "lead auditor",
+      "route": "/vendor/engagements/5a2efcc4-fd66-49c9-8a4c-7a2255382c60",
+      "status": 200,
+      "issues": []
+    },
+    {
+      "role": "lead auditor",
+      "route": "/vendor/engagements/5a2efcc4-fd66-49c9-8a4c-7a2255382c60#Overview",
+      "status": 200,
+      "issues": []
+    },
+    {
+      "role": "lead auditor",
+      "route": "/vendor/engagements/5a2efcc4-fd66-49c9-8a4c-7a2255382c60#Scope and applicability",
+      "status": 200,
+      "issues": []
+    },
+    {
+      "role": "lead auditor",
+      "route": "/vendor/engagements/5a2efcc4-fd66-49c9-8a4c-7a2255382c60#Plan",
+      "status": 200,
+      "issues": []
+    },
+    {
+      "role": "lead auditor",
+      "route": "/vendor/engagements/5a2efcc4-fd66-49c9-8a4c-7a2255382c60#Requests",
+      "status": 200,
+      "issues": []
+    },
+    {
+      "role": "lead auditor",
+      "route": "/vendor/engagements/5a2efcc4-fd66-49c9-8a4c-7a2255382c60#Evidence1",
+      "status": 200,
+      "issues": []
+    },
+    {
+      "role": "lead auditor",
+      "route": "/vendor/engagements/5a2efcc4-fd66-49c9-8a4c-7a2255382c60#Tests and working papers",
+      "status": 200,
+      "issues": []
+    },
+    {
+      "role": "lead auditor",
+      "route": "/vendor/engagements/5a2efcc4-fd66-49c9-8a4c-7a2255382c60#Findings and actions1",
+      "status": 200,
+      "issues": []
+    },
+    {
+      "role": "lead auditor",
+      "route": "/vendor/engagements/5a2efcc4-fd66-49c9-8a4c-7a2255382c60#Report",
+      "status": 200,
+      "issues": []
+    },
+    {
+      "role": "lead auditor",
+      "route": "/vendor/engagements/5a2efcc4-fd66-49c9-8a4c-7a2255382c60#Follow-up",
+      "status": 200,
+      "issues": []
+    }
+  ]
+}

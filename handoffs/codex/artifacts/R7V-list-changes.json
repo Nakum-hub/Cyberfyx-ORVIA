@@ -1,0 +1,290 @@
+[
+  {
+    "file": "backend/domain/src/ai-governance/ai-governance.ts",
+    "function": "aiSystemList",
+    "table": "ai_systems",
+    "timestamp": "recorded_at"
+  },
+  {
+    "file": "backend/domain/src/cmp/cmp.ts",
+    "function": "siteList",
+    "table": "cmp_sites",
+    "timestamp": "created_at"
+  },
+  {
+    "file": "backend/domain/src/cmp/cmp.ts",
+    "function": "configList",
+    "table": "cmp_configs",
+    "timestamp": "authored_at"
+  },
+  {
+    "file": "backend/domain/src/coverage/coverage.ts",
+    "function": "gapList",
+    "table": "coverage_gaps",
+    "timestamp": "detected_at"
+  },
+  {
+    "file": "backend/domain/src/delivery/delivery.ts",
+    "function": "transportList",
+    "table": "delivery_transports",
+    "timestamp": "created_at"
+  },
+  {
+    "file": "backend/domain/src/delivery/delivery.ts",
+    "function": "routingList",
+    "table": "alert_routings",
+    "timestamp": "created_at"
+  },
+  {
+    "file": "backend/domain/src/discovery/catalog.ts",
+    "function": "catalogTargetList",
+    "table": "catalog_discovery_targets",
+    "timestamp": "created_at"
+  },
+  {
+    "file": "backend/domain/src/discovery/classification.ts",
+    "function": "qualityList",
+    "table": "classification_quality",
+    "timestamp": "recorded_at"
+  },
+  {
+    "file": "backend/domain/src/dpdpa-audit/exchange.ts",
+    "function": "evidenceFileList",
+    "table": "evidence_files",
+    "timestamp": "uploaded_at"
+  },
+  {
+    "file": "backend/domain/src/dpdpa-audit/exchange.ts",
+    "function": "engagementList",
+    "table": "audit_engagements",
+    "timestamp": "created_at"
+  },
+  {
+    "file": "backend/domain/src/graph/graph.ts",
+    "function": "dataAssetList",
+    "table": "data_assets",
+    "timestamp": "recorded_at"
+  },
+  {
+    "file": "backend/domain/src/graph/graph.ts",
+    "function": "activityList",
+    "table": "processing_activities",
+    "timestamp": "recorded_at"
+  },
+  {
+    "file": "backend/domain/src/graph/graph.ts",
+    "function": "relationshipList",
+    "table": "graph_relationships",
+    "timestamp": "recorded_at"
+  },
+  {
+    "file": "backend/domain/src/grc/audits.ts",
+    "function": "grcAuditList",
+    "table": "grc_audits",
+    "timestamp": "(document->>'recorded_at')::timestamptz"
+  },
+  {
+    "file": "backend/domain/src/grc/audits.ts",
+    "function": "grcAuditRequests",
+    "table": "grc_audit_requests",
+    "timestamp": "(document->>'recorded_at')::timestamptz"
+  },
+  {
+    "file": "backend/domain/src/grc/risks.ts",
+    "function": "grcRiskList",
+    "table": "grc_risks",
+    "timestamp": "(document->>'recorded_at')::timestamptz"
+  },
+  {
+    "file": "backend/domain/src/incidents/incidents.ts",
+    "function": "obligationRuleList",
+    "table": "obligation_rules",
+    "timestamp": "recorded_at"
+  },
+  {
+    "file": "backend/domain/src/incidents/incidents.ts",
+    "function": "incidentList",
+    "table": "incidents",
+    "timestamp": "recorded_at"
+  },
+  {
+    "file": "backend/domain/src/mapping/ropa.ts",
+    "function": "locationList",
+    "table": "system_locations",
+    "timestamp": "recorded_at"
+  },
+  {
+    "file": "backend/domain/src/monitoring/restore.ts",
+    "function": "snapshotList",
+    "table": "backup_snapshots",
+    "timestamp": "taken_at"
+  },
+  {
+    "file": "backend/domain/src/monitoring/restore.ts",
+    "function": "restoreList",
+    "table": "restore_runs",
+    "timestamp": "started_at"
+  },
+  {
+    "file": "backend/domain/src/notices/languages.ts",
+    "function": "noticeRevisionList",
+    "table": "notice_revisions",
+    "timestamp": "recorded_at"
+  },
+  {
+    "file": "backend/domain/src/notifications/notifications.ts",
+    "function": "templateList",
+    "table": "notification_templates",
+    "timestamp": "recorded_at"
+  },
+  {
+    "file": "backend/domain/src/onboarding/connection.ts",
+    "function": "connectionList",
+    "table": "connections",
+    "timestamp": "started_at"
+  },
+  {
+    "file": "backend/domain/src/onboarding/imports.ts",
+    "function": "importList",
+    "table": "import_batches",
+    "timestamp": "submitted_at"
+  },
+  {
+    "file": "backend/domain/src/operations/breach.ts",
+    "function": "breachList",
+    "table": "personal_data_breaches",
+    "timestamp": "recorded_at"
+  },
+  {
+    "file": "backend/domain/src/operations/cases.ts",
+    "function": "caseProfileList",
+    "table": "rights_case_profiles",
+    "timestamp": "recorded_at"
+  },
+  {
+    "file": "backend/domain/src/operations/evidence.ts",
+    "function": "evidenceList",
+    "table": "evidence_records",
+    "timestamp": "recorded_at"
+  },
+  {
+    "file": "backend/domain/src/operations/evidence.ts",
+    "function": "eventList",
+    "table": "operational_events",
+    "timestamp": "occurred_at"
+  },
+  {
+    "file": "backend/domain/src/processors/processors.ts",
+    "function": "processorList",
+    "table": "processors",
+    "timestamp": "recorded_at"
+  },
+  {
+    "file": "backend/domain/src/processors/processors.ts",
+    "function": "assessmentList",
+    "table": "assessments",
+    "timestamp": "recorded_at"
+  },
+  {
+    "file": "backend/domain/src/processors/processors.ts",
+    "function": "findingList",
+    "table": "assessment_findings",
+    "timestamp": "recorded_at"
+  },
+  {
+    "file": "backend/domain/src/regulatory/applicability.ts",
+    "function": "applicabilityList",
+    "table": "applicability_decisions",
+    "timestamp": "evaluated_at"
+  },
+  {
+    "file": "backend/domain/src/regulatory/packages.ts",
+    "function": "packageList",
+    "table": "regulatory_packages",
+    "timestamp": "imported_at"
+  },
+  {
+    "file": "backend/domain/src/regulatory/packages.ts",
+    "function": "impactList",
+    "table": "regulatory_impacts",
+    "timestamp": "created_at"
+  },
+  {
+    "file": "backend/domain/src/retention/retention.ts",
+    "function": "constraintList",
+    "table": "retention_constraints",
+    "timestamp": "recorded_at"
+  },
+  {
+    "file": "backend/domain/src/retention/retention.ts",
+    "function": "holdList",
+    "table": "legal_holds",
+    "timestamp": "recorded_at"
+  },
+  {
+    "file": "backend/domain/src/retention/retention.ts",
+    "function": "retentionOutcomeList",
+    "table": "retention_outcomes",
+    "timestamp": "recorded_at"
+  },
+  {
+    "file": "backend/domain/src/rights/response-packages.ts",
+    "function": "packageList",
+    "table": "rights_response_packages",
+    "timestamp": "prepared_at"
+  },
+  {
+    "file": "backend/domain/src/rights/rights.ts",
+    "function": "mandateList",
+    "table": "representation_mandates",
+    "timestamp": "recorded_at"
+  },
+  {
+    "file": "backend/domain/src/rights/rights.ts",
+    "function": "requestList",
+    "table": "rights_requests",
+    "timestamp": "received_at"
+  },
+  {
+    "file": "backend/domain/src/support/support.ts",
+    "function": "supportCaseList",
+    "table": "support_cases",
+    "timestamp": "opened_at"
+  },
+  {
+    "file": "backend/domain/src/support/support.ts",
+    "function": "canaryList",
+    "table": "support_canaries",
+    "timestamp": "registered_at"
+  },
+  {
+    "file": "backend/domain/src/test-runs/test-runs.ts",
+    "function": "listTests",
+    "table": "test_runs",
+    "timestamp": "created_at"
+  },
+  {
+    "file": "backend/domain/src/third-party/third-party.ts",
+    "function": "supplierLinkList",
+    "table": "supplier_links",
+    "timestamp": "created_at"
+  },
+  {
+    "file": "backend/domain/src/updates/updates.ts",
+    "function": "releaseList",
+    "table": "release_manifests",
+    "timestamp": "imported_at"
+  },
+  {
+    "file": "backend/domain/src/updates/updates.ts",
+    "function": "installationVersionList",
+    "table": "installation_versions",
+    "timestamp": "applied_at"
+  },
+  {
+    "file": "backend/domain/src/workflow/workflow.ts",
+    "function": "workflowList",
+    "table": "workflows",
+    "timestamp": "accepted_at"
+  }
+]

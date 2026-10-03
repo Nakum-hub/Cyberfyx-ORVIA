@@ -85,6 +85,20 @@ For each actual run: record operator, a JSON starting-state artifact with kind `
 
 Application workflow evidence **API** export is supplied by A05: authenticated staff with evidence.export capability uses `GET /api/v1/admin/evidence/{workflow_id}/export`, replacing workflow_id with the actual scoped workflow UUID. It returns a JSON attachment with Cache-Control: no-store and records an audit event; view uses `GET /api/v1/admin/evidence/{workflow_id}`. B03 must supply the usable application button. Keep the original download bytes, exact candidate/profile/time and SHA-256 locally. Never paste a session cookie into a shell command or use a machine sender token as staff authority. Its `tests` array is currently empty: acceptance-result export/Test Lab is still MISSING (A06/B04). Existing engineering logs can be preserved now. Before any approved reset or recovery, export available evidence and record the location; if required export is unavailable, stop the destructive procedure. Never demonstrate from an untested replacement candidate or represent a document test as a rehearsal.
 
+## Owner recovery (customer-held)
+
+Use this when the organisation's owner (super administrator) has lost their password or authenticator. Cyberfyx cannot do this for a client: there is no vendor recovery key (owner decision 2026-09-30, OPEN-07; migration 0074).
+
+1. Someone with administrator access to the server ORVIA runs on opens a terminal in the ORVIA directory and runs:
+   `pnpm run owner:recovery-code confirm:<profile> <owner email>`
+   It prints a one-time code. It works only for the active owner's email, lasts 30 minutes, works once and locks after five wrong tries. Running it again replaces the code.
+2. Give the code to the owner in person or over a channel you trust. It is not stored anywhere readable; the database keeps only its fingerprint.
+3. The owner opens `/workspace/recover` (linked from the sign-in page), enters their email, the code and a new password of 16 to 128 characters.
+4. The owner signs in with the new password and sets up a new authenticator. The old authenticator was removed and every earlier session of that login has ended.
+5. Both the issue and the recovery appear in the audit trail. The owner remains the only owner; nobody else gains authority.
+
+For any other staff login, the owner or an administrator resets it from the Team page instead.
+
 ## Fault, recovery, reset and shutdown
 
 | Operation | Current executable boundary / required owner |

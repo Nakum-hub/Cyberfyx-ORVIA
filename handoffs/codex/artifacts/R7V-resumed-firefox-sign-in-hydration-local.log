@@ -1,0 +1,24 @@
+R7 firefox sign-in-hydration-local: suite entry point with passive diagnostic instrumentation
+PASS staff sign-in: before hydration the email field is disabled
+PASS staff sign-in: before hydration the submit button is disabled
+PASS staff sign-in: typed input survives hydration
+PASS staff sign-in: submitting sends the sign-in request
+PASS staff sign-in: the password never appears in the address
+PASS Data Principal sign-in: before hydration the email field is disabled
+PASS Data Principal sign-in: before hydration the submit button is disabled
+PASS Data Principal sign-in: typed input survives hydration
+PASS Data Principal sign-in: submitting sends the sign-in request
+PASS Data Principal sign-in: the password never appears in the address
+PASS vendor sign-in: before hydration the email field is disabled
+PASS vendor sign-in: before hydration the submit button is disabled
+PASS vendor sign-in: typed input survives hydration
+PASS vendor sign-in: submitting sends the sign-in request
+PASS vendor sign-in: the password never appears in the address
+PASS client account sign-in: before hydration the email field is disabled
+PASS client account sign-in: before hydration the submit button is disabled
+PASS client account sign-in: typed input survives hydration
+PASS client account sign-in: submitting sends the sign-in request
+PASS client account sign-in: the password never appears in the address
+Artifact: handoffs/codex/artifacts/A00-operations-sign-in-hydration-1790830767385-267c24b8-cc0d-485a-b112-e3e6df81f3ce.json
+
+20 assertions, 0 failures.

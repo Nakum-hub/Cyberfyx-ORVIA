@@ -1,0 +1,3 @@
+$ tsc --noEmit
+frontend/src/components/screens/expansion/dpdpa-audit.tsx(53,300): error TS1005: ',' expected.
+[ELIFECYCLE] Command failed with exit code 2.

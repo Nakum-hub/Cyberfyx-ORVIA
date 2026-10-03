@@ -1,0 +1,39 @@
+{
+  "task_id": "DPDP",
+  "fixture_kind": "CUSTOMER_LOCAL_SYNTHETIC",
+  "recorded_at": "2026-09-30T15:37:16.846Z",
+  "suite": "preferences-browser",
+  "assertions": [
+    {
+      "name": "the topic is created on screen with the chosen channels",
+      "result": "PASS",
+      "expected": [
+        "Browser news 0b62c7c4",
+        [
+          "EMAIL",
+          "SMS"
+        ],
+        "ACTIVE"
+      ],
+      "actual": [
+        "Browser news 0b62c7c4",
+        [
+          "EMAIL",
+          "SMS"
+        ],
+        "ACTIVE"
+      ]
+    },
+    {
+      "name": "unexpected failure in the person says yes then no in the privacy centre",
+      "result": "FAIL",
+      "expected": "no error",
+      "actual": "locator.waitFor: Timeout 30000ms exceeded.\nCall log:\n\u001b[2m  - waiting for getByRole('heading', { name: 'Signed in', exact: true }) to be visible\u001b[22m\n"
+    }
+  ],
+  "passed": 1,
+  "failures": 1,
+  "profile": "codex-a00",
+  "test_adapter_only": true,
+  "limitation": "Connector effects are exercised against the synthetic records test adapter; no live customer system was contacted."
+}

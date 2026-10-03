@@ -1,0 +1,67 @@
+R7 firefox interface-crawl-local: unchanged suite, passive diagnostic instrumentation
+PASS signed out: /workspace/sign-in renders
+PASS signed out: /privacy/sign-in renders
+PASS signed out: /setup renders
+PASS signed out: /supplier renders
+PASS signed out: /privacy renders
+PASS signed out: an unknown page is a 404
+PASS signed out: vendor pages are 404 on a customer installation
+PASS owner: /workspace
+PASS owner: /workspace/ai-governance
+PASS owner: /workspace/assessments
+PASS owner: /workspace/audit-coverage
+PASS owner: /workspace/audit-retention
+PASS owner: /workspace/audit-trail
+PASS owner: /workspace/capabilities
+PASS owner: /workspace/catalog-discovery
+PASS owner: /workspace/compliance
+PASS owner: /workspace/configuration
+PASS owner: /workspace/connections
+PASS owner: /workspace/consent-records
+PASS owner: /workspace/contact-preferences
+PASS owner: /workspace/control-map
+PASS owner: /workspace/coverage
+PASS owner: /workspace/data-principals
+PASS owner: /workspace/delivery
+PASS owner: /workspace/dpdpa-audit
+PASS owner: /workspace/estate-imports
+PASS owner: /workspace/evidence
+PASS owner: /workspace/failures
+PASS owner: /workspace/findings
+PASS owner: /workspace/gaps
+PASS owner: /workspace/grc
+PASS owner: /workspace/grc/audits
+PASS owner: /workspace/impact-assessments
+PASS owner: /workspace/imports
+PASS owner: /workspace/incidents
+PASS owner: /workspace/installed-versions
+PASS owner: /workspace/inventory
+PASS owner: /workspace/inventory/search
+PASS owner: /workspace/message-templates
+PASS owner: /workspace/my-login
+PASS owner: /workspace/notification-rules
+PASS owner: /workspace/notifications
+PASS owner: /workspace/operations-attention
+PASS owner: /workspace/operations-evidence
+PASS owner: /workspace/operations-runs
+PASS owner: /workspace/organisation-profile
+PASS owner: /workspace/personal-data-breaches
+PASS owner: /workspace/policy-preview
+PASS owner: /workspace/preflight
+FAIL owner: /workspace/principals {"expected":[],"actual":["API 503 GET /api/v1/admin/principals"]}
+PASS owner: /workspace/processing-activities
+PASS owner: /workspace/processor-engagements
+PASS owner: /workspace/processors
+PASS owner: /workspace/readiness
+PASS owner: /workspace/records-of-processing
+PASS owner: /workspace/registry-notices
+PASS owner: /workspace/registry-retention
+PASS owner: /workspace/registry-setup
+PASS owner: /workspace/regulatory
+PASS owner: /workspace/regulatory/applicability
+PASS owner: /workspace/regulatory/impacts
+PASS owner: /workspace/releases
+PASS owner: /workspace/reports
+PASS owner: /workspace/representation
+PASS owner: /workspace/restores
+PASS owner: /workspace/retention

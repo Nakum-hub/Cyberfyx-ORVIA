@@ -1,0 +1,17 @@
+{
+  "task_id": "DPDP",
+  "fixture_kind": "CUSTOMER_LOCAL_SYNTHETIC",
+  "recorded_at": "2026-10-01T06:09:46.877Z",
+  "profile": "codex-a00",
+  "result": "FAIL",
+  "phase": "launch browser",
+  "steps": [],
+  "external_requests": 0,
+  "console_errors": [],
+  "error": {
+    "name": "Error",
+    "code": "UNCLASSIFIED"
+  },
+  "detail": "browserType.launch: Failed to launch chromium because executable doesn't exist at /home/user/Cyberfyx-ORVIA/.local/tools/playwright/chromium_headless_shell-1243/chrome-headless-shell-win64/chrome-headless-shell.exe",
+  "page_text": null
+}

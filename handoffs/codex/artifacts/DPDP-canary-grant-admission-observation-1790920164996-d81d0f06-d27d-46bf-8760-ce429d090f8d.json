@@ -1,0 +1,84 @@
+{
+  "task_id": "DPDP",
+  "fixture_kind": "CUSTOMER_LOCAL_SYNTHETIC",
+  "recorded_at": "2026-10-02T05:49:24.996Z",
+  "owner_decision": "revision 1.10 decision A",
+  "classification": "BLOCKED_BY_ACTIVE_CANARY_HOLD",
+  "observations": [
+    {
+      "stage": "REGISTRY_GRANT_ONLY",
+      "result": {
+        "attempt_id": "9c90b5d1-2aa4-45e2-ae03-3ddc1ace615f",
+        "decision": "BLOCK",
+        "send_record_id": null,
+        "admitted_at": null,
+        "evaluated_epoch": 0,
+        "reason_codes": [
+          "CONDITIONS_NOT_SATISFIED"
+        ]
+      },
+      "counts": {
+        "decisions": 1,
+        "sends": 0,
+        "send_hits": 1,
+        "consent_hits": 1
+      },
+      "admission_model": "No A00 aggregate grant was installed yet; this is not the otherwise-ALLOW adverse case."
+    },
+    {
+      "stage": "ACTIVE_CANARY_WITH_REGISTRY_AND_A00_GRANTS",
+      "result": {
+        "attempt_id": "35a5cebf-43dd-4558-b43b-9fe030bf46ef",
+        "decision": "BLOCK",
+        "send_record_id": null,
+        "admitted_at": null,
+        "evaluated_epoch": 1,
+        "reason_codes": [
+          "RECIPIENT_MARKETING_HOLD"
+        ]
+      },
+      "before": {
+        "decisions": 1,
+        "sends": 0,
+        "send_hits": 1,
+        "consent_hits": 2
+      },
+      "after": {
+        "decisions": 2,
+        "sends": 0,
+        "send_hits": 2,
+        "consent_hits": 2
+      },
+      "delta": {
+        "decisions": 1,
+        "sends": 0,
+        "send_hits": 1,
+        "consent_hits": 0
+      },
+      "gates": {
+        "state": "GRANTED",
+        "matching_notice": true,
+        "no_unresolved_suppression": true
+      },
+      "target": {
+        "generation": 1,
+        "marketing_restricted": false,
+        "quarantined": false
+      },
+      "ordinary_control": {
+        "attempt_id": "f00a9fdf-4bd4-4202-a9d4-75e9efa610e5",
+        "decision": "ALLOW",
+        "send_record_id": "422495f6-1f72-4b14-bac9-5975ec09952f",
+        "admitted_at": "2026-10-02T05:49:23.071Z",
+        "evaluated_epoch": 1,
+        "reason_codes": [
+          "CURRENT_MARKETING_AUTHORITY"
+        ]
+      },
+      "classification": "BLOCKED_BY_ACTIVE_CANARY_HOLD",
+      "owner_decision": "revision 1.10 decision A: active decoy is never admitted for marketing"
+    }
+  ],
+  "synthetic_source_fixture": true,
+  "limitation": "Registry HTTP grant and deliberately seeded A00 grant are distinct; no real delivery or production admission was exercised."
+}

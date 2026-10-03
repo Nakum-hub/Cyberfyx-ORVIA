@@ -10,6 +10,7 @@ import { connectDatabase } from '../database/customer/src/index.ts';
 import { loadProfile } from '../shared/testing/src/config.ts';
 import { privateDirectory,writePrivateJson } from './local-private.ts';
 import { webProcess } from './web-process.ts';
+import { customerEnvironment } from './credentials.ts';
 import { safeError,writeEvidence } from '../shared/testing/src/evidence.ts';
 const p=loadProfile();const config=runtimeConfig();
 if(p.profile!=='rehearsal'||process.argv[2]!=='confirm:rehearsal')throw new Error('Named rehearsal application confirmation required');
@@ -19,7 +20,7 @@ const db=connectDatabase(p).pool;const lock=await db.connect();const children:Ch
 const forced=new Set<number>();
 const identity={run_id:randomUUID(),installation_id:p.installation_id,profile:p.profile,pid:process.pid,started_at:new Date().toISOString()};
 const names=new Map<ChildProcess,string>();
-const start=(args:string[],name:string,cwd=process.cwd(),env:NodeJS.ProcessEnv={...process.env,ORVIA_WORKSPACE_ROOT:process.cwd()})=>{const child=spawn(process.execPath,args,{cwd,windowsHide:true,stdio:['ignore','inherit','inherit','ipc'],env});children.push(child);names.set(child,name);return child;};
+const start=(args:string[],name:string,cwd=process.cwd(),env:NodeJS.ProcessEnv=customerEnvironment({...process.env,ORVIA_WORKSPACE_ROOT:process.cwd()},p.profile))=>{const child=spawn(process.execPath,args,{cwd,windowsHide:true,stdio:['ignore','inherit','inherit','ipc'],env});children.push(child);names.set(child,name);return child;};
 // The agent's machine enrollment expires one hour after it is issued, and an
 // expired enrollment is by far the most common cause of a mid-demonstration
 // stop. Classify which child exited so `safeError` can surface the curated

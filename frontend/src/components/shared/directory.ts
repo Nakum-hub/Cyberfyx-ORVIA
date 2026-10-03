@@ -49,13 +49,8 @@ async function readAll(part: DirectoryPart, signal: AbortSignal) {
   }
 }
 
-/** One in-flight read per identity, shared by every component on the screen. */
-const inflight = new Map<string, Promise<DirectorySnapshot>>();
-
-function load(parts: DirectoryPart[], identity: string, controller: AbortController) {
-  const key = `${identity}|${[...parts].sort().join(',')}`;
-  const existing = inflight.get(key);
-  if (existing) return existing;
+/** Each subscriber owns cancellation; the shared API queue serializes transport. */
+function load(parts: DirectoryPart[], controller: AbortController) {
   const promise = (async () => {
     const wanted = new Set(parts);
     // Read one collection at a time. The customer-local runtime pool is
@@ -73,8 +68,7 @@ function load(parts: DirectoryPart[], identity: string, controller: AbortControl
       mappings: mappings as unknown as Mapping[],
       loadedAt: Date.now(),
     };
-  })().finally(() => { inflight.delete(key); });
-  inflight.set(key, promise);
+  })();
   return promise;
 }
 
@@ -106,7 +100,7 @@ export function useDirectory(parts: DirectoryPart[] = ['purposes', 'systems'], e
     const identity = currentIdentity();
     let cancelled = false;
     setState(previous => ({ ...previous, status: previous.data ? previous.status : 'loading' }));
-    load(key.split(',') as DirectoryPart[], identity, controller)
+    load(key.split(',') as DirectoryPart[], controller)
       .then(data => { if (!cancelled && identity === currentIdentity()) setState({ status: 'ready', data, failure: null }); })
       .catch((error: unknown) => {
         if (cancelled || identity !== currentIdentity()) return;

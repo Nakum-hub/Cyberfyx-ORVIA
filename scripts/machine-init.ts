@@ -3,6 +3,7 @@ import { existsSync,readFileSync,writeFileSync,readdirSync } from 'node:fs';
 import { resolve } from 'node:path';
 import { loadProfile } from '../shared/testing/src/config.ts';
 import { connectDatabase } from '../database/customer/src/index.ts';
+import { revokeServerOnly } from '../database/customer/src/server-only.ts';
 import { privateDirectory,writePrivateJson } from './local-private.ts';
 import { safeError } from '../shared/testing/src/evidence.ts';
 import { serviceRoles,MachineIdentity } from '../backend/auth/src/machine.ts';
@@ -51,6 +52,7 @@ try {
   await tx.query('GRANT SELECT(id,kind,installation_id,tenant_id,legal_entity_id,environment_id,active,expires_at) ON machine_auth.identities TO orvia_worker,orvia_agent_control,orvia_sender');
   await tx.query('GRANT USAGE ON SCHEMA app TO orvia_worker,orvia_agent_control,orvia_machine_auth,orvia_sender');
   await tx.query('GRANT EXECUTE ON ALL FUNCTIONS IN SCHEMA app TO orvia_worker,orvia_agent_control,orvia_app,orvia_machine_auth,orvia_sender');
+  await revokeServerOnly(tx);
   await tx.query('GRANT SELECT ON app.service_conditions,app.processing_decisions,app.send_records,app.send_attempts TO orvia_app');
   await tx.query('GRANT INSERT ON app.processing_decisions,app.send_records,app.send_attempts TO orvia_app');
   await tx.query('GRANT SELECT,INSERT,UPDATE ON app.send_queue TO orvia_sender');

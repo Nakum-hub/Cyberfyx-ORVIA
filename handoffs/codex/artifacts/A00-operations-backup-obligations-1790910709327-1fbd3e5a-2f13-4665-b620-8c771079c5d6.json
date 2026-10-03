@@ -1,0 +1,199 @@
+{
+  "task_id": "A00",
+  "fixture_kind": "SYNTHETIC_BOOTSTRAP_ONLY",
+  "recorded_at": "2026-10-02T03:11:49.327Z",
+  "suite": "backup-obligations",
+  "assertions": [
+    {
+      "name": "a read-only role cannot record a backup treatment",
+      "result": "PASS",
+      "expected": 403,
+      "actual": 403
+    },
+    {
+      "name": "a recorded treatment waits for approval",
+      "result": "PASS",
+      "expected": "PROPOSED",
+      "actual": "PROPOSED"
+    },
+    {
+      "name": "an administrator without approval rights cannot approve it",
+      "result": "PASS",
+      "expected": 403,
+      "actual": 403
+    },
+    {
+      "name": "a second person approves it and it becomes current",
+      "result": "PASS",
+      "expected": [
+        "CURRENT",
+        true
+      ],
+      "actual": [
+        "CURRENT",
+        true
+      ]
+    },
+    {
+      "name": "the recorder cannot approve their own treatment",
+      "result": "PASS",
+      "expected": [
+        "approver_must_differ_from_recorder"
+      ],
+      "actual": [
+        "approver_must_differ_from_recorder"
+      ]
+    },
+    {
+      "name": "the erasures are verified on both systems",
+      "result": "PASS",
+      "expected": [
+        "COMPLETED_VERIFIED",
+        6
+      ],
+      "actual": [
+        "COMPLETED_VERIFIED",
+        6
+      ]
+    },
+    {
+      "name": "only the system with a current treatment gets ledger rows, one per person, ageing out after 35 days",
+      "result": "PASS",
+      "expected": [
+        3,
+        true
+      ],
+      "actual": [
+        3,
+        true
+      ]
+    },
+    {
+      "name": "an administrator who may not read the ledger still sees true counts",
+      "result": "PASS",
+      "expected": [
+        "CURRENT",
+        true,
+        true
+      ],
+      "actual": [
+        "CURRENT",
+        true,
+        true
+      ]
+    },
+    {
+      "name": "the system without a treatment is unknown backup handling",
+      "result": "PASS",
+      "expected": [
+        "NONE",
+        true,
+        0,
+        true,
+        true
+      ],
+      "actual": [
+        "NONE",
+        true,
+        0,
+        true,
+        true
+      ]
+    },
+    {
+      "name": "Operations attention names the unknown backup handling",
+      "result": "PASS",
+      "expected": true,
+      "actual": true
+    },
+    {
+      "name": "the ledger itself needs sensitive access",
+      "result": "PASS",
+      "expected": 403,
+      "actual": 403
+    },
+    {
+      "name": "the owner reads the ledger",
+      "result": "PASS",
+      "expected": true,
+      "actual": true
+    },
+    {
+      "name": "a restore from a backup taken after the erasures marks nobody",
+      "result": "PASS",
+      "expected": 0,
+      "actual": 0
+    },
+    {
+      "name": "a restore from a backup older than the erasures marks everyone erased since",
+      "result": "PASS",
+      "expected": true,
+      "actual": true
+    },
+    {
+      "name": "Operations attention shows the re-erasure",
+      "result": "PASS",
+      "expected": true,
+      "actual": true
+    },
+    {
+      "name": "an administrator cannot confirm re-erasure (sensitive)",
+      "result": "PASS",
+      "expected": 403,
+      "actual": 403
+    },
+    {
+      "name": "the owner confirms one re-erasure with evidence",
+      "result": "PASS",
+      "expected": [
+        "REAPPLIED",
+        "CRM delete log DL-9 (synthetic)"
+      ],
+      "actual": [
+        "REAPPLIED",
+        "CRM delete log DL-9 (synthetic)"
+      ]
+    },
+    {
+      "name": "confirming it twice is refused",
+      "result": "PASS",
+      "expected": 409,
+      "actual": 409
+    },
+    {
+      "name": "a treatment's recorded facts cannot be rewritten",
+      "result": "PASS",
+      "expected": "backup_treatment_transition_refused",
+      "actual": "backup_treatment_transition_refused"
+    },
+    {
+      "name": "a live ledger row cannot be deleted",
+      "result": "PASS",
+      "expected": "erasure_ledger_row_is_retained",
+      "actual": "erasure_ledger_row_is_retained"
+    },
+    {
+      "name": "the runner ages out and purges a row 30 days past its clear date",
+      "result": "PASS",
+      "expected": [
+        true,
+        0
+      ],
+      "actual": [
+        true,
+        0
+      ]
+    },
+    {
+      "name": "rows still within their backups are untouched by the sweep",
+      "result": "PASS",
+      "expected": true,
+      "actual": true
+    }
+  ],
+  "passed": 22,
+  "failures": 0,
+  "profile": "codex-a00",
+  "test_adapter_only": true,
+  "limitation": "Connector effects are exercised against the synthetic records test adapter; no live customer system was contacted."
+}

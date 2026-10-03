@@ -1,0 +1,99 @@
+{
+  "profile": "codex-a00",
+  "checked_at": "2026-10-01T12:42:57.302Z",
+  "source_artifact": "handoffs/codex/artifacts/A00-catalog-discovery-flow-1790855381646-ad2ce425-0eb5-4a47-93c5-4bf00d1d2c22.json",
+  "failed_run": {
+    "suite": "tests/integration/discovery/catalog-flow.test.ts",
+    "command": [
+      "C:\\Cyberfyx-projects\\Cyberfyx_ORVIA\\.local\\tools\\node-v24.21.0-win-x64\\node.exe",
+      "node_modules/tsx/dist/cli.mjs",
+      "tests/integration/discovery/catalog-flow.test.ts"
+    ],
+    "log": "handoffs/codex/artifacts/R8-frozen-alpha-integrations-11-discovery-catalog-flow.log",
+    "started_at": "2026-10-01T11:49:08.442Z",
+    "ended_at": "2026-10-01T11:49:41.885Z",
+    "exit_code": 1,
+    "signal": null,
+    "status": "FAIL",
+    "commit": "261af33271aec3635b9415e38e7104be5281da71",
+    "build": "fNbDrvmLMhoCFiUKQTohf"
+  },
+  "target_resolution": "Exact retained run time window plus two fixed synthetic relation names; original artifact has no target IDs",
+  "targets": [
+    {
+      "tenant_id": "bc43798e-04af-486f-b293-d533dd44858b",
+      "legal_entity_id": "ccb90e66-b12d-4c16-9fa0-6fbef3f1976b",
+      "environment_id": "7892b10b-c987-4a8a-abec-65e6db0963bb",
+      "id": "43cc684f-784a-47c6-ba7b-cfc466222358",
+      "system_id": "ec078ef8-4554-4b4a-a4aa-d3367ab3030e",
+      "schema_name": "public",
+      "relation_name": "does_not_exist",
+      "state": "APPROVED",
+      "created_at": "2026-10-01T11:49:40.456Z",
+      "approved_at": "2026-10-01T11:49:40.603Z"
+    },
+    {
+      "tenant_id": "bc43798e-04af-486f-b293-d533dd44858b",
+      "legal_entity_id": "ccb90e66-b12d-4c16-9fa0-6fbef3f1976b",
+      "environment_id": "7892b10b-c987-4a8a-abec-65e6db0963bb",
+      "id": "5b613fc8-0630-4764-83bc-31308dbdc36c",
+      "system_id": "ec078ef8-4554-4b4a-a4aa-d3367ab3030e",
+      "schema_name": "public",
+      "relation_name": "marketing_memberships",
+      "state": "APPROVED",
+      "created_at": "2026-10-01T11:49:39.818Z",
+      "approved_at": "2026-10-01T11:49:40.132Z"
+    }
+  ],
+  "own_jobs": [
+    {
+      "target_id": "43cc684f-784a-47c6-ba7b-cfc466222358",
+      "state": "READY",
+      "attempts": 0,
+      "next_run_at": "2026-10-01T12:50:51.973Z",
+      "last_run_at": "2026-10-01T11:50:51.973Z",
+      "last_error_code": null
+    },
+    {
+      "target_id": "5b613fc8-0630-4764-83bc-31308dbdc36c",
+      "state": "READY",
+      "attempts": 0,
+      "next_run_at": "2026-10-01T12:50:51.946Z",
+      "last_run_at": "2026-10-01T11:50:51.946Z",
+      "last_error_code": null
+    }
+  ],
+  "observations": [
+    {
+      "target_id": "43cc684f-784a-47c6-ba7b-cfc466222358",
+      "total_observations": 1,
+      "observations_by_failed_run_end": 0,
+      "first_observed_at": "2026-10-01T11:50:51.967Z",
+      "latest_observed_at": "2026-10-01T11:50:51.967Z",
+      "observation_states": [
+        "MISSING"
+      ]
+    },
+    {
+      "target_id": "5b613fc8-0630-4764-83bc-31308dbdc36c",
+      "total_observations": 1,
+      "observations_by_failed_run_end": 0,
+      "first_observed_at": "2026-10-01T11:50:51.938Z",
+      "latest_observed_at": "2026-10-01T11:50:51.938Z",
+      "observation_states": [
+        "OBSERVED_METADATA"
+      ]
+    }
+  ],
+  "scope_due": {
+    "due_jobs": 0,
+    "never_run_due_jobs": 0
+  },
+  "scope_top_10": [],
+  "global_due": [],
+  "limitations": [
+    "Read-only current snapshot; later suites may have processed or rescheduled jobs. Current backlog alone does not prove historical sweep selection.",
+    "Observed timestamps provide evidence of observations by the failed-run end; no operational record values, columns, credentials, signing material or SQL text are exported."
+  ],
+  "proposed_fixture_only_fix": "Prioritize only this fixture's two initial jobs using next_run_at=clock_timestamp()-make_interval(years=>10) before the one sweep, matching existing later retry/drift prioritization. Preserve never-run priority, LIMIT10, all original authorization/tenant assertions and observation requirements. Prove excluded own jobs first; do not apply this as a speculative product fix."
+}

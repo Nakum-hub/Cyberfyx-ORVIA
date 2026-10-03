@@ -1,3 +1,4 @@
+import { allPageList } from '../../../shared/testing/src/all-pages.ts';
 // EX09 customer-controlled delivery through the HTTP boundary and the operations runner.
 // A loopback SMTP sink and webhook receiver stand in for the customer's relay and
 // endpoint (synthetic, local only; nothing leaves the host). Under test:
@@ -13,6 +14,7 @@ import net from 'node:net';
 import http from 'node:http';
 import { createHmac, randomUUID } from 'node:crypto';
 import * as S from '../../../shared/contracts/src/index.ts';
+import { allPages } from '../../../shared/testing/src/all-pages.ts';
 import { operationsSuite, key, unique } from '../../../shared/testing/src/operations-fixture.ts';
 import { operationsRunner } from '../../../services/worker/src/operations-runner.ts';
 
@@ -183,7 +185,7 @@ await t.run(async () => {
     await once(); await once();
     const alerted = sink.received.filter(r => r.to === 'compliance@customer.example' && r.data.includes(test.name));
     check('an alert the routing covers is delivered once', [alerted.length, alerted[0]?.data.includes('Subject: [ORVIA] ERROR')], [1, true]);
-    const alerts = (await ok(admin.call('/api/v1/admin/grc/compliance-alerts?limit=100'), S.schemas.ComplianceAlertList)).items.filter(a => a.test_id === test.id);
+    const alerts = (await allPages(p => admin.call(p), '/api/v1/admin/grc/compliance-alerts', v => S.schemas.ComplianceAlertList.parse(v))).filter(a => a.test_id === test.id);
     check('the alert shows it was delivered', alerts.map(a => [a.kind, a.delivery_state]), [['ERROR', 'SENT']]);
 
     t.setPhase('disable, isolation and history');
@@ -192,7 +194,7 @@ await t.run(async () => {
     await ok(admin.call(`/api/v1/admin/delivery-transports/${smtp.id}/disable`, { reason: 'Relay retired for the delivery suite.' }, key()), Transport);
     check('a message cannot be approved onto a disabled transport', await codes(owner.call(`/api/v1/admin/outbound-messages/${late.id}/review`, { decision: 'APPROVE', note: 'Too late.' }, key())), { status: 409, codes: ['transport_not_enabled'] });
     check('an auditor reads messages but cannot compose or approve', [(await auditor.call(`/api/v1/admin/outbound-messages/${m.id}`)).status, (await auditor.call('/api/v1/admin/outbound-messages', { transport_id: smtp.id, source_kind: 'MANUAL', source_id: null, recipient: 'x@customer.example', subject: 'Auditor', body: 'Auditor attempt to compose.' }, key())).status], [200, 403]);
-    check('another tenant sees nothing', [(await birch.call(`/api/v1/admin/outbound-messages/${m.id}`)).status, (await ok(birch.call('/api/v1/admin/delivery-transports?limit=100'), S.schemas.DeliveryTransportList)).items.some(x => x.id === smtp.id)], [404, false]);
+    check('another tenant sees nothing', [(await birch.call(`/api/v1/admin/outbound-messages/${m.id}`)).status, (await allPageList(p => birch.call(p), '/api/v1/admin/delivery-transports', value => S.schemas.DeliveryTransportList.parse(value))).items.some(x => x.id === smtp.id)], [404, false]);
     const direct = (sql: string, values: unknown[]) => db.query(sql, values).then(() => 'accepted').catch((x: { code?: string }) => x.code ?? 'rejected');
     check('a transport destination cannot be changed', await direct(`UPDATE app.delivery_transports SET host='evil.example' WHERE id=$1`, [smtp.id]), '23514');
     check('a disabled transport cannot be re-enabled at the database', await direct(`UPDATE app.delivery_transports SET state='ENABLED', disabled_at=NULL WHERE id=$1`, [smtp.id]), '23514');

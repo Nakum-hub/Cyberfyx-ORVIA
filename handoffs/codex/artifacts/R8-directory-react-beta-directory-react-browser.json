@@ -1,0 +1,98 @@
+{
+  "diagnostic_only": true,
+  "actual_react_dom": true,
+  "actual_directory_module": true,
+  "api_stub_only": true,
+  "pinned_baseline": "3951440cad070881b204b6c2c23be5a11fdeb279",
+  "results": [
+    {
+      "engine": "chromium",
+      "mode": "baseline",
+      "case": "first-subscriber-unmount",
+      "survivor_status": "loading",
+      "version": "153.0.8010.12",
+      "source_sha256": "f2ef90549695269686d0435ac1c6bb5300c0d37136cd6a661f7354692a7f39a1"
+    },
+    {
+      "engine": "chromium",
+      "mode": "baseline",
+      "case": "late-identity-response-discarded",
+      "obsolete_content_visible": false
+    },
+    {
+      "engine": "chromium",
+      "mode": "current",
+      "case": "first-subscriber-unmount",
+      "survivor_status": "ready",
+      "version": "153.0.8010.12",
+      "source_sha256": "5bc4bbb69dc97000b24c3e292e44ec46765a1bdb5055a7c17351d7e8856ab38a"
+    },
+    {
+      "engine": "chromium",
+      "mode": "current",
+      "case": "late-identity-response-discarded",
+      "obsolete_content_visible": false
+    },
+    {
+      "engine": "webkit",
+      "mode": "baseline",
+      "case": "first-subscriber-unmount",
+      "survivor_status": "loading",
+      "version": "26.6",
+      "source_sha256": "f2ef90549695269686d0435ac1c6bb5300c0d37136cd6a661f7354692a7f39a1"
+    },
+    {
+      "engine": "webkit",
+      "mode": "baseline",
+      "case": "late-identity-response-discarded",
+      "obsolete_content_visible": false
+    },
+    {
+      "engine": "webkit",
+      "mode": "current",
+      "case": "first-subscriber-unmount",
+      "survivor_status": "ready",
+      "version": "26.6",
+      "source_sha256": "5bc4bbb69dc97000b24c3e292e44ec46765a1bdb5055a7c17351d7e8856ab38a"
+    },
+    {
+      "engine": "webkit",
+      "mode": "current",
+      "case": "late-identity-response-discarded",
+      "obsolete_content_visible": false
+    },
+    {
+      "engine": "firefox",
+      "mode": "baseline",
+      "case": "first-subscriber-unmount",
+      "survivor_status": "loading",
+      "version": "155.0",
+      "source_sha256": "f2ef90549695269686d0435ac1c6bb5300c0d37136cd6a661f7354692a7f39a1"
+    },
+    {
+      "engine": "firefox",
+      "mode": "baseline",
+      "case": "late-identity-response-discarded",
+      "obsolete_content_visible": false
+    },
+    {
+      "engine": "firefox",
+      "mode": "current",
+      "case": "first-subscriber-unmount",
+      "survivor_status": "ready",
+      "version": "155.0",
+      "source_sha256": "5bc4bbb69dc97000b24c3e292e44ec46765a1bdb5055a7c17351d7e8856ab38a"
+    },
+    {
+      "engine": "firefox",
+      "mode": "current",
+      "case": "late-identity-response-discarded",
+      "obsolete_content_visible": false
+    }
+  ],
+  "exit_code": 0,
+  "limitations": [
+    "Controlled pending API promises, no production HTTP/RLS/database assurance.",
+    "Baseline expected loading is a reproduced defect, not a passing healthy behavior."
+  ]
+}

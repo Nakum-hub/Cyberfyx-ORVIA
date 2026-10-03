@@ -1,3 +1,4 @@
+import { allPageList } from '../../../shared/testing/src/all-pages.ts';
 // DPDP operations: rights request execution (quality s4 "Rights request").
 // Under test: a V1 request that has passed intake, identity and scoping runs
 // through connectors; a recorded hold is respected; unsupported and unreachable
@@ -39,7 +40,7 @@ await t.run(async () => {
     check('a run for a person other than the requester is refused', (await codes(owner.call('/api/v1/admin/workflow-runs/rights', { rights_request_id: request.id, subject_id: (await ok(admin.call('/api/v1/admin/data-principals', { principal_id: null, references: [] }, key()), S.schemas.Subject)).id, corrections: [] }, key()))).codes, ['subject_is_not_the_requesting_principal']);
     const run = await ok(owner.call('/api/v1/admin/workflow-runs/rights', { rights_request_id: request.id, subject_id: subject.id, corrections: [] }, key()), S.schemas.WorkflowRun);
     check('an erasure run stops at a dry run for approval', [run.status, run.approval_required, run.preview?.irreversible], ['DRY_RUN_READY', true, true]);
-    const byTarget = async (id: string) => new Map((await ok(admin.call(`/api/v1/admin/workflow-runs/${id}/actions?limit=100`), S.schemas.DownstreamActionList)).items.map(a => [a.system_id!, a]));
+    const byTarget = async (id: string) => new Map((await allPageList(p => admin.call(p), `/api/v1/admin/workflow-runs/${id}/actions`, value => S.schemas.DownstreamActionList.parse(value))).items.map(a => [a.system_id!, a]));
     const plan = await byTarget(run.id);
     check('the recorded hold blocks erasure on its system and is named', [plan.get(held.id)?.state, plan.get(held.id)?.block_reason, (plan.get(held.id)?.hold_ids.length ?? 0) > 0], ['blocked', 'BLOCKED_BY_RECORDED_HOLD', true]);
     check('a manual system is reported not supported', plan.get(manual.id)?.state, 'not_supported');

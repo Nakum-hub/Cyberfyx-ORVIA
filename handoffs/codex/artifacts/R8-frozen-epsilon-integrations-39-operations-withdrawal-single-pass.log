@@ -1,0 +1,19 @@
+{"prerequisite_command":["C:\\Cyberfyx-projects\\Cyberfyx_ORVIA\\.local\\tools\\node-v24.21.0-win-x64\\node.exe","--import","tsx","scripts/machine-init.ts","confirm:codex-a00"]}
+Local machine enrollment and isolated synthetic targets provisioned; credentials remain protected; existing target restrictions preserved.
+{"prerequisite":"MACHINE_ENROLLMENT","code":0,"signal":null}
+Authentication fixture idle window: 61s remaining; controls unchanged.
+Authentication fixture idle window: 31s remaining; controls unchanged.
+Authentication fixture idle window: 1s remaining; controls unchanged.
+PASS auditor cannot record a withdrawal
+PASS foreign tenant cannot record this withdrawal
+PASS role and tenant refusals leave the target unrestricted
+PASS withdrawal creates one owned propagation run
+PASS fresh withdrawal is already approved by non-destructive planning
+PASS before the only pass the target is not yet suppressed
+OBSERVED single pass duration {"ms":4183,"latency_acceptance":"NOT_ASSERTED"}
+PASS standing grant control remains unrestricted
+PASS one pass independently suppresses the withdrawn target
+PASS the fresh run finishes with independently verified effect
+Artifact: handoffs/codex/artifacts/A00-operations-withdrawal-single-pass-1790869824814-2c5dfd95-47e5-4bd1-8514-b66378b84c64.json
+
+9 assertions, 0 failures.

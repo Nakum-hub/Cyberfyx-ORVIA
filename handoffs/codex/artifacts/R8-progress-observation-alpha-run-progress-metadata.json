@@ -1,0 +1,36 @@
+{
+  "diagnostic_only": true,
+  "started_at": "2026-10-01T13:29:54.544Z",
+  "retryable_error_categories": [
+    "TARGET_UNAVAILABLE",
+    "TARGET_TIMEOUT"
+  ],
+  "maximum_action_attempts": 3,
+  "executable_run_census": [
+    {
+      "status": "RUNNING",
+      "kind": "PROCESSOR_DISPOSITION",
+      "runs": 13,
+      "runs_without_executable_actions": 13,
+      "manual_wait_only_runs": 13,
+      "actions": 13,
+      "executable_actions": 0,
+      "pending_manual_actions": 13,
+      "uncertain_target_effect_actions": 0,
+      "reverify_only_candidates": 0,
+      "potential_redundant_batches_at_old_driver_limit": 650
+    }
+  ],
+  "action_states": [
+    {
+      "action_type": "DISPOSITION_CONFIRMATION",
+      "state": "succeeded_unverified",
+      "target_result": "COMPLETED_BY_TARGET",
+      "verification": "NOT_VERIFIED",
+      "attempt_bucket": "ONE_OR_TWO",
+      "count": 13
+    }
+  ],
+  "completed_at": "2026-10-01T13:29:55.050Z",
+  "exit_code": 0
+}

@@ -31,7 +31,7 @@ export async function bindConnector(c: Context, input: unknown) {
   return bindingView(row);
 }
 export async function bindingList(c: Context, page: Page) {
-  const rows = (await c.tx.query(`SELECT * FROM app.connector_bindings WHERE ${predicate} AND ($4::uuid IS NULL OR id>$4) ORDER BY id LIMIT $5`, [...scope(c), page.cursor, page.limit + 1])).rows as BindingRow[];
+  const rows = (await c.tx.query(`SELECT * FROM app.connector_bindings WHERE ${predicate} AND ($4::uuid IS NULL OR (recorded_at,id) < (SELECT recorded_at,id FROM app.connector_bindings WHERE ${predicate} AND id=$4)) ORDER BY recorded_at DESC,id DESC LIMIT $5`, [...scope(c), page.cursor, page.limit + 1])).rows as BindingRow[];
   const paged = pageOf(rows, page.limit, r => r.id);
   return { items: paged.items.map(bindingView), next_cursor: paged.next_cursor };
 }

@@ -1,0 +1,51 @@
+{"prerequisite_command":["C:\\Cyberfyx-projects\\Cyberfyx_ORVIA\\.local\\tools\\node-v24.21.0-win-x64\\node.exe","--import","tsx","scripts/machine-init.ts","confirm:codex-a00"]}
+Local machine enrollment and isolated synthetic targets provisioned; credentials remain protected; existing target restrictions preserved.
+{"prerequisite":"MACHINE_ENROLLMENT","code":0,"signal":null}
+Authentication fixture idle window: 46s remaining; controls unchanged.
+Authentication fixture idle window: 16s remaining; controls unchanged.
+PASS a processor with no engagements and no tier reports only the missing tier
+PASS an active engagement without an agreement or due diligence is named
+PASS an agreement that expires before it starts is refused by the contract
+PASS the agreement is in force
+PASS processing outside the agreement is stated as facts: region, purpose, sub-processor, expiry
+PASS the purpose finding names the engagement and the sub-processor finding names the sub-engagement
+PASS a superseding agreement replaces the old one, which is kept
+PASS with the corrected agreement only the tier and due diligence remain
+PASS an agreement is superseded once
+PASS an agreement's terms cannot be rewritten at the database
+PASS a supplier link is only for vendor due diligence
+PASS a link cannot outlive thirty days
+PASS the token is returned once, in a fragment path, and only its digest is stored
+PASS a listed link never carries its token
+PASS no token is unauthenticated
+PASS a wrong token is unauthenticated
+PASS a request carrying a cookie is refused
+PASS a cross-origin write is refused
+PASS the supplier sees the questions of its one assessment
+PASS an answer outside the choices is refused
+PASS supplier answers are recorded
+PASS the supplier never sees staff answers
+PASS staff see supplier answers labelled as supplier attestations
+PASS the supplier actor sees exactly one assessment
+PASS the supplier actor sees no findings, agreements or other links
+PASS the supplier actor cannot answer another assessment
+PASS the supplier actor cannot write a staff-labelled answer
+PASS after submission the supplier can no longer answer
+PASS supplier attestations block approval
+PASS the blocker is stated
+PASS supplier attestations are not carried forward as confirmed
+PASS approved due diligence clears the gap and sets the reassessment date from the tier
+PASS a revoked link is refused
+PASS a link is revoked once
+PASS a fresh link works
+PASS an expired link is refused
+PASS a link's expiry cannot be extended at the database
+PASS a processor statement about deletion is reported as not verified
+PASS terminating the agreement leaves active processing without an agreement
+PASS an agreement is terminated once
+PASS the overview lists the processor with its gaps
+PASS another tenant cannot read the standing
+PASS an auditor can read standing but cannot record an agreement
+Artifact: handoffs/codex/artifacts/A00-operations-third-party-1790912459487-fe27f3c8-e092-487e-9028-14b9e52df8cc.json
+
+43 assertions, 0 failures.

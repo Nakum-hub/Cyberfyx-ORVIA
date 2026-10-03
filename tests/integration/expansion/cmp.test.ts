@@ -1,3 +1,4 @@
+import { allPageList } from '../../../shared/testing/src/all-pages.ts';
 // EX02 website consent management through the HTTP boundary and the worker scanner.
 // A loopback test site and tracker host stand in for the customer's website and a
 // third-party analytics provider (synthetic, local only). Under test: origins
@@ -78,7 +79,10 @@ await t.run(async () => {
     check('a choice from the approved origin is recorded with a receipt', [granted.status, granted.headers.get('access-control-allow-origin'), receipt.config_version], [201, origin, published.version]);
     check('a choice from another origin is refused', (await post(choice(true), { origin: 'https://evil.example' })).status, 403);
     check('a choice with no origin is refused', (await post(choice(true), {})).status, 403);
-    check('a request carrying cookies is refused', (await post(choice(true), { origin, cookie: 'session=1' })).status, 400);
+    // Round 7: some WebKit builds attach cookies despite credentials: 'omit'. The route reads no session, so cookies are ignored.
+    const withCookie = await post(choice(false), { origin, cookie: 'session=1' });
+    check('a choice whose browser attached a cookie is still recorded, and sets no cookie', [withCookie.status, withCookie.headers.get('set-cookie')], [201, null]);
+    check('a request carrying an Authorization header is refused', (await post(choice(true), { origin, authorization: 'Bearer x' })).status, 400);
     check('an unknown category is refused', (await post({ ...choice(true), choices: { necessary: true, analytics: true, marketing: true } })).status, 400);
     check('a missing category is refused', (await post({ ...choice(true), choices: { necessary: true } })).status, 400);
     check('the strictly necessary category cannot be refused', (await post({ ...choice(true), choices: { necessary: false, analytics: false } })).status, 400);
@@ -88,7 +92,8 @@ await t.run(async () => {
     await post(choice(true, other));
     await post({ ...choice(false, randomUUID()), gpc: true });
     const stats = await ok(admin.call(`/api/v1/admin/cmp-sites/${created.id}/consent-stats`), S.schemas.CmpConsentStats);
-    check('statistics use each visitor\'s latest choice', [stats.visitors, stats.records, stats.gpc_visitors, stats.by_category.find(c => c.key === 'analytics')], [3, 4, 1, { key: 'analytics', granted: 1, refused: 2 }]);
+    // Five records: the cookie-carrying choice above is one more record for the first visitor; visitors and latest choices are unchanged.
+    check('statistics use each visitor\'s latest choice', [stats.visitors, stats.records, stats.gpc_visitors, stats.by_category.find(c => c.key === 'analytics')], [3, 5, 1, { key: 'analytics', granted: 1, refused: 2 }]);
     const flood = randomUUID(); const statuses: number[] = [];
     for (let i = 0; i < 21; i++) statuses.push((await post(choice(i % 2 === 0, flood))).status);
     check('one visitor cannot flood the record', [statuses.slice(0, 20).every(s => s === 201), statuses[20]], [true, 503]);
@@ -118,7 +123,7 @@ await t.run(async () => {
 
     t.setPhase('disable, isolation and history');
     check('an auditor reads but cannot change anything', [(await auditor.call(`/api/v1/admin/cmp-sites/${created.id}/consent-stats`)).status, (await auditor.call(`/api/v1/admin/cmp-sites/${created.id}/scans`, { url: `${origin}/` }, key())).status], [200, 403]);
-    check('another tenant sees nothing', [(await birch.call(`/api/v1/admin/cmp-sites/${created.id}/consent-stats`)).status, (await ok(birch.call('/api/v1/admin/cmp-sites?limit=100'), S.schemas.CmpSiteList)).items.some(x => x.id === created.id)], [404, false]);
+    check('another tenant sees nothing', [(await birch.call(`/api/v1/admin/cmp-sites/${created.id}/consent-stats`)).status, (await allPageList(p => birch.call(p), '/api/v1/admin/cmp-sites', value => S.schemas.CmpSiteList.parse(value))).items.some(x => x.id === created.id)], [404, false]);
     const direct = (sql: string, values: unknown[]) => db.query(sql, values).then(() => 'accepted').catch((x: { code?: string }) => x.code ?? 'rejected');
     check('a consent record cannot be altered', await direct(`UPDATE app.cmp_consents SET choices='{}' WHERE id=$1`, [receipt.receipt_id]), '23514');
     check('a consent record cannot be deleted', await direct(`DELETE FROM app.cmp_consents WHERE id=$1`, [receipt.receipt_id]), '23514');

@@ -49,8 +49,20 @@ const expansionNames = Object.keys(expansionSchemas);
  *  no personal data (FindingResponseApproval); FindingResponse shows that review, and the signed response carries it.
  *  0.47.0 adds the Rule 8(2) erasure intimation (four routes under /erasure-intimations) and Consent Managers (s.6(7)-(9),
  *  rule 4: register, status, link a consent record, relayed withdrawal). ConsentRecord gains consent_manager (nullable) and
- *  ConsentEvent.source gains CONSENT_MANAGER. Otherwise additive. */
-export const CONTRACT_VERSION = '0.47.0' as const;
+ *  ConsentEvent.source gains CONSENT_MANAGER. Otherwise additive.
+ *  0.48.0 (revision 1.7) adds organisation website/app intake: a new route authority INTAKE_CLIENT with three routes under
+ *  /api/v1/intake (consent change, rights request, submission status), staff routes for intake keys, submissions and the
+ *  optional Privacy Centre switch, and capability intake.submit. RightsRequest.submitted_channel gains ORGANISATION_APP.
+ *  0.49.0 adds customer-held owner recovery (OPEN-07): public POST /api/v1/setup/owner-recovery, authorised by a one-time code
+ *  issued by a protected command on the installation's server; capability setup.owner_recovery. Otherwise additive.
+ *  0.50.0 adds EX07 backup-copy obligations: backup treatments (second-person approval), backup coverage, system restores that
+ *  mark re-erasure, and the protected erasure ledger (sensitive capability). Otherwise additive.
+ *  0.55.0 (owner decisions 2026-10-01, revision 1.10): send admission and its preview may return BLOCK with reason
+ *  RECIPIENT_MARKETING_HOLD (an active withdrawal canary is never admitted for marketing), and OutboundDeliveryState gains
+ *  WITHHELD (a message to a real-person decoy is never transmitted). SystemRestore gains ledger_coverage, ledger_purged_through
+ *  and coverage_review, with list_system_restores and review_restore_coverage, so a restore older than the erasure ledger is
+ *  never reported as complete (migration 0090). Otherwise additive. */
+export const CONTRACT_VERSION = '0.55.0' as const;
 /** The version this build declares of itself. It is what a diagnostic report and
  *  a release manifest are compared against, so it must match package.json; a unit
  *  test asserts that rather than trusting it. */
@@ -89,7 +101,7 @@ export const ObservationState = z.enum(['NOT_CHECKED', 'OBSERVED_SATISFIED', 'OB
 export const DecisionState = z.enum(['ALLOW', 'BLOCK', 'INDETERMINATE']);
 export const TestState = z.enum(['NOT_RUN', 'RUNNING', 'PASS', 'FAIL', 'ERROR', 'SKIPPED']);
 export const ReconciliationState = z.enum(['PENDING', 'RECONCILING', 'RESOLVED', 'INCONCLUSIVE', 'FAILED']);
-export const Capability = z.enum(['setup.first_run','audit_exchange.read','audit_exchange.prepare','audit_exchange.approve','account.own.delete','staff.manage','supplier.respond','cmp.record','registry.read','registry.write','registry.sensitive.read','registry.sensitive.write','operations.execute','operations.approve','regulatory.manage','sdf.manage','grc.read', 'grc.write', 'grc.approve', 'ai_governance.read', 'ai_governance.write', 'ai_governance.approve', 'overview.read', 'configuration.read', 'configuration.write', 'policy.publish', 'systems.check', 'principals.read', 'principals.create', 'workflow.read', 'action.reconcile', 'manual.attest', 'evidence.read', 'evidence.export', 'policy.preview', 'tests.run', 'tests.read', 'capabilities.read', 'graph.read', 'graph.write', 'rights.read', 'rights.write', 'rights.release', 'retention.read', 'retention.write', 'retention.approve', 'coverage.read', 'coverage.manage', 'processor.read', 'processor.write', 'incident.read', 'incident.write', 'incident.approve', 'notification.read', 'notification.manage', 'licence.read', 'licence.manage', 'support.read', 'support.manage', 'support.approve', 'update.read', 'update.approve', 'audit.read', 'audit.export', 'audit.administer', 'connection.enable', 'restore.release', 'consent.own.read', 'consent.own.write', 'receipt.own.read', 'rights.own.read', 'rights.own.write', 'health.read']);
+export const Capability = z.enum(['setup.first_run','setup.owner_recovery','audit_exchange.read','audit_exchange.prepare','audit_exchange.approve','account.own.delete','staff.manage','supplier.respond','intake.submit','cmp.record','registry.read','registry.write','registry.sensitive.read','registry.sensitive.write','operations.execute','operations.approve','regulatory.manage','sdf.manage','grc.read', 'grc.write', 'grc.approve', 'ai_governance.read', 'ai_governance.write', 'ai_governance.approve', 'overview.read', 'configuration.read', 'configuration.write', 'policy.publish', 'systems.check', 'principals.read', 'principals.create', 'workflow.read', 'action.reconcile', 'manual.attest', 'evidence.read', 'evidence.export', 'policy.preview', 'tests.run', 'tests.read', 'capabilities.read', 'graph.read', 'graph.write', 'rights.read', 'rights.write', 'rights.release', 'retention.read', 'retention.write', 'retention.approve', 'coverage.read', 'coverage.manage', 'processor.read', 'processor.write', 'incident.read', 'incident.write', 'incident.approve', 'notification.read', 'notification.manage', 'licence.read', 'licence.manage', 'support.read', 'support.manage', 'support.approve', 'update.read', 'update.approve', 'audit.read', 'audit.export', 'audit.administer', 'connection.enable', 'restore.release', 'consent.own.read', 'consent.own.write', 'receipt.own.read', 'rights.own.read', 'rights.own.write', 'health.read']);
 export const Scope = z.strictObject({ tenant_id: Id, legal_entity_id: Id, environment_id: Id });
 export const ErrorResponse = z.strictObject({
   error: z.strictObject({ code: z.enum(['VALIDATION_ERROR', 'UNAUTHENTICATED', 'FORBIDDEN', 'NOT_FOUND', 'EPOCH_CONFLICT', 'IDEMPOTENCY_CONFLICT', 'RATE_LIMITED', 'SERVICE_UNAVAILABLE', 'UNSUPPORTED_VERSION', 'STALE_GENERATION', 'INVALID_COMMAND']), message: SafeText,
@@ -248,8 +260,10 @@ export const MappingCreate = z.strictObject({ principal_id: Id, purpose_id: Id, 
 export const TargetMapping = MappingCreate.extend({ id: Id, target_subject_reference: z.string().regex(/^syn_[a-z0-9_]{1,80}$/), target_generation: Epoch });
 export const SystemCreate = z.strictObject({ environment_id: Id, legal_entity_id: Id, name: z.string().min(1).max(120), connector: z.enum(['SYNTHETIC_CRM', 'ORVIA_REST_SIMULATOR', 'LEGACY_MANUAL']) });
 export const System = SystemCreate.extend({ id: Id, capability_version: Version, supports_restrict: z.boolean(), supports_read: z.boolean(), checked_at: Time.nullable() });
-export const PrincipalCreate = z.strictObject({ environment_id: Id, legal_entity_id: Id, display_name: z.string().min(1).max(100), email: z.email().regex(/@(?:aster|birch)\.example$/) });
-export const Principal = PrincipalCreate.extend({ id: Id, synthetic: z.literal(true) });
+export const PrincipalCreate = z.strictObject({ environment_id: Id, legal_entity_id: Id, display_name: z.string().min(1).max(100), email: z.email().max(254) });
+/** `synthetic` is set by the database (revision 1.9): synthetic fixture addresses are always synthetic; any other address is accepted only
+ *  once the installation has admitted real people by its protected server command, and is then labelled real. */
+export const Principal = PrincipalCreate.extend({ id: Id, synthetic: z.boolean() });
 /**
  * `notice` is what the principal is actually shown, and `language` says whether
  * that is the language they chose. The two are separate because Act §5 gives
@@ -542,7 +556,7 @@ export const ResponseRelease = z.strictObject({
   delivery_reference: SafeText, expires_at: Time,
 });
 export const RightsRequest = z.strictObject({
-  id: Id, right_type: RightType, principal_id: Id, submitted_channel: z.enum(['PORTAL', 'RECORDED_MANUAL_INTAKE']),
+  id: Id, right_type: RightType, principal_id: Id, submitted_channel: z.enum(['PORTAL', 'RECORDED_MANUAL_INTAKE', 'ORGANISATION_APP']),
   mandate_id: Id.nullable(), description: SafeText, state: RequestState, received_at: Time, updated_at: Time,
   identity: IdentityDimension, identity_grade: IdentityMatchGrade.nullable(),
   authority: AuthorityDimension, execution: ExecutionDimension, response: ResponseDimension, scope: ScopeDimension,
@@ -2120,7 +2134,7 @@ export const schemas = { ...regulatorySchemas, ...registrySchemas, ...operations
   ReceiptList: page(Receipt), MappingList: page(TargetMapping),
   PurposeList: page(Purpose), NoticeList: page(Notice), PolicyList: page(Policy), SystemList: page(System), PrincipalList: page(Principal), ConsentList: page(ConsentChoice), WorkflowList: page(WorkflowSummary), FailureList: page(Obligation), TestRunList: page(TestRun), CapabilityList: page(CapabilityRecord), CommandList: z.strictObject({commands:z.array(SignedCommand).max(10), poll_after_ms:z.literal(2000)}), Health: z.strictObject({status:z.literal('alive')}) };
 export type SchemaName = keyof typeof schemas;
-export type RouteDefinition = { id: string; method: 'get'|'post'; path:string; authority:'PUBLIC'|'STAFF'|'PRINCIPAL'|'STAFF_OR_PRINCIPAL'|'MACHINE'|'SUPPLIER_LINK'; request?:SchemaName; response:SchemaName; status:200|201|202; params?:SchemaName; query?:SchemaName; paginated?:boolean; idempotency?:boolean; maximum_body_bytes?:number; capability?:z.infer<typeof Capability> };
+export type RouteDefinition = { id: string; method: 'get'|'post'; path:string; authority:'PUBLIC'|'STAFF'|'PRINCIPAL'|'STAFF_OR_PRINCIPAL'|'MACHINE'|'SUPPLIER_LINK'|'INTAKE_CLIENT'; request?:SchemaName; response:SchemaName; status:200|201|202; params?:SchemaName; query?:SchemaName; paginated?:boolean; idempotency?:boolean; maximum_body_bytes?:number; capability?:z.infer<typeof Capability> };
 /** Declared query keys for a route. The dispatcher rejects any parameter not listed here. */
 export function queryKeys(name: SchemaName): string[] { return Object.keys((schemas[name] as unknown as z.ZodObject<z.ZodRawShape>).shape); }
 export const routes: RouteDefinition[] = [

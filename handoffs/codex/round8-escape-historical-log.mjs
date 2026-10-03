@@ -1,0 +1,17 @@
+import assert from 'node:assert/strict';
+import { readFileSync, writeFileSync } from 'node:fs';
+import { createHash } from 'node:crypto';
+const source_file='handoffs/codex/artifacts/R8-body-trace-webkit-operations.log';
+const output='handoffs/codex/artifacts/R8-body-trace-webkit-operations-lossless.json';
+const bytes=readFileSync(source_file);
+assert.ok(bytes.length<64*1024*1024);
+assert.equal(bytes.subarray(0,2).toString('hex'),'fffe','Require established UTF16LE BOM');
+assert.equal(bytes.length%2,0);
+const text=new TextDecoder('utf-16le',{fatal:true}).decode(bytes);
+const restored=Buffer.concat([Buffer.from([255,254]),Buffer.from(text,'utf16le')]);
+assert.ok(restored.equals(bytes),'Original UTF16LE log must roundtrip exactly');
+const artifact={diagnostic_only:true,source_file,source_sha256:createHash('sha256').update(bytes).digest('hex'),source_bytes:bytes.length,nul_count:[...bytes].filter(value=>value===0).length,encoding:'UTF16LE_BOM',publication_encoding:'UTF8_JSON_ESCAPED',original_unchanged:true,text};
+const json=JSON.stringify(artifact,null,2)+'\n';
+assert.ok(Buffer.concat([Buffer.from([255,254]),Buffer.from(JSON.parse(json).text,'utf16le')]).equals(bytes));
+writeFileSync(output,json,{flag:'wx'});
+console.log(JSON.stringify({artifact:output,source_sha256:artifact.source_sha256,source_bytes:bytes.length,nul_count:artifact.nul_count,lossless_roundtrip:true,exit_code:0}));

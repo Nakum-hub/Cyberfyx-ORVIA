@@ -5,7 +5,7 @@ import { formatTime, shortId } from '../../shared/state-labels.ts';
 import { Badge, DataTable, NoticeBox, PageHead, Pagination, QueryBoundary, Section } from '../../shared/ui.tsx';
 import { ActionButton, Area, Choice, Input, Many, WriteForm, all, nullable, text } from '../privacy-operations/registry-forms.tsx';
 
-const STATE_TONE: Record<string, 'ok' | 'warn' | 'stop' | 'neutral'> = { AWAITING_REVIEW: 'warn', QUEUED: 'warn', RETRYING: 'warn', SENT: 'ok', EXHAUSTED: 'stop', REJECTED: 'neutral', CANCELLED: 'neutral' };
+const STATE_TONE: Record<string, 'ok' | 'warn' | 'stop' | 'neutral'> = { AWAITING_REVIEW: 'warn', QUEUED: 'warn', RETRYING: 'warn', SENT: 'ok', EXHAUSTED: 'stop', REJECTED: 'neutral', CANCELLED: 'neutral', WITHHELD: 'neutral' };
 const label = (v: string) => v.toLowerCase().replaceAll('_', ' ');
 
 /**
@@ -30,6 +30,8 @@ function Transports() {
   const list = usePagedQuery('list_delivery_transports', { limit: 25 });
   const [kind, setKind] = useState('SMTP');
   const [secret, setSecret] = useState<string | null>(null);
+  // A successful reveal stays consumed while the refreshed list catches up.
+  const [revealed, setRevealed] = useState<ReadonlySet<string>>(() => new Set());
   return (
     <Section title="Transports">
       <QueryBoundary query={list} label="transports" isEmpty={d => !d.items.length}>
@@ -43,7 +45,7 @@ function Transports() {
                 { key: 'act', header: '', cell: t => (
                   <span>
                     {t.state === 'PENDING' && <ActionButton operation="enable_delivery_transport" label="Enable" input={undefined as never} params={{ id: t.id }} onDone={() => list.refresh()} />}
-                    {t.kind === 'WEBHOOK' && t.state === 'ENABLED' && !t.secret_revealed && <ActionButton operation="reveal_transport_signing_secret" label="Show signing key once" input={undefined as never} params={{ id: t.id }} onDone={r => { setSecret(r.secret); list.refresh(); }} />}
+                    {t.kind === 'WEBHOOK' && t.state === 'ENABLED' && !t.secret_revealed && !revealed.has(t.id) && <ActionButton operation="reveal_transport_signing_secret" label="Show signing key once" input={undefined as never} params={{ id: t.id }} onDone={r => { setRevealed(previous => new Set([...previous, t.id])); setSecret(r.secret); list.refresh(); }} />}
                     {t.state !== 'DISABLED' && <ActionButton operation="disable_delivery_transport" label="Disable" input={{ reason: 'Disabled from the delivery screen.' }} params={{ id: t.id }} onDone={() => list.refresh()} />}
                   </span>
                 ) },
