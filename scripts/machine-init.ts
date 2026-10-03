@@ -86,6 +86,13 @@ try {
    for(const system of systems.filter(s=>s.connector!=='LEGACY_MANUAL'))await tx.query('INSERT INTO machine_auth.sender_systems VALUES($1,$2,$3,$4,$5) ON CONFLICT DO NOTHING',[senderIdentity.id,scope.tenant_id,scope.legal_entity_id,scope.environment_id,system.id]);
   }
   // Before first-run setup there is no scope to enrol; enrollment files are written once there is.
+  // Identities for a scope this command no longer enrols can never be renewed. Kept, they expire within the hour and the
+  // services refuse to start (they require every identity they load to be current). Drop them from the service files;
+  // their database rows simply stay expired.
+  const managed=new Set(scopes.map(scope=>JSON.stringify(scope)));let orphaned=0;
+  if(scopes.length)for(const file of [worker,agent,sender,observer]){const before=file.identities.length;
+   (file as {identities:{scope:unknown}[]}).identities=file.identities.filter(i=>managed.has(JSON.stringify(i.scope)));orphaned+=before-file.identities.length;}
+  if(orphaned)console.log(`Removed ${orphaned} enrollment identities for scopes no longer enrolled (they could not be renewed).`);
   if(scopes.length){writePrivateJson(workerPath,worker);writePrivateJson(agentPath,agent);writePrivateJson(senderPath,sender);writePrivateJson(observerPath,observer);}
   await tx.query('COMMIT');
  }catch(error){await tx.query('ROLLBACK');throw error;}finally{tx.release();}
