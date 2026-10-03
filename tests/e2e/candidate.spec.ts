@@ -7,7 +7,7 @@ test('B06 branded route fallback, session-aware navigation and captured page err
   expect(missing?.status()).toBe(404);
   await expect(page.getByRole('heading',{name:'This page does not exist',exact:true})).toBeVisible();
   await expect(page.getByText('Synthetic test environment',{exact:true})).toBeVisible();
-  await expect(page.getByRole('link',{name:'Return to the ORVIA entry page',exact:true})).toBeVisible();
+  await expect(page.getByRole('link',{name:'Return to the start page',exact:true})).toBeVisible();
   await expect(page.getByText(/at\s|stack|\.tsx:/i).filter({hasText:/\bat\s+\w+\s*\(/})).toHaveCount(0);
   await h.screenshot(page,'route-not-found');
 

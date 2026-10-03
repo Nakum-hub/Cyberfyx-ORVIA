@@ -1,0 +1,139 @@
+{
+  "result": "failed",
+  "source_commit": "978cde1bfe98fcf8a496b29b9c9c1e1e1be0bd1e",
+  "source_tree_sha256": "1645f83c066e742bf36d63adf3e9cbef1d22a16ba37cc9602bb3489cc1c36a14",
+  "contract_version": "0.58.0",
+  "profile": "rehearsal",
+  "fixture": "aster-birch-v1",
+  "tests": [
+    {
+      "title": [
+        "",
+        "",
+        "candidate.spec.ts",
+        "B06 branded route fallback, session-aware navigation and captured page errors"
+      ],
+      "status": "failed",
+      "expected_status": "passed",
+      "duration_ms": 20530,
+      "retry": 0,
+      "location": {
+        "file": "/home/user/Cyberfyx-ORVIA/tests/e2e/candidate.spec.ts",
+        "line": 4,
+        "column": 1
+      },
+      "errors": [
+        {
+          "category": "EXECUTION_OR_ASSERTION_FAILURE",
+          "private_detail": true
+        }
+      ],
+      "annotations": [],
+      "browser_health": {
+        "recorded": true,
+        "counts": {
+          "PAGE_ERROR": 0,
+          "CONSOLE_ERROR": 0,
+          "REACT_WARNING": 0,
+          "HTTP_STATUS": 2,
+          "WARNING": 0
+        },
+        "unexpected": 0,
+        "deliberate_errors_captured": 0,
+        "faults": [],
+        "deliberate_faults": []
+      },
+      "attachments": [
+        {
+          "name": "screenshot",
+          "sha256": "51a55b103bb5a1134e65cb59cd42b988e39fcc1f6502321ffa78509d4f65c013",
+          "private_path": "/home/user/Cyberfyx-ORVIA/.local/browser-evidence/2026-10-03T07-32-13.839Z/raw/candidate-B06-branded-rout-a4692-on-and-captured-page-errors/test-failed-1.png"
+        },
+        {
+          "name": "error-context",
+          "sha256": "c9029159a71d09c864ed2e90524757afd49c98af8cdd0ebc20549c4d35dbc854",
+          "private_path": "/home/user/Cyberfyx-ORVIA/.local/browser-evidence/2026-10-03T07-32-13.839Z/raw/candidate-B06-branded-rout-a4692-on-and-captured-page-errors/error-context.md"
+        },
+        {
+          "name": "trace",
+          "sha256": "759f4ee64ce8d750179f7b45318685a3bf41175e4005b0b07da7ecb4d0030a18",
+          "private_path": "/home/user/Cyberfyx-ORVIA/.local/browser-evidence/2026-10-03T07-32-13.839Z/raw/candidate-B06-branded-rout-a4692-on-and-captured-page-errors/trace.zip"
+        }
+      ]
+    },
+    {
+      "title": [
+        "",
+        "",
+        "candidate.spec.ts",
+        "B06 candidate walkthrough across staff, privacy, enforcement and evidence"
+      ],
+      "status": "passed",
+      "expected_status": "passed",
+      "duration_ms": 75729,
+      "retry": 0,
+      "location": {
+        "file": "/home/user/Cyberfyx-ORVIA/tests/e2e/candidate.spec.ts",
+        "line": 36,
+        "column": 1
+      },
+      "errors": [],
+      "annotations": [],
+      "browser_health": {
+        "recorded": true,
+        "counts": {
+          "PAGE_ERROR": 0,
+          "CONSOLE_ERROR": 0,
+          "REACT_WARNING": 0,
+          "HTTP_STATUS": 1,
+          "WARNING": 0
+        },
+        "unexpected": 0,
+        "deliberate_errors_captured": 0,
+        "faults": [],
+        "deliberate_faults": []
+      },
+      "attachments": []
+    },
+    {
+      "title": [
+        "",
+        "",
+        "candidate.spec.ts",
+        "B06 real dependency outage, malformed ID, denied scope and responsive navigation"
+      ],
+      "status": "passed",
+      "expected_status": "passed",
+      "duration_ms": 4743,
+      "retry": 0,
+      "location": {
+        "file": "/home/user/Cyberfyx-ORVIA/tests/e2e/candidate.spec.ts",
+        "line": 45,
+        "column": 1
+      },
+      "errors": [],
+      "annotations": [],
+      "browser_health": {
+        "recorded": true,
+        "counts": {
+          "PAGE_ERROR": 0,
+          "CONSOLE_ERROR": 0,
+          "REACT_WARNING": 0,
+          "HTTP_STATUS": 3,
+          "WARNING": 0
+        },
+        "unexpected": 0,
+        "deliberate_errors_captured": 0,
+        "faults": [],
+        "deliberate_faults": []
+      },
+      "attachments": []
+    }
+  ],
+  "limitations": [
+    "Raw authenticated traces/error details stay in the protected .local directory.",
+    "Screenshots supplement executable assertions.",
+    "Browser request observations do not qualify all host or browser-process egress.",
+    "Work acceptance and human rehearsals are separate."
+  ]
+}

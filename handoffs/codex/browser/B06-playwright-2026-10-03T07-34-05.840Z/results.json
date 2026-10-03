@@ -1,0 +1,126 @@
+{
+  "result": "failed",
+  "source_commit": "978cde1bfe98fcf8a496b29b9c9c1e1e1be0bd1e",
+  "source_tree_sha256": "1645f83c066e742bf36d63adf3e9cbef1d22a16ba37cc9602bb3489cc1c36a14",
+  "contract_version": "0.58.0",
+  "profile": "rehearsal",
+  "fixture": "aster-birch-v1",
+  "tests": [
+    {
+      "title": [
+        "",
+        "",
+        "test-lab.spec.ts",
+        "B04 real healthy, broken detection, repaired and target restoration results"
+      ],
+      "status": "failed",
+      "expected_status": "passed",
+      "duration_ms": 55087,
+      "retry": 0,
+      "location": {
+        "file": "/home/user/Cyberfyx-ORVIA/tests/e2e/test-lab.spec.ts",
+        "line": 12,
+        "column": 1
+      },
+      "errors": [
+        {
+          "category": "EXECUTION_OR_ASSERTION_FAILURE",
+          "private_detail": true
+        }
+      ],
+      "annotations": [],
+      "browser_health": {
+        "recorded": true,
+        "counts": {
+          "PAGE_ERROR": 0,
+          "CONSOLE_ERROR": 0,
+          "REACT_WARNING": 0,
+          "HTTP_STATUS": 2,
+          "WARNING": 0
+        },
+        "unexpected": 0,
+        "deliberate_errors_captured": 0,
+        "faults": [],
+        "deliberate_faults": []
+      },
+      "attachments": [
+        {
+          "name": "screenshot",
+          "sha256": "359008a206ebbc5778dd910b48712f76ebc48c03fa820612b7a7eb6b113fc4c0",
+          "private_path": "/home/user/Cyberfyx-ORVIA/.local/browser-evidence/2026-10-03T07-34-05.840Z/raw/test-lab-B04-real-healthy--09b59--target-restoration-results/test-failed-1.png"
+        },
+        {
+          "name": "error-context",
+          "sha256": "4ca17b0edb8c68b6a2a23ae8440c96809e237ba1cf226c0823702685169b7799",
+          "private_path": "/home/user/Cyberfyx-ORVIA/.local/browser-evidence/2026-10-03T07-34-05.840Z/raw/test-lab-B04-real-healthy--09b59--target-restoration-results/error-context.md"
+        },
+        {
+          "name": "trace",
+          "sha256": "2c56b6c9b7a0616af9abf3873a46b2a867245363d8a48f6554e713635e5780cd",
+          "private_path": "/home/user/Cyberfyx-ORVIA/.local/browser-evidence/2026-10-03T07-34-05.840Z/raw/test-lab-B04-real-healthy--09b59--target-restoration-results/trace.zip"
+        }
+      ]
+    },
+    {
+      "title": [
+        "",
+        "",
+        "test-lab.spec.ts",
+        "B04 actual interrupted operator is recovered as ERROR without fabricated pass"
+      ],
+      "status": "failed",
+      "expected_status": "passed",
+      "duration_ms": 2387,
+      "retry": 0,
+      "location": {
+        "file": "/home/user/Cyberfyx-ORVIA/tests/e2e/test-lab.spec.ts",
+        "line": 33,
+        "column": 1
+      },
+      "errors": [
+        {
+          "category": "EXECUTION_OR_ASSERTION_FAILURE",
+          "private_detail": true
+        }
+      ],
+      "annotations": [],
+      "browser_health": {
+        "recorded": true,
+        "counts": {
+          "PAGE_ERROR": 0,
+          "CONSOLE_ERROR": 0,
+          "REACT_WARNING": 0,
+          "HTTP_STATUS": 2,
+          "WARNING": 0
+        },
+        "unexpected": 0,
+        "deliberate_errors_captured": 0,
+        "faults": [],
+        "deliberate_faults": []
+      },
+      "attachments": [
+        {
+          "name": "screenshot",
+          "sha256": "e1bc68724a46be14744f5046408e3ed46f71dfe458945f7febf078207cae6860",
+          "private_path": "/home/user/Cyberfyx-ORVIA/.local/browser-evidence/2026-10-03T07-34-05.840Z/raw/test-lab-B04-actual-interr-a717e-ROR-without-fabricated-pass/test-failed-1.png"
+        },
+        {
+          "name": "error-context",
+          "sha256": "7159085e0e677cd1556d2eff627241164d903021de25436417803657c351d7e5",
+          "private_path": "/home/user/Cyberfyx-ORVIA/.local/browser-evidence/2026-10-03T07-34-05.840Z/raw/test-lab-B04-actual-interr-a717e-ROR-without-fabricated-pass/error-context.md"
+        },
+        {
+          "name": "trace",
+          "sha256": "eb00933539076351b162f139cf8d817433d1869ac5cd98c0706e1de7d56c4f46",
+          "private_path": "/home/user/Cyberfyx-ORVIA/.local/browser-evidence/2026-10-03T07-34-05.840Z/raw/test-lab-B04-actual-interr-a717e-ROR-without-fabricated-pass/trace.zip"
+        }
+      ]
+    }
+  ],
+  "limitations": [
+    "Raw authenticated traces/error details stay in the protected .local directory.",
+    "Screenshots supplement executable assertions.",
+    "Browser request observations do not qualify all host or browser-process egress.",
+    "Work acceptance and human rehearsals are separate."
+  ]
+}

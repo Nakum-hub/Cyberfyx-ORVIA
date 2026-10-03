@@ -1,0 +1,181 @@
+{
+  "result": "failed",
+  "source_commit": "978cde1bfe98fcf8a496b29b9c9c1e1e1be0bd1e",
+  "source_tree_sha256": "1645f83c066e742bf36d63adf3e9cbef1d22a16ba37cc9602bb3489cc1c36a14",
+  "contract_version": "0.58.0",
+  "profile": "rehearsal",
+  "fixture": "aster-birch-v1",
+  "tests": [
+    {
+      "title": [
+        "",
+        "",
+        "auth.spec.ts",
+        "B01 real staff MFA, refresh, actor separation and logout"
+      ],
+      "status": "failed",
+      "expected_status": "passed",
+      "duration_ms": 347,
+      "retry": 0,
+      "location": {
+        "file": "/home/user/Cyberfyx-ORVIA/tests/e2e/auth.spec.ts",
+        "line": 3,
+        "column": 1
+      },
+      "errors": [
+        {
+          "category": "BROWSER_CERTIFICATE_NOT_TRUSTED",
+          "private_detail": true
+        }
+      ],
+      "annotations": [],
+      "browser_health": {
+        "recorded": true,
+        "counts": {
+          "PAGE_ERROR": 0,
+          "CONSOLE_ERROR": 0,
+          "REACT_WARNING": 0,
+          "HTTP_STATUS": 0,
+          "WARNING": 0
+        },
+        "unexpected": 0,
+        "deliberate_errors_captured": 0,
+        "faults": [],
+        "deliberate_faults": []
+      },
+      "attachments": [
+        {
+          "name": "screenshot",
+          "sha256": "b2c67d4745d1e02309a52e80e930e5b5da6a926805fcb9bd554a3f318ece97b2",
+          "private_path": "/home/user/Cyberfyx-ORVIA/.local/browser-evidence/2026-10-03T07-29-09.876Z/raw/auth-B01-real-staff-MFA-refresh-actor-separation-and-logout/test-failed-1.png"
+        },
+        {
+          "name": "error-context",
+          "sha256": "55287e0fbf8c135517779bb752c30ead67a86c6858dde7a2403b824c9e4f83c8",
+          "private_path": "/home/user/Cyberfyx-ORVIA/.local/browser-evidence/2026-10-03T07-29-09.876Z/raw/auth-B01-real-staff-MFA-refresh-actor-separation-and-logout/error-context.md"
+        },
+        {
+          "name": "trace",
+          "sha256": "e9a2f0bdb4df1bf45048fb6447a4431b65248d867513169faac64c453ee6c114",
+          "private_path": "/home/user/Cyberfyx-ORVIA/.local/browser-evidence/2026-10-03T07-29-09.876Z/raw/auth-B01-real-staff-MFA-refresh-actor-separation-and-logout/trace.zip"
+        }
+      ]
+    },
+    {
+      "title": [
+        "",
+        "",
+        "auth.spec.ts",
+        "B01 rejected login and read-only authority"
+      ],
+      "status": "failed",
+      "expected_status": "passed",
+      "duration_ms": 275,
+      "retry": 0,
+      "location": {
+        "file": "/home/user/Cyberfyx-ORVIA/tests/e2e/auth.spec.ts",
+        "line": 12,
+        "column": 1
+      },
+      "errors": [
+        {
+          "category": "BROWSER_CERTIFICATE_NOT_TRUSTED",
+          "private_detail": true
+        }
+      ],
+      "annotations": [],
+      "browser_health": {
+        "recorded": true,
+        "counts": {
+          "PAGE_ERROR": 0,
+          "CONSOLE_ERROR": 0,
+          "REACT_WARNING": 0,
+          "HTTP_STATUS": 0,
+          "WARNING": 0
+        },
+        "unexpected": 0,
+        "deliberate_errors_captured": 0,
+        "faults": [],
+        "deliberate_faults": []
+      },
+      "attachments": [
+        {
+          "name": "screenshot",
+          "sha256": "b2c67d4745d1e02309a52e80e930e5b5da6a926805fcb9bd554a3f318ece97b2",
+          "private_path": "/home/user/Cyberfyx-ORVIA/.local/browser-evidence/2026-10-03T07-29-09.876Z/raw/auth-B01-rejected-login-and-read-only-authority/test-failed-1.png"
+        },
+        {
+          "name": "error-context",
+          "sha256": "c4967762072c1fe9d29d390e0e4034d3cfe4f7e67a69fc7e0f7737bbbfc101f4",
+          "private_path": "/home/user/Cyberfyx-ORVIA/.local/browser-evidence/2026-10-03T07-29-09.876Z/raw/auth-B01-rejected-login-and-read-only-authority/error-context.md"
+        },
+        {
+          "name": "trace",
+          "sha256": "3ffd2f8bbbc2a80eba6b5f403bc35d4f500d0912f0b09de74edd6caeb2418519",
+          "private_path": "/home/user/Cyberfyx-ORVIA/.local/browser-evidence/2026-10-03T07-29-09.876Z/raw/auth-B01-rejected-login-and-read-only-authority/trace.zip"
+        }
+      ]
+    },
+    {
+      "title": [
+        "",
+        "",
+        "auth.spec.ts",
+        "B01 expired browser session is rechecked and protected content disappears"
+      ],
+      "status": "failed",
+      "expected_status": "passed",
+      "duration_ms": 311,
+      "retry": 0,
+      "location": {
+        "file": "/home/user/Cyberfyx-ORVIA/tests/e2e/auth.spec.ts",
+        "line": 19,
+        "column": 1
+      },
+      "errors": [
+        {
+          "category": "BROWSER_CERTIFICATE_NOT_TRUSTED",
+          "private_detail": true
+        }
+      ],
+      "annotations": [],
+      "browser_health": {
+        "recorded": true,
+        "counts": {
+          "PAGE_ERROR": 0,
+          "CONSOLE_ERROR": 0,
+          "REACT_WARNING": 0,
+          "HTTP_STATUS": 0,
+          "WARNING": 0
+        },
+        "unexpected": 0,
+        "deliberate_errors_captured": 0,
+        "faults": [],
+        "deliberate_faults": []
+      },
+      "attachments": [
+        {
+          "name": "screenshot",
+          "sha256": "b2c67d4745d1e02309a52e80e930e5b5da6a926805fcb9bd554a3f318ece97b2",
+          "private_path": "/home/user/Cyberfyx-ORVIA/.local/browser-evidence/2026-10-03T07-29-09.876Z/raw/auth-B01-expired-browser-s-4fa95-rotected-content-disappears/test-failed-1.png"
+        },
+        {
+          "name": "error-context",
+          "sha256": "7e30bc76d0064b11b11dae3100c3112d96fdef2cb8d323a701939f78167c2ddf",
+          "private_path": "/home/user/Cyberfyx-ORVIA/.local/browser-evidence/2026-10-03T07-29-09.876Z/raw/auth-B01-expired-browser-s-4fa95-rotected-content-disappears/error-context.md"
+        },
+        {
+          "name": "trace",
+          "sha256": "8b2ae89b933b4f8121d5c6bf87df031741a4996d4601477040d67767cb9af9ca",
+          "private_path": "/home/user/Cyberfyx-ORVIA/.local/browser-evidence/2026-10-03T07-29-09.876Z/raw/auth-B01-expired-browser-s-4fa95-rotected-content-disappears/trace.zip"
+        }
+      ]
+    }
+  ],
+  "limitations": [
+    "Raw authenticated traces/error details stay in the protected .local directory.",
+    "Screenshots supplement executable assertions.",
+    "Browser request observations do not qualify all host or browser-process egress.",
+    "Work acceptance and human rehearsals are separate."
+  ]
+}
