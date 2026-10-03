@@ -1,0 +1,60 @@
+{
+  "task_id": "A00",
+  "fixture_kind": "SYNTHETIC_BOOTSTRAP_ONLY",
+  "recorded_at": "2026-10-03T17:10:13.476Z",
+  "results": [
+    {
+      "name": "Board or management pack: the report builds and offers \"Save as PDF\"",
+      "result": "PASS"
+    },
+    {
+      "name": "Board or management pack: a PDF is produced (9 page(s), 497 KB)",
+      "result": "PASS"
+    },
+    {
+      "name": "Board or management pack: the PDF leaves out the workspace (navigation, builder, buttons)",
+      "result": "PASS"
+    },
+    {
+      "name": "Board or management pack: the PDF carries the report with the demonstration data",
+      "result": "PASS"
+    },
+    {
+      "name": "Response to a regulator or auditor: the report builds and offers \"Save as PDF\"",
+      "result": "PASS"
+    },
+    {
+      "name": "Response to a regulator or auditor: a PDF is produced (21 page(s), 533 KB)",
+      "result": "PASS"
+    },
+    {
+      "name": "Response to a regulator or auditor: the PDF leaves out the workspace (navigation, builder, buttons)",
+      "result": "PASS"
+    },
+    {
+      "name": "Response to a regulator or auditor: the PDF carries the report with the demonstration data",
+      "result": "PASS"
+    },
+    {
+      "name": "Full privacy record: the report builds and offers \"Save as PDF\"",
+      "result": "PASS"
+    },
+    {
+      "name": "Full privacy record: a PDF is produced (22 page(s), 543 KB)",
+      "result": "PASS"
+    },
+    {
+      "name": "Full privacy record: the PDF leaves out the workspace (navigation, builder, buttons)",
+      "result": "PASS"
+    },
+    {
+      "name": "Full privacy record: the PDF carries the report with the demonstration data",
+      "result": "PASS"
+    },
+    {
+      "name": "no page error or server error while building and printing",
+      "result": "PASS"
+    }
+  ],
+  "result": "PASS"
+}

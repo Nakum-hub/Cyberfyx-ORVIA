@@ -1,0 +1,16 @@
+{
+  "task_id": "A00",
+  "fixture_kind": "SYNTHETIC_BOOTSTRAP_ONLY",
+  "recorded_at": "2026-10-03T17:09:14.340Z",
+  "results": [
+    {
+      "name": "Board or management pack: the report builds and offers \"Save as PDF\"",
+      "result": "PASS"
+    },
+    {
+      "name": "Board or management pack: a PDF is produced (9 page(s), 497 KB)",
+      "result": "PASS"
+    }
+  ],
+  "result": "PASS"
+}

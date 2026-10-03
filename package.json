@@ -118,6 +118,7 @@
     "test:e2e:demo-data": "tsx tests/e2e/demo-data-local.ts",
     "test:e2e:demo-import": "tsx tests/e2e/demo-import-local.ts",
     "test:e2e:demo-tiers": "tsx tests/e2e/demo-tiers-local.ts",
+    "test:e2e:demo-report-pdf": "tsx tests/e2e/demo-report-pdf-local.ts",
     "demo:accounts": "tsx scripts/demo-accounts.ts",
     "demo:remove": "tsx scripts/demo-remove.ts",
     "demo:tier": "tsx scripts/demo-tier.ts",
