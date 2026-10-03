@@ -64,7 +64,7 @@ await t.run(async () => {
   for (const [id, windDown] of [['toggle_control_test', {enabled:false}], ['change_audit_mandate_state', {state:'REVOKED'}]] as const) {
     const route=S.routes.find(r=>r.id===id)!;
     const response=await codes(sibling.call(route.path.replace(/\{[^}]+\}/g,()=>randomUUID()),{...example(route.request!) as object,...windDown},key()));
-    check('protective wind-down reaches scoped resource validation: '+id,response,{status:404,codes:[]});
+    check('protective wind-down passes the plan gate and reaches scoped resource validation: '+id,{status:response.status,gated:response.codes.includes('entitlement_required'),codes:response.codes},{status:404,gated:false,codes:['not_found']});
   }
   const foundation = await walk(['FOUNDATION']);
   const leaked = foundation.filter(r => (r.tier === 'CONTROL' || r.tier === 'ENTERPRISE') && !r.refused && !r.capability).map(r => r.id);

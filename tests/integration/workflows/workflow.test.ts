@@ -47,6 +47,10 @@ try {
  check('outbox delivery marker rolled back',(await admin.query('SELECT dispatched_at FROM app.outbox_events WHERE event_id=$1',[interruptedEvent])).rows[0].dispatched_at,null);
  const temporal=await connectTemporal(config);try{check('Temporal retained accepted workflow despite DB rollback',(await temporal.client.workflow.getHandle(interruptedWorkflow).describe()).status.name,'RUNNING');}finally{await temporal.connection.close();}
  check('dispatcher resumes stable workflow identity',(await dispatchOutbox(runtime))>0,true);
+ // Earlier suites on a shared profile can leave more than one batch (20 per scope) queued: drain it, then a repeat pass
+ // must find nothing, and the interrupted event must be marked dispatched once.
+ for(let pass=0;pass<100&&(await dispatchOutbox(runtime))>0;pass++);
+ check('interrupted event is marked dispatched after resume',(await admin.query('SELECT dispatched_at FROM app.outbox_events WHERE event_id=$1',[interruptedEvent])).rows[0].dispatched_at!==null,true);
  check('duplicate dispatcher pass creates no new work',await dispatchOutbox(runtime),0);
  const worker=start('services/worker/src/main.ts');
  const commandRow=await until<{command:unknown}>(async()=>(await admin.query('SELECT c.command FROM app.agent_commands c JOIN app.action_plans a ON a.id=c.action_id WHERE a.workflow_id=$1',[workflowId])).rows[0],value=>!!value);

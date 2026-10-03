@@ -18,7 +18,11 @@ const shutdown=()=>{stopped=true;};process.on('SIGINT',shutdown);process.on('SIG
 const runtime=await createWithdrawalWorker();
 try {
  await runtime.worker.runUntil(async()=>{
-  while(!stopped){await dispatchOutbox(runtime);await sweepAiGovernance(runtime.scoped,runtime.enrollment.identities.map(identity=>identity.id));
+  while(!stopped){
+   // Withdrawal propagation is protective and time-critical: drain the outbox (20 per scope per pass) before the slower
+   // sweeps, so a backlog never waits whole cycles behind discovery, classification or scans. Bounded per cycle.
+   for(let pass=0;pass<50&&!stopped;pass++)if(await dispatchOutbox(runtime)===0)break;
+   await sweepAiGovernance(runtime.scoped,runtime.enrollment.identities.map(identity=>identity.id));
    await sweepCatalogDiscovery(runtime.scoped,runtime.enrollment.identities.map(identity=>identity.id),
     observerEnrollment(runtime.config).identities,runtime.observer);
    await sweepClassification(runtime.scoped,runtime.enrollment.identities.map(identity=>identity.id),
