@@ -1,0 +1,176 @@
+✔ catalog: invalid or expired observer authority never connects (142.5834ms)
+✖ catalog: pool wait expiry releases the connection without a target read (39.2623ms)
+✖ catalog: expiry at every SQL wait prevents a successful observation (10.7479ms)
+✖ catalog: caller mutation during pool wait cannot extend lease or change relation (1.9559ms)
+✖ catalog: rollback failure preserves the authority error and releases (4.3731ms)
+✖ classification: invalid or expired observer authority never connects (90.5294ms)
+✖ classification: pool wait expiry releases the connection without a target read (4.3903ms)
+✖ classification: expiry at every SQL wait prevents a successful observation (5.0058ms)
+✖ classification: caller mutation during pool wait cannot extend lease or change relation (3.5317ms)
+✖ classification: rollback failure preserves the authority error and releases (3.554ms)
+✖ classification: missing result cannot bypass expiry during commit (3.5596ms)
+✖ classification: empty result cannot bypass expiry during commit (1.9686ms)
+ℹ tests 12
+ℹ suites 0
+ℹ pass 1
+ℹ fail 11
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 21983.9079
+
+✖ failing tests:
+
+test at .local\customer-verify-01\original-regression.test.ts:1:2486
+✖ catalog: pool wait expiry releases the connection without a target read (39.2623ms)
+  AssertionError [ERR_ASSERTION]: Missing expected rejection.
+      at async TestContext.<anonymous> (C:\Cyberfyx-projects\Cyberfyx_ORVIA\.local\customer-verify-01\original-regression.test.ts:51:5)
+      at async Test.run (node:internal/test_runner/test:1409:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:974:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: undefined,
+    expected: /Current observer/,
+    operator: 'rejects',
+    diff: 'simple'
+  }
+
+test at .local\customer-verify-01\original-regression.test.ts:1:2843
+✖ catalog: expiry at every SQL wait prevents a successful observation (10.7479ms)
+  AssertionError [ERR_ASSERTION]: Missing expected rejection: expiry after statement 0
+      at async TestContext.<anonymous> (C:\Cyberfyx-projects\Cyberfyx_ORVIA\.local\customer-verify-01\original-regression.test.ts:65:7)
+      at async Test.run (node:internal/test_runner/test:1409:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:974:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: undefined,
+    expected: /Current observer/,
+    operator: 'rejects',
+    diff: 'simple'
+  }
+
+test at .local\customer-verify-01\original-regression.test.ts:1:3625
+✖ catalog: caller mutation during pool wait cannot extend lease or change relation (1.9559ms)
+  AssertionError [ERR_ASSERTION]: Missing expected rejection.
+      at async TestContext.<anonymous> (C:\Cyberfyx-projects\Cyberfyx_ORVIA\.local\customer-verify-01\original-regression.test.ts:75:5)
+      at async Test.run (node:internal/test_runner/test:1409:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:974:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: undefined,
+    expected: /Current observer/,
+    operator: 'rejects',
+    diff: 'simple'
+  }
+
+test at .local\customer-verify-01\original-regression.test.ts:1:4341
+✖ catalog: rollback failure preserves the authority error and releases (4.3731ms)
+  AssertionError [ERR_ASSERTION]: Missing expected rejection.
+      at async TestContext.<anonymous> (C:\Cyberfyx-projects\Cyberfyx_ORVIA\.local\customer-verify-01\original-regression.test.ts:85:5)
+      at async Test.run (node:internal/test_runner/test:1409:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:974:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: undefined,
+    expected: /Current observer/,
+    operator: 'rejects',
+    diff: 'simple'
+  }
+
+test at .local\customer-verify-01\original-regression.test.ts:1:2088
+✖ classification: invalid or expired observer authority never connects (90.5294ms)
+  AssertionError [ERR_ASSERTION]: Missing expected rejection.
+      at async TestContext.<anonymous> (C:\Cyberfyx-projects\Cyberfyx_ORVIA\.local\customer-verify-01\original-regression.test.ts:45:7)
+      at async Test.run (node:internal/test_runner/test:1409:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:974:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: undefined,
+    expected: /Current observer/,
+    operator: 'rejects',
+    diff: 'simple'
+  }
+
+test at .local\customer-verify-01\original-regression.test.ts:1:2486
+✖ classification: pool wait expiry releases the connection without a target read (4.3903ms)
+  AssertionError [ERR_ASSERTION]: Missing expected rejection.
+      at async TestContext.<anonymous> (C:\Cyberfyx-projects\Cyberfyx_ORVIA\.local\customer-verify-01\original-regression.test.ts:51:5)
+      at async Test.run (node:internal/test_runner/test:1409:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:974:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: undefined,
+    expected: /Current observer/,
+    operator: 'rejects',
+    diff: 'simple'
+  }
+
+test at .local\customer-verify-01\original-regression.test.ts:1:2843
+✖ classification: expiry at every SQL wait prevents a successful observation (5.0058ms)
+  AssertionError [ERR_ASSERTION]: Missing expected rejection: expiry after statement 0
+      at async TestContext.<anonymous> (C:\Cyberfyx-projects\Cyberfyx_ORVIA\.local\customer-verify-01\original-regression.test.ts:65:7)
+      at async Test.run (node:internal/test_runner/test:1409:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:974:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: undefined,
+    expected: /Current observer/,
+    operator: 'rejects',
+    diff: 'simple'
+  }
+
+test at .local\customer-verify-01\original-regression.test.ts:1:3625
+✖ classification: caller mutation during pool wait cannot extend lease or change relation (3.5317ms)
+  AssertionError [ERR_ASSERTION]: Missing expected rejection.
+      at async TestContext.<anonymous> (C:\Cyberfyx-projects\Cyberfyx_ORVIA\.local\customer-verify-01\original-regression.test.ts:75:5)
+      at async Test.run (node:internal/test_runner/test:1409:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:974:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: undefined,
+    expected: /Current observer/,
+    operator: 'rejects',
+    diff: 'simple'
+  }
+
+test at .local\customer-verify-01\original-regression.test.ts:1:4341
+✖ classification: rollback failure preserves the authority error and releases (3.554ms)
+  AssertionError [ERR_ASSERTION]: Missing expected rejection.
+      at async TestContext.<anonymous> (C:\Cyberfyx-projects\Cyberfyx_ORVIA\.local\customer-verify-01\original-regression.test.ts:85:5)
+      at async Test.run (node:internal/test_runner/test:1409:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:974:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: undefined,
+    expected: /Current observer/,
+    operator: 'rejects',
+    diff: 'simple'
+  }
+
+test at .local\customer-verify-01\original-regression.test.ts:1:4700
+✖ classification: missing result cannot bypass expiry during commit (3.5596ms)
+  AssertionError [ERR_ASSERTION]: Missing expected rejection.
+      at async TestContext.<anonymous> (C:\Cyberfyx-projects\Cyberfyx_ORVIA\.local\customer-verify-01\original-regression.test.ts:93:5)
+      at async Test.run (node:internal/test_runner/test:1409:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:974:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: undefined,
+    expected: /Current observer/,
+    operator: 'rejects',
+    diff: 'simple'
+  }
+
+test at .local\customer-verify-01\original-regression.test.ts:1:4700
+✖ classification: empty result cannot bypass expiry during commit (1.9686ms)
+  AssertionError [ERR_ASSERTION]: Missing expected rejection.
+      at async TestContext.<anonymous> (C:\Cyberfyx-projects\Cyberfyx_ORVIA\.local\customer-verify-01\original-regression.test.ts:93:5)
+      at async Test.run (node:internal/test_runner/test:1409:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:974:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: undefined,
+    expected: /Current observer/,
+    operator: 'rejects',
+    diff: 'simple'
+  }
