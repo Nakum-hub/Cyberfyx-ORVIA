@@ -1,0 +1,118 @@
+{
+  "result": "passed",
+  "source_commit": "78cc99a4fa36599e8cf3df3493a63a75a567b134",
+  "source_tree_sha256": "b507518c173437b54f227d98015859a267aa87b090c16f3d6ffab4eddd79ad62",
+  "contract_version": "0.60.0",
+  "profile": "rehearsal",
+  "fixture": "aster-birch-v1",
+  "tests": [
+    {
+      "title": [
+        "",
+        "",
+        "auth.spec.ts",
+        "B01 real staff MFA, refresh, actor separation and logout"
+      ],
+      "status": "passed",
+      "expected_status": "passed",
+      "duration_ms": 8519,
+      "retry": 0,
+      "location": {
+        "file": "/home/user/Cyberfyx-ORVIA/tests/e2e/auth.spec.ts",
+        "line": 3,
+        "column": 1
+      },
+      "errors": [],
+      "annotations": [],
+      "browser_health": {
+        "recorded": true,
+        "counts": {
+          "PAGE_ERROR": 0,
+          "CONSOLE_ERROR": 0,
+          "REACT_WARNING": 0,
+          "HTTP_STATUS": 2,
+          "WARNING": 0
+        },
+        "unexpected": 0,
+        "deliberate_errors_captured": 0,
+        "faults": [],
+        "deliberate_faults": []
+      },
+      "attachments": []
+    },
+    {
+      "title": [
+        "",
+        "",
+        "auth.spec.ts",
+        "B01 rejected login and read-only authority"
+      ],
+      "status": "passed",
+      "expected_status": "passed",
+      "duration_ms": 8029,
+      "retry": 0,
+      "location": {
+        "file": "/home/user/Cyberfyx-ORVIA/tests/e2e/auth.spec.ts",
+        "line": 13,
+        "column": 1
+      },
+      "errors": [],
+      "annotations": [],
+      "browser_health": {
+        "recorded": true,
+        "counts": {
+          "PAGE_ERROR": 0,
+          "CONSOLE_ERROR": 0,
+          "REACT_WARNING": 0,
+          "HTTP_STATUS": 3,
+          "WARNING": 0
+        },
+        "unexpected": 0,
+        "deliberate_errors_captured": 0,
+        "faults": [],
+        "deliberate_faults": []
+      },
+      "attachments": []
+    },
+    {
+      "title": [
+        "",
+        "",
+        "auth.spec.ts",
+        "B01 expired browser session is rechecked and protected content disappears"
+      ],
+      "status": "passed",
+      "expected_status": "passed",
+      "duration_ms": 7181,
+      "retry": 0,
+      "location": {
+        "file": "/home/user/Cyberfyx-ORVIA/tests/e2e/auth.spec.ts",
+        "line": 20,
+        "column": 1
+      },
+      "errors": [],
+      "annotations": [],
+      "browser_health": {
+        "recorded": true,
+        "counts": {
+          "PAGE_ERROR": 0,
+          "CONSOLE_ERROR": 0,
+          "REACT_WARNING": 0,
+          "HTTP_STATUS": 4,
+          "WARNING": 0
+        },
+        "unexpected": 0,
+        "deliberate_errors_captured": 0,
+        "faults": [],
+        "deliberate_faults": []
+      },
+      "attachments": []
+    }
+  ],
+  "limitations": [
+    "Raw authenticated traces/error details stay in the protected .local directory.",
+    "Screenshots supplement executable assertions.",
+    "Browser request observations do not qualify all host or browser-process egress.",
+    "Work acceptance and human rehearsals are separate."
+  ]
+}

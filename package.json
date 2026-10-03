@@ -117,7 +117,8 @@
     "evidence:export": "tsx scripts/evidence-export.ts",
     "evidence:verify": "tsx scripts/verify-evidence.ts",
     "candidate:package": "tsx scripts/package-candidate.ts",
-    "test:lifecycle": "tsx tests/integration/lifecycle.test.ts"
+    "test:lifecycle": "tsx tests/integration/lifecycle.test.ts",
+    "test:e2e:idle-sign-out": "tsx tests/e2e/idle-sign-out-local.ts"
   },
   "devDependencies": {
     "@eslint/js": "10.0.1",

@@ -1,0 +1,75 @@
+{
+  "task_id": "A00",
+  "fixture_kind": "SYNTHETIC_BOOTSTRAP_ONLY",
+  "recorded_at": "2026-10-03T10:15:21.488Z",
+  "suite": "preferences-browser",
+  "assertions": [
+    {
+      "name": "the topic is created on screen with the chosen channels",
+      "result": "PASS",
+      "expected": [
+        "Browser news 1223f8bb",
+        [
+          "EMAIL",
+          "SMS"
+        ],
+        "ACTIVE"
+      ],
+      "actual": [
+        "Browser news 1223f8bb",
+        [
+          "EMAIL",
+          "SMS"
+        ],
+        "ACTIVE"
+      ]
+    },
+    {
+      "name": "saying yes is recorded",
+      "result": "PASS",
+      "expected": 201,
+      "actual": 201
+    },
+    {
+      "name": "saying no is recorded",
+      "result": "PASS",
+      "expected": 201,
+      "actual": 201
+    },
+    {
+      "name": "staff see no change controls for the person's choices",
+      "result": "PASS",
+      "expected": 0,
+      "actual": 0
+    },
+    {
+      "name": "the API decision matches the screen",
+      "result": "PASS",
+      "expected": [
+        false,
+        "OPTED_OUT"
+      ],
+      "actual": [
+        false,
+        "OPTED_OUT"
+      ]
+    },
+    {
+      "name": "no request left the local origin",
+      "result": "PASS",
+      "expected": [],
+      "actual": []
+    },
+    {
+      "name": "no page or console error occurred",
+      "result": "PASS",
+      "expected": [],
+      "actual": []
+    }
+  ],
+  "passed": 7,
+  "failures": 0,
+  "profile": "codex-a00",
+  "test_adapter_only": true,
+  "limitation": "Connector effects are exercised against the synthetic records test adapter; no live customer system was contacted."
+}

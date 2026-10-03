@@ -96,7 +96,7 @@ try {
   if (existingRun) {
     const { supervisorAlive } = await import('./orvia-cli.ts');
     if (!supervisorAlive(existingRun)) throw new OperatorError('A stale ORVIA supervisor journal requires inspection.', 'No automatic takeover or journal deletion is allowed.\n\nRun:\n  npm run status\n\nThen inspect .local/profiles/rehearsal/supervisor/run.json and follow docs/engineering/local-packaging-and-operation.md.');
-    process.stdout.write(`\n  ORVIA is already running for profile ${PROFILE}.\n\n  Workspace        ${ORIGIN}/workspace\n  Privacy Centre   ${ORIGIN}/privacy\n\n  Inspect it with:   npm run status\n  Stop it with:      npm stop\n\n`); process.exit(0);
+    process.stdout.write(`\n  ORVIA is already running for profile ${PROFILE}.\n\n  Workspace        ${ORIGIN}/workspace\n\n  Inspect it with:   npm run status\n  Stop it with:      npm stop\n\n`); process.exit(0);
   }
   if (!(await portFree(4330))) throw new OperatorError('Port 4330 is already in use, and it is not an ORVIA supervisor this command owns.', 'Something else is bound to the application port.\n\nCheck what ORVIA thinks is running:\n  npm run status\n\nThen stop the other listener, or stop ORVIA with:\n  npm stop');
 
@@ -210,7 +210,7 @@ try {
   streaming = true;
   done('Web ready'); done('Worker running'); done('Agent running');
 
-  process.stdout.write(`\n  ORVIA is ready\n\n${line('Workspace', `${ORIGIN}/workspace`)}\n${line('Privacy Centre', `${ORIGIN}/privacy`)}\n\n  Sign-in credentials were generated locally during setup and stay in the\n  protected .local profile directory. They are never printed here and must not\n  be committed or shared.\n\n  Press Ctrl+C to stop ORVIA.\n\n`);
+  process.stdout.write(`\n  ORVIA is ready\n\n${line('Workspace', `${ORIGIN}/workspace`)}\n\n  Sign-in credentials were generated locally during setup and stay in the\n  protected .local profile directory. They are never printed here and must not\n  be committed or shared.\n\n  Press Ctrl+C to stop ORVIA.\n\n`);
 
   const requestStop = () => {
     if (stopping) return;

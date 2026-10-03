@@ -1,0 +1,15 @@
+{
+  "test": "B06 real browser validates rehearsal HTTPS without certificate bypass",
+  "expected": [],
+  "entries": [],
+  "counts": {
+    "PAGE_ERROR": 0,
+    "CONSOLE_ERROR": 0,
+    "REACT_WARNING": 0,
+    "HTTP_STATUS": 0,
+    "WARNING": 0
+  },
+  "deliberate_errors_captured": 0,
+  "unexpected": 0,
+  "scope": "Console and page errors for this Playwright context only. Deliberate HTTP 401/403/404/503 responses are recorded as HTTP_STATUS and do not fail a run."
+}

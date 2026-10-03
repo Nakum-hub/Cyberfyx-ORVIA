@@ -100,3 +100,7 @@ Supersedes the Privacy Centre part of the section above.
 - **Not yet done (follow-up, needs approval).** The backend Data Principal authentication domain and its portal APIs still exist;
   they refuse every request while the Privacy Centre switch is off and no screen can turn it on. Removing them is a contract
   change with a large test migration.
+- **Devices (owner, 2026-10-03).** ORVIA runs on the organisation's server (its data centre or office). Staff, and vendor members
+  for the vendor service, reach it from desktop and laptop computers running Windows, macOS or Linux, through a current web
+  browser (Chrome, Edge, Firefox; Safari on macOS). Nothing is installed on those computers. Phones are not a target; the
+  layout still adapts to narrow windows, but phone-width checks are informational, not acceptance criteria.
