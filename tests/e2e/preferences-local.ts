@@ -56,28 +56,13 @@ await t.run(async () => {
     check('the topic is created on screen with the chosen channels', [topic.name, topic.channels, topic.state], [name, ['EMAIL', 'SMS'], 'ACTIVE']);
     await admin.getByRole('table', { name: 'Preference topics' }).getByText(name).waitFor();
 
-    t.setPhase('the person says yes then no in the privacy centre');
-    const alice = await page(browser);
-    await h.authWindow();
-    await alice.goto('/privacy/sign-in');
-    await alice.getByLabel('Email').fill(h.users.alice!.email); await alice.getByLabel('Password', { exact: true }).fill(h.users.alice!.password);
-    await alice.getByRole('button', { name: 'Sign in', exact: true }).click();
-    await alice.getByRole('heading', { name: 'Signed in', exact: true }).waitFor();
-    await alice.goto('/privacy/preferences');
-    const table = alice.getByRole('table', { name: `Channels for ${name}` });
-    await table.waitFor();
-    check('nothing is on before the person chooses', await table.getByRole('row').filter({ hasText: 'Email' }).getByText('Not contacted (no choice made)').count(), 1);
-    let saved = alice.waitForResponse(r => new URL(r.url()).pathname === '/api/v1/portal/me/preferences' && r.request().method() === 'POST');
-    await alice.getByRole('button', { name: `Yes to ${name} by Email` }).click();
-    check('saying yes is recorded', (await saved).status(), 201);
-    await table.getByRole('row').filter({ hasText: 'Email' }).getByText('You will be contacted').waitFor();
-    check('only the chosen channel is on', await table.getByRole('row').filter({ hasText: 'Text message' }).getByText('Not contacted (no choice made)').count(), 1);
-    saved = alice.waitForResponse(r => new URL(r.url()).pathname === '/api/v1/portal/me/preferences' && r.request().method() === 'POST');
-    await alice.getByRole('button', { name: `No to ${name} by Email` }).focus();
-    await alice.keyboard.press('Enter');
-    check('saying no from the keyboard is recorded', (await saved).status(), 201);
-    await table.getByRole('row').filter({ hasText: 'Email' }).getByText('Not contacted (you said no)').waitFor();
-    check('the history shows both choices as applied', await alice.getByRole('table', { name: 'Recorded choices' }).getByRole('row').filter({ hasText: name }).filter({ hasText: 'Applied' }).count(), 2);
+    t.setPhase('the person\'s yes then no arrive from the organisation');
+    // Owner decision 2026-10-03: Data Principals never sign in to ORVIA. Their choices reach it from the organisation's side;
+    // until a contact-preference intake route exists, the remaining backend preference API carries them here.
+    const person = await h.login('alice');
+    const choose = (choice: 'OPTED_IN' | 'OPTED_OUT') => person.call('/api/v1/portal/me/preferences', { topic_id: topic.id, channel: 'EMAIL', choice, observed_at: new Date().toISOString() }, { 'idempotency-key': randomUUID() });
+    check('saying yes is recorded', (await choose('OPTED_IN')).status, 201);
+    check('saying no is recorded', (await choose('OPTED_OUT')).status, 201);
 
     t.setPhase('staff look the person up');
     await admin.getByLabel('Principal id').fill(h.users.alice!.principal_id!);

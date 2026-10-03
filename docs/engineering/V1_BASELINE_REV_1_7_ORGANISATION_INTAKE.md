@@ -75,3 +75,28 @@ module, not from a separate entry path:
 - **What does not change (security).** Customers never sign in to the staff Workspace. The customer pages (`/privacy/...`)
   remain the Privacy Centre's public face, in their own authentication domain, served only while the switch is on, and
   reached from the link the organisation publishes on its own website or app (Rule 14(1)).
+
+## Owner decision 2026-10-03 (later the same day): ORVIA is for organisations' staff only
+
+Supersedes the Privacy Centre part of the section above.
+
+- **Who signs in.** On a customer installation only the organisation's staff sign in. On the vendor service, vendor members and
+  client organisations' accounts sign in. In ORVIA's terms the organisation is the customer; the organisation's own users are
+  its **Data Principals**, and they never sign in to ORVIA.
+- **Removed from the interface.** The Data Principal pages (`/privacy`, choices, rights, preferences, notices, receipts) and the
+  Data Principal sign-in.
+- **Privacy Centre = staff module.** `Privacy controls → Privacy Centre` with tabs: Overview, Sources (website/app intake keys and
+  submissions), Data Principals, Consents, Requests, Notices, Contact preferences. The data reaches ORVIA from the
+  organisation's own platforms (website, e-commerce store, app) through the intake API, and from files staff approve; staff
+  maintain it under the DPDP Act. ORVIA does not log in to or pull from those platforms (no real-platform connectors are
+  qualified in V1; a pull connector for a named platform is a separate task).
+- **Access-request responses.** After staff review and release a response package, the organisation's platform collects it with
+  the intake key that submitted the request (`POST /api/v1/intake/submissions/{id}/response-package`), or a staff member with
+  `rights.release` downloads it to hand over (`POST /api/v1/admin/response-packages/{id}/staff-copy`). Both count against the
+  release and leave a receipt naming the channel (customer migration 0106, contract 0.60.0).
+- **One sign-in interface and inactivity.** Every sign-in uses the branded page from the owner's preview
+  (`frontend/src/components/Cyberfyx Orvia – Sign-in preview.html`). A session ends after 30 minutes without activity (server
+  sliding expiry and interface idle check) and the person signs in again from that page.
+- **Not yet done (follow-up, needs approval).** The backend Data Principal authentication domain and its portal APIs still exist;
+  they refuse every request while the Privacy Centre switch is off and no screen can turn it on. Removing them is a contract
+  change with a large test migration.

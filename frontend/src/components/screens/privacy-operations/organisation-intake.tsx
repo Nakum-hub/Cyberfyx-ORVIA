@@ -25,9 +25,6 @@ export function OrganisationIntake() {
       <NoticeBox tone="info" title="Why it works this way">
         <p>Rule 14(1) of the DPDP Rules, 2025 asks you to publish the means of making a request on your own website or app. Customers do not need to visit a separate ORVIA site or keep a second password. Requests that arrive by email or phone are still recorded by staff on the Privacy requests and Consent records pages.</p>
       </NoticeBox>
-      <NoticeBox tone="info" title="Optional Privacy Centre">
-        <p>If you also want a customer-facing Privacy Centre served from this installation, turn it on in the <a href="/workspace/privacy-centre">Privacy Centre</a> module.</p>
-      </NoticeBox>
       <IntakeKeys />
       <Submissions />
       <DeveloperGuide />
@@ -131,6 +128,7 @@ function DeveloperGuide() {
         <li><code>POST /api/v1/intake/consents</code> with <code>{'{ customer_reference, activity_id, decision: "GRANTED" | "WITHDRAWN", occurred_at, notice_version_id, evidence_reference }'}</code></li>
         <li><code>POST /api/v1/intake/rights-requests</code> with <code>{'{ customer_reference, right_type: "ACCESS" | "CORRECTION" | "ERASURE" | "GRIEVANCE" | "NOMINATION", description, display_name, email }'}</code></li>
         <li><code>GET /api/v1/intake/submissions/{'{id}'}</code> to see whether it was applied, the consent status or the request state.</li>
+        <li><code>POST /api/v1/intake/submissions/{'{id}'}/response-package</code> to collect the copy of a person&apos;s data once your staff have released the response to their access request, and show it to them on your site. Every call counts as one collection against the release (so store the copy rather than calling again); ORVIA keeps a receipt.</li>
       </ul>
       <p className="muted">Send <code>Authorization: Bearer &lt;key&gt;</code>, <code>Content-Type: application/json</code> and a unique <code>Idempotency-Key</code> (16 to 128 letters, digits, - or _) on each submission; resending with the same key returns the same submission. A 202 response means received, not completed. The full guide is in the ORVIA documentation, <code>docs/integration/ORGANISATION_INTAKE.md</code>.</p>
     </Section>

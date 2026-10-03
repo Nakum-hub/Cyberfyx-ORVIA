@@ -324,30 +324,20 @@ await t.run(async () => {
     await rf.locator('select[name$="|notes"]').selectOption('THIRD_PARTY');
     const reviewed = await submit(reviewer, rf, /\/review$/, S.schemas.ResponsePackage, 'Complete the review');
     check('the second person redacts the suggested field on screen', [reviewed.state, JSON.stringify(reviewed.released_content).includes(third)], ['REVIEWED', false]);
-    f = reviewer.getByRole('form', { name: 'Release to the person\'s portal' });
+    f = reviewer.getByRole('form', { name: 'Release for collection' });
     await field(f, 'Collections allowed').fill('2');
-    const releasedPkg = await submit(reviewer, f, /\/release$/, S.schemas.ResponsePackage, 'Release to the person\'s portal');
+    const releasedPkg = await submit(reviewer, f, /\/release$/, S.schemas.ResponsePackage, 'Release for collection');
     check('the package is released on screen', [releasedPkg.state, releasedPkg.delivery_state], ['RELEASED', 'ACTIVE']);
 
-    t.setPhase('EX03 the person collects their copy');
-    const aliceContext = await browser.newContext({ baseURL: h.config.origin, viewport: { width: 1200, height: 900 } });
-    const alicePage = await aliceContext.newPage();
-    alicePage.on('pageerror', e => errors.push(e.message));
-    alicePage.on('request', r => { if (new URL(r.url()).origin !== h.config.origin) external.push(r.url()); });
-    await h.authWindow();
-    await alicePage.goto('/privacy/sign-in');
-    await alicePage.getByLabel('Email').fill(h.users.alice!.email); await alicePage.getByLabel('Password', { exact: true }).fill(h.users.alice!.password);
-    await alicePage.getByRole('button', { name: 'Sign in', exact: true }).click();
-    await alicePage.getByRole('heading', { name: 'Signed in', exact: true }).waitFor();
-    await alicePage.goto('/privacy/rights'); await alicePage.waitForLoadState('networkidle');
-    const article = alicePage.locator('article').filter({ hasText: `Browser access request ${suffix}` });
-    const collected = alicePage.waitForResponse(r => r.url().endsWith(`/rights-requests/${own.id}/response-package`) && r.request().method() === 'POST');
-    await article.getByRole('button', { name: 'Collect your copy' }).click();
-    check('the person collects the copy from the portal', (await collected).status(), 200);
-    const yourCopy = article.getByRole('table', { name: 'What this organisation holds about you' });
-    await yourCopy.getByText('alice.own@records.example').waitFor();
-    check('the collected copy shows the redaction and not the other person', [await yourCopy.getByText('[Redacted: another person\'s data]').count(), await alicePage.getByText(third).count()], [1, 0]);
-    await aliceContext.close();
+    t.setPhase('EX03 staff download the copy to hand over');
+    // Owner decision 2026-10-03: Data Principals never sign in to ORVIA; the organisation's platform collects the copy with its
+    // intake key (covered by the organisation-intake suite) or staff download it here.
+    const downloadResponse = reviewer.waitForResponse(r => r.url().endsWith(`/response-packages/${releasedPkg.id}/staff-copy`) && r.request().method() === 'POST');
+    const downloadFile = reviewer.waitForEvent('download');
+    await reviewer.getByRole('button', { name: 'Download copy to hand over' }).click();
+    const staffCopy = S.schemas.OwnResponsePackage.parse(await (await downloadResponse).json());
+    check('staff download the reviewed copy, with the redaction and without the other person', [staffCopy.content_digest === releasedPkg.content_digest, JSON.stringify(staffCopy).includes('[Redacted: another person\'s data]'), JSON.stringify(staffCopy).includes(third)], [true, true, false]);
+    check('the browser saves the copy as a file', /^response-v\d+-[a-f0-9]{12}\.json$/.test((await downloadFile).suggestedFilename()), true);
 
     // ---------------------------------------------------------------- EX04 / EX12
     t.setPhase('EX04 value classification on screen');

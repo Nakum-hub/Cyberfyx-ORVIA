@@ -67,4 +67,7 @@
 .cfx-body code { font-size: 12px; word-break: break-all; }
 .cfx-body .notice { border-radius: 10px; font-size: 14px; }
 .cfx-body .row { display: flex; gap: 8px; flex-wrap: wrap; }
-.cfx-foot { margin-top: 28px; font-size: 11px; color: #8a83a0; text-align: center; letter-spacing: .02em; }
+.cfx-foot { margin-top: 28px; font-size: 11px; color: #8a83a0; text-align: center; letter-spacing: .02em; opacity: 0; transition: opacity .8s .35s; }
+.cfx.s3 .cfx-foot { opacity: 1; }
+.cfx.instant .cfx-foot { transition: none; }
+.cfx-expired { margin: 0 0 14px; padding: 10px 12px; border: 1.5px solid var(--cfx-orange); background: #fff7ec; color: var(--cfx-purple); }

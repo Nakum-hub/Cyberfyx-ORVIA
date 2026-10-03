@@ -116,6 +116,8 @@ export const operationsRoutes: Route[] = [
   { id: 'intake_consent', method: 'post', path: '/api/v1/intake/consents', authority: 'INTAKE_CLIENT', request: 'IntakeConsentSubmit', response: 'IntakeReceipt', status: 202, idempotency: true, capability: 'intake.submit', maximum_body_bytes: 8192 },
   { id: 'intake_rights_request', method: 'post', path: '/api/v1/intake/rights-requests', authority: 'INTAKE_CLIENT', request: 'IntakeRightsSubmit', response: 'IntakeReceipt', status: 202, idempotency: true, capability: 'intake.submit', maximum_body_bytes: 8192 },
   { id: 'intake_submission', method: 'get', path: '/api/v1/intake/submissions/{id}', authority: 'INTAKE_CLIENT', params: 'IdPath', response: 'IntakeReceipt', status: 200, capability: 'intake.submit' },
+  // Owner decision 2026-10-03: the organisation's platform collects a released rights response for the request it submitted.
+  { id: 'intake_response_package', method: 'post', path: '/api/v1/intake/submissions/{id}/response-package', authority: 'INTAKE_CLIENT', params: 'IdPath', response: 'OwnResponsePackage', status: 200, capability: 'intake.submit' },
   // Rule 8(2): 48-hour intimation before Third Schedule erasure (0.47.0)
   list('list_erasure_intimations_due', '/erasure-intimations/due', 'ErasureIntimationDueList', 'registry.read'),
   list('list_erasure_intimations', '/erasure-intimations', 'ErasureIntimationList', 'registry.read', 'ErasureIntimationQuery'),

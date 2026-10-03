@@ -74,7 +74,6 @@ await t.run(async () => {
   try {
     t.setPhase('customer sign-in pages');
     await probe(browser, h.config.origin, '/workspace/sign-in', 'staff sign-in');
-    await probe(browser, h.config.origin, '/privacy/sign-in', 'Data Principal sign-in');
     t.setPhase('vendor sign-in page');
     vendor = await startVendor();
     await probe(browser, VENDOR, '/vendor/sign-in', 'vendor sign-in');

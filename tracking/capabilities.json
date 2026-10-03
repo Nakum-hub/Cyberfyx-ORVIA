@@ -266,7 +266,7 @@
         "backend/domain/src/rights/portal.ts",
         "tests/unit/portal-rights.test.ts",
         "tests/integration/rights/portal.test.ts",
-        "frontend/src/app/privacy/rights/page.tsx"
+        "backend/domain/src/rights/response-packages.ts"
       ]
     },
     {

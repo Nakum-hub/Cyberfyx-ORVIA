@@ -1,6 +1,7 @@
 'use client';
 import { usePathname } from 'next/navigation';
 import { createContext, useCallback, useContext, useEffect, useMemo, useState, type ReactNode } from 'react';
+import { useIdleSignOut } from '../shared/idle-sign-out.ts';
 import { vendorAuthClient, accountAuthClient } from '@orvia/auth/client';
 import { NoticeBox } from '../shared/ui.tsx';
 
@@ -80,6 +81,7 @@ const ROLE: Record<string, string> = { VENDOR_SUPER_ADMIN: 'Vendor super adminis
 function Shell({ children }: { children: ReactNode }) {
   const { session, signOut } = useVendorSession(); const pathname = usePathname();
   const groups = NAV.map(g => ({ ...g, items: g.items.filter(i => can(session, i.capability)) })).filter(g => g.items.length);
+  useIdleSignOut(!!session, signOut, session?.actor_domain === 'CLIENT_ACCOUNT' ? '/vendor/sign-in?account=client' : '/vendor/sign-in');
   // Sign-in and first-password set-up render the full-screen branded sign-in (BrandSignIn) without the vendor frame.
   if ((pathname === '/vendor/sign-in' || pathname === '/vendor/account-setup') && !session) return <>{children}</>;
   return (

@@ -21,6 +21,8 @@ const PROTECTIVE_AUTHORITIES = new Set(['PRINCIPAL', 'INTAKE_CLIENT', 'MACHINE',
 /** Staff writes that are protective by id. */
 const PROTECTIVE_IDS = new Set([
   'record_cmp_consent', 'reconcile', 'attest', 'export', 'export_audit_events', 'export_dpdpa_gap_register',
+  // Handing over a released rights response completes a legal duty already decided (owner decision 2026-10-03).
+  'collect_response_package_copy',
 ]);
 /**
  * Wind-down. Switching off, revoking or terminating something reduces exposure, so it stays possible after a downgrade or

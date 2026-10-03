@@ -14,14 +14,16 @@ const DELIVERY_TONE: Record<string, 'ok' | 'warn' | 'stop' | 'neutral'> = { ACTI
 /**
  * EX03 response packages for one request. Preparing reads the records; a second
  * person decides every suggested redaction and acknowledges unreadable sources;
- * release puts the reviewed copy in the principal's portal until it expires, is
- * revoked or its allowance is spent.
+ * release makes the reviewed copy available until it expires, is revoked or its
+ * allowance is spent. The organisation's Data Principals never sign in to ORVIA (owner
+ * decision 2026-10-03): its website, store or app collects the copy with the intake key
+ * that submitted the request, or a staff member downloads it to hand over.
  */
 export function ResponsePackages({ requestId }: { requestId: string }) {
   const packages = usePagedQuery('list_response_packages', { limit: 25, params: { id: requestId } });
   return (
     <Section title="Response package">
-      <p className="cell-sub">A copy of what the planned systems hold about this person, read at preparation. Someone other than the preparer reviews it, deciding each suggested redaction. The person collects it from their privacy portal.</p>
+      <p className="cell-sub">A copy of what the planned systems hold about this person, read at preparation. Someone other than the preparer reviews it, deciding each suggested redaction. Once released, your website, store or app collects it for the person (with the intake key that submitted the request), or you download it here to hand over.</p>
       <ActionButton operation="prepare_response_package" label="Prepare a response package" input={undefined as never} params={{ id: requestId }} onDone={() => packages.refresh()} />
       <QueryBoundary query={packages} label="response packages" isEmpty={d => !d.items.length}>
         {d => {
@@ -45,6 +47,22 @@ export function ResponsePackages({ requestId }: { requestId: string }) {
   );
 }
 
+/** Download the released copy to hand it over; it counts against the release and leaves a receipt naming the staff member. */
+function StaffCopy({ pkg, onChanged }: { pkg: Package; onChanged: () => void }) {
+  const save = (copy: ReturnType<typeof schemas.OwnResponsePackage.parse>) => {
+    const url = URL.createObjectURL(new Blob([JSON.stringify(copy, null, 2)], { type: 'application/json' }));
+    const link = document.createElement('a'); link.href = url; link.download = `response-v${copy.version}-${copy.content_digest.slice(0, 12)}.json`;
+    document.body.appendChild(link); link.click(); link.remove(); URL.revokeObjectURL(url);
+    onChanged();
+  };
+  return (
+    <p className="row">
+      <ActionButton operation="collect_response_package_copy" label="Download copy to hand over" input={undefined as never} params={{ id: pkg.id }} onDone={save} />
+      <span className="cell-sub">Counts as one collection ({pkg.max_downloads ? pkg.max_downloads - pkg.downloads : 0} left) and is recorded against your name.</span>
+    </p>
+  );
+}
+
 function PackageDetail({ pkg, onChanged }: { pkg: Package; onChanged: () => void }) {
   return (
     <div className="panel">
@@ -58,12 +76,13 @@ function PackageDetail({ pkg, onChanged }: { pkg: Package; onChanged: () => void
         </>
       )}
       {pkg.state === 'REVIEWED' && (
-        <WriteForm operation="release_response_package" label="Release to the person's portal" params={{ id: pkg.id }} onSaved={onChanged} describe={p => `Released until ${formatTime(p.delivery_expires_at!)}`}
+        <WriteForm operation="release_response_package" label="Release for collection" params={{ id: pkg.id }} onSaved={onChanged} describe={p => `Released until ${formatTime(p.delivery_expires_at!)}`}
           build={f => ({ expires_at: time(f, 'expires'), max_downloads: Number(text(f, 'max')) })}>
           <Input label="Available until" name="expires" type="datetime-local" defaultValue={localNow(7)} hint="At most thirty days." />
           <Input label="Collections allowed" name="max" type="number" defaultValue="3" hint="Between 1 and 10." />
         </WriteForm>
       )}
+      {pkg.delivery_state === 'ACTIVE' && <StaffCopy pkg={pkg} onChanged={onChanged} />}
       {pkg.delivery_state === 'ACTIVE' && (
         <WriteForm operation="revoke_response_package" label="Revoke delivery" params={{ id: pkg.id }} onSaved={onChanged} describe={() => 'Delivery revoked'} build={f => ({ reason: text(f, 'reason') })}>
           <Input label="Reason" name="reason" minLength={10} maxLength={500} />
@@ -136,26 +155,5 @@ function Review({ pkg, onChanged }: { pkg: Package; onChanged: () => void }) {
       {error && <p role="alert">{error}</p>}
       {review.failure && <FailureState failure={review.failure} />}
     </form>
-  );
-}
-
-/** The principal's side: collect the released copy from the portal. */
-export function CollectOwnCopy({ requestId }: { requestId: string }) {
-  const collect = useMutation('own_response_package', true);
-  const [copy, setCopy] = useState<ReturnType<typeof schemas.OwnResponsePackage.parse> | null>(null);
-  return (
-    <div>
-      <button type="button" disabled={collect.status === 'pending'} onClick={async () => { collect.newInteraction(); const r = await collect.run(undefined as never, { params: { id: requestId } }); if (r) setCopy(r); }}>
-        {collect.status === 'pending' ? 'Collecting…' : 'Collect your copy'}
-      </button>
-      {collect.failure && <FailureState failure={collect.failure} />}
-      {copy && (
-        <div className="panel" aria-label="Your copy">
-          <p className="cell-sub">Released {formatTime(copy.released_at)}. Available until {formatTime(copy.expires_at)}; {copy.downloads_remaining} more collection(s) allowed. Reference <code>{copy.content_digest.slice(0, 16)}</code>.</p>
-          <Content content={copy.content} caption="What this organisation holds about you" />
-          <ul className="cell-sub">{copy.limits.map(l => <li key={l}>{l}</li>)}</ul>
-        </div>
-      )}
-    </div>
   );
 }

@@ -5,7 +5,8 @@ test('B01 real staff MFA, refresh, actor separation and logout',async({page,h})=
   await expect(page.getByRole('heading',{name:'Privacy control status',exact:true})).toBeVisible();
   await expect(page.getByText('MFA verified',{exact:false})).toBeVisible();await page.reload();
   await expect(page.getByRole('heading',{name:'Privacy control status',exact:true})).toBeVisible();await h.screenshot(page,'staff-workspace');
-  await page.goto('/privacy');await expect(page.getByRole('heading',{name:'Wrong actor domain for this area'})).toBeVisible();
+  // Owner decision 2026-10-03: Data Principals never sign in to ORVIA, so there is no Data Principal area to reach.
+  expect((await page.goto('/privacy'))?.status()).toBe(404);await page.goto('/workspace');
   await page.getByRole('button',{name:'Sign out',exact:true}).click();await expect(page.getByRole('heading',{name:'Sign in required'})).toBeVisible();
 });
 

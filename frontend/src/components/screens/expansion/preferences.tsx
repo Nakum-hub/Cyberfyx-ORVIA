@@ -1,9 +1,9 @@
 'use client';
 import { useState } from 'react';
 import type { schemas } from '@orvia/contracts';
-import { useMutation, usePagedQuery, useQuery } from '../../shared/api.ts';
+import { usePagedQuery, useQuery } from '../../shared/api.ts';
 import { formatTime, shortId } from '../../shared/state-labels.ts';
-import { Badge, DataTable, EmptyState, FailureState, NoticeBox, PageHead, Pagination, QueryBoundary, Section } from '../../shared/ui.tsx';
+import { Badge, DataTable, EmptyState, NoticeBox, PageHead, Pagination, QueryBoundary, Section } from '../../shared/ui.tsx';
 import { ActionButton, Input, WriteForm, text } from '../privacy-operations/registry-forms.tsx';
 
 type Centre = ReturnType<typeof schemas.PreferenceCentre.parse>;
@@ -13,26 +13,6 @@ const REASON: Record<string, string> = {
   OPTED_IN: 'You will be contacted', NO_CHOICE: 'Not contacted (no choice made)', OPTED_OUT: 'Not contacted (you said no)',
   CONSENT_NOT_GRANTED: 'Not contacted (the consent it depends on is not given)', TOPIC_RETIRED: 'Not contacted (topic retired)', CHANNEL_NOT_OFFERED: 'Not offered',
 };
-
-/** The principal's own preference centre, shown in the portal. */
-export function PortalPreferences() {
-  const centre = useQuery('own_preferences');
-  const save = useMutation('set_own_preference', true);
-  const choose = async (topic_id: string, channel: (typeof CHANNELS)[number], choice: 'OPTED_IN' | 'OPTED_OUT') => {
-    save.newInteraction();
-    if (await save.run({ topic_id, channel, choice, observed_at: new Date().toISOString() })) centre.refresh();
-  };
-  return (
-    <>
-      <PageHead eyebrow="Privacy centre" title="Contact preferences"
-        lede="Choose what you are contacted about and how. Nothing is sent unless you say yes, and saying no takes effect straight away. Where a topic depends on a consent you have given, withdrawing that consent also stops the contact." />
-      {save.failure && <FailureState failure={save.failure} />}
-      <QueryBoundary query={centre} label="your preferences" isEmpty={d => !d.topics.length}>
-        {d => <CentreView centre={d} onChoose={choose} busy={save.status === 'pending'} />}
-      </QueryBoundary>
-    </>
-  );
-}
 
 function CentreView({ centre, onChoose, busy }: { centre: Centre; onChoose?: (topic: string, channel: (typeof CHANNELS)[number], choice: 'OPTED_IN' | 'OPTED_OUT') => void; busy?: boolean }) {
   return (

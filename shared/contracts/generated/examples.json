@@ -8266,6 +8266,35 @@
       }
     },
     {
+      "operation_id": "intake_response_package",
+      "method": "POST",
+      "path": "/api/v1/intake/submissions/{id}/response-package",
+      "headers": {},
+      "request": null,
+      "response_status": 200,
+      "response": {
+        "request_id": "00000000-0000-4000-8000-0000000003d5",
+        "version": 1,
+        "released_at": "2026-09-16T10:00:00.000Z",
+        "expires_at": "2026-09-16T10:00:00.000Z",
+        "downloads_remaining": 2,
+        "content_digest": "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+        "content": [
+          {
+            "title": "Synthetic CRM record",
+            "read_state": "READ",
+            "fields": {
+              "name": "Synthetic Person",
+              "email": "person@example.invalid"
+            }
+          }
+        ],
+        "limits": [
+          "Synthetic example."
+        ]
+      }
+    },
+    {
       "operation_id": "list_erasure_intimations_due",
       "method": "GET",
       "path": "/api/v1/admin/erasure-intimations/due",
@@ -11980,6 +12009,37 @@
         "revoked_at": null,
         "revocation_reason": null,
         "purged_at": null
+      }
+    },
+    {
+      "operation_id": "collect_response_package_copy",
+      "method": "POST",
+      "path": "/api/v1/admin/response-packages/{id}/staff-copy",
+      "headers": {
+        "Idempotency-Key": "synthetic_example_key_0001"
+      },
+      "request": null,
+      "response_status": 200,
+      "response": {
+        "request_id": "00000000-0000-4000-8000-0000000003d5",
+        "version": 1,
+        "released_at": "2026-09-16T10:00:00.000Z",
+        "expires_at": "2026-09-16T10:00:00.000Z",
+        "downloads_remaining": 2,
+        "content_digest": "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+        "content": [
+          {
+            "title": "Synthetic CRM record",
+            "read_state": "READ",
+            "fields": {
+              "name": "Synthetic Person",
+              "email": "person@example.invalid"
+            }
+          }
+        ],
+        "limits": [
+          "Synthetic example."
+        ]
       }
     },
     {

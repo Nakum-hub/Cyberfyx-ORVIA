@@ -1,6 +1,7 @@
 'use client';
 import { usePathname } from 'next/navigation';
-import { useEffect, useState, type ReactNode } from 'react';
+import { useIdleSignOut } from './idle-sign-out.ts';
+import { useCallback, useEffect, useState, type ReactNode } from 'react';
 import { PROFILES, PROFILE, ENTITLEMENTS, type EntitlementCodeValue } from '@orvia/contracts';
 import { CONTRACT_REVIEW_STATUS, CONTRACT_VERSION, useQuery } from './api.ts';
 import { useSession } from './session-context.tsx';
@@ -111,7 +112,7 @@ function Nav({ groups, usable }: { groups: NavGroup[]; usable: ReadonlySet<strin
   const pathname = usePathname();
   const [expanded, setExpanded] = useState<Record<string, boolean>>({});
   const isActive = (href: string) => pathname === href
-    || (href !== '/workspace' && href !== '/privacy' && pathname.startsWith(`${href}/`));
+    || (href !== '/workspace' && pathname.startsWith(`${href}/`));
   return (
     <nav className="shell-nav" aria-label="Primary">
       {groups.map((group, index) => {
@@ -146,7 +147,7 @@ function Nav({ groups, usable }: { groups: NavGroup[]; usable: ReadonlySet<strin
 function Shell({ area, lane, groups, domain, detailedActor, bare = [], children }: {
   area: string; lane: string; groups: NavGroup[]; domain: 'STAFF' | 'PRINCIPAL'; detailedActor: boolean; bare?: string[]; children: ReactNode;
 }) {
-  const { session } = useSession();
+  const { session, signOut } = useSession();
   const pathname = usePathname();
   // Server-derived session only. Hiding a destination is presentation; the
   // sign-in route itself stays reachable and every request is still authorized
@@ -157,6 +158,8 @@ function Shell({ area, lane, groups, domain, detailedActor, bare = [], children 
     .filter(group => group.items.length > 0);
   const plan = useQuery('plan', { enabled: signedIn && domain === 'STAFF' });
   const usable = plan.data ? new Set<string>(plan.data.usable) : null;
+  const endSession = useCallback(() => signOut(domain), [signOut, domain]);
+  useIdleSignOut(signedIn, endSession, bare[0] ?? '/');
   // Signed out, sign-in routes render the full-screen branded sign-in (BrandSignIn) without the workspace frame; once
   // signed in, the same route shows its confirmation inside the normal frame.
   if (bare.includes(pathname) && !signedIn) return <>{children}</>;
@@ -290,15 +293,6 @@ export const WORKSPACE_NAV: NavGroup[] = [
   ] },
 ];
 
-export const PRIVACY_NAV: NavGroup[] = [
-  { group: 'Your privacy', items: [
-    { href: '/privacy', label: 'My choices' },
-    { href: '/privacy/rights', label: 'My rights' },
-    { href: '/privacy/preferences', label: 'Contact preferences' },
-    { href: '/privacy/notices', label: 'Privacy notices' },
-    { href: '/privacy/receipts', label: 'My receipts' },
-  ] },
-];
 
 /** First-run setup: the ORVIA frame without navigation or a signed-in person, since nobody can sign in yet. */
 export function SetupShell({ children }: { children: ReactNode }) {
@@ -328,10 +322,3 @@ export function WorkspaceShell({ children }: { children: ReactNode }) {
   return <Shell area="Staff workspace" lane="Privacy Control Workspace" groups={WORKSPACE_NAV} domain="STAFF" detailedActor bare={['/workspace/sign-in', '/workspace/recover']}>{children}</Shell>;
 }
 
-/**
- * Privacy Centre: a data principal never sees staff identifiers, workflow
- * internals, connector details or another principal's data in this layout.
- */
-export function PrivacyShell({ children }: { children: ReactNode }) {
-  return <Shell area="Privacy Centre" lane="Privacy Centre" groups={PRIVACY_NAV} domain="PRINCIPAL" detailedActor={false} bare={['/privacy/sign-in']}>{children}</Shell>;
-}

@@ -4,6 +4,7 @@ import '@fontsource/montserrat/500.css';
 import '@fontsource/montserrat/600.css';
 import '@fontsource/montserrat/800.css';
 import './brand-sign-in.css';
+import { signedOutForInactivity } from './idle-sign-out.ts';
 
 /**
  * The one sign-in interface for every person who signs in to ORVIA: staff of an organisation, its customers in the
@@ -20,6 +21,8 @@ const CLASSES: Record<Stage, string> = {
 
 export function BrandSignIn({ area, children }: { area: string; children: ReactNode }) {
   const [stage, setStage] = useState<Stage>('start');
+  const [expired, setExpired] = useState(false);
+  useEffect(() => { setExpired(signedOutForInactivity()); }, []);
   useEffect(() => {
     let seen = false;
     try { seen = window.sessionStorage.getItem(INTRO_KEY) === '1'; } catch { /* storage unavailable: play the intro */ }
@@ -42,6 +45,7 @@ export function BrandSignIn({ area, children }: { area: string; children: ReactN
       </div>
       <div className="cfx-formwrap"><div className="cfx-formclip"><div className="cfx-body">
         <h2 className="cfx-area">{area}</h2>
+        {expired ? <div className="notice notice-info cfx-expired" role="status">You were signed out after 30 minutes without activity. Sign in again to continue.</div> : null}
         {children}
       </div></div></div>
       <p className="cfx-foot">Synthetic test environment · customer-local · nothing on this page is sent outside this installation</p>

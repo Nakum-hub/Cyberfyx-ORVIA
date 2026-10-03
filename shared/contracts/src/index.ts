@@ -71,11 +71,16 @@ const expansionNames = Object.keys(expansionSchemas);
  *  grace_until and falls_back_to; FeatureAvailability gains tier, label and value. Every non-read route is classified
  *  (route-entitlements.ts) and an unlicensed gated write is refused with 403 FORBIDDEN naming the entitlement and tier
  *  (migration 0100).
+ *  0.60.0 (owner decisions 2026-10-03; 0.59.0 stays reserved for Codex): the organisation's Data Principals never sign in
+ *  to ORVIA. A released rights response is collected by the organisation's platform (POST
+ *  /api/v1/intake/submissions/{id}/response-package, intake key) or downloaded by staff (POST
+ *  /api/v1/admin/response-packages/{id}/staff-copy); both count against the release and leave a receipt with its channel.
+ *  SESSION_IDLE_SECONDS: sessions end after 30 minutes without activity.
  *  0.58.0 (owner decisions 2026-10-02, revision 1.12): file intake. Files arrive from a local inbox folder on the
  *  installation server or by manual upload, are staged, and are applied only on a staff decision: list_file_intake,
  *  upload_file, file_intake_item, file_intake_content, decide_file_intake (migration 0103). ComplianceReport lists up to 1000
  *  controls and frameworks and states its completeness (it silently stopped at 100 before). Otherwise additive. */
-export const CONTRACT_VERSION = '0.58.0' as const;
+export const CONTRACT_VERSION = '0.60.0' as const;
 /** The version this build declares of itself. It is what a diagnostic report and
  *  a release manifest are compared against, so it must match package.json; a unit
  *  test asserts that rather than trusting it. */
@@ -83,6 +88,9 @@ export const PRODUCT_VERSION = '0.0.0' as const;
 // Transport pagination does not change the signed command wire format.
 export const COMMAND_SCHEMA_VERSION = '0.3.0' as const;
 export const PROFILE = 'CUSTOMER_LOCAL_SYNTHETIC' as const;
+/** Owner decision 2026-10-03: a signed-in session ends after 30 minutes without activity, and the person signs in again
+ *  from the branded sign-in page. Enforced by the server (sliding session expiry) and by the interface (no user input). */
+export const SESSION_IDLE_SECONDS = 1800;
 export const AUTH = {
   staff: { base_path: '/api/auth/staff', cookie_prefix: 'orvia.staff', secure_cookie_prefix: '__Secure-orvia.staff' },
   principal: { base_path: '/api/auth/principal', cookie_prefix: 'orvia.principal', secure_cookie_prefix: '__Secure-orvia.principal' },
