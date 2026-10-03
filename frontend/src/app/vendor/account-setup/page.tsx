@@ -24,8 +24,8 @@ export default function AccountSetup() {
       setError(r.status === 403 ? 'That email and setup code were not accepted. Check both; codes work once, expire, and lock after five wrong attempts. Ask your administrator for a new code if needed.' : 'Your password could not be set. Try again.');
     } catch { setError('The vendor service is not answering. Try again in a moment.'); } finally { setBusy(false); }
   }
-  if (done) return <BrandSignIn area="Set your password"><NoticeBox tone="ok" title="Password set"><p>Sign in with your work email and new password, then set up your authenticator. Next time, including after reinstalling ORVIA, you only sign in.</p><a href="/vendor/sign-in">Go to vendor sign in</a></NoticeBox></BrandSignIn>;
-  return <BrandSignIn area="Set your password">
+  if (done) return <BrandSignIn area="Set your password" showArea><NoticeBox tone="ok" title="Password set"><p>Sign in with your work email and new password, then set up your authenticator. Next time, including after reinstalling ORVIA, you only sign in.</p><a href="/vendor/sign-in">Go to vendor sign in</a></NoticeBox></BrandSignIn>;
+  return <BrandSignIn area="Set your password" showArea>
     <form className="panel" onSubmit={submit} aria-label="Set your vendor password">
       <p className="muted">Use the one-time setup code your administrator gave you.</p>
       <TextField label="Work email" type="email" value={f.email} onChange={set('email')} required autoComplete="username" />

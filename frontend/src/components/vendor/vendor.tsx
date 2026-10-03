@@ -4,6 +4,7 @@ import { createContext, useCallback, useContext, useEffect, useMemo, useState, t
 import { useIdleSignOut } from '../shared/idle-sign-out.ts';
 import { vendorAuthClient, accountAuthClient } from '@orvia/auth/client';
 import { NoticeBox } from '../shared/ui.tsx';
+import { BrandMark } from '../shared/brand-mark.tsx';
 
 /**
  * The vendor area of the vendor's own VENDOR_SERVICE installation (revision 1.5
@@ -89,7 +90,7 @@ function Shell({ children }: { children: ReactNode }) {
       <a className="skip-link" href="#main">Skip to main content</a>
       <div className="environment-banner"><strong>Vendor installation</strong><span className="area">VENDOR_SERVICE</span><span className="meta">No client installation is reachable from here. Client installations send evidence under a mandate their approvers signed, or clients carry sealed packages as files.</span></div>
       <header className="shell-head">
-        <div className="shell-title"><span className="mark">ORVIA</span><span className="rule" aria-hidden="true" /><h1>Vendor &amp; audit</h1></div>
+        <div className="shell-title"><BrandMark /><span className="rule" aria-hidden="true" /><h1>Vendor &amp; audit</h1></div>
         {session ? <div className="shell-context"><span className="context-chip"><span className="k">Role</span><span className="v">{ROLE[session.role] ?? session.role}</span></span>
           <span className="context-chip"><span className="k">Signed in</span><span className="v">{session.name}</span></span>
           <button type="button" className="link" onClick={() => void signOut()}>Sign out</button></div> : <div className="shell-context muted">No vendor session</div>}

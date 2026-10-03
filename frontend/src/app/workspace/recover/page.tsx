@@ -32,9 +32,9 @@ export default function OwnerRecovery() {
     finally { setBusy(false); }
   }
 
-  if (done) return <BrandSignIn area="Recover the owner login"><NoticeBox tone="ok" title="Owner access recovered"><p>Sign in with your new password and set up a new authenticator: the old one was removed, and every earlier session of this login has ended. The recovery is recorded in the audit trail.</p><p><a href="/workspace/sign-in">Go to sign in</a></p></NoticeBox></BrandSignIn>;
+  if (done) return <BrandSignIn area="Recover the owner login" showArea><NoticeBox tone="ok" title="Owner access recovered"><p>Sign in with your new password and set up a new authenticator: the old one was removed, and every earlier session of this login has ended. The recovery is recorded in the audit trail.</p><p><a href="/workspace/sign-in">Go to sign in</a></p></NoticeBox></BrandSignIn>;
   return (
-    <BrandSignIn area="Recover the owner login">
+    <BrandSignIn area="Recover the owner login" showArea>
       <form className="panel" onSubmit={submit} aria-label="Owner recovery">
         <p className="muted">For the organisation&apos;s owner only, when the password or authenticator is lost. You need the one-time code issued on the ORVIA server by someone with administrator access to it. Other staff: ask the owner or an administrator to reset your login instead.</p>
         <TextField label="Owner email" type="email" value={f.email} onChange={set('email')} required autoComplete="username" />

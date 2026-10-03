@@ -44,12 +44,12 @@ await t.run(async () => {
     const user = h.users.admin!;
     await h.authWindow(); // UI sign-ins share the staff rate-limit bucket with the fixture's API logins
     await page.goto('/workspace/sign-in');
-    await page.getByLabel('Staff email').fill(user.email);
+    await page.getByLabel('Email', { exact: true }).fill(user.email);
     await page.getByLabel('Password', { exact: true }).fill(user.password);
     await page.getByRole('button', { name: 'Sign in', exact: true }).click();
     await page.getByLabel('Authenticator code', { exact: true }).fill(authenticatorCode(user.totp_uri!));
     await page.getByRole('button', { name: 'Verify authenticator', exact: true }).click();
-    await page.getByRole('heading', { name: 'Signed in', exact: true }).waitFor();
+    await page.waitForURL(u => u.pathname === '/workspace');
 
     const form = (name: string) => page.getByRole('form', { name });
     // The visual required marker is part of the label text; match the label exactly, with or without it.
@@ -181,9 +181,9 @@ await t.run(async () => {
     const auditor = h.users.auditor!;
     await h.authWindow();
     await auditorPage.goto('/workspace/sign-in');
-    await auditorPage.getByLabel('Staff email').fill(auditor.email); await auditorPage.getByLabel('Password', { exact: true }).fill(auditor.password);
+    await auditorPage.getByLabel('Email', { exact: true }).fill(auditor.email); await auditorPage.getByLabel('Password', { exact: true }).fill(auditor.password);
     await auditorPage.getByRole('button', { name: 'Sign in', exact: true }).click();
-    await auditorPage.getByRole('heading', { name: 'Signed in', exact: true }).waitFor();
+    await auditorPage.waitForURL(u => u.pathname === '/workspace');
     await auditorPage.goto('/workspace/registry-setup'); await waitReady(auditorPage, 'Registry set-up');
     check('a read-only session sees no creation form', await auditorPage.getByRole('form', { name: 'Register a purpose' }).count(), 0);
     check('and the server refuses the write regardless', (await (await h.login('auditor')).call('/api/v1/admin/registry-purposes', { name: 'x', owner_reference: 'x', description: 'Refused for a read-only role.', effective_from: new Date().toISOString(), change_reason: 'x', evidence_reference: null, v1_purpose_id: null }, key())).status, 403);

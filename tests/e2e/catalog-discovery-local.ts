@@ -48,12 +48,12 @@ try{
   page.on('request',request=>{if(new URL(request.url()).origin!==h.config.origin)external.push(request.url());});
   const user=h.users.admin!;assert(user.totp_uri);
   await page.goto('/workspace/sign-in');
-  await page.getByLabel('Staff email').fill(user.email);
+  await page.getByLabel('Email', { exact: true }).fill(user.email);
   await page.getByLabel('Password',{exact:true}).fill(user.password);
   await page.getByRole('button',{name:'Sign in',exact:true}).click();
   await page.getByLabel('Authenticator code',{exact:true}).fill(authenticatorCode(user.totp_uri));
   await page.getByRole('button',{name:'Verify authenticator',exact:true}).click();
-  await page.getByRole('heading',{name:'Signed in',exact:true}).waitFor();
+  await page.waitForURL(u => u.pathname === '/workspace');
   steps.push('staff MFA sign-in');
   await page.goto(`/workspace/catalog-discovery?target_id=${target.id}`);
   phase='readback';

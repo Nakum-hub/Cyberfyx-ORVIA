@@ -32,12 +32,12 @@ async function signIn(browser: Browser, name: 'owner' | 'reviewer' | 'admin') {
   const user = h.users[name]!;
   await h.authWindow();
   await page.goto('/workspace/sign-in');
-  await page.getByLabel('Staff email').fill(user.email);
+  await page.getByLabel('Email', { exact: true }).fill(user.email);
   await page.getByLabel('Password', { exact: true }).fill(user.password);
   await page.getByRole('button', { name: 'Sign in', exact: true }).click();
   await page.getByLabel('Authenticator code', { exact: true }).fill(authenticatorCode(user.totp_uri!));
   await page.getByRole('button', { name: 'Verify authenticator', exact: true }).click();
-  await page.getByRole('heading', { name: 'Signed in', exact: true }).waitFor();
+  await page.waitForURL(u => u.pathname === '/workspace');
   return page;
 }
 const escape = (text: string) => text.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');

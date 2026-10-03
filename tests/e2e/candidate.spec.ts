@@ -24,7 +24,7 @@ test('B06 branded route fallback, session-aware navigation and captured page err
   await expect(nav.getByRole('link',{name:'Staff sign in',exact:true})).toHaveCount(0);
   await expect(nav.getByRole('link',{name:'Overview',exact:true})).toBeVisible();
   await page.getByRole('button',{name:'Sign out',exact:true}).click();
-  await expect(page.getByLabel('Staff email')).toBeVisible();
+  await expect(page.getByLabel('Email', { exact: true })).toBeVisible();
   await page.goto('/workspace');
   await expect(nav.getByRole('link',{name:'Staff sign in',exact:true})).toBeVisible();
 

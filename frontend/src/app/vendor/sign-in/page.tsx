@@ -59,7 +59,11 @@ export default function VendorSignIn() {
     finally { setBusy(false); }
   }
   if (status === 'signed-in' && session) return <NoticeBox tone="ok" title="Signed in"><p>{session.name} — {VENDOR_ROLE_LABELS[session.role] ?? session.role}</p><a href={session.actor_domain === 'CLIENT_ACCOUNT' ? '/vendor/upload' : '/vendor/engagements'}>Continue</a></NoticeBox>;
-  return <BrandSignIn area={client ? 'Client account sign in' : 'Vendor / auditor sign in'}>
+  const links = step === 'password' ? <>
+    {!client ? <><a href="/vendor/account-setup">Set your password</a> · </> : null}
+    {client ? <a href="/vendor/sign-in">Vendor staff sign in</a> : <a href="/vendor/sign-in?account=client">Client account sign in</a>} · <a href="/vendor/setup">First-run setup</a>
+  </> : undefined;
+  return <BrandSignIn area={client ? 'Client account sign in' : 'Vendor / auditor sign in'} links={links}>
     <form className="panel" onSubmit={submit} aria-label={client ? 'Client account sign in' : 'Vendor sign in'}>
       {step === 'password' ? <><TextField label="Email" type="email" value={email} onChange={setEmail} required autoComplete="username" placeholder="you@company.com" /><TextField label="Password" type="password" value={password} onChange={setPassword} required autoComplete="current-password" placeholder="Enter your password" /></> : null}
       {step === 'replace' ? <><h3>Choose your own password</h3><p>Replace the one-time password you were given. Next you will set up your authenticator.</p><TextField label="New password" type="password" value={chosen} onChange={setChosen} required autoComplete="new-password" /><TextField label="Confirm new password" type="password" value={confirm} onChange={setConfirm} required autoComplete="new-password" /></> : null}
@@ -67,10 +71,6 @@ export default function VendorSignIn() {
       {step === 'challenge' || enrollment ? <TextField label="Authenticator code" value={code} onChange={setCode} required autoComplete="one-time-code" inputMode="numeric" maxLength={6} /> : null}
       {error ? <div className="notice notice-stop" role="alert">{error}</div> : null}
       <button className="primary" type="submit" disabled={!hydrated || busy}>{busy ? 'Checking…' : step === 'password' ? 'Sign in' : step === 'replace' ? 'Save new password' : step === 'enroll' && !enrollment ? 'Set up authenticator' : 'Verify authenticator'}</button>
-      {step === 'password' ? <>
-        {!client && <p className="muted">New member, or given a setup code? <a href="/vendor/account-setup">Set your password</a></p>}
-        <p className="muted">{client ? <a href="/vendor/sign-in">Vendor staff sign in instead</a> : <a href="/vendor/sign-in?account=client">Client account sign in instead</a>} · New vendor installation? <a href="/vendor/setup">First-run setup</a></p>
-      </> : null}
     </form>
   </BrandSignIn>;
 }

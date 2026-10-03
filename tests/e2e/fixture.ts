@@ -123,7 +123,7 @@ export async function loginUi(page:Page,h:BrowserHarness,name:string){
   // Data Principals never sign in to ORVIA (owner decision 2026-10-03); only staff sign in through the interface.
   if(!staff)throw new Error('Only staff sign in to ORVIA');
   await page.goto('/workspace/sign-in');
-  await page.getByLabel(staff?'Staff email':'Email',{exact:!staff}).fill(user.email);
+  await page.getByLabel('Email',{exact:true}).fill(user.email);
   await page.getByLabel('Password',{exact:true}).fill(user.password);
   await page.getByRole('button',{name:'Sign in',exact:true}).click();
   if(staff&&user.role!=='AUDITOR'){
@@ -136,6 +136,6 @@ export async function loginUi(page:Page,h:BrowserHarness,name:string){
     }
     await page.getByLabel('Authenticator code',{exact:true}).fill(authenticatorCode(user.totp_uri!));await page.getByRole('button',{name:'Verify authenticator',exact:true}).click();
   }
-  await expect(page.getByRole('heading',{name:'Signed in',exact:true})).toBeVisible();
+  await page.waitForURL(u=>u.pathname==='/workspace');
 }
 

@@ -62,12 +62,12 @@ await t.run(async () => {
       const user = h.users.owner!;
       await h.authWindow();
       await page.goto('/workspace/sign-in');
-      await page.getByLabel('Staff email').fill(user.email);
+      await page.getByLabel('Email', { exact: true }).fill(user.email);
       await page.getByLabel('Password', { exact: true }).fill(user.password);
       await page.getByRole('button', { name: 'Sign in', exact: true }).click();
       await page.getByLabel('Authenticator code', { exact: true }).fill(authenticatorCode(user.totp_uri!));
       await page.getByRole('button', { name: 'Verify authenticator', exact: true }).click();
-      await page.getByRole('heading', { name: 'Signed in', exact: true }).waitFor();
+      await page.waitForURL(u => u.pathname === '/workspace');
 
       const form = (name: string) => page.getByRole('form', { name });
       const escape = (text: string) => text.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
@@ -163,11 +163,11 @@ await t.run(async () => {
       const reviewer = h.users.reviewer!;
       await h.authWindow();
       await second.goto('/workspace/sign-in');
-      await second.getByLabel('Staff email').fill(reviewer.email); await second.getByLabel('Password', { exact: true }).fill(reviewer.password);
+      await second.getByLabel('Email', { exact: true }).fill(reviewer.email); await second.getByLabel('Password', { exact: true }).fill(reviewer.password);
       await second.getByRole('button', { name: 'Sign in', exact: true }).click();
       await second.getByLabel('Authenticator code', { exact: true }).fill(authenticatorCode(reviewer.totp_uri!));
       await second.getByRole('button', { name: 'Verify authenticator', exact: true }).click();
-      await second.getByRole('heading', { name: 'Signed in', exact: true }).waitFor();
+      await second.waitForURL(u => u.pathname === '/workspace');
       await open(second, '/workspace/data-principals', 'Data Principals');
       const search = second.getByRole('form', { name: 'Search Data Principals' });
       await search.getByLabel('System', { exact: true }).selectOption(system.id); await search.getByLabel('Record key in that system').fill(personRef);

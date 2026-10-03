@@ -35,12 +35,12 @@ await t.run(async () => {
     const user = h.users.admin!;
     await h.authWindow();
     await admin.goto('/workspace/sign-in');
-    await admin.getByLabel('Staff email').fill(user.email);
+    await admin.getByLabel('Email', { exact: true }).fill(user.email);
     await admin.getByLabel('Password', { exact: true }).fill(user.password);
     await admin.getByRole('button', { name: 'Sign in', exact: true }).click();
     await admin.getByLabel('Authenticator code', { exact: true }).fill(authenticatorCode(user.totp_uri!));
     await admin.getByRole('button', { name: 'Verify authenticator', exact: true }).click();
-    await admin.getByRole('heading', { name: 'Signed in', exact: true }).waitFor();
+    await admin.waitForURL(u => u.pathname === '/workspace');
     await admin.goto('/workspace/contact-preferences');
     await admin.getByRole('heading', { name: 'Contact preferences', exact: true }).first().waitFor();
     const suffix = randomUUID().slice(0, 8);

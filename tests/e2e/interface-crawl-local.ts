@@ -118,13 +118,13 @@ const label = (text: string) => new RegExp(`^${text.replace(/[.*+?^${}()|[\]\\]/
 async function staffSignIn(browser: Browser, name: string, viewport = DESKTOP) {
   const p = await newPage(browser, h.config.origin, viewport); const user = h.users[name]!;
   await h.authWindow(); await p.page.goto('/workspace/sign-in');
-  await p.page.getByLabel('Staff email').fill(user.email); await p.page.getByLabel('Password', { exact: true }).fill(user.password);
+  await p.page.getByLabel('Email', { exact: true }).fill(user.email); await p.page.getByLabel('Password', { exact: true }).fill(user.password);
   await p.page.getByRole('button', { name: 'Sign in', exact: true }).click();
   if (user.totp_uri) {
     await p.page.getByLabel('Authenticator code', { exact: true }).fill(authenticatorCode(user.totp_uri));
     await p.page.getByRole('button', { name: 'Verify authenticator', exact: true }).click();
   }
-  await p.page.getByRole('heading', { name: 'Signed in', exact: true }).waitFor({ timeout: 30000 });
+  await p.page.waitForURL(u => u.pathname === '/workspace', { timeout: 30000 });
   return p;
 }
 async function vendorSignIn(browser: Browser, user: VendorUser, path = '/vendor/sign-in', viewport = DESKTOP) {

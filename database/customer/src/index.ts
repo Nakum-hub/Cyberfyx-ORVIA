@@ -1,4 +1,5 @@
 import pg from 'pg';
+import { CONNECTION_KEEPALIVE, guardPool } from './runtime.ts';
 import { drizzle } from 'drizzle-orm/node-postgres';
 import { pgTable, uuid, text, timestamp, integer } from 'drizzle-orm/pg-core';
 
@@ -13,6 +14,6 @@ export const bootstrapProbes = pgTable('bootstrap_probes', {
 });
 export type DatabaseConfig={postgres_port:number;database:string;password:string};
 export function connectDatabase(config:DatabaseConfig){
-  const pool=new pg.Pool({host:'127.0.0.1',port:config.postgres_port,database:config.database,user:'orvia_migrator',password:config.password,max:2,connectionTimeoutMillis:5000,query_timeout:10000,application_name:'orvia-a00-local-operator'});
+  const pool=guardPool(new pg.Pool({host:'127.0.0.1',port:config.postgres_port,database:config.database,user:'orvia_migrator',password:config.password,max:2,connectionTimeoutMillis:5000,query_timeout:10000,...CONNECTION_KEEPALIVE,application_name:'orvia-a00-local-operator'}),'orvia-a00-local-operator');
   return {pool,db:drizzle(pool,{schema:{bootstrapProfile,bootstrapProbes}})};
 }

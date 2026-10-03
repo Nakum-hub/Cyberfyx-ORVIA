@@ -6,6 +6,7 @@ import { PROFILES, PROFILE, ENTITLEMENTS, type EntitlementCodeValue } from '@orv
 import { CONTRACT_REVIEW_STATUS, CONTRACT_VERSION, useQuery } from './api.ts';
 import { useSession } from './session-context.tsx';
 import { ROLE_LABELS, formatTime, shortId } from './state-labels.ts';
+import { BrandMark } from './brand-mark.tsx';
 
 /**
  * `whenSignedOut` marks a destination that only makes sense without a session
@@ -162,14 +163,14 @@ function Shell({ area, lane, groups, domain, detailedActor, bare = [], children 
   useIdleSignOut(signedIn, endSession, bare[0] ?? '/');
   // Signed out, sign-in routes render the full-screen branded sign-in (BrandSignIn) without the workspace frame; once
   // signed in, the same route shows its confirmation inside the normal frame.
-  if (bare.includes(pathname) && !signedIn) return <>{children}</>;
+  if (bare.includes(pathname) && (!signedIn || pathname === bare[0])) return <>{children}</>;
   return (
     <div className="shell">
       <a className="skip-link" href="#main">Skip to main content</a>
       <TestEnvironmentBanner area={area} />
       <header className="shell-head">
         <div className="shell-title">
-          <span className="mark">ORVIA</span>
+          <BrandMark />
           <span className="rule" aria-hidden="true" />
           <h1>{lane}</h1>
         </div>
@@ -302,7 +303,7 @@ export function SetupShell({ children }: { children: ReactNode }) {
       <TestEnvironmentBanner area="First-run setup" />
       <header className="shell-head">
         <div className="shell-title">
-          <span className="mark">ORVIA</span>
+          <BrandMark />
           <span className="rule" aria-hidden="true" />
           <h1>First-run setup</h1>
         </div>

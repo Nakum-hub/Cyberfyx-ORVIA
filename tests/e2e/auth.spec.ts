@@ -1,7 +1,7 @@
 import { test, expect, loginUi } from './fixture.ts';
 
 test('B01 real staff MFA, refresh, actor separation and logout',async({page,h})=>{
-  await loginUi(page,h,'owner');await page.getByRole('link',{name:'Go to workspace',exact:true}).click();
+  await loginUi(page,h,'owner');
   await expect(page.getByRole('heading',{name:'Privacy control status',exact:true})).toBeVisible();
   await expect(page.getByText('MFA verified',{exact:false})).toBeVisible();await page.reload();
   await expect(page.getByRole('heading',{name:'Privacy control status',exact:true})).toBeVisible();await h.screenshot(page,'staff-workspace');
@@ -11,7 +11,7 @@ test('B01 real staff MFA, refresh, actor separation and logout',async({page,h})=
 });
 
 test('B01 rejected login and read-only authority',async({page,h})=>{
-  await page.goto('/workspace/sign-in');await page.getByLabel('Staff email').fill('no-such-ui-user@aster.example');await page.getByLabel('Password',{exact:true}).fill('non-credential-invalid-input');await page.getByRole('button',{name:'Sign in',exact:true}).click();await expect(page.getByRole('main').getByRole('alert')).toContainText('not accepted');
+  await page.goto('/workspace/sign-in');await page.getByLabel('Email', { exact: true }).fill('no-such-ui-user@aster.example');await page.getByLabel('Password',{exact:true}).fill('non-credential-invalid-input');await page.getByRole('button',{name:'Sign in',exact:true}).click();await expect(page.getByRole('main').getByRole('alert')).toContainText('not accepted');
   await loginUi(page,h,'auditor');await page.goto('/workspace/configuration');await expect(page.getByRole('heading',{name:'Read-only for this session'})).toBeVisible();await expect(page.getByRole('button',{name:'Create purpose',exact:true})).toHaveCount(0);
   const denied=await page.request.post('/api/v1/admin/purposes',{data:{},headers:{origin:h.config.origin,'idempotency-key':crypto.randomUUID()}});expect(denied.status()).toBe(403);
   await page.goto('/workspace/policy-preview');await expect(page.getByRole('heading',{name:'Not permitted for this session'})).toBeVisible();

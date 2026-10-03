@@ -63,14 +63,16 @@ export async function revokeIntakeClient(c: Context, id: string, input: unknown)
 }
 
 type SubmissionRow = { id: string; client_id: string; client_name: string; kind: 'CONSENT' | 'RIGHTS'; target_reference: string; payload: Record<string, unknown>; status: string;
-  outcome_reason: string | null; consent_record_id: string | null; rights_request_id: string | null; received_at: Date; processed_at: Date | null; handled_note: string | null; handled_at: Date | null };
-const summary = (r: Pick<SubmissionRow, 'kind' | 'payload'>) => r.kind === 'CONSENT'
-  ? `Consent ${r.payload.decision === 'WITHDRAWN' ? 'withdrawn' : 'given'} for activity ${String(r.payload.activity_name ?? r.payload.activity_id)}`
+  outcome_reason: string | null; consent_record_id: string | null; rights_request_id: string | null; received_at: Date; processed_at: Date | null; handled_note: string | null; handled_at: Date | null; activity_name?: string | null };
+// A consent change is described by the activity's registered name, so staff read "Consent withdrawn: Promotional email and SMS".
+const summary = (r: Pick<SubmissionRow, 'kind' | 'payload' | 'activity_name'>) => r.kind === 'CONSENT'
+  ? `Consent ${r.payload.decision === 'WITHDRAWN' ? 'withdrawn' : 'given'}: ${r.activity_name ?? `activity ${String(r.payload.activity_id)}`}`
   : `${String(r.payload.right_type).charAt(0)}${String(r.payload.right_type).slice(1).toLowerCase()} request`;
 const submissionView = (r: SubmissionRow) => R.IntakeSubmission.parse({ id: r.id, client_id: r.client_id, client_name: r.client_name, kind: r.kind, customer_reference: r.target_reference,
   summary: summary(r), status: r.status, outcome_reason: r.outcome_reason, consent_record_id: r.consent_record_id, rights_request_id: r.rights_request_id,
   received_at: iso(r.received_at), processed_at: iso(r.processed_at), handled_note: r.handled_note, handled_at: iso(r.handled_at) });
-const SUBMISSION = `SELECT s.*, c.name AS client_name FROM app.intake_submissions s JOIN app.intake_clients c ON c.tenant_id=s.tenant_id AND c.legal_entity_id=s.legal_entity_id AND c.environment_id=s.environment_id AND c.id=s.client_id
+const SUBMISSION = `SELECT s.*, c.name AS client_name, a.name AS activity_name FROM app.intake_submissions s JOIN app.intake_clients c ON c.tenant_id=s.tenant_id AND c.legal_entity_id=s.legal_entity_id AND c.environment_id=s.environment_id AND c.id=s.client_id
+  LEFT JOIN app.registry_activities a ON a.tenant_id=s.tenant_id AND a.legal_entity_id=s.legal_entity_id AND a.environment_id=s.environment_id AND s.kind='CONSENT' AND a.id=(s.payload->>'activity_id')::uuid
   WHERE s.tenant_id=$1 AND s.legal_entity_id=$2 AND s.environment_id=$3`;
 
 export async function intakeSubmissionList(c: Context, page: Page, query: unknown) {
