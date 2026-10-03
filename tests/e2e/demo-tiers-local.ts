@@ -72,6 +72,18 @@ try {
     } else {
       const all = Object.keys(ENTITLEMENTS).every(code => plan.usable.includes(code));
       check('Aster: every Tier 1, 2 and 3 feature is usable', all, `${plan.usable.length} usable`);
+      // Desktop fit (owner request 2026-10-03): the window does not scroll, the content pane does, and the "On this page"
+      // tabs under the heading jump to a section and stay visible.
+      await page.goto(`${ORIGIN}/workspace/records-of-processing`);
+      const tabs = page.getByRole('navigation', { name: 'On this page' });
+      await tabs.getByRole('button', { name: 'Exports', exact: true }).waitFor({ timeout: 20_000 });
+      await tabs.getByRole('button', { name: 'Exports', exact: true }).click();
+      await page.waitForTimeout(1200);
+      const fit = await page.evaluate(() => { const m = document.getElementById('main')!; const t = document.querySelector('.section-tabs')!.getBoundingClientRect(); const e = document.querySelector('section[aria-label="Exports"]')!.getBoundingClientRect();
+        return { windowScrolls: document.documentElement.scrollHeight > window.innerHeight + 1, paneTop: m.scrollTop, tabsTop: Math.round(t.top - m.getBoundingClientRect().top), exportsTop: Math.round(e.top - t.bottom), visible: e.top < m.getBoundingClientRect().bottom - 40 }; });
+      await page.screenshot({ path: resolve(shots, 'desktop-fit-tabs.png') });
+      check('Desktop fit: the window itself does not scroll; the content pane does', !fit.windowScrolls && fit.paneTop > 0, JSON.stringify(fit));
+      check('Desktop fit: a tab brings its section under the sticky tab bar', fit.tabsTop <= 2 && fit.tabsTop >= -2 && fit.exportsTop >= -4 && fit.visible, JSON.stringify(fit));
     }
     await page.context().close();
   }

@@ -1,0 +1,56 @@
+{
+  "task_id": "A00",
+  "fixture_kind": "SYNTHETIC_BOOTSTRAP_ONLY",
+  "recorded_at": "2026-10-03T16:17:33.863Z",
+  "results": [
+    {
+      "name": "\"Import data\" in the Privacy Centre opens the import section with both CSV templates",
+      "result": "PASS"
+    },
+    {
+      "name": "the consent export is recognised as one",
+      "result": "PASS"
+    },
+    {
+      "name": "ORVIA reviews it before approval: 4 events for 3 people go to Data Principals and Consent records",
+      "result": "PASS"
+    },
+    {
+      "name": "the row it cannot use is listed with its reason",
+      "result": "PASS"
+    },
+    {
+      "name": "the approved consent rows are applied by ORVIA",
+      "result": "PASS"
+    },
+    {
+      "name": "an imported person is now a Data Principal, found by their store reference",
+      "result": "PASS"
+    },
+    {
+      "name": "the import shows on Existing-data onboarding",
+      "result": "PASS"
+    },
+    {
+      "name": "the privacy requests export is recognised and reviewed: 3 requests can go, 1 row cannot (not a DPDP right)",
+      "result": "PASS"
+    },
+    {
+      "name": "2 privacy requests are recorded; the real address is refused by the synthetic-only rule",
+      "result": "PASS"
+    },
+    {
+      "name": "they are recorded as staff intake with their original date",
+      "result": "PASS"
+    },
+    {
+      "name": "the approved file records the outcome, including the refused real address",
+      "result": "PASS"
+    },
+    {
+      "name": "no page error or server error during the import",
+      "result": "PASS"
+    }
+  ],
+  "result": "PASS"
+}

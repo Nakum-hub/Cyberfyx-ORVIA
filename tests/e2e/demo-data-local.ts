@@ -75,12 +75,15 @@ try {
 
   t = await open(page, '/workspace/consent-records');
   const records = await api(page, '/api/v1/admin/consent-records?limit=100');
-  const mine = (records.body?.items ?? []).filter((x: { activity_id: string }) => [dataset.activities.marketing, dataset.activities.recommendations].includes(x.activity_id));
+  // Records the store sent; consent history imported from a file later (the Import data demonstration) is counted apart.
+  const mine = (records.body?.items ?? []).filter((x: { activity_id: string; channel: string }) => [dataset.activities.marketing, dataset.activities.recommendations].includes(x.activity_id) && x.channel !== 'IMPORTED_HISTORY');
+  // The screen lists 25 records a page, newest first; imports made after demo:data can move older records to page 2.
+  const firstPageWithdrawn = (records.body?.items ?? []).slice(0, 25).filter((x: { current_status: string }) => x.current_status === 'WITHDRAWN').length;
   check(`the server holds ${e.consent_records} consent records for the store's two consent activities`, mine.length === e.consent_records, `server has ${mine.length}`);
   check(`${e.marketing_withdrawn} of them read withdrawn on the server`, mine.filter((x: { current_status: string }) => x.current_status === 'WITHDRAWN').length === e.marketing_withdrawn);
   check(`the screen lists ${e.marketing_records} marketing records`, count(t, 'Promotional email and SMS') >= e.marketing_records, `screen shows ${count(t, 'Promotional email and SMS')}`);
   check(`the screen lists ${e.recommendation_records} recommendation records`, count(t, 'Personalised recommendations') >= e.recommendation_records, `screen shows ${count(t, 'Personalised recommendations')}`);
-  check(`the screen shows ${e.marketing_withdrawn} withdrawn records`, count(t, /✕?\s?Withdrawn/) >= e.marketing_withdrawn, `screen shows ${count(t, 'Withdrawn')}`);
+  check(`the screen shows every withdrawn record on its first page (${firstPageWithdrawn})`, count(t, /✕?\s?Withdrawn/) >= firstPageWithdrawn, `screen shows ${count(t, 'Withdrawn')}`);
 
   t = await open(page, '/workspace/operations-runs');
   check('each withdrawal has a propagation run on the screen', count(t, 'Consent withdrawal propagation') >= e.marketing_withdrawn, `screen shows ${count(t, 'Consent withdrawal propagation')}`);

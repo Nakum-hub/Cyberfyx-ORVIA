@@ -1,0 +1,61 @@
+{
+  "task_id": "A00",
+  "fixture_kind": "SYNTHETIC_BOOTSTRAP_ONLY",
+  "recorded_at": "2026-10-03T16:01:51.947Z",
+  "results": [
+    {
+      "name": "Birch: the installation enforces FOUNDATION for this organisation",
+      "result": "PASS"
+    },
+    {
+      "name": "Birch: \"Your plan\" shows the tier",
+      "result": "PASS"
+    },
+    {
+      "name": "Birch: the navigation marks the modules outside Tier 1 (Control / Enterprise)",
+      "result": "PASS"
+    },
+    {
+      "name": "Birch: Tier 1 work (create_purposes) passes the plan check",
+      "result": "PASS"
+    },
+    {
+      "name": "Birch: Tier 2 work (create_catalog_discovery_target) is refused by the server: not in the plan",
+      "result": "PASS"
+    },
+    {
+      "name": "Birch: Tier 3 work (create_grc_audit) is refused by the server: not in the plan",
+      "result": "PASS"
+    },
+    {
+      "name": "Birch: what is already recorded in a locked module stays readable",
+      "result": "PASS"
+    },
+    {
+      "name": "Birch: a protective control (create_rights_request) is never gated by the plan",
+      "result": "PASS"
+    },
+    {
+      "name": "Aster: the installation enforces ENTERPRISE for this organisation",
+      "result": "PASS"
+    },
+    {
+      "name": "Aster: \"Your plan\" shows the tier",
+      "result": "PASS"
+    },
+    {
+      "name": "Aster: nothing in the navigation is marked as outside the plan",
+      "result": "PASS"
+    },
+    {
+      "name": "Aster: Tier 1 work (create_purposes) passes the plan check",
+      "result": "PASS"
+    },
+    {
+      "name": "Aster: every Tier 1, 2 and 3 feature is usable",
+      "result": "PASS"
+    }
+  ],
+  "result": "PASS",
+  "run": "497e31f8-2f0c-4d87-8f66-7e6be1fab6c0"
+}

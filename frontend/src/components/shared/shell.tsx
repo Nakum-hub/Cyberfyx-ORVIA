@@ -7,6 +7,7 @@ import { CONTRACT_REVIEW_STATUS, CONTRACT_VERSION, useQuery } from './api.ts';
 import { useSession } from './session-context.tsx';
 import { ROLE_LABELS, formatTime, shortId } from './state-labels.ts';
 import { BrandMark } from './brand-mark.tsx';
+import { SectionTabs } from './section-tabs.tsx';
 
 /**
  * `whenSignedOut` marks a destination that only makes sense without a session
@@ -180,6 +181,7 @@ function Shell({ area, lane, groups, domain, detailedActor, bare = [], children 
       <div className="shell-body">
         <Nav groups={visible} usable={usable} />
         <main className="shell-main" id="main" tabIndex={-1}>
+          <SectionTabs />
           {children}
         </main>
       </div>
