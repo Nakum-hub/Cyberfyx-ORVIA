@@ -1,0 +1,14 @@
+{
+  name: 'error',
+  code: '22P02',
+  message: undefined,
+  sites: [
+    '    at C:\\Cyberfyx-projects\\Cyberfyx_ORVIA\\.worktrees\\round10\\node_modules\\.pnpm\\pg@8.23.0\\node_modules\\pg\\lib\\client.js:694:17',
+    '    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)',
+    '    at async ensureDevelopmentLicence (C:\\Cyberfyx-projects\\Cyberfyx_ORVIA\\.worktrees\\round10\\shared\\testing\\src\\development-licence.ts:46:7)',
+    '    at async HttpFixture.start (C:\\Cyberfyx-projects\\Cyberfyx_ORVIA\\.worktrees\\round10\\shared\\testing\\src\\http-fixture.ts:37:12)'
+  ]
+}
+
+
+Artifact: handoffs/codex/artifacts/DPDP-workflow-integration-1790951041960-51637dba-6f2e-4372-9870-61a45f92aa23.json

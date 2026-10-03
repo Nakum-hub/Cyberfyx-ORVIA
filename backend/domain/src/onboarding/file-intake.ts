@@ -9,6 +9,7 @@ import { importRelease } from '../updates/updates.ts';
 import { submitImport } from './imports.ts';
 import { importPackage } from '../regulatory/packages.ts';
 import { createJob, appendRows } from '../operations/bulk-import.ts';
+import { isText, isOffice } from './document-types.ts';
 
 /**
  * File intake (revision 1.12, migration 0103). A file arrives from the local inbox folder (the worker) or by manual upload
@@ -42,8 +43,10 @@ const MAGIC: Record<string, (b: Buffer) => boolean> = {
   png: b => b.subarray(0, 8).equals(Buffer.from([0x89, 0x50, 0x4e, 0x47, 0x0d, 0x0a, 0x1a, 0x0a])),
   jpg: b => b[0] === 0xff && b[1] === 0xd8 && b[2] === 0xff,
   jpeg: b => b[0] === 0xff && b[1] === 0xd8 && b[2] === 0xff,
-  docx: b => b.subarray(0, 4).equals(Buffer.from([0x50, 0x4b, 0x03, 0x04])),
-  xlsx: b => b.subarray(0, 4).equals(Buffer.from([0x50, 0x4b, 0x03, 0x04])),
+  docx: b => isOffice(b, 'docx'),
+  xlsx: b => isOffice(b, 'xlsx'),
+  txt: isText,
+  csv: isText,
 };
 const extension = (name: string) => (/\.([A-Za-z0-9]{1,10})$/.exec(name)?.[1] ?? '').toLowerCase();
 const firstIssue = (error: { issues: { path: PropertyKey[]; message: string }[] }) => { const i = error.issues[0]; return i ? `${i.path.join('.') || 'file'}: ${i.message}`.slice(0, 200) : 'not readable'; };
@@ -155,9 +158,10 @@ export async function readFileIntake(c: Context, id: string) {
   return view(row);
 }
 export async function readFileIntakeContent(c: Context, id: string) {
-  const row = (await c.tx.query(`SELECT id,original_name,content_type,content FROM app.file_intake_items WHERE ${predicate} AND id=$4`, [...scopeValues(c.actor), id])).rows[0];
+  const row = (await c.tx.query(`SELECT id,original_name,content_type,detected_kind,content FROM app.file_intake_items WHERE ${predicate} AND id=$4`, [...scopeValues(c.actor), id])).rows[0];
   if (!row) throw new AccessError(404, 'NOT_FOUND');
   if (!row.content) throw new AccessError(409, 'EPOCH_CONFLICT', [{ field: 'content', code: 'content_not_kept' }]);
+  if (row.detected_kind === 'UNRECOGNISED') throw new AccessError(409, 'EPOCH_CONFLICT', [{ field: 'content', code: 'unrecognised_files_can_only_be_rejected' }]);
   await audit(c, 'file_intake.read_content', id);
   return S.FileIntakeContent.parse({ id: row.id, original_name: row.original_name, content_type: row.content_type, content_base64: (row.content as Buffer).toString('base64') });
 }

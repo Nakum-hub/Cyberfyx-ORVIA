@@ -1,0 +1,32 @@
+{
+  "task_id": "DPDP",
+  "fixture_kind": "CUSTOMER_LOCAL_SYNTHETIC",
+  "recorded_at": "2026-10-02T16:15:33.867Z",
+  "suite": "backup-drill-test",
+  "results": [
+    {
+      "name": "the drill restores a copy with identical migrations, counts, withdrawals and forced row security",
+      "result": "PASS"
+    },
+    {
+      "name": "the backup is on disk and matches its manifest",
+      "result": "PASS"
+    },
+    {
+      "name": "a single changed byte no longer matches the manifest, so it would not be restored",
+      "result": "PASS"
+    },
+    {
+      "name": "the scratch database was removed",
+      "result": "PASS"
+    },
+    {
+      "name": "the manifest records the withdrawal count it verified",
+      "result": "PASS"
+    }
+  ],
+  "bytes": 3458431,
+  "backup_ms": 5903,
+  "restore_ms": 111566,
+  "run_id": "088ea8c7-0480-47f0-bfba-624216759d64"
+}

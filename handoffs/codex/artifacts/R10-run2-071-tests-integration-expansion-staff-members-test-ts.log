@@ -1,0 +1,46 @@
+Authentication fixture idle window: 61s remaining; controls unchanged.
+Authentication fixture idle window: 31s remaining; controls unchanged.
+Authentication fixture idle window: 1s remaining; controls unchanged.
+PASS a member cannot see the team
+PASS an auditor cannot see the team
+PASS the owner sees the team with owner and administrator not counted
+PASS a licence without member seats allows no member
+PASS creation is refused while the licence states no seats
+PASS the signed seat limit is in force
+PASS an administrator creates a member who must change the one-time password
+PASS the owner creates an auditor, using the last seat
+PASS a member beyond the licence is refused
+PASS an administrator role cannot be created here
+PASS an owner role cannot be created here
+PASS the new member can sign in with the one-time password
+PASS a deactivated member is inactive and its session is gone
+PASS a deactivated member gets no workspace authority even with the right password
+PASS deactivating twice is refused
+PASS the freed seat is reused
+PASS reactivation beyond the licence is refused
+PASS reactivation within the licence is allowed
+PASS the owner cannot be deactivated here
+PASS with a seat free, an address already in use is refused as such
+PASS two simultaneous creations for one seat: exactly one succeeds
+PASS active members never exceed the licence
+PASS the newcomer signs in with the one-time password
+PASS the newcomer is told to replace the password
+PASS no workspace authority before the password is replaced
+PASS a wrong current password does not change it
+PASS the password is replaced
+PASS the flag is cleared
+PASS workspace access still requires the authenticator
+Authentication fixture idle window: 61s remaining; controls unchanged.
+Authentication fixture idle window: 31s remaining; controls unchanged.
+Authentication fixture idle window: 1s remaining; controls unchanged.
+PASS the one-time password no longer works
+PASS a Tier 1 five-member licence issued from the catalogue is enforced as five member seats
+PASS another organisation sees none of these members
+PASS another organisation cannot deactivate them
+PASS the licence report shows member seats as a counted limit
+PASS creation, deactivation and reactivation are audited
+PASS the application role cannot write the identity store directly
+PASS the creation function refuses a caller without staff authority
+Artifact: handoffs/codex/artifacts/DPDP-operations-staff-members-1790957230561-f3ab304c-6ffe-4fae-ad8b-1b0bc95c9dc4.json
+
+37 assertions, 0 failures.

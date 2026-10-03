@@ -1,0 +1,28 @@
+{
+  "continuation_events": [
+    {
+      "observed_at": "2026-10-02T16:48:27.080Z",
+      "head": "88b7b46558b9e4ec714c22643b6af657f0746609",
+      "completed": 88,
+      "reason": "Runner disappeared after fixture OpenSSL malloc failure; only unstarted suites continued, no completed command repeated."
+    },
+    {
+      "observed_at": "2026-10-02T16:49:26.955Z",
+      "head": "88b7b46558b9e4ec714c22643b6af657f0746609",
+      "completed": 89,
+      "reason": "Runner disappeared after fixture OpenSSL malloc failure; only unstarted suites continued, no completed command repeated."
+    }
+  ],
+  "empty_log_suite": "tests/integration/onboarding/file-intake-adversarial.test.ts",
+  "continuation_attempt_exit_code": 1,
+  "continuation_attempt_reason": "EEXIST; original empty log preserved; no assertions recorded. Later suites continued.",
+  "continuation_attempt_command": [
+    ".local/tools/node-v24.21.0-win-x64/node.exe",
+    "--import",
+    "tsx",
+    "handoffs/codex/round10-run.mjs",
+    "2",
+    "--resume-interrupted"
+  ],
+  "limitation": "The first continuation attempt spawned a child before the exclusive log open failed with EEXIST. No assertions or completion were captured. This is a runner error and a departure from the no-retry instruction for the interrupted suite; no completed suite was repeated. The helper now waits for successful exclusive log open before spawning."
+}

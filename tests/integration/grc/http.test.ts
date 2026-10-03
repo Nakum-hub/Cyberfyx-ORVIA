@@ -3,6 +3,8 @@ import {randomUUID,randomBytes,createHash} from 'node:crypto';
 import {readFileSync,writeFileSync} from 'node:fs';
 import {createServer} from 'node:http';
 import {once} from 'node:events';
+import {applyMigrations} from '../../../database/customer/src/migrations.ts';
+import {ensureDevelopmentLicence} from '../../../shared/testing/src/development-licence.ts';
 import {connectDatabase} from '../../../database/customer/src/index.ts';
 import {runtimePool} from '../../../database/customer/src/runtime.ts';
 import {runtimeConfig} from '../../../backend/auth/src/config.ts';
@@ -88,25 +90,8 @@ const keyed=()=>({'idempotency-key':randomUUID()});
 try{
   if(!/^orvia_grc_http_[a-f0-9]{32}$/.test(database))throw new Error('Unsafe fixture database name');
   await bootstrap.query(`CREATE DATABASE "${database}"`);
-  for(const migration of ['0001_auth_scope.sql','0003_request_audit.sql']){
-    await db.query(readFileSync(`database/customer/migrations/${migration}`,'utf8'));
-  }
-  const {readdirSync}=await import('node:fs');
-  const second=readdirSync('database/customer/migrations').filter(p=>p.startsWith('0002_'));
-  if(second.length!==1)throw new Error('Ambiguous idempotency migration');
-  await db.query(readFileSync(`database/customer/migrations/${second[0]}`,'utf8'));
-  const configuration=readFileSync('database/customer/migrations/0004_configuration_consent.sql','utf8');
-  const requestAudit=configuration.match(/ALTER TABLE app\.request_audit (?:DROP CONSTRAINT|ADD CHECK)[^;]+;/g);
-  if(requestAudit?.length!==2)throw new Error('Missing business audit operation migration');
-  for(const sql of requestAudit)await db.query(sql);
-  // Sign-in reads whether the organisation offers the Privacy Centre (revision 1.7, migration 0073): its settings table and the
-  // reader function only, which is what authentication uses. A fresh organisation has no setting, so the Privacy Centre is off.
-  const intake=readFileSync('database/customer/migrations/0073_organisation_intake.sql','utf8');
-  const centre=[/CREATE TABLE app\.privacy_centre_settings \([\s\S]*?id\)\);/,/CREATE INDEX privacy_centre_latest[^;]+;/,/CREATE FUNCTION principal_auth\.privacy_centre_enabled[\s\S]*?\$\$;/,/REVOKE ALL ON FUNCTION principal_auth\.privacy_centre_enabled[^;]+;/,/GRANT EXECUTE ON FUNCTION principal_auth\.privacy_centre_enabled[^;]+;/].map(re=>intake.match(re)?.[0]);
-  if(centre.some(sql=>!sql))throw new Error('Missing Privacy Centre setting migration');
-  for(const sql of centre)await db.query(sql!);
-  await db.query(readFileSync('database/customer/migrations/0049_grc.sql','utf8'));
-  await db.query(readFileSync('database/customer/migrations/0050_grc_audits.sql','utf8'));
+  const migrator=await db.connect();
+  try{await applyMigrations(migrator,profile);}finally{migrator.release();}
   // Same prerequisite grants as auth-init, limited to this fresh isolated DB.
   await db.query(`GRANT USAGE ON SCHEMA app TO orvia_app;
     GRANT SELECT ON app.organisations,app.legal_entities,app.environments,app.principal_references,app.audit_events,app.idempotency_records TO orvia_app;
@@ -123,6 +108,7 @@ try{
     await db.query('INSERT INTO app.legal_entities VALUES($1,$2,$3)',[scope.tenant_id,scope.legal_entity_id,'Synthetic legal entity']);
     await db.query('INSERT INTO app.environments VALUES($1,$2,$3,$4)',[...Object.values(scope),'Synthetic isolated environment']);
   }
+  await ensureDevelopmentLicence(db,Object.values(scopes));
   phase='real authentication and policy';
   const authorUser=await user('author','ORG_ADMIN'),reviewerUser=await user('reviewer','ORG_SUPER_ADMIN');
   const author=await login(authorUser,false);

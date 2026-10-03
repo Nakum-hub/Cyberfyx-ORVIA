@@ -47,18 +47,30 @@ test('B06 real dependency outage, malformed ID, denied scope and responsive navi
   const scenario=await h.scenario('LEGACY_MANUAL');await scenario.change('grant');const withdrawal=await scenario.change('withdraw');const foreign=await browser.newContext();
   try{const other=await foreign.newPage();await loginUi(other,h,'birch');await other.goto('/workspace/workflows/'+withdrawal.receipt.workflow_id);await expect(other.getByRole('main').getByRole('alert')).toContainText('NOT_FOUND');}finally{await foreign.close();}
   await page.goto('/workspace');await expect(page.getByRole('heading',{name:'Privacy control status',exact:true})).toBeVisible();await context.setOffline(true);await page.getByRole('button',{name:'Refresh now',exact:true}).first().click();await expect(page.getByRole('main').getByRole('alert').first()).toBeVisible();await context.setOffline(false);await page.getByRole('button',{name:'Retry this read'}).first().click();await expect(page.getByRole('heading',{name:'Privacy control status',exact:true})).toBeVisible();
-  await page.setViewportSize({width:390,height:844});await page.goto('/workspace/capabilities');await expect(page.getByRole('heading',{name:'Programme modules'})).toBeVisible();expect(await page.locator('article').filter({has:page.getByRole('heading',{name:/^M\d\d /})}).count()).toBe(33);
-  // The register must describe this build, not its inspection-time baseline: a
-  // module demonstrated in this very walkthrough may not read as uninspected.
+  await page.setViewportSize({width:390,height:844});await page.goto('/workspace/capabilities');await expect(page.getByRole('heading',{name:'Programme modules'})).toBeVisible();const seen=new Set<string>();
   const register=page.getByRole('main');
-  await expect(register.getByText('NOT_INSPECTED')).toHaveCount(0);
-  const consent=page.locator('article').filter({has:page.getByRole('heading',{name:/^M11 /})});
-  await expect(consent.getByText('Built (synthetic subset)',{exact:true})).toBeVisible();
-  await expect(consent.getByText('Covered at candidate',{exact:true})).toBeVisible();
-  await expect(consent.locator('code',{hasText:'test:consent'})).toBeVisible();
-  // An unbuilt module must still say so plainly and claim no evidence.
-  const rights=page.locator('article').filter({has:page.getByRole('heading',{name:/^M14 /})});
-  await expect(rights.getByText('Not built',{exact:true})).toBeVisible();
-  await expect(rights.getByText('Evidence: none recorded in the programme register.')).toBeVisible();
+  for(let part=0;part<7;part++) {
+    await expect(register.getByText('NOT_INSPECTED')).toHaveCount(0);
+    const cards=page.locator('article').filter({has:page.getByRole('heading',{name:/^M\d\d /})});
+    for(const heading of await cards.getByRole('heading').allTextContents()) {
+      const id=heading.match(/^M\d\d/)?.[0];if(id){expect(seen.has(id)).toBe(false);seen.add(id);}
+    }
+    for(const id of ['M11','M14']) {
+      const card=cards.filter({has:page.getByRole('heading',{name:new RegExp('^'+id+' ')})});
+      if(await card.count()) {
+        await expect(card.getByText('Built (synthetic subset)',{exact:true})).toBeVisible();
+        await expect(card.getByText('Covered at candidate',{exact:true})).toBeVisible();
+        await expect(card.locator('code',{hasText:id==='M11'?'test:consent':'test:rights'})).toBeVisible();
+      }
+    }
+    const billing=cards.filter({has:page.getByRole('heading',{name:/^M26 /})});
+    if(await billing.count()) {
+      await expect(billing.getByText('Not built',{exact:true})).toBeVisible();
+      await expect(billing.getByText('Evidence: none recorded in the programme register.')).toBeVisible();
+    }
+    const next=page.getByRole('button',{name:'Next modules',exact:true});
+    if(part<6){await expect(next).toBeEnabled();await next.click();}else await expect(next).toBeDisabled();
+  }
+  expect([...seen].sort()).toEqual(Array.from({length:33},(_,i)=>'M'+String(i+1).padStart(2,'0')));
   await h.screenshot(page,'mobile-capability-register');
 });

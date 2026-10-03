@@ -1,0 +1,21 @@
+PASS the vendor installation reports VENDOR_SERVICE and a verified kind
+PASS client workspace and staff sign-in are 404 on the vendor installation
+PASS the vendor area and vendor sign-in are 404 on a customer installation
+PASS vendor first-run setup completes in the browser
+PASS the website link and the in-app sign-in share one session
+PASS vendor organisation, client account and audit team created in the browser
+PASS the engagement code is shown once in the browser
+TypeError: Invalid URL
+    at new URL (node:internal/url:895:25)
+    at authenticatorCode (C:\Cyberfyx-projects\Cyberfyx_ORVIA\.worktrees\round10\shared\testing\src\http-fixture.ts:19:16)
+    at staffSignIn (C:\Cyberfyx-projects\Cyberfyx_ORVIA\.worktrees\round10\tests\e2e\dpdpa-audit-local.ts:53:69)
+    at async <anonymous> (C:\Cyberfyx-projects\Cyberfyx_ORVIA\.worktrees\round10\tests\e2e\dpdpa-audit-local.ts:165:19)
+    at async Object.run (C:\Cyberfyx-projects\Cyberfyx_ORVIA\.worktrees\round10\shared\testing\src\operations-fixture.ts:117:28)
+    at async <anonymous> (C:\Cyberfyx-projects\Cyberfyx_ORVIA\.worktrees\round10\tests\e2e\dpdpa-audit-local.ts:88:1) {
+  code: 'ERR_INVALID_URL',
+  input: 'undefined'
+}
+Server diagnostics (safe codes only): 
+Artifact: handoffs/codex/artifacts/DPDP-operations-dpdpa-audit-browser-1790952858797-17347933-9216-4256-9ac6-1eefe4b89b0c.json
+
+8 assertions, 1 failures.

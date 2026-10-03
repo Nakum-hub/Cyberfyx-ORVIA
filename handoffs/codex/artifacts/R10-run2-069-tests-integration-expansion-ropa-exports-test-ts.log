@@ -1,0 +1,64 @@
+Authentication fixture idle window: 61s remaining; controls unchanged.
+Authentication fixture idle window: 31s remaining; controls unchanged.
+Authentication fixture idle window: 1s remaining; controls unchanged.
+PASS the entry carries the declared purpose, condition, categories and system with their basis
+PASS a bound system without a location or any reading is named as such
+PASS the graph placing the activity on an undeclared system is a conflict
+PASS missing retention is named
+PASS a declaration is not shown as observed
+PASS the graph edge keeps its provenance and review state
+PASS a declared system without a binding is missing its binding
+PASS a location that is not a region code is refused
+PASS a declared domestic location is a transfer that is not cross-border
+PASS a declaration dated before the current one is refused
+PASS a new location closes the previous declaration, which is kept
+PASS a location outside India is a cross-border transfer
+PASS a recipient in another country is a cross-border transfer
+PASS a recipient region that is not a code is named, not guessed
+PASS terminating an engagement closes its activity link, so the recipient leaves the entry
+PASS an ended engagement linked again is stale
+PASS an independent catalog read makes the system observed, with its freshness bound
+PASS the declaration and the reading are shown side by side
+PASS the summary counts activities, gaps and cross-border transfers and states its limits
+PASS a system change reaches activities through registry links
+PASS and through the graph where only the graph places it
+PASS a processor change reaches activities that use its sub-processor
+PASS a data category change reaches its activities
+PASS a purpose change reaches its activities and reports consent records
+PASS an unknown target is refused
+PASS a version snapshots every active activity with a digest
+PASS an admin without approval authority cannot approve
+PASS the recorder cannot approve their own version
+PASS a second person approves it once
+PASS the diff names what changed for the activity
+PASS a new export is running and states what it will contain
+PASS a running export cannot be downloaded
+PASS driven to the end it completes with a manifest
+PASS the manifest digest covers the chunk digests in order
+PASS the CSV has its header and every counted row
+PASS a cell that a spreadsheet would evaluate is neutralised
+PASS the export describes the version, not the live registry
+PASS an admin without audit export authority cannot export the trail
+PASS the matched set is counted when the export is created
+PASS one step writes one bounded chunk
+PASS a later session resumes from the checkpoint and completes
+PASS every matched event is present exactly once
+PASS a recount that disagrees fails the export instead of completing it
+PASS a failed export cannot be downloaded
+PASS a stopped export stays stopped
+PASS another staff member cannot see, advance or download someone else's export
+PASS another tenant cannot read the entry, version or export
+PASS an auditor reads entries but cannot declare or record
+PASS a version's content cannot be rewritten
+PASS an approved version cannot be re-approved
+PASS a version cannot be deleted
+PASS a location declaration cannot be deleted
+PASS a finished export cannot be reopened or rewound
+PASS an export chunk cannot be altered
+PASS an unexpired export chunk cannot be deleted
+PASS row security hides an export from another staff member even at the database
+PASS row security hides its chunks too
+PASS an export cannot be created for someone else at the database
+Artifact: handoffs/codex/artifacts/DPDP-operations-ropa-exports-1790957024521-c0fba3dc-8bc5-4e38-abb2-cdb871780df9.json
+
+58 assertions, 0 failures.

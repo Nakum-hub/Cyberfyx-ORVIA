@@ -1,0 +1,38 @@
+{
+  "task_id": "DPDP",
+  "fixture_kind": "CUSTOMER_LOCAL_SYNTHETIC",
+  "recorded_at": "2026-10-02T16:15:33.381Z",
+  "profile": "codex-a00",
+  "backup_file": "<profile>\\backups\\orvia_codex_a00-2026-10-02T16-13-10-924Z.dump",
+  "scratch_database": "orvia_restore_drill_4c486503f091",
+  "bytes": 3458431,
+  "sha256": "cf70806ac9ba7a24f9610851427900430ae66361a359da3e05c8fce689322b0d",
+  "backup_ms": 5903,
+  "restore_ms": 111566,
+  "withdrawn_consents": 6,
+  "migrations": 98,
+  "counts": {
+    "consent_records": 8,
+    "consent_record_events": 14,
+    "workflow_runs": 7,
+    "downstream_actions": 7,
+    "registry_activities": 10,
+    "rights_requests": 4,
+    "audit_events": 11680,
+    "retention_rules": 1,
+    "grc_issues": 7,
+    "cmp_consents": 25
+  },
+  "checks": {
+    "migrations_identical": true,
+    "counts_identical": [],
+    "withdrawals_preserved": true,
+    "row_security_forced": true
+  },
+  "result": "PASS",
+  "limits": [
+    "A logical backup of one database on this host, restored on the same host. Off-host copies, encryption at rest and the customer's retention schedule are the customer's to configure.",
+    "Timings describe this host and data volume; they are not a recovery-time objective for other hardware."
+  ],
+  "run_id": "088ea8c7-0480-47f0-bfba-624216759d64"
+}

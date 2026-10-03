@@ -25,22 +25,25 @@ export async function ensureDevelopmentLicence(pool: Pool, scopes: Scope[]) {
   const issued: Scope[] = [];
   for (const scope of unique) {
     const scopeArgs = [scope.tenant_id, scope.legal_entity_id, scope.environment_id];
-    const present = (await pool.query(`SELECT lifecycle, claims FROM app.effective_licence($1,$2,$3)`, scopeArgs)).rows[0];
-    if (present && present.lifecycle === 'ACTIVE' && RELEASED.every(code => (present.claims.entitlements as string[]).includes(code))) continue;
-    const history = (await pool.query(`SELECT max(sequence) AS top FROM app.licences WHERE tenant_id=$1 AND legal_entity_id=$2 AND environment_id=$3`, scopeArgs)).rows[0];
-    const sequence = history.top === null ? undefined : Number(history.top) + 1;
-    const now = Date.now();
-    const claims = {
-      licence_id: randomUUID(), edition: 'CUSTOM', entitlements: RELEASED, installation_id: identity.installation_id,
-      audience: 'ORVIA_CUSTOMER_INSTALLATION', valid_from: new Date(now - 86_400_000).toISOString(), valid_to: new Date(now + 365 * 86_400_000).toISOString(),
-      licensed_limits: { environments: 100, staff_members: 10000, member_seats: 1000 }, term: 'CONTRACT', ...(sequence ? { sequence } : {}),
-    };
-    const key = vendorSigningKey('licence');
-    const signature = sign(null, Buffer.from(canonicalJson(claims)), createPrivateKey({ key: Buffer.from(key.private, 'base64'), format: 'der', type: 'pkcs8' })).toString('base64url');
-    const rowId = randomUUID();
     const client = await pool.connect();
     try {
       await client.query('BEGIN');
+      // The scoped resolver remains strict; only this protected development fixture establishes its own scope.
+      await client.query("SELECT set_config('orvia.tenant_id',$1,true),set_config('orvia.legal_entity_id',$2,true),set_config('orvia.environment_id',$3,true),set_config('orvia.actor_id',$4,true)",[...scopeArgs,identity.installation_id]);
+      await client.query("SELECT pg_advisory_xact_lock(hashtextextended('licence-import:' || $1::text || ':' || $2::text || ':' || $3::text,0))",scopeArgs);
+      const present = (await client.query(`SELECT lifecycle, claims FROM app.effective_licence($1,$2,$3)`, scopeArgs)).rows[0];
+      if (present && present.lifecycle === 'ACTIVE' && RELEASED.every(code => (present.claims.entitlements as string[]).includes(code))) {await client.query('COMMIT');continue;}
+      const history = (await client.query(`SELECT max(sequence) AS top FROM app.licences WHERE tenant_id=$1 AND legal_entity_id=$2 AND environment_id=$3`, scopeArgs)).rows[0];
+      const sequence = history.top === null ? undefined : Number(history.top) + 1;
+      const now = Date.now();
+      const claims = {
+        licence_id: randomUUID(), edition: 'CUSTOM', entitlements: RELEASED, installation_id: identity.installation_id,
+        audience: 'ORVIA_CUSTOMER_INSTALLATION', valid_from: new Date(now - 86_400_000).toISOString(), valid_to: new Date(now + 365 * 86_400_000).toISOString(),
+        licensed_limits: { environments: 100, staff_members: 10000, member_seats: 1000 }, term: 'CONTRACT', ...(sequence ? { sequence } : {}),
+      };
+      const key = vendorSigningKey('licence');
+      const signature = sign(null, Buffer.from(canonicalJson(claims)), createPrivateKey({ key: Buffer.from(key.private, 'base64'), format: 'der', type: 'pkcs8' })).toString('base64url');
+      const rowId = randomUUID();
       // Same supersession as an import: an unsequenced licence replaces the active ones; a sequenced one outranks them.
       if (!sequence) await client.query(`UPDATE app.licences SET active=false WHERE tenant_id=$1 AND legal_entity_id=$2 AND environment_id=$3 AND active`, scopeArgs);
       await client.query(`INSERT INTO app.licences(tenant_id,legal_entity_id,environment_id,id,licence_id,installation_id,edition,valid_from,valid_to,signing_key_id,signature,imported_by,claims,term,sequence,trial)

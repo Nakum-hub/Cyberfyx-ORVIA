@@ -1,0 +1,5 @@
+Artifact: handoffs/codex/artifacts/DPDP-ai-governance-browser-1790950429418-dc018f9f-7827-445e-b74c-747fb0840daa.json
+{
+  phase: 'start',
+  detail: 'invalid input syntax for type uuid: "round10-licence-dev-1614d3e2-4a77-432a-b83b-ffac463d3409"'
+}

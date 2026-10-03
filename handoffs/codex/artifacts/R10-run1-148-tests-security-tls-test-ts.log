@@ -1,0 +1,11 @@
+{
+  name: 'error',
+  code: '22P02',
+  sites: [
+    '    at C:\\Cyberfyx-projects\\Cyberfyx_ORVIA\\.worktrees\\round10\\node_modules\\.pnpm\\pg@8.23.0\\node_modules\\pg\\lib\\client.js:694:17',
+    '    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)',
+    '    at async ensureDevelopmentLicence (C:\\Cyberfyx-projects\\Cyberfyx_ORVIA\\.worktrees\\round10\\shared\\testing\\src\\development-licence.ts:46:7)'
+  ]
+}
+
+Artifact: handoffs/codex/artifacts/DPDP-tls-integration-1790951055602-85e8cc07-0b91-4755-bed3-eb21b2b9efd9.json

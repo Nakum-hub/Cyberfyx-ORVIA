@@ -1,0 +1,11 @@
+{
+  "task_id": "DPDP",
+  "fixture_kind": "CUSTOMER_LOCAL_SYNTHETIC",
+  "recorded_at": "2026-10-02T14:17:27.344Z",
+  "owner_decision": "revision 1.10 decision A",
+  "classification": "NOT_OBSERVED",
+  "observations": [],
+  "synthetic_source_fixture": true,
+  "limitation": "Registry HTTP grant and deliberately seeded A00 grant are distinct; no real delivery or production admission was exercised.",
+  "run_id": "537ccf08-1a35-480e-b365-c64924358b1a"
+}

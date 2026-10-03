@@ -1,0 +1,8 @@
+{
+  name: 'Error',
+  code: 'UNCLASSIFIED',
+  message: 'business fixture exists before restart',
+  readiness: []
+}
+
+Artifact: handoffs/codex/artifacts/DPDP-lifecycle-integration-1790950716845-724d6235-968f-434e-aa3c-764aa2a8e053.json

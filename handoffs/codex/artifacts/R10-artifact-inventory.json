@@ -1,0 +1,3895 @@
+{
+  "note": "SHA256 of staged-package worktree files before final inventory/scan records are added; no self-hash cycle. Original logs are preserved byte-for-byte.",
+  "files": [
+    {
+      "path": "handoffs/code/artifacts/audit-practice-2026-10-02T14-22-47-566Z.json",
+      "bytes": 14080,
+      "sha256": "4c8ae09063edb16852f03effce43e5b02c7cfbf6ebe7c0a998c52c210af749ff"
+    },
+    {
+      "path": "handoffs/code/artifacts/audit-practice-2026-10-02T17-49-25-436Z.json",
+      "bytes": 15127,
+      "sha256": "c96e3711c567ce3ae8cc0330ba0a6dc34595be5d02b08f62133decffef0c9da5"
+    },
+    {
+      "path": "handoffs/code/artifacts/audit-practice-2026-10-02T19-14-37-627Z.json",
+      "bytes": 15039,
+      "sha256": "4ce936ebad6471055c71559b398b2336d25a51fab686ac510b73554782c86828"
+    },
+    {
+      "path": "handoffs/code/artifacts/interface-crawl-2026-10-02T15-09-09-619Z.json",
+      "bytes": 83755,
+      "sha256": "78431e8553c41e30c7c60e13d25adcfd262ee9b7a7f55abe4f44b3ef87eae2e8"
+    },
+    {
+      "path": "handoffs/code/artifacts/interface-crawl-2026-10-02T18-41-45-050Z.json",
+      "bytes": 142528,
+      "sha256": "b746de5eaf27e4a52c39dc2d76302daed8b3a212cd7d2c9638b29dbe3b8c08d7"
+    },
+    {
+      "path": "handoffs/code/artifacts/start-smoke/customer_workspace.png",
+      "bytes": 98624,
+      "sha256": "cd7a1b8a827adcf1419c11013335de1c267650aaf7be9f0cf302f399a1e7b1f1"
+    },
+    {
+      "path": "handoffs/code/artifacts/start-smoke/customer_workspace_audit-trail.png",
+      "bytes": 83004,
+      "sha256": "315163b19506d0a2683c5d7615d291707e55e9d465c28bc96adaafed0f2d1ab5"
+    },
+    {
+      "path": "handoffs/code/artifacts/start-smoke/customer_workspace_consent-records.png",
+      "bytes": 119769,
+      "sha256": "da452eb5e37e25ebd6b076ca6e0e121b82a9eb09020eae269e09c6286b62712c"
+    },
+    {
+      "path": "handoffs/code/artifacts/start-smoke/customer_workspace_files.png",
+      "bytes": 75913,
+      "sha256": "54d8bdbc474a670d7481bccc078f6c264d0837f09db6b7b8b84a0e30cd67938c"
+    },
+    {
+      "path": "handoffs/code/artifacts/start-smoke/customer_workspace_organisation-intake.png",
+      "bytes": 106090,
+      "sha256": "7846549843752a2c896f97ddaf4bfe1068dfb8dbfcd750a7076b1783ca776299"
+    },
+    {
+      "path": "handoffs/code/artifacts/start-smoke/customer_workspace_personal-data-breaches.png",
+      "bytes": 98472,
+      "sha256": "1587c611812643f2910ccd68876219338e14a21ea4ae4ee3e4391258921bc2cd"
+    },
+    {
+      "path": "handoffs/code/artifacts/start-smoke/customer_workspace_plan.png",
+      "bytes": 87226,
+      "sha256": "8a791f686897a03631a421186102af43c7b3c9b23f8194c71550191ce7a24952"
+    },
+    {
+      "path": "handoffs/code/artifacts/start-smoke/customer_workspace_processors.png",
+      "bytes": 113254,
+      "sha256": "9241f1c06879fbb86961b27fb4323e3544c5b09b10360edf5b380c7d29da006a"
+    },
+    {
+      "path": "handoffs/code/artifacts/start-smoke/customer_workspace_registry-notices.png",
+      "bytes": 121146,
+      "sha256": "da5df32c6edff3b3996ccfb81fe519237df7edda9fc1f3a46bf53a310f3eba11"
+    },
+    {
+      "path": "handoffs/code/artifacts/start-smoke/customer_workspace_regulatory.png",
+      "bytes": 105579,
+      "sha256": "c80515129fb8e425958fb0331d9c328d07eac2b12d76c37ebb48286d90d35a83"
+    },
+    {
+      "path": "handoffs/code/artifacts/start-smoke/customer_workspace_rights.png",
+      "bytes": 113966,
+      "sha256": "b13346f8f0a000814e119b0ff64db870c81ba3dc7d4db4b933d53cff9233501c"
+    },
+    {
+      "path": "handoffs/code/artifacts/start-smoke/customer_workspace_team.png",
+      "bytes": 107596,
+      "sha256": "bf1f56bb2b9cb4a37aaa74b1ad8fcb85510d41ef3a1f0b74a38be1f222f4b128"
+    },
+    {
+      "path": "handoffs/code/artifacts/start-smoke/start-smoke.json",
+      "bytes": 3183,
+      "sha256": "f437088aad2373f5aedce73fa9a8cfcfd006c5a6998ef2772bd5be2fa656976c"
+    },
+    {
+      "path": "handoffs/code/artifacts/start-smoke/vendor_vendor_account-setup.png",
+      "bytes": 46697,
+      "sha256": "0a8bab16c953a0fd96d266ea950c4a985441d886c1d542213c3a50b7aa6e1809"
+    },
+    {
+      "path": "handoffs/code/artifacts/start-smoke/vendor_vendor_engagements.png",
+      "bytes": 81319,
+      "sha256": "36551e7074144dbdc5000e32cd673438653e0e2f3af3a64e026e9267de89db47"
+    },
+    {
+      "path": "handoffs/code/artifacts/start-smoke/vendor_vendor_licences.png",
+      "bytes": 60615,
+      "sha256": "bf61737f0a5b3e276aafab2affdcd8a4e679bcabee017e3f6b7d7dca74b36a76"
+    },
+    {
+      "path": "handoffs/code/artifacts/start-smoke/vendor_vendor_organisations.png",
+      "bytes": 59706,
+      "sha256": "8e85f191c2de135cfa65ebe20dc0a7d10de9a08cb6dbbc5fc2d03fc45a702d94"
+    },
+    {
+      "path": "handoffs/code/artifacts/start-smoke/vendor_vendor_practice.png",
+      "bytes": 90502,
+      "sha256": "5e61377b3c5ac0f7566d6c43fca81a8450695d9b6cc5c9adc220407a96a8b3cd"
+    },
+    {
+      "path": "handoffs/code/artifacts/start-smoke/vendor_vendor_sign-in.png",
+      "bytes": 46001,
+      "sha256": "d7dc104b9dd13fbadc8ac197174fa1665255a724084a1a28a33060429c135944"
+    },
+    {
+      "path": "handoffs/code/artifacts/start-smoke/vendor_vendor_team.png",
+      "bytes": 83238,
+      "sha256": "a9d68cc9b5d784a744f35db33653842f69325d40b49c399a5fddaadc6a29d414"
+    },
+    {
+      "path": "handoffs/code/artifacts/vendor-audit-2026-10-02T14-23-34-894Z.json",
+      "bytes": 2117,
+      "sha256": "4504a6495d22d3b0fbf1c13459539d898974f3e76f6e821435dc6d0a8667dc8f"
+    },
+    {
+      "path": "handoffs/code/artifacts/vendor-audit-2026-10-02T17-50-24-090Z.json",
+      "bytes": 7108,
+      "sha256": "aad8d753a0ff2fb060355e055154cd3d5f8f60112e81a79a164baaec33d362ef"
+    },
+    {
+      "path": "handoffs/codex/2026-10-02-round10.md",
+      "bytes": 8216,
+      "sha256": "7ffe0d2c9d33d90f1ba1fc19a9093a02536fd7656b2b7571b1e81ea581c27eb5"
+    },
+    {
+      "path": "handoffs/codex/artifacts/A00-migration-1790949477684-a6ce8a14-ba2d-4370-b590-3e76ff1342f0.json",
+      "bytes": 3250,
+      "sha256": "b8eb8c6c5623641f3320a8d0d7777de45ede5d41c3161113d780547c19b5bcc7"
+    },
+    {
+      "path": "handoffs/codex/artifacts/A00-migration-1790949599726-e7471047-d449-4c34-aee7-d2141599e74c.json",
+      "bytes": 3250,
+      "sha256": "0c72a190044e5016eea1ee165fe79a8788cda19cc9290bfd266560b41906b013"
+    },
+    {
+      "path": "handoffs/codex/artifacts/A00-round-ten-seat-reader-acl-before-1790963752503-5303f044-05e4-4cfd-869b-2079d05159df.json",
+      "bytes": 1202,
+      "sha256": "a4f109c5d6a5e2e9de3c3a2aab4e413d1dfb3cd3be41b7b37f0508a6241c32fe"
+    },
+    {
+      "path": "handoffs/codex/artifacts/A00-tls-material-1790949433337-ea396997-4e90-4fbe-b72f-3997c4080f92.json",
+      "bytes": 783,
+      "sha256": "d3d1a28ee983fce6075ef108721b427cfbb56ff9a12b2d70bef5de08e5b84d8e"
+    },
+    {
+      "path": "handoffs/codex/artifacts/A00-vendor-import-race-1790963672395-c736c731-42ba-4e02-ae52-97cdb17bad52.json",
+      "bytes": 229,
+      "sha256": "b6bfd6f2b3d8423d3dc986918aa70e959344ab04ac46b509bde321deb38ad354"
+    },
+    {
+      "path": "handoffs/codex/artifacts/A07-network-core-1790968733753-a87fb40e-c895-4fed-9052-bca5e1d6969a.json",
+      "bytes": 2793,
+      "sha256": "9bdc069fef8a6008c71631500821ba03f7ebf4988e7c49fbb975b1b52c17e8ce"
+    },
+    {
+      "path": "handoffs/codex/artifacts/A07-network-observations-b46ff707-fae2-41fd-95e3-f99ca2633732.json",
+      "bytes": 307,
+      "sha256": "0fb74f5563c4f5fbf2856f8af16df340972ea7d6dabe4f0f603d12f0dec76c9a"
+    },
+    {
+      "path": "handoffs/codex/artifacts/A07-network-qualification-1790963525549-8555b503-872f-4178-936a-8d45f56fe657.json",
+      "bytes": 370374,
+      "sha256": "5bef30ff821608496e7b7cf81323b8870074558c3b030b84a3f9d3a0aca1ad55"
+    },
+    {
+      "path": "handoffs/codex/artifacts/A07-network-qualification-1790968736723-d312efd1-b518-4e40-9400-ff8748fd68eb.json",
+      "bytes": 180361,
+      "sha256": "1662e498a7e668151f36c338548ae4dc3ee77626d34247f8895527232d3d18df"
+    },
+    {
+      "path": "handoffs/codex/artifacts/A07-regression-run-1790968733359-634a2cf5-e191-4c5c-981a-9073e332d04c.json",
+      "bytes": 1878,
+      "sha256": "34c1077946b16e54d865ba5e029648c738bab1f534b578d795858011d3d5d151"
+    },
+    {
+      "path": "handoffs/codex/artifacts/DPDP-ai-governance-browser-1790950429418-dc018f9f-7827-445e-b74c-747fb0840daa.json",
+      "bytes": 490,
+      "sha256": "96ec028862504796aa9bc26bc76280a3508565f534f7399aa4ac363113a82095"
+    },
+    {
+      "path": "handoffs/codex/artifacts/DPDP-ai-governance-browser-1790952869668-07f50a30-3cb3-4e20-8b5f-f3b3acbf51b2.json",
+      "bytes": 591,
+      "sha256": "c5b9a795fb39acad972e2e3c23e3974ea170292c430c8bb3e7bca7886dc859f9"
+    },
+    {
+      "path": "handoffs/codex/artifacts/DPDP-ai-governance-integration-1790950609951-655725bd-c551-45a7-a25d-876917515ddc.json",
+      "bytes": 333,
+      "sha256": "14969d8ec96b6852679e152f7b9057159abca2026a7d5d75aeef9f81bc39acc6"
+    },
+    {
+      "path": "handoffs/codex/artifacts/DPDP-ai-governance-integration-1790954712157-08e11de8-3a34-412d-9c83-5879e0387820.json",
+      "bytes": 4898,
+      "sha256": "fd09488a41eebc9c0671f368a980fd684ffbb8a3cd1f05b02f0bfd5ab3f3f28e"
+    },
+    {
+      "path": "handoffs/codex/artifacts/DPDP-ai-governance-monitor-1790950615776-50c5759b-2893-44ca-87c2-e702711dbd50.json",
+      "bytes": 424,
+      "sha256": "2ebcee566e0b6a94e50b763e38c298830cb3b6eeb512eba488d993971d51a9c6"
+    },
+    {
+      "path": "handoffs/codex/artifacts/DPDP-ai-governance-monitor-1790954795876-254614f0-6e44-406e-a83c-b59a84ea5779.json",
+      "bytes": 1627,
+      "sha256": "7853f830f6f273415c43c1c325956f9000651614f01cd8e9601721ed6221d12b"
+    },
+    {
+      "path": "handoffs/codex/artifacts/DPDP-application-lifecycle-1790957547999-ec75bb28-843e-4fb6-87a5-de04390f9f00.json",
+      "bytes": 1110,
+      "sha256": "f865faed92eb1ab3f253cd6e580871c11bc7d59c1b3f9553c48c719d57fb828b"
+    },
+    {
+      "path": "handoffs/codex/artifacts/DPDP-application-lifecycle-1790957585406-7374f03b-f0a6-46b5-8c8d-991cfd045424.json",
+      "bytes": 1110,
+      "sha256": "245097060b9b2f68e8650df1d4010cdc6466db3f5dabf542da44c1c45c8722a0"
+    },
+    {
+      "path": "handoffs/codex/artifacts/DPDP-application-lifecycle-1790967867739-1c7d6ed7-8e19-4301-8a21-76892286463f.json",
+      "bytes": 1110,
+      "sha256": "c720aebb2128c6520da67841ad8b3f4b04b04727f6d3873a1b8e39ff08638e4b"
+    },
+    {
+      "path": "handoffs/codex/artifacts/DPDP-application-lifecycle-1790967881042-854b34a7-f7b7-44e9-b83d-ff056d0a1f0c.json",
+      "bytes": 1110,
+      "sha256": "aed13558bf2b3e46668497e7176a46913617556f05c5a9d5609e811e9747e8e8"
+    },
+    {
+      "path": "handoffs/codex/artifacts/DPDP-audit-integration-1790950617523-69ea4b24-f76c-411d-81a0-bba8f719748d.json",
+      "bytes": 312,
+      "sha256": "2d0062e2497564b0e346e1317b35cf8a4a3fbc03c29de9ae9ae6d2cc5d631a80"
+    },
+    {
+      "path": "handoffs/codex/artifacts/DPDP-audit-integration-1790954864157-25a2cb80-b57f-4f68-acc0-2a6aa7c23bf0.json",
+      "bytes": 14320,
+      "sha256": "d1586e4fac90cf9c988c33748854051d1c1838658169a5d1804c284b32396f02"
+    },
+    {
+      "path": "handoffs/codex/artifacts/DPDP-audit-retention-integration-1790950618845-7b97c999-083d-4975-a64d-2c25bb2276b1.json",
+      "bytes": 312,
+      "sha256": "8d14b9866b4f5e3489f3741089fea032154265d53099e45efa53355d2de20072"
+    },
+    {
+      "path": "handoffs/codex/artifacts/DPDP-audit-retention-integration-1790954935853-6ff4291b-63d9-4e12-9a03-a8ef29372977.json",
+      "bytes": 5678,
+      "sha256": "4e68ead26e6ba40d7bc56f0a43dcc61a0beae06f37a26fbd88c3d9d5b4a01a51"
+    },
+    {
+      "path": "handoffs/codex/artifacts/DPDP-auth-security-1790951044253-8418817d-6537-4aa7-a10e-8786262f85f5.json",
+      "bytes": 315,
+      "sha256": "aa5cba040ecc5a75d864a4ed2bbf5846cd32d98b2fd02b97381376785c3ee266"
+    },
+    {
+      "path": "handoffs/codex/artifacts/DPDP-auth-security-1790963512692-3090743d-6b35-400c-b530-6efeff19cb52.json",
+      "bytes": 12811,
+      "sha256": "7b842ec1cb6f1cf311907aa230fbea5c9625e9d54bf4deed4987f64487332907"
+    },
+    {
+      "path": "handoffs/codex/artifacts/DPDP-auth-security-1790968563912-9de3dec0-b5c7-444d-9e15-a103117d47be.json",
+      "bytes": 13208,
+      "sha256": "6c894c3446dbba879c2bb9b795d88e38ba7283e1baac5f9e061b3a650887a348"
+    },
+    {
+      "path": "handoffs/codex/artifacts/DPDP-backup-drill-1790957733379-0b972fa3-aca9-4910-aad9-3729c33d1c55.json",
+      "bytes": 1298,
+      "sha256": "0e3d4f5cddbd014a452c912d476739e42a70cc7d2528803cd0d2351204dc30c1"
+    },
+    {
+      "path": "handoffs/codex/artifacts/DPDP-backup-drill-test-1790957733867-d3fb1fd5-d50d-4c80-b099-f8180a83b8e3.json",
+      "bytes": 861,
+      "sha256": "0598a1a1f62196f929b310101f9bb5bc658bfb65b778e753f8569349df9294a9"
+    },
+    {
+      "path": "handoffs/codex/artifacts/DPDP-canary-grant-admission-observation-1790950647344-50a060cf-3511-4171-87d6-ca59fedbfe8b.json",
+      "bytes": 452,
+      "sha256": "3b64cf1e2c53ad8d9ed9d5e72da5ff8fe6793b5cdae18c44dee916406f01ce67"
+    },
+    {
+      "path": "handoffs/codex/artifacts/DPDP-canary-grant-admission-observation-1790955134227-365723da-8f29-43e2-982e-f03f69d8dd14.json",
+      "bytes": 2511,
+      "sha256": "e5aaf8b496ae6aed2069da0b21c89e3cd257cddf2ca07d38777e46d51e70a7c9"
+    },
+    {
+      "path": "handoffs/codex/artifacts/DPDP-catalog-discovery-browser-1790950490347-41f25114-1006-400a-9224-67c92ddef724.json",
+      "bytes": 511,
+      "sha256": "b02dc7794c3fc3ef8072bdd4605b0187310d1544b49a2c5d8ddc56cba39f05bb"
+    },
+    {
+      "path": "handoffs/codex/artifacts/DPDP-catalog-discovery-browser-1790953140952-7d28ad1f-6af8-404b-ad87-368774d5d7ba.json",
+      "bytes": 565,
+      "sha256": "bfb864efa9f6f2c5272117a83188b8c72604fd3a808545dd21305b6ecf02f459"
+    },
+    {
+      "path": "handoffs/codex/artifacts/DPDP-catalog-discovery-flow-1790950660101-d7b26d2d-7d38-4642-8510-a31fcfd3139b.json",
+      "bytes": 333,
+      "sha256": "20a62bd5f4d8bc869bdb0de25588ddfd29fb20e3e3a8493bd00bc07463568d02"
+    },
+    {
+      "path": "handoffs/codex/artifacts/DPDP-catalog-discovery-flow-1790955484176-88b9d9ea-7429-4891-81b2-cd840a09e883.json",
+      "bytes": 9892,
+      "sha256": "b34f75737ba5ab193c8be8daf23fec419ff6210deead70609feda14abf82deb5"
+    },
+    {
+      "path": "handoffs/codex/artifacts/DPDP-consent-integration-1790950651538-0dcb0d5f-d459-4e40-8a7f-a2b55b68581f.json",
+      "bytes": 485,
+      "sha256": "12f42b55329ac92710dacbdd5dddc8cb0915e64849a468180742da4c9dbe45c4"
+    },
+    {
+      "path": "handoffs/codex/artifacts/DPDP-consent-integration-1790955209185-409d194f-0c1c-4c2d-b636-f7d22e7d3b48.json",
+      "bytes": 15165,
+      "sha256": "401b08208214e714df340cf5919ff9692e318453de6b23e93e48fedbc33c74bc"
+    },
+    {
+      "path": "handoffs/codex/artifacts/DPDP-coverage-integration-1790950658108-4819de5a-a97b-4c9d-af36-5159de0a2e5c.json",
+      "bytes": 445,
+      "sha256": "a12a39efe9cb6c8b7d0d9ec455772a836ead46c04cefb75d7455f3754f357856"
+    },
+    {
+      "path": "handoffs/codex/artifacts/DPDP-coverage-integration-1790955415668-53ab4bea-6f6e-44f9-a67e-617b09b64ad9.json",
+      "bytes": 9550,
+      "sha256": "5e4b74a2f423a430bd8cefce4d4aaa3ab816a19609104a0c6117e0fe3e7f544a"
+    },
+    {
+      "path": "handoffs/codex/artifacts/DPDP-evidence-integration-1790950671107-ae379872-1a3c-40c5-b54e-d08ee7033226.json",
+      "bytes": 614,
+      "sha256": "b1303f7da950098d9875dfad501dba618a6084009822ff2a40d1cfbdf17db52e"
+    },
+    {
+      "path": "handoffs/codex/artifacts/DPDP-evidence-integration-1790956141256-02c2523c-e5b4-4d17-850a-69714b34e69a.json",
+      "bytes": 12614,
+      "sha256": "aaaf4c35bce7d13f71679607e87b81a91dc54dc78faa386db3188e86721a91af"
+    },
+    {
+      "path": "handoffs/codex/artifacts/DPDP-expiry-integration-1790950652979-79ff1e9c-f678-4a0c-b0ce-9a5835067a0b.json",
+      "bytes": 569,
+      "sha256": "aec99d5dfc71c9ea9b320074b0dddef3c79c9e813ec82b77ba77c9be8b703e02"
+    },
+    {
+      "path": "handoffs/codex/artifacts/DPDP-expiry-integration-1790955384636-821553f1-ec70-4d3d-9846-2c6235a6daca.json",
+      "bytes": 27984,
+      "sha256": "c05f01dca052f3d7a3e8a2c8aa650feeea4d83f898b2acfb21764bb41391217f"
+    },
+    {
+      "path": "handoffs/codex/artifacts/DPDP-first-run-setup-1790959789762-7b43e243-d31a-47f0-aab9-715ef4b0b3d7.json",
+      "bytes": 2379,
+      "sha256": "686b1b244afe3852f8f12b6f812145f158b1e084441610b1e5d3a582fd543606"
+    },
+    {
+      "path": "handoffs/codex/artifacts/DPDP-fixture-isolation-1790951051647-021d8896-842b-497f-82d9-491188d7122f.json",
+      "bytes": 4165,
+      "sha256": "2f92f3faf4daeb03ecf75aef93c5ed07470fd700cb64d8dd792f70f68611eb35"
+    },
+    {
+      "path": "handoffs/codex/artifacts/DPDP-function-acl-1790951053189-da689f84-081d-4a02-9f78-1f2d06152d70.json",
+      "bytes": 16044,
+      "sha256": "d50d34a30e09cd2e9a30683deaa3a96e8c610764257440c61e26d01dd1ce2041"
+    },
+    {
+      "path": "handoffs/codex/artifacts/DPDP-function-acl-1790963517413-9b5a134a-fc4d-4412-a8c2-b26dccbf4ca0.json",
+      "bytes": 17103,
+      "sha256": "f87d3bcfefe168ebe88b0c20ef2b10b71d136d28a977a5d4a7f253dedc2b5191"
+    },
+    {
+      "path": "handoffs/codex/artifacts/DPDP-function-acl-1790968569603-7a6d160c-25a8-476e-a2e3-48554e8f0a23.json",
+      "bytes": 37053,
+      "sha256": "3d25b4e0d7be25b583a573a32f4bf98a8a37882fa53be0749a5ac364f267f71a"
+    },
+    {
+      "path": "handoffs/codex/artifacts/DPDP-graph-integration-1790950701502-99ad6e8a-58df-4bfc-bb5c-232a38c70d8e.json",
+      "bytes": 312,
+      "sha256": "7232b83be8fb2ea99cf4e40715f9b46965e51822d98a02eda297edef8b16ff14"
+    },
+    {
+      "path": "handoffs/codex/artifacts/DPDP-graph-integration-1790957307538-ef09d4c5-0dd1-46cf-a42b-a07254a868d5.json",
+      "bytes": 8212,
+      "sha256": "9b1ab04924a7ac4da4449cc3fa99c83bd709db906b0322515267eec6b1f65e0a"
+    },
+    {
+      "path": "handoffs/codex/artifacts/DPDP-graph-source-binding-1790951054405-c70bca31-c866-4a48-872b-8cac6989aa3c.json",
+      "bytes": 319,
+      "sha256": "be3ee0a08f6a60611cd9977763a039088d50fae338d763f24a99e769d85e2230"
+    },
+    {
+      "path": "handoffs/codex/artifacts/DPDP-graph-source-binding-1790963522948-323ea800-f039-4d15-b907-b641c22306fa.json",
+      "bytes": 472,
+      "sha256": "be14633728d197b744631e168a8c61018d73b0c33960ea54756fe80327d0eb1a"
+    },
+    {
+      "path": "handoffs/codex/artifacts/DPDP-imports-integration-1790950753246-955b75b0-0fee-400e-8bc5-06d35f5097c1.json",
+      "bytes": 312,
+      "sha256": "62de3fec0d61104ea5cd53405e5a9ab9cf24624096ce22a450813ff527dfa337"
+    },
+    {
+      "path": "handoffs/codex/artifacts/DPDP-imports-integration-1790959814426-055030c1-a548-42f3-9687-bbdfd4f6ab4b.json",
+      "bytes": 6789,
+      "sha256": "b6297b5069c96b526f02fd9e835d37fb035f617c516045bf1df0641b7933a6af"
+    },
+    {
+      "path": "handoffs/codex/artifacts/DPDP-incidents-integration-1790950711231-29a9f008-2800-4695-8d67-2e3c55e2fccd.json",
+      "bytes": 312,
+      "sha256": "0a438c0968465822f8f28dcdecc5110b6c8ebd4e6be6d68eef0cbcb93d34c100"
+    },
+    {
+      "path": "handoffs/codex/artifacts/DPDP-incidents-integration-1790957391477-0a869f72-84ed-49dc-9acd-6672ed180ab9.json",
+      "bytes": 7365,
+      "sha256": "5ffbb7c0011c4ee9bd82d1b73e91181e95e8f25ab649ffb444482980a8bb968d"
+    },
+    {
+      "path": "handoffs/codex/artifacts/DPDP-licensing-integration-1790950713716-ee6eee8c-8a23-4e18-8fd2-3dd56603bfd0.json",
+      "bytes": 312,
+      "sha256": "832b52ab8a44d3899575f8dc5fa6380a93bc13a98c13e149d53720aa7b4b2f83"
+    },
+    {
+      "path": "handoffs/codex/artifacts/DPDP-licensing-integration-1790957402086-bb672aff-d14a-4afa-9d85-ff6fe07426da.json",
+      "bytes": 3188,
+      "sha256": "f79ed446cd1cef25a0ce4fbb1e1ebf9f575acfdf43b5e03776d602da3d7d5d22"
+    },
+    {
+      "path": "handoffs/codex/artifacts/DPDP-licensing-integration-1790967819674-4c8ed696-a59a-421f-984e-420f79c88484.json",
+      "bytes": 10653,
+      "sha256": "9bb12bbeece315478e49caf96af18c9b625433f3159673edc638a049e5d88f4f"
+    },
+    {
+      "path": "handoffs/codex/artifacts/DPDP-lifecycle-integration-1790950716845-724d6235-968f-434e-aa3c-764aa2a8e053.json",
+      "bytes": 548,
+      "sha256": "a7dc88a0174e080b587369ed6d6c5b85d77fb38995773fd90a1a4373c7b1c643"
+    },
+    {
+      "path": "handoffs/codex/artifacts/DPDP-lifecycle-integration-1790957585855-86a9b95b-4540-42aa-9638-269d32ce744e.json",
+      "bytes": 3511,
+      "sha256": "09d1817f22ec22801df81a87526445bc5645e2926a0146241d6bace66c45c55f"
+    },
+    {
+      "path": "handoffs/codex/artifacts/DPDP-lifecycle-integration-1790967881354-dc57e6f4-2375-4cc1-9417-b03e2bc25666.json",
+      "bytes": 3517,
+      "sha256": "6dea613e419abc6ca1b78b1bbc82cd5f0edb29decad05f4e1b187d656c1e9317"
+    },
+    {
+      "path": "handoffs/codex/artifacts/DPDP-migration-1790952110730-e74d4ab5-687d-40f0-a156-78b60331f0e3.json",
+      "bytes": 367,
+      "sha256": "c8e18e97d6c8394289debf9efd4317e0191cdfeac3552b4e23f30b911c5b6088"
+    },
+    {
+      "path": "handoffs/codex/artifacts/DPDP-migration-1790952117809-d7851cd7-b337-4c93-a8dd-5ab17d5fb7cc.json",
+      "bytes": 367,
+      "sha256": "16b466583213210453cdae4e5579a38a09e2cd2ae86a1347a75d55ffe4576cc3"
+    },
+    {
+      "path": "handoffs/codex/artifacts/DPDP-migration-1790964720834-06ef2ece-8d5c-4abe-8778-4f4c43473e33.json",
+      "bytes": 361,
+      "sha256": "98cac7d944c1f2c965861bbcb5f16a38da9678a8b44d5a2552a1eac38e8e18dd"
+    },
+    {
+      "path": "handoffs/codex/artifacts/DPDP-migration-1790964728055-0bd9cb32-596f-4076-809a-a4bd67c66674.json",
+      "bytes": 361,
+      "sha256": "95bacbbc1345bc326ce469742c3f45bfd334d7ab9502abd716af152a6e5b062e"
+    },
+    {
+      "path": "handoffs/codex/artifacts/DPDP-migration-upgrade-1790950728637-5d26e243-ae6b-4d1a-8d14-1f2db4a9e413.json",
+      "bytes": 8780,
+      "sha256": "5f7dbb4e06478469866114138d2b743a96c0d68918755a7bb6c5f541d6f0c566"
+    },
+    {
+      "path": "handoffs/codex/artifacts/DPDP-monitoring-integration-1790950731672-133e873d-f55e-4938-83cb-87d75c40b9da.json",
+      "bytes": 312,
+      "sha256": "74a3fa7c590ce45720aebc079de0fde57abef4edf9b91fb8ade4127fedc256f6"
+    },
+    {
+      "path": "handoffs/codex/artifacts/DPDP-monitoring-integration-1790957799366-70d32559-1c56-4f07-8996-8ed0c5d6bee2.json",
+      "bytes": 6822,
+      "sha256": "fdc33f41d856b133d592d1ae59039f8111bb0204c4a923d99e6887a40af33ee2"
+    },
+    {
+      "path": "handoffs/codex/artifacts/DPDP-notice-language-integration-1790950736046-d327089d-48a7-46d4-b9f0-7d5d50871f63.json",
+      "bytes": 312,
+      "sha256": "21bcc3e0a0a2d84f634816f50bba0d640023d3e59e1e6fd2a55d3d55936876e6"
+    },
+    {
+      "path": "handoffs/codex/artifacts/DPDP-notice-language-integration-1790958128934-6b2ec9ac-0128-45c1-853e-a86dbc1874b4.json",
+      "bytes": 4487,
+      "sha256": "c5268508b1c7c8b77329f0b398c2094e477ea59ecb87aeac5f2b3d3571ff289a"
+    },
+    {
+      "path": "handoffs/codex/artifacts/DPDP-notifications-integration-1790950738394-b33249a5-e84d-4de2-9f9b-8a0feabeaea3.json",
+      "bytes": 312,
+      "sha256": "e7a76ab35639c058ff40850a0b743e6d3e0ab3d869b32b25d413638f353b1ebd"
+    },
+    {
+      "path": "handoffs/codex/artifacts/DPDP-notifications-integration-1790958304912-6406463f-4647-4a16-b61e-9ba786d74763.json",
+      "bytes": 5240,
+      "sha256": "178ab7d69afebf4db91d192223b0ab8ee424cdf6fb3f495eb185b9f00da36b79"
+    },
+    {
+      "path": "handoffs/codex/artifacts/DPDP-onboarding-integration-1790950739795-d0947a27-730c-4f9b-a331-c56afc49a78c.json",
+      "bytes": 312,
+      "sha256": "6078f82234c8bcb5d636cdde6af4e2f774736347907b0065959e3fe7386434de"
+    },
+    {
+      "path": "handoffs/codex/artifacts/DPDP-onboarding-integration-1790958449271-f7f31132-7273-411a-8bb6-c7d817eb4007.json",
+      "bytes": 7852,
+      "sha256": "f8e555efc5b0dc9a6b6001252a282824d4cfbce158eea1b30d6ddad8b54bfb30"
+    },
+    {
+      "path": "handoffs/codex/artifacts/DPDP-opa-cold-start-1790959914816-7cc7118e-e9e5-46e0-8ba0-aa2ed1d124ed.json",
+      "bytes": 1489,
+      "sha256": "d2ff4ccd253bea35ecd39ed6d4c967d090bbcea5dc5a6c93d3418b3a7ff49969"
+    },
+    {
+      "path": "handoffs/codex/artifacts/DPDP-opa-cold-start-1790967927945-b4f605c0-dc9a-4d8f-9582-c875441d7f8f.json",
+      "bytes": 1489,
+      "sha256": "d8b0256789067cada4546f3d0b403476baf962cac3555456de028605470f3c9f"
+    },
+    {
+      "path": "handoffs/codex/artifacts/DPDP-operations-ai-model-versions-1790950611926-6a704bd2-1084-48d2-ac9a-4325838f291c.json",
+      "bytes": 669,
+      "sha256": "9d269461596ac9b60fb0994485135b9ad00d537ed192b898800183ddf8ca8876"
+    },
+    {
+      "path": "handoffs/codex/artifacts/DPDP-operations-ai-model-versions-1790954784448-faa30d07-60f3-476c-84d2-c7fddad27ed9.json",
+      "bytes": 4863,
+      "sha256": "13393d3625726bc0f4122b5869d6e3fffd5444d0c5eca50122509ce8849bd9ef"
+    },
+    {
+      "path": "handoffs/codex/artifacts/DPDP-operations-applicability-1790950763565-75289db6-2f82-4e7f-8a88-cb44a8d89a1a.json",
+      "bytes": 665,
+      "sha256": "851c030395f5b707ec736ecd09f5b721ad8cbed076e939dccd441c6223f23158"
+    },
+    {
+      "path": "handoffs/codex/artifacts/DPDP-operations-applicability-1790959994214-69a20966-7906-4fa3-974b-2f4e015cfddb.json",
+      "bytes": 4135,
+      "sha256": "1d777e270a3af974f3a13b53df9a940fdf7da4e9509ddbf16ccdcdb1b95e021c"
+    },
+    {
+      "path": "handoffs/codex/artifacts/DPDP-operations-audit-mandate-1790950676813-342eada1-693f-462c-969f-ac182f4e9bf0.json",
+      "bytes": 665,
+      "sha256": "d5aabc41e239cada022babdf3bd4cc224800175a7ceb5167664d7d7eca2283d4"
+    },
+    {
+      "path": "handoffs/codex/artifacts/DPDP-operations-audit-mandate-1790956260725-e69085f4-aa30-43db-98c5-005d343f7630.json",
+      "bytes": 26467,
+      "sha256": "2be29ed829ee67ed04bae7c1e0d7d79f4bec44e271d40a21c1353ab5d543a476"
+    },
+    {
+      "path": "handoffs/codex/artifacts/DPDP-operations-audit-mandate-browser-1790952884337-41227646-88ea-4384-95fa-0dc3034ffebf.json",
+      "bytes": 834,
+      "sha256": "850789bea5e96e49e42160533fc0e9bc37c5452204ac3e798ed130d26584a573"
+    },
+    {
+      "path": "handoffs/codex/artifacts/DPDP-operations-audit-mandate-browser-1790965289880-4024db14-1307-449d-bb20-a45a2d451a9e.json",
+      "bytes": 834,
+      "sha256": "255c013eade54d6684fff2a99e073f36b6e9e3d2700831fb353bddaadddd867d"
+    },
+    {
+      "path": "handoffs/codex/artifacts/DPDP-operations-automation-quota-race-1790957480117-e5fea721-3710-4b82-b945-b6a1f0c0529d.json",
+      "bytes": 631,
+      "sha256": "fced1bb62483140756fc4cdb16f10f2412c2b4e86c97c0de32e1a755db7f4301"
+    },
+    {
+      "path": "handoffs/codex/artifacts/DPDP-operations-automation-quota-race-1790967836497-43333701-59a1-44c4-820e-88d06466df19.json",
+      "bytes": 799,
+      "sha256": "367880910729403b5a7990129bdac0cb15ef9429cbcbc6152aab0236b33106db"
+    },
+    {
+      "path": "handoffs/codex/artifacts/DPDP-operations-backup-obligations-1790950765855-e44f7f9f-41c3-45ee-9670-99fc0e61aede.json",
+      "bytes": 670,
+      "sha256": "193adf63445ed348f88872e446e5f2ee31415ffe7abfe37b67f7efb1be7e41f5"
+    },
+    {
+      "path": "handoffs/codex/artifacts/DPDP-operations-backup-obligations-1790960027776-683af89b-bdc2-4491-b5ac-5a839af34d62.json",
+      "bytes": 4553,
+      "sha256": "a350453fe5315721ff0e89bc910064ffe9dff1ce40c2b286b2dd7062df188b8c"
+    },
+    {
+      "path": "handoffs/codex/artifacts/DPDP-operations-backup-obligations-1790968001273-ec4c3f57-0647-4593-813a-9dc24c05b4ce.json",
+      "bytes": 8949,
+      "sha256": "5917a6c3492131e2ef9fc8c57794d7154d4071f9085f130adc43854a2a49fcc7"
+    },
+    {
+      "path": "handoffs/codex/artifacts/DPDP-operations-backups-and-recovery-browser-1790950463157-5785bdd1-ce0d-41d9-9d93-fb76842b754c.json",
+      "bytes": 680,
+      "sha256": "0864155326125583f680ff35830f4489fa0b4dee5b92d0203c82ec74da4d98d4"
+    },
+    {
+      "path": "handoffs/codex/artifacts/DPDP-operations-backups-and-recovery-browser-1790952940146-a4b79466-b567-41f1-b573-18f5df087264.json",
+      "bytes": 1058,
+      "sha256": "fbd07da7e2ae97b0b5976bac342fb6b9475d32a4a1efe6bcfecd7941d91a4637"
+    },
+    {
+      "path": "handoffs/codex/artifacts/DPDP-operations-backups-and-recovery-browser-1790965417309-cac126bf-bf73-4e5c-9f75-042a719816f1.json",
+      "bytes": 2427,
+      "sha256": "36eb87505856634057a18a338c172390871994471706d5166fa84944265e64fe"
+    },
+    {
+      "path": "handoffs/codex/artifacts/DPDP-operations-breach-1790950767618-3f5a0647-40c8-43aa-acf8-f67546fb47ac.json",
+      "bytes": 658,
+      "sha256": "fd17e4aacf439dd1887aa0956d0af3ece0465b95a56d2a10bb439f0c7bc60efd"
+    },
+    {
+      "path": "handoffs/codex/artifacts/DPDP-operations-breach-1790960109342-bbe2a2f0-15ae-4419-89f2-0cdfe1039d01.json",
+      "bytes": 4411,
+      "sha256": "000e37a19f06d3f1e58ecc92a75fad07eb49c06b0dc8327d31defbacc3e7a200"
+    },
+    {
+      "path": "handoffs/codex/artifacts/DPDP-operations-canary-grant-admission-1790950647342-4900afaa-6c7a-4f6d-a57d-425885cf179a.json",
+      "bytes": 674,
+      "sha256": "0d40d5b29f1bde69e4ddc79d567f2c05f9ebff6af992813ea4ecea43395e5585"
+    },
+    {
+      "path": "handoffs/codex/artifacts/DPDP-operations-canary-grant-admission-1790955134221-f20ae3c4-b960-4195-a05a-31f921456069.json",
+      "bytes": 9029,
+      "sha256": "6330a6d0622107f74d2c1d74b7da23e70973c91be4c7c305a53f5c25084b0c81"
+    },
+    {
+      "path": "handoffs/codex/artifacts/DPDP-operations-canary-retirement-1790950648543-735407f8-5a87-4d35-a2e5-148f5bba6829.json",
+      "bytes": 669,
+      "sha256": "501b7be96e3eea140043bd735d80747340bd169c0781a3f7e930037cae626e35"
+    },
+    {
+      "path": "handoffs/codex/artifacts/DPDP-operations-canary-retirement-1790955140405-660ce21d-4ec1-4e17-9a1c-a43f2fec8929.json",
+      "bytes": 4981,
+      "sha256": "75162532e27ccd3f9631c21424015ae58459ae4feb34a787f36d5511d1711095"
+    },
+    {
+      "path": "handoffs/codex/artifacts/DPDP-operations-classification-1790950679167-0b14e033-71ee-458d-88f7-c36d1c63194b.json",
+      "bytes": 666,
+      "sha256": "5348719b199060e57a2b53e0583b5ecd1310f65bdbf332aadaee0e8a362d5744"
+    },
+    {
+      "path": "handoffs/codex/artifacts/DPDP-operations-classification-1790956346762-df6c3e73-8ace-4f9b-81a1-eae66cec1ef5.json",
+      "bytes": 8345,
+      "sha256": "cb957ef0ca59cf506ecc096d501a4b3200c4d6b0407a4a5533f173156eaf1c2e"
+    },
+    {
+      "path": "handoffs/codex/artifacts/DPDP-operations-cmp-1790950682396-fda4fdd1-3517-4313-a3eb-6231d22301e1.json",
+      "bytes": 655,
+      "sha256": "0f592d295f242ef561b9f8700475b9c507349b1577fff5b0a9669e1ca760dda0"
+    },
+    {
+      "path": "handoffs/codex/artifacts/DPDP-operations-cmp-1790956432013-628294e4-fff7-4a1d-a3db-02ba5f9952f6.json",
+      "bytes": 9249,
+      "sha256": "96892f63f24968c452aa01899751a6a8e0de8536b686682bfb44193c86cc0059"
+    },
+    {
+      "path": "handoffs/codex/artifacts/DPDP-operations-consent-manager-1790950769515-bb3884c9-69c0-48f7-9480-2b0edb24ae06.json",
+      "bytes": 667,
+      "sha256": "e41f42bfcd869672c5a09eda830c382d653e17427bb91ac5265dbd6d76ebde8d"
+    },
+    {
+      "path": "handoffs/codex/artifacts/DPDP-operations-consent-manager-1790960182532-a62eb53a-c6e4-4533-9f31-d113515383c7.json",
+      "bytes": 2727,
+      "sha256": "cd19e66428dcfaaed18af3fcf502dbb870494b1b6a6670597a4b908677d22abb"
+    },
+    {
+      "path": "handoffs/codex/artifacts/DPDP-operations-consent-withdrawal-1790950771583-9d9207bd-4ea0-4349-966b-b934c7e5d4cf.json",
+      "bytes": 670,
+      "sha256": "c936cb648659486bfdc8ec6d318c87f285117a9215f05d3babf39ad3b756f9c2"
+    },
+    {
+      "path": "handoffs/codex/artifacts/DPDP-operations-consent-withdrawal-1790960257934-89ef195a-bfd8-4d10-85e2-175b41eb948d.json",
+      "bytes": 7861,
+      "sha256": "08aa9aa6a9e581e3cc1f3b88b75ab3127805e65c494e3d55d2ab3f62a9fdf3a6"
+    },
+    {
+      "path": "handoffs/codex/artifacts/DPDP-operations-consent-withdrawal-1790968082878-4adc0900-0bbc-49af-bbf8-b3c12032046a.json",
+      "bytes": 8658,
+      "sha256": "6897144cbc772f1358b1decb4c513dd3b5feb6b447b1df98ddcaf8a27a90121e"
+    },
+    {
+      "path": "handoffs/codex/artifacts/DPDP-operations-correction-1790950773345-432002a9-c715-4e80-944b-b561d4a914f0.json",
+      "bytes": 662,
+      "sha256": "52e187d6e6509839e43b97b7a778a4299861eef024bba9759c848033ae501bac"
+    },
+    {
+      "path": "handoffs/codex/artifacts/DPDP-operations-correction-1790960272727-913024f5-b2ea-4a39-bd6d-0f43abdceeb9.json",
+      "bytes": 3492,
+      "sha256": "901eaafc93ad7faee039a54d9bde07d7997fe52a02d84c9913ccf0420c5184be"
+    },
+    {
+      "path": "handoffs/codex/artifacts/DPDP-operations-delete-login-browser-1790950527976-54874aab-45b3-4ad1-bbff-26af77ba52c0.json",
+      "bytes": 672,
+      "sha256": "eea6c0af9943036f26fac67049ea0c13c7130e07f61be99874dea94ae9b83057"
+    },
+    {
+      "path": "handoffs/codex/artifacts/DPDP-operations-delete-login-browser-1790953265817-e1223301-6d87-4e09-bd50-618f0116fb5f.json",
+      "bytes": 2510,
+      "sha256": "92af7aeb882ccbd79cdce9780907a6816ed2bf86e7d0b49aa0c8997ff8a010b1"
+    },
+    {
+      "path": "handoffs/codex/artifacts/DPDP-operations-delivery-1790950683949-55d70dbc-edb5-4386-aaa9-1f044ecb2fa4.json",
+      "bytes": 660,
+      "sha256": "7f6d02470a3dc328f12c445b838656e14581129925a8af012452d457e91709c8"
+    },
+    {
+      "path": "handoffs/codex/artifacts/DPDP-operations-delivery-1790956569372-6c180a37-852b-4cfa-9fef-e09f3ca58cc0.json",
+      "bytes": 10526,
+      "sha256": "9ec5be736e48c8c8e3c71278f5e18c6c9a6aca07854e5c5fa6269c50ee982885"
+    },
+    {
+      "path": "handoffs/codex/artifacts/DPDP-operations-dpdpa-audit-1790950686168-7233161f-09f2-44fa-892d-7d3f503184ec.json",
+      "bytes": 663,
+      "sha256": "e8751cb80d49dd80a457ed903631dcd02e89a617df71cb65449e9f31729c2334"
+    },
+    {
+      "path": "handoffs/codex/artifacts/DPDP-operations-dpdpa-audit-1790956606804-02ccb9a7-eab1-4edb-82be-fcf5fd2ba7d9.json",
+      "bytes": 13658,
+      "sha256": "e60e4c51e8bce83e93a3ee560f0c807b968ef8795a4e60ab525ab373921350d8"
+    },
+    {
+      "path": "handoffs/codex/artifacts/DPDP-operations-dpdpa-audit-browser-1790950534510-fba5014d-5707-40d7-8d98-47871062259a.json",
+      "bytes": 671,
+      "sha256": "b39ad46ee9735271574bd19550cf26819c1d14a76d3095568972dd3619e12021"
+    },
+    {
+      "path": "handoffs/codex/artifacts/DPDP-operations-dpdpa-audit-browser-1790952858797-17347933-9216-4256-9ac6-1eefe4b89b0c.json",
+      "bytes": 2068,
+      "sha256": "990b425a934e7922a322e0e3955de6f837ccca4e1c0aea2c0adca8b63f2c9c38"
+    },
+    {
+      "path": "handoffs/codex/artifacts/DPDP-operations-dpdpa-audit-browser-1790965267097-5c35bde8-5802-4a83-a3e7-e6f4a96151d2.json",
+      "bytes": 2643,
+      "sha256": "78c3a58f411f3975d5ff8d36503cb4b3814895e1b689048bf951cd63d364ed26"
+    },
+    {
+      "path": "handoffs/codex/artifacts/DPDP-operations-erasure-intimation-1790950775009-60f4d53c-677f-4da9-bf38-281788bf551c.json",
+      "bytes": 670,
+      "sha256": "ce37c3a9304384e05ef8c389152717b2c892404d3c49e1bad55675b35874f246"
+    },
+    {
+      "path": "handoffs/codex/artifacts/DPDP-operations-erasure-intimation-1790960346577-a75c0aaf-15ee-4b19-a093-010ea47dcc42.json",
+      "bytes": 3260,
+      "sha256": "c73ff36dfea6b7b76a4101283472239a258a95a845b43a5b522dca7cf558c57f"
+    },
+    {
+      "path": "handoffs/codex/artifacts/DPDP-operations-estate-import-1790950776620-5a836177-6411-4f5f-b407-a30816c41591.json",
+      "bytes": 665,
+      "sha256": "f1b66bc15d6ae85a2b1b3918c266769a1bb25cc8e0deb90f2f92cc2a62d5002e"
+    },
+    {
+      "path": "handoffs/codex/artifacts/DPDP-operations-estate-import-1790960416215-560c8366-56a8-4f42-95a5-0639922a8fdb.json",
+      "bytes": 5157,
+      "sha256": "70a7f2aa502fc86252a0dc57b67d23c03038960afcf43365b1f341f8fd4095f8"
+    },
+    {
+      "path": "handoffs/codex/artifacts/DPDP-operations-expansion-screens-browser-1790950539667-862bf198-e690-4161-a7ce-f043ba47146e.json",
+      "bytes": 677,
+      "sha256": "32b72ecff04deacac73df0ec7a3cb04e8cef71a172fc893231f243f9080f0058"
+    },
+    {
+      "path": "handoffs/codex/artifacts/DPDP-operations-expansion-screens-browser-1790953341690-129b0d93-981d-4958-884d-c8921f2f1a2c.json",
+      "bytes": 592,
+      "sha256": "30387e445ea24550d605fc4f9988a3b4a38387ae07cb55a42c1449e004f4a7f5"
+    },
+    {
+      "path": "handoffs/codex/artifacts/DPDP-operations-expansion-screens-browser-1790965740258-39965b18-c9fa-4b50-8c45-b286d182ec8e.json",
+      "bytes": 15071,
+      "sha256": "8d959615e23604c049b2841815c20e9f72d1fd81584d540b1f0b0fb16fe06855"
+    },
+    {
+      "path": "handoffs/codex/artifacts/DPDP-operations-file-intake-1790950746240-45b47a66-f051-44cf-910f-186c4339afa9.json",
+      "bytes": 663,
+      "sha256": "ccd458c578d4752d444280534722c2b056566b35516b96e9137044c2bac18474"
+    },
+    {
+      "path": "handoffs/codex/artifacts/DPDP-operations-file-intake-1790958517202-49618561-9904-49bc-bf25-319d99b3d563.json",
+      "bytes": 589,
+      "sha256": "0fc4d43bdf63bd7770cf539af48262cbe99f84082504f12f67bb48772b0b965c"
+    },
+    {
+      "path": "handoffs/codex/artifacts/DPDP-operations-file-intake-1790967916082-91132e9e-9147-422d-b0ea-bb59c2700767.json",
+      "bytes": 5662,
+      "sha256": "b2f8bb3995f07369b8318bf702e09f6eb345d1ff543653caec1120964dace669"
+    },
+    {
+      "path": "handoffs/codex/artifacts/DPDP-operations-first-run-http-1790950748730-5858c1b6-ac8d-43d1-bda2-abf4d06491af.json",
+      "bytes": 666,
+      "sha256": "4943da0aa2ea60e4bd0d9ca6e4b0ae123948837df940b6eb35749b5e34b2af5d"
+    },
+    {
+      "path": "handoffs/codex/artifacts/DPDP-operations-first-run-http-1790959802490-a897ac0e-c70c-473a-9295-d8f0874b17b5.json",
+      "bytes": 2051,
+      "sha256": "050d202894d4efda392955daeac2a62d31bba9ccdde2af379ea5a6f4d6f1da9f"
+    },
+    {
+      "path": "handoffs/codex/artifacts/DPDP-operations-grc-lifecycle-1790950687488-5597a0ce-3a13-4061-a7fb-bf431383fd8d.json",
+      "bytes": 665,
+      "sha256": "c832084acbf489ec37fe8202c93242f9db5099052e9a86c0fbc01e078fa83871"
+    },
+    {
+      "path": "handoffs/codex/artifacts/DPDP-operations-grc-lifecycle-1790956693397-20d6972d-2443-41aa-8a13-7c632c063130.json",
+      "bytes": 17726,
+      "sha256": "4d8fd79cb74e2028e8948e3bae0bb05a876243ed37e67546bafee07d43cb666a"
+    },
+    {
+      "path": "handoffs/codex/artifacts/DPDP-operations-impact-assessments-1790950688841-84a352d1-7838-4657-81a3-58b27b367891.json",
+      "bytes": 670,
+      "sha256": "420d128ca0b5508194f2186b9be1faf4d697510ee51aa501cf4a1dce4502da15"
+    },
+    {
+      "path": "handoffs/codex/artifacts/DPDP-operations-impact-assessments-1790956769810-0f870441-8e62-400a-a98c-7e05e2fc426a.json",
+      "bytes": 9400,
+      "sha256": "f85262478b966702b12b6994256ef719b55465412a7701a2b2b99976cd6123b5"
+    },
+    {
+      "path": "handoffs/codex/artifacts/DPDP-operations-interface-crawl-1790950543160-c209bee9-fc9a-4581-9649-42e67e24da4e.json",
+      "bytes": 667,
+      "sha256": "0679914d15ec6ca2bfbcc516c399ca38ccec13a9dcdd51ab8365501d64bceb06"
+    },
+    {
+      "path": "handoffs/codex/artifacts/DPDP-operations-interface-crawl-1790953749676-b2f15267-bc30-4c66-99cb-e503ff720f3b.json",
+      "bytes": 859,
+      "sha256": "14e45985ba043e79f8fbea0b8ca458f5119f392aa829408203890d55f167bd0a"
+    },
+    {
+      "path": "handoffs/codex/artifacts/DPDP-operations-interface-crawl-1790966505098-e63868ff-5f50-423d-bb9a-fac160c8c4e5.json",
+      "bytes": 943,
+      "sha256": "7c8b0f00283374a042f460f95db2ec6bd0520a4bbf398b0910035c77b8b4c775"
+    },
+    {
+      "path": "handoffs/codex/artifacts/DPDP-operations-licence-tiers-1790950715150-adc031cf-cf62-48f9-ba94-876bbeb41de0.json",
+      "bytes": 665,
+      "sha256": "dc4ed30a4ffa4790c4adc13cc16a486fa094a304eea63e745cb0fdf9adf6ebd5"
+    },
+    {
+      "path": "handoffs/codex/artifacts/DPDP-operations-licence-tiers-1790957509537-5b2068ee-9139-4f14-b141-77d1f62f6dbd.json",
+      "bytes": 1135,
+      "sha256": "d5e07ae12068e3c02e709a2edf3778ba91381a53e69c6a211fc7bff00ce22245"
+    },
+    {
+      "path": "handoffs/codex/artifacts/DPDP-operations-licence-tiers-1790967844680-db63f53a-6563-478c-8de6-1c615e50c472.json",
+      "bytes": 1201,
+      "sha256": "daf4ccf53cdfb719deefbffc35cd437b62798f14633f46afcd682769657bc9b6"
+    },
+    {
+      "path": "handoffs/codex/artifacts/DPDP-operations-notice-language-drift-1790950778162-1e9efef5-7474-4972-925e-8ae5e3f90634.json",
+      "bytes": 673,
+      "sha256": "4238caf338f73d3ee6997311c9a5fa70f2937ae20c81c721d191778f7fcf98bb"
+    },
+    {
+      "path": "handoffs/codex/artifacts/DPDP-operations-notice-language-drift-1790960430492-53eb6d85-42b5-43c7-8ded-25b4d4d37bd4.json",
+      "bytes": 5941,
+      "sha256": "972ad55bdd7422b9d12a299f8f76b94a10b6a0cc4ce4e1f4f8a3bf415bcf23d9"
+    },
+    {
+      "path": "handoffs/codex/artifacts/DPDP-operations-notices-1790950779533-02c77cd0-0ce2-4908-ad5f-9a99907cec7b.json",
+      "bytes": 659,
+      "sha256": "529eb1e44d25ab50550f336f10c8e607af944b30b6a25501db632e8ddd66bbfb"
+    },
+    {
+      "path": "handoffs/codex/artifacts/DPDP-operations-notices-1790961276666-ca0e3230-d3d2-4988-afee-d0db6b5c6739.json",
+      "bytes": 603,
+      "sha256": "1576c9587409852483fa22151ea94e87dbf024fa2dc4db107663e09d23e2bbf2"
+    },
+    {
+      "path": "handoffs/codex/artifacts/DPDP-operations-notices-1790968095479-1aaced4b-2816-49ca-b0d9-53b833555684.json",
+      "bytes": 11186,
+      "sha256": "7743a5145ce0dbb61046c8362d54032e89a5800766e3aa120c9f7bd4622a9238"
+    },
+    {
+      "path": "handoffs/codex/artifacts/DPDP-operations-operations-screens-browser-1790950546230-0abbdb85-0763-4e26-bdea-d44c7f39a223.json",
+      "bytes": 678,
+      "sha256": "57e0fdb33af1aa9a5192428ffb3c9c784256db03d4687ceb9e5fdaa02e8e9252"
+    },
+    {
+      "path": "handoffs/codex/artifacts/DPDP-operations-operations-screens-browser-1790953764810-8ccd6a51-ea33-421a-961d-689c290349a9.json",
+      "bytes": 747,
+      "sha256": "414f11b67bba6aa61f564f01b69013300b3cf16c3f29477c9072f022309bd611"
+    },
+    {
+      "path": "handoffs/codex/artifacts/DPDP-operations-operations-screens-browser-1790966586754-97f62312-f635-4a2b-b0e4-63a7ad3ad23b.json",
+      "bytes": 7466,
+      "sha256": "63a725158a1233a51715e3dc5b7b08e969ce018b68d1f4888389204badff870a"
+    },
+    {
+      "path": "handoffs/codex/artifacts/DPDP-operations-organisation-intake-1790950781077-3a1b3bcb-daef-4350-9a41-da5cf2dd66da.json",
+      "bytes": 671,
+      "sha256": "bb773a650d659924f80faedc421ea02ac6fb15e298ba598223accc6a1ce7bf50"
+    },
+    {
+      "path": "handoffs/codex/artifacts/DPDP-operations-organisation-intake-1790961340838-ea71d68a-302d-42ea-92b6-ebf422d22b8c.json",
+      "bytes": 4034,
+      "sha256": "df0b21fde12c36992845ed4d549cb1d96f456fe24e1d96fbd839a01bb0261a34"
+    },
+    {
+      "path": "handoffs/codex/artifacts/DPDP-operations-organisation-intake-1790968171293-889066f3-6abf-4559-a79d-f4ff2153c20b.json",
+      "bytes": 9497,
+      "sha256": "3b454c2c2b966d9160a186730dccc58d2b218fe64c75cf6fa1d2700007d13c0e"
+    },
+    {
+      "path": "handoffs/codex/artifacts/DPDP-operations-policy-discovery-1790950691622-042c88e7-08a3-4948-9a34-19e35ba5f6e3.json",
+      "bytes": 668,
+      "sha256": "b1de6944cc90d3d8b0304eeed52dafc4e9e64928028a2fc43d6508bb285f82d2"
+    },
+    {
+      "path": "handoffs/codex/artifacts/DPDP-operations-policy-discovery-1790956859910-2eb3d6f6-dafd-4746-b3f5-d39d36d11853.json",
+      "bytes": 7853,
+      "sha256": "c4692312c6b8d4eb8b3c1b2b8af279a73c3bdf4601b27b13b9a8694b0426dcc1"
+    },
+    {
+      "path": "handoffs/codex/artifacts/DPDP-operations-preferences-1790950692899-35d2a3ca-d8b5-40ab-8df8-a99639c582a3.json",
+      "bytes": 663,
+      "sha256": "645239c397f74ecfe66ca1ab462caf60d6a2d4492272806221c1cc9ce5055bb2"
+    },
+    {
+      "path": "handoffs/codex/artifacts/DPDP-operations-preferences-1790956868097-2c5045a8-9c33-4e34-b1d8-9f234a73b2a9.json",
+      "bytes": 9691,
+      "sha256": "31c634e79edad7bb907769d8a959ae9b3181e4868a838bab7e02a78491125969"
+    },
+    {
+      "path": "handoffs/codex/artifacts/DPDP-operations-preferences-browser-1790950548619-9d347098-6b6d-4a18-b77d-0e13df525b16.json",
+      "bytes": 671,
+      "sha256": "197788a5c9799c0b890987437b1304cbd81b17178a640ff2c7766a9f2f16850a"
+    },
+    {
+      "path": "handoffs/codex/artifacts/DPDP-operations-preferences-browser-1790953834062-973372b7-ac80-4665-9e58-39dd15e73028.json",
+      "bytes": 2089,
+      "sha256": "977dff4a43a09f99beb9d3b7e886c0184e1ac933131b64418517a15c37df40ce"
+    },
+    {
+      "path": "handoffs/codex/artifacts/DPDP-operations-processors-1790950782656-8e89adbc-43f4-48cd-9774-819c05e99fc2.json",
+      "bytes": 662,
+      "sha256": "180fd3078b8f9b823a7f2bc30fd654760bb3980440344c6dc33717c4277a076a"
+    },
+    {
+      "path": "handoffs/codex/artifacts/DPDP-operations-processors-1790961426572-8a662f4d-f59b-4987-808f-163c67f342aa.json",
+      "bytes": 6269,
+      "sha256": "1739a8b009cae3e7fa9392ee58e2e0f98ad4703fdfabaf0de7bef9f6c5c57e15"
+    },
+    {
+      "path": "handoffs/codex/artifacts/DPDP-operations-registry-1790950784223-bfacca30-3cee-4859-ab3e-95032f879837.json",
+      "bytes": 660,
+      "sha256": "54b5d6a71b74e86b25f5e7b0f58f769235b42f89ef61bbf066979a8e010014ad"
+    },
+    {
+      "path": "handoffs/codex/artifacts/DPDP-operations-registry-1790961715137-7580f885-ae7e-41e1-945d-5ea5a38d0450.json",
+      "bytes": 23400,
+      "sha256": "386280f988a43ba50149b5128d3731d3f782fb683f69923d7a044962725371ed"
+    },
+    {
+      "path": "handoffs/codex/artifacts/DPDP-operations-registry-forms-browser-1790950551288-bd7cc746-8622-4bea-a245-f587987a59dc.json",
+      "bytes": 674,
+      "sha256": "6c0e8752e34fbe28c3b1b4e3a9336390a62b904a3c5c7e6db0561397a2912266"
+    },
+    {
+      "path": "handoffs/codex/artifacts/DPDP-operations-registry-forms-browser-1790953928410-fb840ae2-8b75-4d83-aa00-2f483bd414ba.json",
+      "bytes": 4002,
+      "sha256": "c6e9704f3a17d272c204703aeedfa6d4be58b20a33a24100de0a2308b05cc387"
+    },
+    {
+      "path": "handoffs/codex/artifacts/DPDP-operations-regulatory-1790950785612-6640f6b3-4b82-4f48-9b4e-37521cab9288.json",
+      "bytes": 662,
+      "sha256": "40d6a756465a1cab141e0e3d00605c6ef4a6b86c07ea94564ca76d4f27683df3"
+    },
+    {
+      "path": "handoffs/codex/artifacts/DPDP-operations-regulatory-1790961773922-92ecb847-a169-4caa-9c71-763fe11fe533.json",
+      "bytes": 7028,
+      "sha256": "2838af2bcb826b5f47ed0e8137f9ecccad8cad2872e4aa7ccdb2f7fd9f020d8f"
+    },
+    {
+      "path": "handoffs/codex/artifacts/DPDP-operations-response-packages-1790950694346-728f4351-0655-4e9c-99d8-3bff79cad47a.json",
+      "bytes": 669,
+      "sha256": "4e51a6079395a9acd35bc02dc298b9f9bd160dccafbab56053edb5489d51bd5c"
+    },
+    {
+      "path": "handoffs/codex/artifacts/DPDP-operations-response-packages-1790956943333-47acfc69-bc68-4643-aa36-7390695011e3.json",
+      "bytes": 12503,
+      "sha256": "c4a3eb23df2fa85e70277f94c37656a9203dc4849b9d613b63d6d81dd00b7b7c"
+    },
+    {
+      "path": "handoffs/codex/artifacts/DPDP-operations-retention-scale-1790950787203-893ac1b2-41ea-4ee0-bc92-8f8c2b9883d9.json",
+      "bytes": 667,
+      "sha256": "9fb1721c9cac06ec0b6ed43b5d669d550d18d9e19a94b4817807b3cba1e4b80d"
+    },
+    {
+      "path": "handoffs/codex/artifacts/DPDP-operations-retention-scale-1790961924697-31008c60-fd7e-4118-8518-d443c6894f86.json",
+      "bytes": 612,
+      "sha256": "d67087eda976d3595250823886a6f0b23440be5279165f529d563bf260d085f9"
+    },
+    {
+      "path": "handoffs/codex/artifacts/DPDP-operations-retention-scale-1790968298609-efd7ed84-9169-49b8-9a3e-c7187ace8910.json",
+      "bytes": 3791,
+      "sha256": "c5bd93e17c40bbc465beae320ec8f3a1668de0187b3eb90a5bf08b9ddc7373c2"
+    },
+    {
+      "path": "handoffs/codex/artifacts/DPDP-operations-rights-1790950788599-1fc61263-cc1f-4ca7-8f22-4c98df26a217.json",
+      "bytes": 658,
+      "sha256": "f7e5cd086bd946d74dee2f56a153743b7bd65b6f9d6048bc379c1aa66bf77a39"
+    },
+    {
+      "path": "handoffs/codex/artifacts/DPDP-operations-rights-1790961947627-72e22396-807b-4974-b9d5-07110f0c608d.json",
+      "bytes": 6751,
+      "sha256": "77f02e55cbd9c4b258346810d83c4e28f2519b0e5fd221d6cbe7bf9d1a80c2d7"
+    },
+    {
+      "path": "handoffs/codex/artifacts/DPDP-operations-ropa-exports-1790950696482-1e766d90-acab-4418-9724-6244ae62fc6a.json",
+      "bytes": 664,
+      "sha256": "cb281c8bc78922d0f9828f010935ca4df4e6de6db22496d04d70bc6fb10e45bc"
+    },
+    {
+      "path": "handoffs/codex/artifacts/DPDP-operations-ropa-exports-1790957024521-c0fba3dc-8bc5-4e38-abb2-cdb871780df9.json",
+      "bytes": 15229,
+      "sha256": "9d6cb2993c56d22cd41fdd6f6428d9fc406a98a403cf509e306999baef05142b"
+    },
+    {
+      "path": "handoffs/codex/artifacts/DPDP-operations-round-ten-file-intake-adversarial-1790967905902-8a49b167-0b7a-4d19-9923-0da70d859570.json",
+      "bytes": 1374,
+      "sha256": "0bf78ee263442f9f2b37e3ff02d331c33c3d6aafa47bffe7bf08089fc25835f5"
+    },
+    {
+      "path": "handoffs/codex/artifacts/DPDP-operations-runner-1790950792177-303a840e-128d-4db8-8460-46188c2735c2.json",
+      "bytes": 658,
+      "sha256": "3ad336b3098e6bd783b4bc2d9aa19248ef53d7dab6c54edfef40444f887e23b9"
+    },
+    {
+      "path": "handoffs/codex/artifacts/DPDP-operations-runner-1790961963358-0ecfb1f8-c4c7-4c0d-a181-df52ecad164b.json",
+      "bytes": 842,
+      "sha256": "edac80f11e84df784492e1f821e7a5630700e072f95b0d4f5c277fd261b9a9d5"
+    },
+    {
+      "path": "handoffs/codex/artifacts/DPDP-operations-runner-1790968322435-7742b6e3-2b1f-4df5-bdb5-b9268248f79c.json",
+      "bytes": 2191,
+      "sha256": "f054aa3bd30a1b17df1dfe5198d1749553440533fd128c8a3755cdfd787c7a7c"
+    },
+    {
+      "path": "handoffs/codex/artifacts/DPDP-operations-runner-persisted-progress-1790950790426-be547897-e9a4-451c-b228-eec8d491e099.json",
+      "bytes": 677,
+      "sha256": "eefde8d92bce9669a79645a800e360932034815eb05f4751d1fc656957fdbd23"
+    },
+    {
+      "path": "handoffs/codex/artifacts/DPDP-operations-runner-persisted-progress-1790962086652-8238c5f3-2fee-49f3-b493-cc4d6e86c8cc.json",
+      "bytes": 9277,
+      "sha256": "b4afc3d902f0bd9b75958c1acdeae6e3253bc09a291e6429e40c7aed83021739"
+    },
+    {
+      "path": "handoffs/codex/artifacts/DPDP-operations-schema-drift-1790950663555-4ca81b29-25ac-47cb-a3ab-050704df648c.json",
+      "bytes": 664,
+      "sha256": "2ccd1af3aac8cd36b115f8e7d6c3b30e98876b05204d45b1cd85ebf15c7f3263"
+    },
+    {
+      "path": "handoffs/codex/artifacts/DPDP-operations-schema-drift-1790955554189-847df76a-a252-4a4b-8846-5709cfa75997.json",
+      "bytes": 2846,
+      "sha256": "c2fb30b55b6ab33aecfbc9436ccdea60cc31dada60f24eb654dc20def1ccd2c4"
+    },
+    {
+      "path": "handoffs/codex/artifacts/DPDP-operations-sdf-1790950793625-17e93b08-050f-436b-95e2-7317b523dcb6.json",
+      "bytes": 655,
+      "sha256": "ba3b48fbf9a31d8d66f2245f32d6c1ac8d0516cc3d4c4b61a37d4627fdf2a31e"
+    },
+    {
+      "path": "handoffs/codex/artifacts/DPDP-operations-sdf-1790962096450-3e7fa6a5-3534-412e-bff6-6e90a4876f3c.json",
+      "bytes": 4951,
+      "sha256": "2adf3ecdfe3cc4061bd9fbe07ef985b2547708d51affb3dac8730386b8b14de1"
+    },
+    {
+      "path": "handoffs/codex/artifacts/DPDP-operations-sign-in-hydration-1790950553452-bd33d957-9c83-475a-84bc-fbf295b14534.json",
+      "bytes": 669,
+      "sha256": "7eb0e1da4e38ff86f19be54e53593c02e52ce5167ac1660f34829cbc086d9745"
+    },
+    {
+      "path": "handoffs/codex/artifacts/DPDP-operations-sign-in-hydration-1790953942463-8e2c3e14-2f30-471c-b3ca-84ec3a382f4c.json",
+      "bytes": 4034,
+      "sha256": "b9e5b67de958a1f437355265fdd317024a49026bb544ce9cfb87fda1491b59dd"
+    },
+    {
+      "path": "handoffs/codex/artifacts/DPDP-operations-staff-delete-1790950697699-741e1ccc-2d23-4e04-abe5-62d4fb5db86b.json",
+      "bytes": 664,
+      "sha256": "6b4c8ae6ac542d4052693a2d5ca92c74e5e8c9ff9d18ea43c5ca7e723a87a704"
+    },
+    {
+      "path": "handoffs/codex/artifacts/DPDP-operations-staff-delete-1790957094456-bccd0d11-6750-4f7b-a2d5-a9a7ecaa6d84.json",
+      "bytes": 5932,
+      "sha256": "16a4f55311d499a03c0b0c223bc2da9f37c2688e7ea530131966227e3b8d957c"
+    },
+    {
+      "path": "handoffs/codex/artifacts/DPDP-operations-staff-delete-1790967642712-400ffa32-5d3d-408e-bd4e-92c7da9176b0.json",
+      "bytes": 5932,
+      "sha256": "6d3de6dcf4f5a4dc7e221787c5b909a523793c2f7877bb6d3152b57986508956"
+    },
+    {
+      "path": "handoffs/codex/artifacts/DPDP-operations-staff-members-1790950699001-a4e0254f-a91c-4685-b84d-aafe40272516.json",
+      "bytes": 665,
+      "sha256": "50441c6ca3004904a80d0842639ea9211b84ca833ba4639621b7ef56e42ee246"
+    },
+    {
+      "path": "handoffs/codex/artifacts/DPDP-operations-staff-members-1790957230561-f3ab304c-6ffe-4fae-ad8b-1b0bc95c9dc4.json",
+      "bytes": 8024,
+      "sha256": "a7f02fa7f9d3e3d55de545c0eba24d154b1cf844dbbddc061cc916ce23dcf553"
+    },
+    {
+      "path": "handoffs/codex/artifacts/DPDP-operations-staff-members-1790967718987-7430dc8e-6200-4cc6-9f04-fdf99cee081c.json",
+      "bytes": 8024,
+      "sha256": "83cdd99ea3c561ad49d0806b2179b9648084462e527fdf2d377d30797f99e97e"
+    },
+    {
+      "path": "handoffs/codex/artifacts/DPDP-operations-team-browser-1790950559177-5475af61-dd1e-4e09-8eb5-e84d0571209f.json",
+      "bytes": 664,
+      "sha256": "b9127310d3ff6d49d1b6b7a19028925985c9588390f590a947f081c3b6ea0bb2"
+    },
+    {
+      "path": "handoffs/codex/artifacts/DPDP-operations-team-browser-1790953960727-73b2395a-0dac-4480-b1e5-38adc4bf8e2d.json",
+      "bytes": 1712,
+      "sha256": "c22bb2a72205410ef95203c1b5cdb7520a7c5eeeb854aa0c1eaabf816490155d"
+    },
+    {
+      "path": "handoffs/codex/artifacts/DPDP-operations-third-party-1790950700186-5143ead0-486c-4338-aa94-406d98e556d0.json",
+      "bytes": 663,
+      "sha256": "e69b8f0056c9a91df87b9552c9f53a875778a9859166ecded85ba7726cd09fe9"
+    },
+    {
+      "path": "handoffs/codex/artifacts/DPDP-operations-third-party-1790957252035-a993e68f-1949-4588-a170-e4a43e746216.json",
+      "bytes": 10006,
+      "sha256": "33a2d4b595dd382f25f5cf835c9bafb2cfcd142da91ad06400ac328420f3bcaf"
+    },
+    {
+      "path": "handoffs/codex/artifacts/DPDP-operations-vendor-production-criteria-browser-1790954416505-448f6e06-58a1-4cef-8fd7-8b4234aa09c2.json",
+      "bytes": 601,
+      "sha256": "a1e193e8591e3c8847bc12d71abd9ddb87f49000546b07543e714234247bfc48"
+    },
+    {
+      "path": "handoffs/codex/artifacts/DPDP-operations-vendor-production-criteria-browser-1790966988521-207668cf-af43-4911-935d-92e059b8d342.json",
+      "bytes": 601,
+      "sha256": "158265a4f85c04353fb9dc005d3c49cd7bd687ce971353a6781f4d9110209544"
+    },
+    {
+      "path": "handoffs/codex/artifacts/DPDP-operations-withdrawal-canaries-1790950645737-3eeabefd-fbf5-4891-9b44-aa45b19a0a6c.json",
+      "bytes": 671,
+      "sha256": "a798bb55bc6e5b0b992b4a3c256c4c92d2c562dd07b39e5f26e7171ba3b7fa57"
+    },
+    {
+      "path": "handoffs/codex/artifacts/DPDP-operations-withdrawal-canaries-1790955051726-52aa5f0c-e527-40ed-ab7a-d9b417931742.json",
+      "bytes": 5341,
+      "sha256": "dacaeaf750dabf0d3fac9dd0e62840260c1475567597095bbdfa9064d974a357"
+    },
+    {
+      "path": "handoffs/codex/artifacts/DPDP-operations-withdrawal-single-pass-1790950795399-165cf104-859b-476a-9485-fc91f3e06c6a.json",
+      "bytes": 674,
+      "sha256": "4b81a03c4235f79e2474b9df00f4a487ddf4c4672303d606a90e7cc067e20a47"
+    },
+    {
+      "path": "handoffs/codex/artifacts/DPDP-operations-withdrawal-single-pass-1790962169853-354886d4-4b07-47fb-9dc2-aa2f7c5b0534.json",
+      "bytes": 1892,
+      "sha256": "936f21594ad8832243364e11badec181cb8ffd52e01ae40894a4335ee78fe636"
+    },
+    {
+      "path": "handoffs/codex/artifacts/DPDP-operations-withdrawal-timing-1790950668303-3132ceef-4753-4fac-9070-220518281eca.json",
+      "bytes": 669,
+      "sha256": "8ddd27c841039e3160102dd90577b21d7e4e249474e9f6f45e5fa3d0ba7b86ae"
+    },
+    {
+      "path": "handoffs/codex/artifacts/DPDP-operations-withdrawal-timing-1790955937856-9e8528c9-d211-4e58-b3e6-57c046cbad64.json",
+      "bytes": 5422,
+      "sha256": "3d52dc6c49d286d62d2e73d73935315a17cd55298351127967cb8857d45ad177"
+    },
+    {
+      "path": "handoffs/codex/artifacts/DPDP-operations-withdrawal-timing-1790967510416-d7bcc0a7-d848-4b38-bfad-fcf79fb5b2a1.json",
+      "bytes": 5414,
+      "sha256": "878490891ad8ff25ec9d9f913947140049bea2fb2b957ea859008c9b99ed09f1"
+    },
+    {
+      "path": "handoffs/codex/artifacts/DPDP-owner-recovery-1790959833463-4b62631e-754c-4998-bc76-d67d3337a639.json",
+      "bytes": 2912,
+      "sha256": "e319b14d56cea2d9ad4476c6007b9edb80533428c3bb928bd21d614a67e8f8fe"
+    },
+    {
+      "path": "handoffs/codex/artifacts/DPDP-portal-rights-integration-1790950808019-1f692c72-eff6-49e8-aabf-12ee1d97eacd.json",
+      "bytes": 312,
+      "sha256": "95847ca9a4058932c754807f97136fa6eda03601a419a544434973563c2b821f"
+    },
+    {
+      "path": "handoffs/codex/artifacts/DPDP-portal-rights-integration-1790962715747-eefd6b1f-8c4f-4d82-a904-cb4d99be8144.json",
+      "bytes": 4396,
+      "sha256": "b4aa37bebce5942485ce275d51fd63e663002311850ff7a459f734722aefd475"
+    },
+    {
+      "path": "handoffs/codex/artifacts/DPDP-postgres-catalog-discovery-1790950661023-9084c1b9-42a5-4b5a-9b5f-bed3a696ad33.json",
+      "bytes": 1503,
+      "sha256": "550d5388eef4431fe504613411ec04d57004125c874c8e7c6048d2b7c306caeb"
+    },
+    {
+      "path": "handoffs/codex/artifacts/DPDP-preflight-integration-1790950757791-a617f33b-1f9b-41fe-bc12-16bbc01ac3ae.json",
+      "bytes": 312,
+      "sha256": "60cb96fc32666ba8acbb6e78d722c68f6d63714d68afa2d91814e3c8672a2d73"
+    },
+    {
+      "path": "handoffs/codex/artifacts/DPDP-preflight-integration-1790959841466-96ca5051-c92d-46b6-9ccf-1edd64e1a69e.json",
+      "bytes": 4760,
+      "sha256": "809f58c4e1db5eb0555596b3375836217d0851a0609658651548f33c99f27b4f"
+    },
+    {
+      "path": "handoffs/codex/artifacts/DPDP-processors-integration-1790950799013-58b81454-a338-4a55-a192-39357f7a2c55.json",
+      "bytes": 312,
+      "sha256": "b4d8897e961b3a593ddafcd77880e9cbcce24bc4fda0c780f505c0c1ffb83a25"
+    },
+    {
+      "path": "handoffs/codex/artifacts/DPDP-processors-integration-1790962244961-1da7ef29-4b88-4ee1-a7e5-2e12a4e376c9.json",
+      "bytes": 6666,
+      "sha256": "b67c08c574c8c4ca212baf10db1db2eea3625f7a4a5362d68995fc38a8fdcde0"
+    },
+    {
+      "path": "handoffs/codex/artifacts/DPDP-real-principals-1790959903645-2b2e2c53-414d-4929-9323-af95ad86ddba.json",
+      "bytes": 4465,
+      "sha256": "c93d2ed4874cde3169a354ec59e24144ed2a0f9199c0ea6136595d0a49647c8a"
+    },
+    {
+      "path": "handoffs/codex/artifacts/DPDP-recovery-journal-1790954314090-9381dca3-a517-4f37-8298-4f8a36ea0057.json",
+      "bytes": 4131,
+      "sha256": "f6c7beaa657bf984076c89c0afdd604298cbd910560d90d53ac232bd89bcc31d"
+    },
+    {
+      "path": "handoffs/codex/artifacts/DPDP-recovery-journal-1790962626151-1a6d5e06-e9bd-4ed4-800c-06a949d6b4c3.json",
+      "bytes": 4131,
+      "sha256": "a5b80faf479df323ed6eb24b5c6e993115bb62b99eeba5eecfebffe1a1ad55a7"
+    },
+    {
+      "path": "handoffs/codex/artifacts/DPDP-recovery-journal-1790966872264-e0b7cdb4-4e2b-48bb-b85a-8af0345c90a5.json",
+      "bytes": 4131,
+      "sha256": "4a55daaecefcbac10a4d9ee1399514b5876cfed41d8be6960efa9c124aec6510"
+    },
+    {
+      "path": "handoffs/codex/artifacts/DPDP-regression-integration-1790950804831-b20af5ae-d6fc-458c-914d-1fabbd0131a9.json",
+      "bytes": 525,
+      "sha256": "241a03c9e57d9a253399817f03af5a706a57f2669fa3e243d259762d8f879344"
+    },
+    {
+      "path": "handoffs/codex/artifacts/DPDP-regression-integration-1790962631300-71170d69-d48b-4cc4-861b-b3bea18b441b.json",
+      "bytes": 47594,
+      "sha256": "f4389fbf85b3b88f3093a8ddcd8a1a5e30ac5ed1e2e61bc44071ae1732a90255"
+    },
+    {
+      "path": "handoffs/codex/artifacts/DPDP-regression-run-1790954027304-5caba784-83f0-4d5e-a078-0e683c2678b5.json",
+      "bytes": 1937,
+      "sha256": "e09adb5d9d762391cf2f8ed76e6fd42a74970692944ebf37615bd655a4a5995f"
+    },
+    {
+      "path": "handoffs/codex/artifacts/DPDP-regression-run-1790954147491-29632eeb-ecb8-4d6c-afa2-bf16a38773ca.json",
+      "bytes": 1943,
+      "sha256": "2c1f45686edbc561544731e3671fe2e8043b34de3dee5a97e4920ef693bfbf8f"
+    },
+    {
+      "path": "handoffs/codex/artifacts/DPDP-regression-run-1790954249377-7039aa6e-1bd0-41f3-b654-a1c5488d56ac.json",
+      "bytes": 1937,
+      "sha256": "c0f7025eb0199e3f5b66a507ab5611d3abc81128c75637fa4e28026b5bb80997"
+    },
+    {
+      "path": "handoffs/codex/artifacts/DPDP-regression-run-1790954314347-8faaa3c7-8b58-48c4-b403-3f116824748a.json",
+      "bytes": 3986,
+      "sha256": "10a2e4df63e5099c21f5aa08ee901aecbfb7df49c3736a8ec2a9fc143464801e"
+    },
+    {
+      "path": "handoffs/codex/artifacts/DPDP-regression-run-1790962457043-ce88ead3-d170-440b-b159-0fd5f0e867ed.json",
+      "bytes": 1937,
+      "sha256": "b45545e6f308fe06d5afb2eadc86edfcb6ca2815a31aef8379b892fc8f12cd5b"
+    },
+    {
+      "path": "handoffs/codex/artifacts/DPDP-regression-run-1790962478485-2c1e030d-d895-4bf0-8ddc-ac171fbac263.json",
+      "bytes": 1943,
+      "sha256": "cdd8070ed15582bb321335182ecb81ae3b164aba73b5847368940b764230b3ff"
+    },
+    {
+      "path": "handoffs/codex/artifacts/DPDP-regression-run-1790962565342-d85eac7b-4a40-47c1-a44e-298ea0676c17.json",
+      "bytes": 1937,
+      "sha256": "b9d146435c9ee3fcd9174c0c66d4e9aa8a58da4dc5714a6caa13b2efb5fb05f3"
+    },
+    {
+      "path": "handoffs/codex/artifacts/DPDP-regression-run-1790962626294-8ed2f9d8-9b7a-4a4e-9550-99827f039f14.json",
+      "bytes": 3986,
+      "sha256": "af063a938291840d536de375b9fa6ecdec28059819e661fb998a9beec407af38"
+    },
+    {
+      "path": "handoffs/codex/artifacts/DPDP-regression-run-1790966667515-fe77524b-7497-4dd8-ad5f-21e3d3e8c85a.json",
+      "bytes": 1937,
+      "sha256": "3d85a1d48a4f524f31ccc043745700840192fe6c031a504433b9af7f6b3b3fe7"
+    },
+    {
+      "path": "handoffs/codex/artifacts/DPDP-regression-run-1790966771608-ace324ca-d0f8-48cf-83f4-1ca1a3dce03e.json",
+      "bytes": 1943,
+      "sha256": "c556bae36b0659913cd3d485b7117ab700034bfbac95e8f703cdbe0ecf650e98"
+    },
+    {
+      "path": "handoffs/codex/artifacts/DPDP-regression-run-1790966791800-5f46fa03-ac38-4157-86f9-cd2cfb37d609.json",
+      "bytes": 1937,
+      "sha256": "9a82589be1f0ecb0f782065da0d7b3754a4451a1f687edea71bc629cbf8dfff8"
+    },
+    {
+      "path": "handoffs/codex/artifacts/DPDP-regression-run-1790966872423-7f54ebef-a3c6-4e79-9d88-e139adba86cf.json",
+      "bytes": 3986,
+      "sha256": "84a179be7690d2dcbe4a62e43e7d6bcfee6eb301a5c63f29b8b7de6b0b706d2a"
+    },
+    {
+      "path": "handoffs/codex/artifacts/DPDP-reports-integration-1790950672247-4854797a-d2b7-421f-bbac-83fe16c02630.json",
+      "bytes": 312,
+      "sha256": "56d452c6507ddcf2f1b906e42961ef2198aa1070fe696be4214400c13cf7f83b"
+    },
+    {
+      "path": "handoffs/codex/artifacts/DPDP-reports-integration-1790956210623-5edeefa2-e6a7-4fb2-b2ae-906466c5a304.json",
+      "bytes": 6362,
+      "sha256": "0e343d892cba35f97e70c78bdcf9ba46284e7295f02e6fa7e6c02bfd94ff052d"
+    },
+    {
+      "path": "handoffs/codex/artifacts/DPDP-restore-integration-1790950733168-3e6887f9-8b6b-4092-a23f-09f243f5d2ae.json",
+      "bytes": 312,
+      "sha256": "aed8955323ed0edb188ff4449bdaea6f27a9d836cb106f4c89b2a221a36041b6"
+    },
+    {
+      "path": "handoffs/codex/artifacts/DPDP-restore-integration-1790957966909-b647c405-bcf1-4ae9-aa52-80a726178462.json",
+      "bytes": 8013,
+      "sha256": "8f256a0701324bbd36540b3cc39e80aa2b7ded25c93476d94c9c493b9d51cc27"
+    },
+    {
+      "path": "handoffs/codex/artifacts/DPDP-retention-integration-1790950806642-25381e1d-66b1-4fea-b0e8-1817b4fa0c7a.json",
+      "bytes": 312,
+      "sha256": "6b0b6d9385c6c1d5deae90c8c4c5e4819ea9590a50719c31c6a0a91ae33cec28"
+    },
+    {
+      "path": "handoffs/codex/artifacts/DPDP-retention-integration-1790962704989-15902f21-21d9-4074-8fd7-a9d795e37674.json",
+      "bytes": 8104,
+      "sha256": "09c9ed6ac3e1ebd8476306a23d5ee27e2c39415bbc09d74a47cf9f4d30890de6"
+    },
+    {
+      "path": "handoffs/codex/artifacts/DPDP-rights-integration-1790950809619-1f62cbb4-9323-4f3f-925b-4999ca331d8d.json",
+      "bytes": 312,
+      "sha256": "08e15d4121e169f8b6b49bfcad7d44898d254688ba42218f827e6d78d378e867"
+    },
+    {
+      "path": "handoffs/codex/artifacts/DPDP-rights-integration-1790962795587-a3fcaacf-46d0-4609-9118-d468f13db94a.json",
+      "bytes": 11403,
+      "sha256": "362ac4c2fbedba5496611a8c802a472272f6faa010e9ab38956e9863e1be097b"
+    },
+    {
+      "path": "handoffs/codex/artifacts/DPDP-round-ten-import-races-1790957393776-8bf03001-1a5d-4be4-99a2-2255fd2b0c21.json",
+      "bytes": 437,
+      "sha256": "588221f484856bb9992ef014fbd561982f635651f7019a1466869597b6cbe390"
+    },
+    {
+      "path": "handoffs/codex/artifacts/DPDP-round-ten-import-races-1790967747506-e8d4fcff-2c4e-44b8-8884-a4e8312f0511.json",
+      "bytes": 615,
+      "sha256": "6ba8e605e070e6fbff3c92a8cb6b08472f00431341b303063b583267c1168ba3"
+    },
+    {
+      "path": "handoffs/codex/artifacts/DPDP-round-ten-outbox-state-1790964823935-3c060164-0cea-4364-baa5-4f1057871b80.json",
+      "bytes": 893,
+      "sha256": "acb71d93312da8c9be7d49cca25cee972b82ddcf79f76de115cc9a02eaa362bd"
+    },
+    {
+      "path": "handoffs/codex/artifacts/DPDP-round-ten-outbox-state-1790964825451-6d034bf1-c1f6-4273-ba94-639f733a64e6.json",
+      "bytes": 892,
+      "sha256": "ed138bce51c9b0d3f68a9ac7525dacc7c73a1dce1d5034f9e28b087d2e2cd925"
+    },
+    {
+      "path": "handoffs/codex/artifacts/DPDP-round-ten-outbox-state-1790968768115-92d8b0ca-e6bc-4b0f-9815-71ca94c243a9.json",
+      "bytes": 1006,
+      "sha256": "f72ae5653aaeef4d4791b675f12de8ea26f2a0130efb7b39d29cf7fdbe99be64"
+    },
+    {
+      "path": "handoffs/codex/artifacts/DPDP-round-ten-outbox-state-1790968770045-c7720bb5-3250-401a-b92b-2113f30598e2.json",
+      "bytes": 892,
+      "sha256": "d8d7797b199e6ed9a84a5cc13f8326a9a5286f09ffa3ce172ec2fd685719d132"
+    },
+    {
+      "path": "handoffs/codex/artifacts/DPDP-runtime-image-1790950419850-82aa3922-55d8-4825-b729-6ec81c63fb3d.json",
+      "bytes": 368921,
+      "sha256": "cea5458094e16fffda84e5213163eee53d64998082bcbefd34a6e86156d73816"
+    },
+    {
+      "path": "handoffs/codex/artifacts/DPDP-runtime-image-1790952790290-44bbf4b9-c4d6-4a88-8072-5b8e0a981ec1.json",
+      "bytes": 369991,
+      "sha256": "07e595356bcd7a5cb21df02352431191e7f9167ff58154ba892bd4b61ff5242b"
+    },
+    {
+      "path": "handoffs/codex/artifacts/DPDP-runtime-image-1790965119920-f4b47df1-9d06-4576-8411-7ce5d668a360.json",
+      "bytes": 178685,
+      "sha256": "8dd487720f903c68c351000f2d75550a07b91bd928936701bcffd2bc75436dca"
+    },
+    {
+      "path": "handoffs/codex/artifacts/DPDP-send-enforcement-1790950664822-1fddc43e-0d58-48ab-99e1-f761b17f4b78.json",
+      "bytes": 493,
+      "sha256": "75a172ee861257fea4292ea468006bf01d62135cf87edf108052af657671da9a"
+    },
+    {
+      "path": "handoffs/codex/artifacts/DPDP-send-enforcement-1790955632290-0b79abef-7d05-4134-98fc-c74061dc8a6f.json",
+      "bytes": 7585,
+      "sha256": "7ec22f6e5a83d9f638737298010e45d575c033af41cb7cea06708d05e49b2a9f"
+    },
+    {
+      "path": "handoffs/codex/artifacts/DPDP-send-enforcement-1790967242181-b11ee80a-1d51-4de0-8b3a-5d283a32bdd4.json",
+      "bytes": 8099,
+      "sha256": "fd6935577d4ad01cdf41a9a238ead797e36f27ce0ba8721cceba2af44c49a5b1"
+    },
+    {
+      "path": "handoffs/codex/artifacts/DPDP-service-integration-1790950629029-ea7279ac-dd74-4ae0-a3fd-a86c12264741.json",
+      "bytes": 763,
+      "sha256": "f460f6ca0bdee89cb457a6b2a07a8c1cc75a1e6c2b0a234759764ad36fbe4ba7"
+    },
+    {
+      "path": "handoffs/codex/artifacts/DPDP-service-integration-1790954960581-ef2aef2e-6341-4267-9508-ef75b05d07c9.json",
+      "bytes": 1328,
+      "sha256": "2616d81951e3bd732287ea17b09a6597723c3fc681e2f9547e7aa44f065e3166"
+    },
+    {
+      "path": "handoffs/codex/artifacts/DPDP-support-integration-1790950811522-478b6443-cfa8-4651-bab3-bda149be433a.json",
+      "bytes": 312,
+      "sha256": "2c51e1723681e6bf1059ceee1e594c4424bf4a7e8630567efaf2131f1fd0c1cd"
+    },
+    {
+      "path": "handoffs/codex/artifacts/DPDP-support-integration-1790962820194-b7090359-a5cc-45a7-b87e-d7cade136bd8.json",
+      "bytes": 12738,
+      "sha256": "804e1d179a5cdc55cadd97ebc6f4009012a421e1f8e2452f4faf6c446841c789"
+    },
+    {
+      "path": "handoffs/codex/artifacts/DPDP-tls-integration-1790951055602-85e8cc07-0b91-4755-bed3-eb21b2b9efd9.json",
+      "bytes": 508,
+      "sha256": "71f6c156560330ecaf7ffc77ee47e2627dc24ba6b71db51499e369a8d6ef9b13"
+    },
+    {
+      "path": "handoffs/codex/artifacts/DPDP-tls-integration-1790963542626-e809dd9d-367c-4ae9-9177-b7aed7d7dd9f.json",
+      "bytes": 2134,
+      "sha256": "86731009825754cf49afbe9b59b42fc0d3894582eb3b65296d9c403ddd822289"
+    },
+    {
+      "path": "handoffs/codex/artifacts/DPDP-tls-integration-1790968755537-bc05156a-47aa-4583-b17a-ae7c3865797f.json",
+      "bytes": 2134,
+      "sha256": "380f8a45f24e3b4a0f9d44d393119aaa5d6e9d8954f4f2f15e987b584763b806"
+    },
+    {
+      "path": "handoffs/codex/artifacts/DPDP-updates-integration-1790950813335-7bddfd01-80f1-4ea5-8dd5-2b4833562ef4.json",
+      "bytes": 312,
+      "sha256": "bcb3ef03861e27d4f687690385d8ab374d03094136f3f1cb51791bbe63962c25"
+    },
+    {
+      "path": "handoffs/codex/artifacts/DPDP-updates-integration-1790962893953-0241dc75-72d6-439d-b21c-4417b872e2a0.json",
+      "bytes": 12595,
+      "sha256": "3a473f37c7eb66a134dcce7e326f0dfa779120583caa42cc174c75435d6570e3"
+    },
+    {
+      "path": "handoffs/codex/artifacts/DPDP-vendor-function-acl-1790963549089-bb49fe1d-a8fe-44ba-b208-756e1cf6c63f.json",
+      "bytes": 2105,
+      "sha256": "68ae5d1217035ea32ec9645833f7e89f1596c3c4ea63a40c64bc38aab7c17626"
+    },
+    {
+      "path": "handoffs/codex/artifacts/DPDP-vendor-function-acl-1790968763865-31d0e98a-2602-4fe2-b991-a8c4d0ce3c67.json",
+      "bytes": 2105,
+      "sha256": "86f7c6a4e8299af3e89c4f07b3c0ca77182ea5c3621e41eac6220226f1018127"
+    },
+    {
+      "path": "handoffs/codex/artifacts/DPDP-vendor-import-race-1790964822400-c87c0755-f98c-4d92-8a95-491d0a1e8328.json",
+      "bytes": 300,
+      "sha256": "aa0eea946b1b7d9b6efeed6789e9b9895346edcdfd656647b230bd4394eca8df"
+    },
+    {
+      "path": "handoffs/codex/artifacts/DPDP-vendor-visibility-integration-1790950734482-8af2dd48-9e9e-462e-be22-8502eebea131.json",
+      "bytes": 312,
+      "sha256": "1e2a16754bc82896fc577b37067a54722e5c80cb29931844158c451fcec26d15"
+    },
+    {
+      "path": "handoffs/codex/artifacts/DPDP-vendor-visibility-integration-1790958018591-f5f88ce5-76f8-432a-a39e-b02a89338ee4.json",
+      "bytes": 5217,
+      "sha256": "29302b19c8675ec563d2c559cd895d32b17cf1e35a8a1da15f9df7f9dba4bad2"
+    },
+    {
+      "path": "handoffs/codex/artifacts/DPDP-web-integration-1790951036672-f6b9cc20-1551-472a-a31d-133935d04d61.json",
+      "bytes": 573,
+      "sha256": "88a4656b9784f610f231f58b26e4fc8778abb11aae622a9756fd472d4ac5dc05"
+    },
+    {
+      "path": "handoffs/codex/artifacts/DPDP-workflow-integration-1790951041960-51637dba-6f2e-4372-9870-61a45f92aa23.json",
+      "bytes": 482,
+      "sha256": "94ddd8b6cefe33f381ed568735eb8161164500c38b1dc76db4007c611e5877f6"
+    },
+    {
+      "path": "handoffs/codex/artifacts/DPDP-workflow-integration-1790963490714-e799f912-d649-485f-990b-cff5260d8d00.json",
+      "bytes": 6087,
+      "sha256": "abf048c04c638d9915816eb52226567798dd132cbf8bfcb2866aa1ca4d623428"
+    },
+    {
+      "path": "handoffs/codex/artifacts/DPDP-workflow-integration-1790968537077-109648f3-73cf-4cf1-a76c-4f6262a453f0.json",
+      "bytes": 1766,
+      "sha256": "3955f77cdb0ebe27500bdbd123b9d40771e5c299a54c8bc50c846284af07fe22"
+    },
+    {
+      "path": "handoffs/codex/artifacts/R10-committed-changed-paths.txt",
+      "bytes": 2074,
+      "sha256": "46aee05ae2c1f0ff6ac64d884678a3b5ee8009969fef4ab962252251a6a945ba"
+    },
+    {
+      "path": "handoffs/codex/artifacts/R10-final-check-contracts-check-2e0840f1-cb37-4263-9b80-57d2b85bce07.log",
+      "bytes": 155,
+      "sha256": "45a96d22a7a1fc88573a68b8680e2b3d4c5fd4c2bd72b6c309bb10b4e9585549"
+    },
+    {
+      "path": "handoffs/codex/artifacts/R10-final-check-lint-3c030631-46fb-478f-8e79-7f6dda5bd253.log",
+      "bytes": 538,
+      "sha256": "94ec6994115e6d6963afb97ee1b467945164b21e7cddbb1a8fe664452ab0457c"
+    },
+    {
+      "path": "handoffs/codex/artifacts/R10-final-check-lint-c92511b6-994e-43a2-bb83-7e9ce247f013.log",
+      "bytes": 93,
+      "sha256": "34306ed26dc16d9d032e71adf733adc6fdf48e1bebd600eedad390aacbed9909"
+    },
+    {
+      "path": "handoffs/codex/artifacts/R10-final-check-test-392fc6e8-35a8-4d41-8981-27a976d83b57.log",
+      "bytes": 35168,
+      "sha256": "c36e40aeaf749a748b73a53b333c88a1236b642548b3634765647495b4cceead"
+    },
+    {
+      "path": "handoffs/codex/artifacts/R10-final-check-test-b1fd0471-2090-4f48-9c7a-2dc6b16faf3b.log",
+      "bytes": 35191,
+      "sha256": "777fafdf4de19a4ffc488327db27bd1dbbaa7e14e384ffd29738a8666bfcff6a"
+    },
+    {
+      "path": "handoffs/codex/artifacts/R10-final-check-typecheck-23b64f35-7a8a-4773-ad5b-d73b0fc1bc71.log",
+      "bytes": 15,
+      "sha256": "8366207267355d3e3d5bf3bf6e8c94c5f93f6078c34f08973fa2b38cdda6cc92"
+    },
+    {
+      "path": "handoffs/codex/artifacts/R10-final-check-typecheck-64712982-0821-4bf3-98fa-a5bb047a9f97.log",
+      "bytes": 15,
+      "sha256": "8366207267355d3e3d5bf3bf6e8c94c5f93f6078c34f08973fa2b38cdda6cc92"
+    },
+    {
+      "path": "handoffs/codex/artifacts/R10-final-check-typecheck-f00b9cc6-e49e-4a78-bdff-17c26eba5a9e.log",
+      "bytes": 154,
+      "sha256": "2dd9c062ad740b5cee679c792d6f5393202e4c6e10cf7d930aca283d5b6c14d4"
+    },
+    {
+      "path": "handoffs/codex/artifacts/R10-final-checks.jsonl",
+      "bytes": 4722,
+      "sha256": "e9346cb436948a9b3a48c2b3688bb4559b5f1c55ec97c08858114c2b9d7e3463"
+    },
+    {
+      "path": "handoffs/codex/artifacts/R10-fix-checks.json",
+      "bytes": 61,
+      "sha256": "7a72e28a57e0b72aa6e5a4a00c0526ba31e4e463a03ef8cd5582ec92e9f1fc96"
+    },
+    {
+      "path": "handoffs/codex/artifacts/R10-fix-contracts.log",
+      "bytes": 1016,
+      "sha256": "e14e0d286e362fcccd9a6a7e8026c8d9941effde4fd1d269c88e6aceb7c6622a"
+    },
+    {
+      "path": "handoffs/codex/artifacts/R10-fix-final-checks.json",
+      "bytes": 44,
+      "sha256": "dd66bcba8f5b8a0832674fb519df0de2dc5f89b1651e06f6f36d28e044bf22ba"
+    },
+    {
+      "path": "handoffs/codex/artifacts/R10-fix-lint-final.log",
+      "bytes": 890,
+      "sha256": "998d796d6dab7a4cb957b29adacb57c61c4029257c96c4a086e11b1655e89732"
+    },
+    {
+      "path": "handoffs/codex/artifacts/R10-fix-lint.log",
+      "bytes": 1522,
+      "sha256": "4c22944b094ef55d689d7b10772595fdde5e25860c835d50ffa102108f83b196"
+    },
+    {
+      "path": "handoffs/codex/artifacts/R10-fix-typecheck.log",
+      "bytes": 696,
+      "sha256": "c71988082b59519b4e3618dfbd7178d5629156f35eb3a563effc45d0e22704e4"
+    },
+    {
+      "path": "handoffs/codex/artifacts/R10-fix-unit.log",
+      "bytes": 69824,
+      "sha256": "16aeb0469be04374f3f3e9903f8b9981582402d7eb898e2dce6d47b01679e576"
+    },
+    {
+      "path": "handoffs/codex/artifacts/R10-historical-policy-window.json",
+      "bytes": 992,
+      "sha256": "28f6de672f00fca599166088a548bd5fa65bfbdd5c8e301c0a47b4395a7c6172"
+    },
+    {
+      "path": "handoffs/codex/artifacts/R10-prep-codex-a00-b1d58614-d4e5-46c2-94db-2a4025fc6d89-tsx-scripts_credentials-separate.ts-confirm_local.log",
+      "bytes": 185,
+      "sha256": "c0cadf1c211a93c4e6c16629a340a6e8d3386d9005e3f6eb827e950a8c5579b1"
+    },
+    {
+      "path": "handoffs/codex/artifacts/R10-prep-codex-a00-tsx-scripts_auth-bootstrap.ts-fixtures-confirm_codex-a00.log",
+      "bytes": 120,
+      "sha256": "7427aa30141a2feb8ef21dfda29948165c84b9efd03dcb2d57aa61e9edb1c4ba"
+    },
+    {
+      "path": "handoffs/codex/artifacts/R10-prep-codex-a00-tsx-scripts_auth-bootstrap.ts-owner-confirm_codex-a00.log",
+      "bytes": 117,
+      "sha256": "448d295b3096141bcb99c445bc2e824a15532fc993dc080ce1eecabe7f779ba9"
+    },
+    {
+      "path": "handoffs/codex/artifacts/R10-prep-codex-a00-tsx-scripts_auth-init.ts-confirm_codex-a00.log",
+      "bytes": 95,
+      "sha256": "1dcd20ece8c2f69c8d90b047bcc5c66139835742563a4844ffd56387febd354d"
+    },
+    {
+      "path": "handoffs/codex/artifacts/R10-prep-codex-a00-tsx-scripts_credentials-separate.ts-confirm_local.log",
+      "bytes": 173,
+      "sha256": "72442f540abbaf2451cf5a429827a0d8ceee945156192c36b3656e67a89bf425"
+    },
+    {
+      "path": "handoffs/codex/artifacts/R10-prep-codex-a00-tsx-scripts_machine-init.ts-confirm_codex-a00.log",
+      "bytes": 139,
+      "sha256": "ec52e1db41d294344afecfb2a83ae327d49e3e2a1913f6b9699f4bc85264284d"
+    },
+    {
+      "path": "handoffs/codex/artifacts/R10-prep-codex-a00-tsx-scripts_migrate.ts.log",
+      "bytes": 105,
+      "sha256": "8a70283d48e7c7d72af1308dcd1cfd0809cb938ef5f1d9ab7c9bd2cadca7caad"
+    },
+    {
+      "path": "handoffs/codex/artifacts/R10-prep-codex-a00-tsx-scripts_regression-init.ts-confirm_codex-a00.log",
+      "bytes": 97,
+      "sha256": "988bb5165dcbbdc35ed251deb88f689b518d7d5cfe3ce8844976fdfb4dd5e1be"
+    },
+    {
+      "path": "handoffs/codex/artifacts/R10-prep-codex-a00-tsx-scripts_roles-init.ts-confirm_codex-a00.log",
+      "bytes": 78,
+      "sha256": "d1a6115c0384830a53d8fe367a29efce378b71f1e9945f48fdffccf2cf808e61"
+    },
+    {
+      "path": "handoffs/codex/artifacts/R10-prep-codex-a00-tsx-scripts_seed-orders.ts-confirm_codex-a00.log",
+      "bytes": 115,
+      "sha256": "3079960ac6b6b0892027ed16c5366578eb7f2bbe66cc25e5c65c9941725e4bbf"
+    },
+    {
+      "path": "handoffs/codex/artifacts/R10-prep-codex-a00-tsx-scripts_vendor-init.ts-confirm_vendor-a00.log",
+      "bytes": 664,
+      "sha256": "4de1499519964a249c264409594d9cc3c2440bb3b8ffae73fd08e19bc0be35cb"
+    },
+    {
+      "path": "handoffs/codex/artifacts/R10-prep-codex-a00-tsx-scripts_vendor-service-licence.ts-keys-confirm_local.log",
+      "bytes": 136,
+      "sha256": "48fd8348ef2cd05a040def1e308b1b1857c609f169ab2f2ef4863cbb905cb89b"
+    },
+    {
+      "path": "handoffs/codex/artifacts/R10-prep-rehearsal-tsx-scripts_auth-bootstrap.ts-fixtures-confirm_rehearsal.log",
+      "bytes": 120,
+      "sha256": "7427aa30141a2feb8ef21dfda29948165c84b9efd03dcb2d57aa61e9edb1c4ba"
+    },
+    {
+      "path": "handoffs/codex/artifacts/R10-prep-rehearsal-tsx-scripts_auth-bootstrap.ts-owner-confirm_rehearsal.log",
+      "bytes": 117,
+      "sha256": "448d295b3096141bcb99c445bc2e824a15532fc993dc080ce1eecabe7f779ba9"
+    },
+    {
+      "path": "handoffs/codex/artifacts/R10-prep-rehearsal-tsx-scripts_auth-init.ts-confirm_rehearsal.log",
+      "bytes": 95,
+      "sha256": "1dcd20ece8c2f69c8d90b047bcc5c66139835742563a4844ffd56387febd354d"
+    },
+    {
+      "path": "handoffs/codex/artifacts/R10-prep-rehearsal-tsx-scripts_machine-init.ts-confirm_rehearsal.log",
+      "bytes": 139,
+      "sha256": "ec52e1db41d294344afecfb2a83ae327d49e3e2a1913f6b9699f4bc85264284d"
+    },
+    {
+      "path": "handoffs/codex/artifacts/R10-prep-rehearsal-tsx-scripts_migrate.ts.log",
+      "bytes": 105,
+      "sha256": "3a7d5c8e8a404e2818bcb5bf8f1f40a030ab97bc6d83275293de219dac44e770"
+    },
+    {
+      "path": "handoffs/codex/artifacts/R10-prep-rehearsal-tsx-scripts_regression-init.ts-confirm_rehearsal.log",
+      "bytes": 97,
+      "sha256": "988bb5165dcbbdc35ed251deb88f689b518d7d5cfe3ce8844976fdfb4dd5e1be"
+    },
+    {
+      "path": "handoffs/codex/artifacts/R10-prep-rehearsal-tsx-scripts_roles-init.ts-confirm_rehearsal.log",
+      "bytes": 78,
+      "sha256": "d1a6115c0384830a53d8fe367a29efce378b71f1e9945f48fdffccf2cf808e61"
+    },
+    {
+      "path": "handoffs/codex/artifacts/R10-prep-rehearsal-tsx-scripts_seed-orders.ts-confirm_rehearsal.log",
+      "bytes": 115,
+      "sha256": "3079960ac6b6b0892027ed16c5366578eb7f2bbe66cc25e5c65c9941725e4bbf"
+    },
+    {
+      "path": "handoffs/codex/artifacts/R10-prep-rehearsal-tsx-scripts_tls-init.ts-confirm_rehearsal.log",
+      "bytes": 108,
+      "sha256": "cfff9554305464a4cc232febb225670c9842008907dd821d6086f7ebe9a484aa"
+    },
+    {
+      "path": "handoffs/codex/artifacts/R10-preparation.jsonl",
+      "bytes": 8487,
+      "sha256": "8ad2a2901a81f90b44cc220698ee86d3165a5f97ec1b5b35d7ab7c04030818a1"
+    },
+    {
+      "path": "handoffs/codex/artifacts/R10-review-findings.json",
+      "bytes": 8315,
+      "sha256": "d97a5e5eac6510c3031557cdecb1528fcf03cc47e506585f9982177f4f2e2c1e"
+    },
+    {
+      "path": "handoffs/codex/artifacts/R10-review-observations.jsonl",
+      "bytes": 894,
+      "sha256": "5b20fa5e12ad169a61811a12e1ddf35f77acfadbe20c0d58e02a4f91c093030a"
+    },
+    {
+      "path": "handoffs/codex/artifacts/R10-run1-001-test.log",
+      "bytes": 38599,
+      "sha256": "f329464c6978080418f5241d55b477b7b2970ff702d5d34ea27c3ba2fc3f7e17"
+    },
+    {
+      "path": "handoffs/codex/artifacts/R10-run1-002-contracts-check.log",
+      "bytes": 155,
+      "sha256": "66178094537e30252c85bf80a9017414eec8bed77d5ba0302f6c949338c3be36"
+    },
+    {
+      "path": "handoffs/codex/artifacts/R10-run1-003-typecheck.log",
+      "bytes": 15,
+      "sha256": "8366207267355d3e3d5bf3bf6e8c94c5f93f6078c34f08973fa2b38cdda6cc92"
+    },
+    {
+      "path": "handoffs/codex/artifacts/R10-run1-004-lint.log",
+      "bytes": 93,
+      "sha256": "34306ed26dc16d9d032e71adf733adc6fdf48e1bebd600eedad390aacbed9909"
+    },
+    {
+      "path": "handoffs/codex/artifacts/R10-run1-005-codex-a00-auth-init.log",
+      "bytes": 95,
+      "sha256": "1dcd20ece8c2f69c8d90b047bcc5c66139835742563a4844ffd56387febd354d"
+    },
+    {
+      "path": "handoffs/codex/artifacts/R10-run1-006-codex-a00-machine-init.log",
+      "bytes": 139,
+      "sha256": "ec52e1db41d294344afecfb2a83ae327d49e3e2a1913f6b9699f4bc85264284d"
+    },
+    {
+      "path": "handoffs/codex/artifacts/R10-run1-007-rehearsal-auth-init.log",
+      "bytes": 95,
+      "sha256": "1dcd20ece8c2f69c8d90b047bcc5c66139835742563a4844ffd56387febd354d"
+    },
+    {
+      "path": "handoffs/codex/artifacts/R10-run1-008-rehearsal-machine-init.log",
+      "bytes": 139,
+      "sha256": "ec52e1db41d294344afecfb2a83ae327d49e3e2a1913f6b9699f4bc85264284d"
+    },
+    {
+      "path": "handoffs/codex/artifacts/R10-run1-009-build.log",
+      "bytes": 5859,
+      "sha256": "c82643d8d9cef53e9f2095814d9e926d44dd764df8ce6c8c030a4b042b0c84b6"
+    },
+    {
+      "path": "handoffs/codex/artifacts/R10-run1-010-runtime-image.log",
+      "bytes": 14273,
+      "sha256": "3cadbb791c07e62af93ecfb2faeeecbc74b2ed2597532f17b6f584f82f4f7a49"
+    },
+    {
+      "path": "handoffs/codex/artifacts/R10-run1-011-tests-e2e-ai-governance-local-ts.log",
+      "bytes": 247,
+      "sha256": "edada0c0502b579756a3f7020c0cbc95d7634e91ac420f5451b7599fcd891ac1"
+    },
+    {
+      "path": "handoffs/codex/artifacts/R10-run1-012-tests-e2e-audit-mandate-local-ts.log",
+      "bytes": 822,
+      "sha256": "7cd30cf0d1db9349737be2b54c8b89f9d07bae2f69523bbc4a7402baf7103b2f"
+    },
+    {
+      "path": "handoffs/codex/artifacts/R10-run1-013-enrollment-12.log",
+      "bytes": 139,
+      "sha256": "ec52e1db41d294344afecfb2a83ae327d49e3e2a1913f6b9699f4bc85264284d"
+    },
+    {
+      "path": "handoffs/codex/artifacts/R10-run1-014-tests-e2e-auth-spec-ts.log",
+      "bytes": 195,
+      "sha256": "5b890eee78df2acf1e50377e61499daafb251f559e8c5506b4f6251498ca178d"
+    },
+    {
+      "path": "handoffs/codex/artifacts/R10-run1-015-tests-e2e-backups-and-recovery-local-ts.log",
+      "bytes": 1440,
+      "sha256": "c177ddc0dca250c71bb1acc2106dc41acd3ea1b7fd8d5967ea9a8bc029ea777d"
+    },
+    {
+      "path": "handoffs/codex/artifacts/R10-run1-016-enrollment-15.log",
+      "bytes": 139,
+      "sha256": "ec52e1db41d294344afecfb2a83ae327d49e3e2a1913f6b9699f4bc85264284d"
+    },
+    {
+      "path": "handoffs/codex/artifacts/R10-run1-017-tests-e2e-candidate-spec-ts.log",
+      "bytes": 254,
+      "sha256": "f02348f176871a7006e249572db06effec21d804583c9fcb4d6ba2dae8c5a2a9"
+    },
+    {
+      "path": "handoffs/codex/artifacts/R10-run1-018-tests-e2e-catalog-discovery-local-ts.log",
+      "bytes": 251,
+      "sha256": "d94b71206d581af416b7998f9b2eb68dbc58cbf14d8efdb3206b099a2ae61ebd"
+    },
+    {
+      "path": "handoffs/codex/artifacts/R10-run1-019-enrollment-18.log",
+      "bytes": 139,
+      "sha256": "ec52e1db41d294344afecfb2a83ae327d49e3e2a1913f6b9699f4bc85264284d"
+    },
+    {
+      "path": "handoffs/codex/artifacts/R10-run1-020-tests-e2e-configuration-spec-ts.log",
+      "bytes": 93,
+      "sha256": "9e3f8a091dd5055c574d1141977c4a31ee49c013d3da76d8c9b79ebb6e9874ef"
+    },
+    {
+      "path": "handoffs/codex/artifacts/R10-run1-021-enrollment-20.log",
+      "bytes": 139,
+      "sha256": "ec52e1db41d294344afecfb2a83ae327d49e3e2a1913f6b9699f4bc85264284d"
+    },
+    {
+      "path": "handoffs/codex/artifacts/R10-run1-022-tests-e2e-consent-spec-ts.log",
+      "bytes": 264,
+      "sha256": "b2e693f6c3095e1a787479e8d467a6c60e100d6d30c00b0d3f850f4e23c5de26"
+    },
+    {
+      "path": "handoffs/codex/artifacts/R10-run1-023-tests-e2e-delete-login-local-ts.log",
+      "bytes": 1424,
+      "sha256": "89ba4fedb8084bcf46345457af5ad72efb924bb0e27b1fa9c5f06179202d6067"
+    },
+    {
+      "path": "handoffs/codex/artifacts/R10-run1-024-tests-e2e-dpdpa-audit-local-ts.log",
+      "bytes": 1422,
+      "sha256": "51c94e61f6e914be9f68c9d3d78fb3cfc862e9a800786aced9b32f300d9aaa2c"
+    },
+    {
+      "path": "handoffs/codex/artifacts/R10-run1-025-tests-e2e-expansion-screens-local-ts.log",
+      "bytes": 1434,
+      "sha256": "392903840d93030de7aab688134960e487892aafc2b7e695c6c8ff08c8e998dc"
+    },
+    {
+      "path": "handoffs/codex/artifacts/R10-run1-026-tests-e2e-interface-crawl-local-ts.log",
+      "bytes": 1423,
+      "sha256": "854bcfb0950d755bfb32a01c7e4eb5c03952dc56c035b5519418dffcba0a8ab1"
+    },
+    {
+      "path": "handoffs/codex/artifacts/R10-run1-027-tests-e2e-operations-screens-local-ts.log",
+      "bytes": 1436,
+      "sha256": "daa0e8cfd136cbcfa9568e45efa63c6da050496f870e85fc9dca43d07a1b75c9"
+    },
+    {
+      "path": "handoffs/codex/artifacts/R10-run1-028-tests-e2e-preferences-local-ts.log",
+      "bytes": 1422,
+      "sha256": "59837e70044ac660415892e00dc388a2923a9468ca0363fcc9f19466cc3ce40f"
+    },
+    {
+      "path": "handoffs/codex/artifacts/R10-run1-029-tests-e2e-registry-forms-local-ts.log",
+      "bytes": 1428,
+      "sha256": "5f12b7aa6d05df714191706649165d4c4965ea39dfa563e0e3a9885522f97e3b"
+    },
+    {
+      "path": "handoffs/codex/artifacts/R10-run1-030-tests-e2e-sign-in-hydration-local-ts.log",
+      "bytes": 1426,
+      "sha256": "6c788a65498ae9cfa165cd573b56c590d071fd42fd4874b03a0a98699585f9be"
+    },
+    {
+      "path": "handoffs/codex/artifacts/R10-run1-031-tests-e2e-start-smoke-local-ts.log",
+      "bytes": 1324,
+      "sha256": "195f6eb18b81f3a798f4931a64e5b35f862eec219de461806da015e97ca439d1"
+    },
+    {
+      "path": "handoffs/codex/artifacts/R10-run1-032-tests-e2e-team-local-ts.log",
+      "bytes": 1408,
+      "sha256": "658fb4ad6567436292dc95f8829e47e62064684dfaf6419e8334a9f5d7818a43"
+    },
+    {
+      "path": "handoffs/codex/artifacts/R10-run1-033-enrollment-32.log",
+      "bytes": 139,
+      "sha256": "ec52e1db41d294344afecfb2a83ae327d49e3e2a1913f6b9699f4bc85264284d"
+    },
+    {
+      "path": "handoffs/codex/artifacts/R10-run1-034-tests-e2e-test-lab-spec-ts.log",
+      "bytes": 168,
+      "sha256": "18fcbb86940413cc11edf69e477dce9775434200c1058029d890bd5da167e666"
+    },
+    {
+      "path": "handoffs/codex/artifacts/R10-run1-035-enrollment-34.log",
+      "bytes": 139,
+      "sha256": "ec52e1db41d294344afecfb2a83ae327d49e3e2a1913f6b9699f4bc85264284d"
+    },
+    {
+      "path": "handoffs/codex/artifacts/R10-run1-036-tests-e2e-tls-spec-ts.log",
+      "bytes": 77,
+      "sha256": "df070cc479eca8aa0eeadbf5bff55ca97c852d33266a8d35c50dcb0ded31eb5a"
+    },
+    {
+      "path": "handoffs/codex/artifacts/R10-run1-037-tests-e2e-transport-preflight-ts.log",
+      "bytes": 1326,
+      "sha256": "2d7d226a76a52b3348c60fbc2b710d3fb8e28c2af1fbe01f11d4a1eddca4a6af"
+    },
+    {
+      "path": "handoffs/codex/artifacts/R10-run1-038-tests-e2e-vendor-production-criteria-local-ts.log",
+      "bytes": 835,
+      "sha256": "289a759b34e0f60f5b856b78d4e1472c841f0efe43c2f77a0235a63b16ccc5c8"
+    },
+    {
+      "path": "handoffs/codex/artifacts/R10-run1-039-enrollment-38.log",
+      "bytes": 139,
+      "sha256": "ec52e1db41d294344afecfb2a83ae327d49e3e2a1913f6b9699f4bc85264284d"
+    },
+    {
+      "path": "handoffs/codex/artifacts/R10-run1-040-tests-e2e-workflow-spec-ts.log",
+      "bytes": 341,
+      "sha256": "91c9a8e854a55a5498152661d278b0eae0e3a22f12f579eba439225aa6b08b3c"
+    },
+    {
+      "path": "handoffs/codex/artifacts/R10-run1-041-tests-integration-ai-governance-ai-governance-test-ts.log",
+      "bytes": 155,
+      "sha256": "5289175def9f198a78d9abfa03f1bd81343ddd6efe77e41d2b480109c5c3f269"
+    },
+    {
+      "path": "handoffs/codex/artifacts/R10-run1-042-tests-integration-ai-governance-model-versions-test-ts.log",
+      "bytes": 1444,
+      "sha256": "eb3bbd9489c03c68dfcf2b424af7994057765b41e2bfae7e9edc59957dc360ff"
+    },
+    {
+      "path": "handoffs/codex/artifacts/R10-run1-043-tests-integration-ai-governance-monitor-test-ts.log",
+      "bytes": 247,
+      "sha256": "ce27375d9fd42095f687d4d4bc46fb85a7eff1701e51e25a0eba35bd3471e93b"
+    },
+    {
+      "path": "handoffs/codex/artifacts/R10-run1-044-tests-integration-audit-audit-test-ts.log",
+      "bytes": 147,
+      "sha256": "2ac88842806c950b356f9c805df869bbea93eb6bbf69a9b07b1569c40f1f6c87"
+    },
+    {
+      "path": "handoffs/codex/artifacts/R10-run1-045-tests-integration-audit-retention-test-ts.log",
+      "bytes": 157,
+      "sha256": "b9fcf56c4b249725987c0eb66af4c3ad823db9cbf70d4f13f62c15fc6043b54e"
+    },
+    {
+      "path": "handoffs/codex/artifacts/R10-run1-046-tests-integration-bootstrap-test-ts.log",
+      "bytes": 2752,
+      "sha256": "63398ee6e8529ef886e48408c6bfcbe1ee539420e454fd1dff26417c3107e92d"
+    },
+    {
+      "path": "handoffs/codex/artifacts/R10-run1-047-tests-integration-commerce-commerce-test-ts.log",
+      "bytes": 5671,
+      "sha256": "98f591a4441abb114cc917794618b3b6d2b35c579e889d0bb768a2595f89db0f"
+    },
+    {
+      "path": "handoffs/codex/artifacts/R10-run1-048-tests-integration-commerce-migration-ledger-test-ts.log",
+      "bytes": 187,
+      "sha256": "e15c88d3b67a2bd6220873a6e1d7ab25c52cf304fd0fa1cc218670942ee324c6"
+    },
+    {
+      "path": "handoffs/codex/artifacts/R10-run1-049-tests-integration-consent-canaries-test-ts.log",
+      "bytes": 1434,
+      "sha256": "8c653a15a930043b6974b865bf76c143cfa6a164da7951903934328c26b92829"
+    },
+    {
+      "path": "handoffs/codex/artifacts/R10-run1-050-tests-integration-consent-canary-grant-admission-test-ts.log",
+      "bytes": 1582,
+      "sha256": "a0d52e8613e3cc84b7b1e32ae869994d4b42aa03d4709df344d0238b5c6c2aaa"
+    },
+    {
+      "path": "handoffs/codex/artifacts/R10-run1-051-tests-integration-consent-canary-retirement-test-ts.log",
+      "bytes": 1441,
+      "sha256": "b16248c7a9afab89c8102f305eddac5875da6949650d022c52ce76a2b57c0642"
+    },
+    {
+      "path": "handoffs/codex/artifacts/R10-run1-052-tests-integration-consent-consent-test-ts.log",
+      "bytes": 150,
+      "sha256": "3c7b8acc55c31a330ed735208f92dc0c47498c7aa44b373da6051174904d61ec"
+    },
+    {
+      "path": "handoffs/codex/artifacts/R10-run1-053-tests-integration-consent-expiry-test-ts.log",
+      "bytes": 727,
+      "sha256": "19293561d1cc3c90e1f56072d203445498568201ca90475a41b522b399cd1a18"
+    },
+    {
+      "path": "handoffs/codex/artifacts/R10-run1-054-tests-integration-coverage-coverage-test-ts.log",
+      "bytes": 150,
+      "sha256": "2f7d1870ed006b7afc09fff85d0fbfbe900e1d443bfc7ed86a16b63c34cc8f44"
+    },
+    {
+      "path": "handoffs/codex/artifacts/R10-run1-055-tests-integration-discovery-catalog-flow-test-ts.log",
+      "bytes": 152,
+      "sha256": "a2bd34daa98c045b55ceec7fe8da3772c042e4d137cae3e8307b6770b3517b44"
+    },
+    {
+      "path": "handoffs/codex/artifacts/R10-run1-056-tests-integration-discovery-postgres-catalog-test-ts.log",
+      "bytes": 686,
+      "sha256": "4b0849b7bd5e9ba1c2be57c03656e3c03ea61aba615fe5b6443c493999ef9e3c"
+    },
+    {
+      "path": "handoffs/codex/artifacts/R10-run1-057-tests-integration-discovery-schema-drift-test-ts.log",
+      "bytes": 1433,
+      "sha256": "60223aefe979278a11d0aee252f819d1ba67ca4349baab11a128648fb54d6510"
+    },
+    {
+      "path": "handoffs/codex/artifacts/R10-run1-058-tests-integration-enforcement-send-test-ts.log",
+      "bytes": 678,
+      "sha256": "9e0a47d270fa5d948b478a95cef5cb15d3a91095685d527d8a81f39d6653b8c9"
+    },
+    {
+      "path": "handoffs/codex/artifacts/R10-run1-059-enrollment-58.log",
+      "bytes": 139,
+      "sha256": "ec52e1db41d294344afecfb2a83ae327d49e3e2a1913f6b9699f4bc85264284d"
+    },
+    {
+      "path": "handoffs/codex/artifacts/R10-run1-060-tests-integration-enforcement-withdrawal-timing-test-ts.log",
+      "bytes": 1445,
+      "sha256": "8c23b01e900dd6ecae0b46212264abd498feaa5d6dd4489409e6bec4979df92a"
+    },
+    {
+      "path": "handoffs/codex/artifacts/R10-run1-061-enrollment-60.log",
+      "bytes": 139,
+      "sha256": "ec52e1db41d294344afecfb2a83ae327d49e3e2a1913f6b9699f4bc85264284d"
+    },
+    {
+      "path": "handoffs/codex/artifacts/R10-run1-062-tests-integration-evidence-evidence-test-ts.log",
+      "bytes": 745,
+      "sha256": "5d87d32f80860782c7e0bdb712b9fbe866a3d0f2a3ca682f2c2e61891f11bac8"
+    },
+    {
+      "path": "handoffs/codex/artifacts/R10-run1-063-tests-integration-evidence-reports-test-ts.log",
+      "bytes": 773,
+      "sha256": "7dacd3c2c0eeca89b3ea90ae86c22f2dc72d680dfb89927d3e53b09f8cad92cf"
+    },
+    {
+      "path": "handoffs/codex/artifacts/R10-run1-064-tests-integration-expansion-audit-indicator-counts-test-ts.log",
+      "bytes": 719,
+      "sha256": "5dd1e0353865ca77ad4a747b7aed87879f98237e8921d99861445bffe68130cf"
+    },
+    {
+      "path": "handoffs/codex/artifacts/R10-run1-065-tests-integration-expansion-audit-mandate-test-ts.log",
+      "bytes": 1435,
+      "sha256": "e30d816f9c4421d9911b21d1cf569daff7d570bf64af6d57282e5ff6a52ad8a5"
+    },
+    {
+      "path": "handoffs/codex/artifacts/R10-run1-066-tests-integration-expansion-classification-test-ts.log",
+      "bytes": 1437,
+      "sha256": "ad1417992792974464a12220434bbdf419d1b6b57a78cf3adb1475c15e550bcd"
+    },
+    {
+      "path": "handoffs/codex/artifacts/R10-run1-067-tests-integration-expansion-cmp-test-ts.log",
+      "bytes": 1415,
+      "sha256": "0193cb9558506b60617c9b46603d91156bba650ef080874072b97a1323716ccc"
+    },
+    {
+      "path": "handoffs/codex/artifacts/R10-run1-068-tests-integration-expansion-delivery-test-ts.log",
+      "bytes": 1425,
+      "sha256": "31c42ac43e37343e2d7374a9bfe73ddd86a54a2fac51d2f5b6193114e6c9ab80"
+    },
+    {
+      "path": "handoffs/codex/artifacts/R10-run1-069-tests-integration-expansion-dpdpa-audit-test-ts.log",
+      "bytes": 1431,
+      "sha256": "26ab345eb5eeba45bd2c41f2eba46b28e93c220ab414f1ad0c821e747855d89c"
+    },
+    {
+      "path": "handoffs/codex/artifacts/R10-run1-070-tests-integration-expansion-grc-lifecycle-test-ts.log",
+      "bytes": 1435,
+      "sha256": "66121f942bc471df0bc63556bbc765308592329666effa8f817b9e6b1d3eff28"
+    },
+    {
+      "path": "handoffs/codex/artifacts/R10-run1-071-tests-integration-expansion-impact-test-ts.log",
+      "bytes": 1433,
+      "sha256": "1ac597b5720947a5f4831bd63404257a99c34378841068870f5ff8d968339e4c"
+    },
+    {
+      "path": "handoffs/codex/artifacts/R10-run1-072-tests-integration-expansion-policy-discovery-test-ts.log",
+      "bytes": 1441,
+      "sha256": "6a40b9236c1b9aed71f8f8da378bc17b15647038b523de1be39c5689991952ae"
+    },
+    {
+      "path": "handoffs/codex/artifacts/R10-run1-073-tests-integration-expansion-preferences-test-ts.log",
+      "bytes": 1431,
+      "sha256": "314443e6a335c7321ef6226bc6fa54061784f2b61286f0bc561afbf9b5b65ab1"
+    },
+    {
+      "path": "handoffs/codex/artifacts/R10-run1-074-tests-integration-expansion-response-packages-test-ts.log",
+      "bytes": 1443,
+      "sha256": "a86a0059ba57cc4df10a2bf9e2817fca460a072bd6622ad2196889a09625877e"
+    },
+    {
+      "path": "handoffs/codex/artifacts/R10-run1-075-tests-integration-expansion-ropa-exports-test-ts.log",
+      "bytes": 1433,
+      "sha256": "c2b5612411a6a2bf64c63c3d3eb48f2194630665b9bb1bbebe77af6b0b35e1e2"
+    },
+    {
+      "path": "handoffs/codex/artifacts/R10-run1-076-tests-integration-expansion-staff-delete-test-ts.log",
+      "bytes": 1433,
+      "sha256": "31d6f1fed4bfab906c342e0d89a4865b5b3d684d015ea094504b4aa5a7e6a465"
+    },
+    {
+      "path": "handoffs/codex/artifacts/R10-run1-077-tests-integration-expansion-staff-members-test-ts.log",
+      "bytes": 1435,
+      "sha256": "42aa073921a491e8b5edcaac343e9c68ec99b37ce9dae5153a27b7ca201f6f12"
+    },
+    {
+      "path": "handoffs/codex/artifacts/R10-run1-078-tests-integration-expansion-third-party-test-ts.log",
+      "bytes": 1431,
+      "sha256": "d7ff2d8b9247b46ba2d9beeedf9ca56ad213383241226f62afceb4660f3515d0"
+    },
+    {
+      "path": "handoffs/codex/artifacts/R10-run1-079-tests-integration-graph-graph-test-ts.log",
+      "bytes": 147,
+      "sha256": "0e577a6239481e94941729ee0466c3e5966d032c7e52ad162edff992647d9dee"
+    },
+    {
+      "path": "handoffs/codex/artifacts/R10-run1-080-tests-integration-grc-audits-test-ts.log",
+      "bytes": 1680,
+      "sha256": "2732d0effd577a89f92ab8caa90a2cb0e2094452e9ceb6fb8c8dda8b9a11f21a"
+    },
+    {
+      "path": "handoffs/codex/artifacts/R10-run1-081-tests-integration-grc-grc-test-ts.log",
+      "bytes": 1738,
+      "sha256": "7a88bb9a69512a09d140187f6c1526826a0069e1b62be85227246321d438b7d0"
+    },
+    {
+      "path": "handoffs/codex/artifacts/R10-run1-082-tests-integration-grc-http-test-ts.log",
+      "bytes": 733,
+      "sha256": "354121082e4c3d8e01eee68a86b438a82fda7b92c84dc8e839bf3fef2333130a"
+    },
+    {
+      "path": "handoffs/codex/artifacts/R10-run1-083-tests-integration-incidents-incidents-test-ts.log",
+      "bytes": 151,
+      "sha256": "de828c0178ba149580aea79192c74232a52478b891082f14252cbf22c892d556"
+    },
+    {
+      "path": "handoffs/codex/artifacts/R10-run1-084-tests-integration-licensing-import-races-test-ts.log",
+      "bytes": 638,
+      "sha256": "8763e47fa32c98bb68cf450fd7accca7136c60452ac3b15dbfc70ee3704e3635"
+    },
+    {
+      "path": "handoffs/codex/artifacts/R10-run1-085-tests-integration-licensing-licensing-test-ts.log",
+      "bytes": 151,
+      "sha256": "d150f5ffc732a39b35cc698c655cb1e63a0630c1f0cf5f98537254dd4430dccb"
+    },
+    {
+      "path": "handoffs/codex/artifacts/R10-run1-086-tests-integration-licensing-tiers-test-ts.log",
+      "bytes": 1427,
+      "sha256": "143e8a4f8fb36f9826c4748234e27a7aa4d06bdbf06905516cbb4863b1691c6b"
+    },
+    {
+      "path": "handoffs/codex/artifacts/R10-run1-087-tests-integration-lifecycle-test-ts.log",
+      "bytes": 233,
+      "sha256": "d3941b6ae2fc819c09f706a7ccfcfb3e6ec18d9426c4151efd0cc26f8b7f51d1"
+    },
+    {
+      "path": "handoffs/codex/artifacts/R10-run1-088-tests-integration-migration-upgrade-test-ts.log",
+      "bytes": 794,
+      "sha256": "53f1ce353b944323dd4049077dcdd42393e08b7ffa9bcfda001b7b3473e4e7c9"
+    },
+    {
+      "path": "handoffs/codex/artifacts/R10-run1-089-tests-integration-monitoring-backup-drill-test-ts.log",
+      "bytes": 818,
+      "sha256": "bf8923ea5ebbb39e0e77d10c9d7ff3f5dfb81a1d459ccab97cef1d95fb90b831"
+    },
+    {
+      "path": "handoffs/codex/artifacts/R10-run1-090-tests-integration-monitoring-monitoring-test-ts.log",
+      "bytes": 152,
+      "sha256": "ed15e71301ba1dc513c8dd5abaf7c972f334283314c5e643b4999c1afbc8001b"
+    },
+    {
+      "path": "handoffs/codex/artifacts/R10-run1-091-tests-integration-monitoring-restore-test-ts.log",
+      "bytes": 149,
+      "sha256": "836751d511e07626a6abaec0d99aa20b6f59cc43f57df6b8810c8ddcc64c04fc"
+    },
+    {
+      "path": "handoffs/codex/artifacts/R10-run1-092-tests-integration-monitoring-vendor-visibility-test-ts.log",
+      "bytes": 159,
+      "sha256": "2aec3caf7e1ec51d2d7548a6e685016419ce8a789a8187a302cd46d597147385"
+    },
+    {
+      "path": "handoffs/codex/artifacts/R10-run1-093-tests-integration-notices-languages-test-ts.log",
+      "bytes": 157,
+      "sha256": "cd75a242020de33e34a535054d0f038c9ae464c3c85d0ee969f927aedc8bbf34"
+    },
+    {
+      "path": "handoffs/codex/artifacts/R10-run1-094-tests-integration-notifications-notifications-test-ts.log",
+      "bytes": 155,
+      "sha256": "d344c5222190302870b2907d8a69acbb77b9cd844ad9c80b9112c2f6517ccd29"
+    },
+    {
+      "path": "handoffs/codex/artifacts/R10-run1-095-tests-integration-onboarding-connection-test-ts.log",
+      "bytes": 152,
+      "sha256": "d4676e86b11b19b34c1230d172c285c404a8eae4535716c9ed7842879bfda2dd"
+    },
+    {
+      "path": "handoffs/codex/artifacts/R10-run1-096-tests-integration-onboarding-file-intake-adversarial-test-ts.log",
+      "bytes": 2020,
+      "sha256": "3212ea1fcc5f0408f7994ca00e93688baaf0f58ec98cacebf59789c95b65c4a0"
+    },
+    {
+      "path": "handoffs/codex/artifacts/R10-run1-097-tests-integration-onboarding-file-intake-test-ts.log",
+      "bytes": 1432,
+      "sha256": "32973febb0ba58c01bdc708f87f29d11893325c76ffb6b106d6f7872e5dc66b1"
+    },
+    {
+      "path": "handoffs/codex/artifacts/R10-run1-098-tests-integration-onboarding-first-run-http-test-ts.log",
+      "bytes": 1438,
+      "sha256": "b4ba7c95b9c86721773bd9a06508343bddae61859963b6d8acc609a24222635e"
+    },
+    {
+      "path": "handoffs/codex/artifacts/R10-run1-099-tests-integration-onboarding-first-run-test-ts.log",
+      "bytes": 711,
+      "sha256": "55c0b95d6b85fda4ab38a0490c95ec1bde911b55122c454ee37efd51f4327068"
+    },
+    {
+      "path": "handoffs/codex/artifacts/R10-run1-100-tests-integration-onboarding-imports-test-ts.log",
+      "bytes": 149,
+      "sha256": "b9072bb4be211ecb0ffcdc18dfad899fdd2c23a817a16b99eb3515477df0c2c8"
+    },
+    {
+      "path": "handoffs/codex/artifacts/R10-run1-101-tests-integration-onboarding-owner-recovery-test-ts.log",
+      "bytes": 716,
+      "sha256": "f92074d4cfbc2f1f4d1e6f94bcfb2ea386db1fa39ae9929207c64627f20aa7a8"
+    },
+    {
+      "path": "handoffs/codex/artifacts/R10-run1-102-tests-integration-onboarding-preflight-test-ts.log",
+      "bytes": 151,
+      "sha256": "c64fc327b431f145e318568861193b06e838591b02dd04db4f76ad1b7314856b"
+    },
+    {
+      "path": "handoffs/codex/artifacts/R10-run1-103-tests-integration-onboarding-real-principals-test-ts.log",
+      "bytes": 717,
+      "sha256": "899ee80e254bbe8a2cc0d2c908e5525481588a8aa2384d793557ecb094745dda"
+    },
+    {
+      "path": "handoffs/codex/artifacts/R10-run1-104-tests-integration-opa-cold-start-test-ts.log",
+      "bytes": 840,
+      "sha256": "a05f6637a0de197dd7943e00f48da55e910ae50dfbf9fb78874c588db786a42a"
+    },
+    {
+      "path": "handoffs/codex/artifacts/R10-run1-105-tests-integration-operations-applicability-test-ts.log",
+      "bytes": 1436,
+      "sha256": "30503b671c568d6247401bd00cb59c9cd262d16ccc40de97000b265c78701ca2"
+    },
+    {
+      "path": "handoffs/codex/artifacts/R10-run1-106-tests-integration-operations-backup-obligations-test-ts.log",
+      "bytes": 1446,
+      "sha256": "82e1c0abc6323c6f6f3979e1b776ef10630f1f4cfab0cec4dea4eb637b6e9d14"
+    },
+    {
+      "path": "handoffs/codex/artifacts/R10-run1-107-tests-integration-operations-breach-test-ts.log",
+      "bytes": 1422,
+      "sha256": "b3d96fff17571d8fef065bd456960788525ce0cc3354ac65cc567533e8cd5367"
+    },
+    {
+      "path": "handoffs/codex/artifacts/R10-run1-108-tests-integration-operations-consent-manager-test-ts.log",
+      "bytes": 1440,
+      "sha256": "8570486749458720a506db2f16a20645bc459485ef21f4c562dd8fc599c4b82b"
+    },
+    {
+      "path": "handoffs/codex/artifacts/R10-run1-109-tests-integration-operations-consent-withdrawal-test-ts.log",
+      "bytes": 1446,
+      "sha256": "890c4ed0fcf73d9e6c2f7e60d67035c85528ee38ff62d060ebf103ba16ac62e4"
+    },
+    {
+      "path": "handoffs/codex/artifacts/R10-run1-110-tests-integration-operations-correction-test-ts.log",
+      "bytes": 1430,
+      "sha256": "9ee084885a7b6e445cedc25730d82f69f36173aa52efe59460fb71c8ffba8079"
+    },
+    {
+      "path": "handoffs/codex/artifacts/R10-run1-111-tests-integration-operations-erasure-intimation-test-ts.log",
+      "bytes": 1446,
+      "sha256": "0c410dff4a1baa0f1bd984e36018c2eaa8da82616c1fcc0eff5f23ada9d070d7"
+    },
+    {
+      "path": "handoffs/codex/artifacts/R10-run1-112-tests-integration-operations-estate-import-test-ts.log",
+      "bytes": 1436,
+      "sha256": "e8170087654968111b6db6af461fb919b27ad0b62ff1a692d0e2d80e62a1de23"
+    },
+    {
+      "path": "handoffs/codex/artifacts/R10-run1-113-tests-integration-operations-notice-language-drift-test-ts.log",
+      "bytes": 1452,
+      "sha256": "ed2b915b270fc8628e21a00ca4e5b0a120ac5c4f99d7ac60def09456cf362a1d"
+    },
+    {
+      "path": "handoffs/codex/artifacts/R10-run1-114-tests-integration-operations-notices-test-ts.log",
+      "bytes": 1424,
+      "sha256": "76ab9403871033f529a831400a3ac6e81076f0d6934dec1209c4ad97f60b2060"
+    },
+    {
+      "path": "handoffs/codex/artifacts/R10-run1-115-tests-integration-operations-organisation-intake-test-ts.log",
+      "bytes": 1448,
+      "sha256": "8540536fdca7068edccd773b448115a0a5352f9df3a9ca6a8b92727f559f0223"
+    },
+    {
+      "path": "handoffs/codex/artifacts/R10-run1-116-tests-integration-operations-processors-test-ts.log",
+      "bytes": 1430,
+      "sha256": "1459f703d280508439cf54c8aa5f700acc9af923135ceba91c15d7fa333245ca"
+    },
+    {
+      "path": "handoffs/codex/artifacts/R10-run1-117-tests-integration-operations-registry-test-ts.log",
+      "bytes": 1426,
+      "sha256": "6833875bc775d431391edef8f508e47fbd59bfdc539e7b50513b5f0a8ed25d84"
+    },
+    {
+      "path": "handoffs/codex/artifacts/R10-run1-118-tests-integration-operations-regulatory-test-ts.log",
+      "bytes": 1430,
+      "sha256": "5698d5237646479394d9946a07e257b677c9b133f41454121ed45711e12e416d"
+    },
+    {
+      "path": "handoffs/codex/artifacts/R10-run1-119-tests-integration-operations-retention-scale-test-ts.log",
+      "bytes": 1440,
+      "sha256": "36ead906e6725b5c5021980ee4bb85c942166734aaabcd1fbcacbf376fef1eb2"
+    },
+    {
+      "path": "handoffs/codex/artifacts/R10-run1-120-tests-integration-operations-rights-test-ts.log",
+      "bytes": 1422,
+      "sha256": "9ad8df99f383d36ec4b9af6d9f0788d7cbef441ec8cd9fef7ddc6c4adfaff450"
+    },
+    {
+      "path": "handoffs/codex/artifacts/R10-run1-121-tests-integration-operations-runner-progress-test-ts.log",
+      "bytes": 1450,
+      "sha256": "bb8e9fcd89d0890011b5cfe1c961656aea77ab5331bfa90c404e45d8bb175929"
+    },
+    {
+      "path": "handoffs/codex/artifacts/R10-run1-122-tests-integration-operations-runner-test-ts.log",
+      "bytes": 1422,
+      "sha256": "d6a2e916cb0786b6af5a4aa9717ed94ad6237c432bffade8d8352457c9cc24ae"
+    },
+    {
+      "path": "handoffs/codex/artifacts/R10-run1-123-tests-integration-operations-sdf-test-ts.log",
+      "bytes": 1416,
+      "sha256": "497bb94f6bf0cc78e99ddf7308f5db5d9635a7cd46d25e79ffab6fba08dd6494"
+    },
+    {
+      "path": "handoffs/codex/artifacts/R10-run1-124-tests-integration-operations-withdrawal-single-pass-test-ts.log",
+      "bytes": 1454,
+      "sha256": "8c79611bf1ecb621ba8803c646185e118ad471f70a4c7efb46e3d04b48caecfd"
+    },
+    {
+      "path": "handoffs/codex/artifacts/R10-run1-125-tests-integration-processors-assessment-race-test-ts.log",
+      "bytes": 402,
+      "sha256": "fec87a970c551d5217895668e160eed424900047f0d524278f03c52d4f00636a"
+    },
+    {
+      "path": "handoffs/codex/artifacts/R10-run1-126-tests-integration-processors-processors-test-ts.log",
+      "bytes": 152,
+      "sha256": "420491e9d46df38bc1c6ed00b092f6105ce27578a040f90420e75e4a9caae74b"
+    },
+    {
+      "path": "handoffs/codex/artifacts/R10-run1-127-enrollment-126.log",
+      "bytes": 139,
+      "sha256": "ec52e1db41d294344afecfb2a83ae327d49e3e2a1913f6b9699f4bc85264284d"
+    },
+    {
+      "path": "handoffs/codex/artifacts/R10-run1-128-tests-integration-regression-regression-test-ts.log",
+      "bytes": 727,
+      "sha256": "f6a3505c8876b882c6c72c2d20adb6433303340d55400764d3cfe8452d83f4b7"
+    },
+    {
+      "path": "handoffs/codex/artifacts/R10-run1-129-tests-integration-retention-retention-test-ts.log",
+      "bytes": 151,
+      "sha256": "0d9b7dbc2567754fa209f48adbd4706750d5106c7db82b8b6a87aae45de86e10"
+    },
+    {
+      "path": "handoffs/codex/artifacts/R10-run1-130-tests-integration-rights-portal-test-ts.log",
+      "bytes": 155,
+      "sha256": "e51219759af8064ad90953b1cf1b8d1e4bb18dfb650fc2d61f4a2d3323a1f5d8"
+    },
+    {
+      "path": "handoffs/codex/artifacts/R10-run1-131-tests-integration-rights-rights-test-ts.log",
+      "bytes": 148,
+      "sha256": "eae154923658810fa0f9c25cca1890cf66211d6f9f817a9fa29b09a7b194b529"
+    },
+    {
+      "path": "handoffs/codex/artifacts/R10-run1-132-tests-integration-support-support-test-ts.log",
+      "bytes": 149,
+      "sha256": "9b59bb2f00fae8fa85ea675d35136e9c2221cdffa785408f99af9b5cfc1644dd"
+    },
+    {
+      "path": "handoffs/codex/artifacts/R10-run1-133-tests-integration-updates-updates-test-ts.log",
+      "bytes": 149,
+      "sha256": "dfc5487404d7d07ee7f20188b5f303f6c3a3dcafb177b73ba6c0b91793ecaa9a"
+    },
+    {
+      "path": "handoffs/codex/artifacts/R10-run1-134-tests-integration-vendor-audit-practice-test-ts.log",
+      "bytes": 8173,
+      "sha256": "b30296a071a8beb721f075a0871e24426b1fa4a2332fff33ddd23dcd27cf33ef"
+    },
+    {
+      "path": "handoffs/codex/artifacts/R10-run1-135-tests-integration-vendor-member-onboarding-test-ts.log",
+      "bytes": 722,
+      "sha256": "e86df5eaaf344d13ae988586b2f8812c4b86a41e897184cc3e55c2b4845a5863"
+    },
+    {
+      "path": "handoffs/codex/artifacts/R10-run1-136-tests-integration-vendor-provisioning-test-ts.log",
+      "bytes": 1174,
+      "sha256": "a52038233f3b94ecb0dd1f37e2612f7c4402670754dc4b6811750384e07887f0"
+    },
+    {
+      "path": "handoffs/codex/artifacts/R10-run1-137-tests-integration-vendor-schema-equivalence-test-ts.log",
+      "bytes": 373,
+      "sha256": "089ba57119af01944d797243ec12db5cc58d55738572ebd434aa0e380be36aa2"
+    },
+    {
+      "path": "handoffs/codex/artifacts/R10-run1-138-tests-integration-vendor-service-licence-test-ts.log",
+      "bytes": 884,
+      "sha256": "0dabe3d9a6948624aaa567da664c8abca84311f3cc9b88f1047a5631315c51af"
+    },
+    {
+      "path": "handoffs/codex/artifacts/R10-run1-139-tests-integration-vendor-vendor-audit-test-ts.log",
+      "bytes": 1046,
+      "sha256": "38c42b4da9831b91e2a43c4d34a3a8e44d04a7f8c7b7e66abb3100da314aa7c4"
+    },
+    {
+      "path": "handoffs/codex/artifacts/R10-run1-140-tests-integration-web-test-ts.log",
+      "bytes": 112,
+      "sha256": "0681d26b8572d2dd536dc6dfff11933b81ae66b6bcfded445529cacba5e067a7"
+    },
+    {
+      "path": "handoffs/codex/artifacts/R10-run1-141-enrollment-140.log",
+      "bytes": 139,
+      "sha256": "ec52e1db41d294344afecfb2a83ae327d49e3e2a1913f6b9699f4bc85264284d"
+    },
+    {
+      "path": "handoffs/codex/artifacts/R10-run1-142-tests-integration-workflows-workflow-test-ts.log",
+      "bytes": 730,
+      "sha256": "fc25127bdbcca4a84ab67e367ffa527cc80f4adbed31be5a5dd2a74cf2b47d6b"
+    },
+    {
+      "path": "handoffs/codex/artifacts/R10-run1-143-tests-security-auth-test-ts.log",
+      "bytes": 143,
+      "sha256": "4ea166b4273a24968ddead69b6e62245c416f801bf74fc321d37d4257fc6dfc4"
+    },
+    {
+      "path": "handoffs/codex/artifacts/R10-run1-144-enrollment-143.log",
+      "bytes": 139,
+      "sha256": "ec52e1db41d294344afecfb2a83ae327d49e3e2a1913f6b9699f4bc85264284d"
+    },
+    {
+      "path": "handoffs/codex/artifacts/R10-run1-145-tests-security-fixture-isolation-ts.log",
+      "bytes": 685,
+      "sha256": "ad535e8b7bfb31621b9ef4610ff072c1bf5b07b244660415e6f91bc14c3a7c74"
+    },
+    {
+      "path": "handoffs/codex/artifacts/R10-run1-146-tests-security-function-acl-ts.log",
+      "bytes": 6055,
+      "sha256": "0ab20fc796ac151a876296156a3a5c8c89e175682d8aa1426a8d77efbd5fe167"
+    },
+    {
+      "path": "handoffs/codex/artifacts/R10-run1-147-tests-security-graph-source-binding-ts.log",
+      "bytes": 157,
+      "sha256": "f170408413cd43d62d7f310a4951615d3431a6c14089e85175f7b8c0e277ea33"
+    },
+    {
+      "path": "handoffs/codex/artifacts/R10-run1-148-tests-security-tls-test-ts.log",
+      "bytes": 558,
+      "sha256": "f131a22d5d2814014d777b506a69ee6f801f33ed99380fc068ea84aad2e4b575"
+    },
+    {
+      "path": "handoffs/codex/artifacts/R10-run1-manifest.json",
+      "bytes": 6565,
+      "sha256": "00f849ae482824e6d5e198b89f970e05f4ff4d4f85944bdfbf595bd3680da7f9"
+    },
+    {
+      "path": "handoffs/codex/artifacts/R10-run1-results.json",
+      "bytes": 120360,
+      "sha256": "c592b80c2d09c1340302c7b614510c00ac64e07b0a94cce9d8f6c69a203bebf1"
+    },
+    {
+      "path": "handoffs/codex/artifacts/R10-run1.jsonl",
+      "bytes": 95514,
+      "sha256": "659132f55483e3b98e805dcc25a11c68a51938b1c900654fb82c705c9820dc60"
+    },
+    {
+      "path": "handoffs/codex/artifacts/R10-run2-001-codex-a00-migrate.log",
+      "bytes": 106,
+      "sha256": "cc24d6fe4a483e7b1a2ed6878385a1dc0b2605497c7ab05d97120c52fe1c5334"
+    },
+    {
+      "path": "handoffs/codex/artifacts/R10-run2-002-codex-a00-auth-init.log",
+      "bytes": 95,
+      "sha256": "1dcd20ece8c2f69c8d90b047bcc5c66139835742563a4844ffd56387febd354d"
+    },
+    {
+      "path": "handoffs/codex/artifacts/R10-run2-003-codex-a00-machine-init.log",
+      "bytes": 139,
+      "sha256": "ec52e1db41d294344afecfb2a83ae327d49e3e2a1913f6b9699f4bc85264284d"
+    },
+    {
+      "path": "handoffs/codex/artifacts/R10-run2-004-rehearsal-migrate.log",
+      "bytes": 106,
+      "sha256": "a20f3d5d322dd1e85b32d25284e6f7db8bd15885021ef03b453f5edec0fb0c05"
+    },
+    {
+      "path": "handoffs/codex/artifacts/R10-run2-005-rehearsal-auth-init.log",
+      "bytes": 95,
+      "sha256": "1dcd20ece8c2f69c8d90b047bcc5c66139835742563a4844ffd56387febd354d"
+    },
+    {
+      "path": "handoffs/codex/artifacts/R10-run2-006-rehearsal-machine-init.log",
+      "bytes": 139,
+      "sha256": "ec52e1db41d294344afecfb2a83ae327d49e3e2a1913f6b9699f4bc85264284d"
+    },
+    {
+      "path": "handoffs/codex/artifacts/R10-run2-007-build.log",
+      "bytes": 5863,
+      "sha256": "747d0f3f4b7a9f80c7c0f2754f4ac19aefd14074afec84af5e8fdd92d732dee9"
+    },
+    {
+      "path": "handoffs/codex/artifacts/R10-run2-008-runtime-image.log",
+      "bytes": 11329,
+      "sha256": "81dace4fc941a52df271f8d544bc648f5670c576f006ba420e756a676b097e74"
+    },
+    {
+      "path": "handoffs/codex/artifacts/R10-run2-009-tests-e2e-dpdpa-audit-local-ts.log",
+      "bytes": 1384,
+      "sha256": "7d09416637b6a23e6c50c29e62427038a84ce157b3d21f101d7028ee378549ce"
+    },
+    {
+      "path": "handoffs/codex/artifacts/R10-run2-010-tests-e2e-ai-governance-local-ts.log",
+      "bytes": 424,
+      "sha256": "b3045136ff26fe48f405e40b0548de2065b9e74c02c250f81bbc8686c6b0ac6d"
+    },
+    {
+      "path": "handoffs/codex/artifacts/R10-run2-011-tests-e2e-audit-mandate-local-ts.log",
+      "bytes": 984,
+      "sha256": "cfd87e3563dcb7fe45025372773ae7d40e96278293b2569cbbed6a9fe7b9cf2c"
+    },
+    {
+      "path": "handoffs/codex/artifacts/R10-run2-012-enrollment-11.log",
+      "bytes": 139,
+      "sha256": "ec52e1db41d294344afecfb2a83ae327d49e3e2a1913f6b9699f4bc85264284d"
+    },
+    {
+      "path": "handoffs/codex/artifacts/R10-run2-013-tests-e2e-auth-spec-ts.log",
+      "bytes": 195,
+      "sha256": "25cbc04d7fe5a57777aac3b9e361e99ff03bc29d151692e4d1eb397de9f07650"
+    },
+    {
+      "path": "handoffs/codex/artifacts/R10-run2-014-tests-e2e-backups-and-recovery-local-ts.log",
+      "bytes": 1118,
+      "sha256": "5b8b3f8994ffc1a3e342974c290a7cba47157dd00ce6740d88b3067bb713d6db"
+    },
+    {
+      "path": "handoffs/codex/artifacts/R10-run2-015-enrollment-14.log",
+      "bytes": 139,
+      "sha256": "ec52e1db41d294344afecfb2a83ae327d49e3e2a1913f6b9699f4bc85264284d"
+    },
+    {
+      "path": "handoffs/codex/artifacts/R10-run2-016-tests-e2e-candidate-spec-ts.log",
+      "bytes": 254,
+      "sha256": "b106a0911ba073b3fbad9cc88009b466b2a557708149e72436f878e0b92992aa"
+    },
+    {
+      "path": "handoffs/codex/artifacts/R10-run2-017-tests-e2e-catalog-discovery-local-ts.log",
+      "bytes": 303,
+      "sha256": "651dc46b03805a0854572eee200509d85760af7942f70fb35725e6c1b76ed080"
+    },
+    {
+      "path": "handoffs/codex/artifacts/R10-run2-018-enrollment-17.log",
+      "bytes": 139,
+      "sha256": "ec52e1db41d294344afecfb2a83ae327d49e3e2a1913f6b9699f4bc85264284d"
+    },
+    {
+      "path": "handoffs/codex/artifacts/R10-run2-019-tests-e2e-configuration-spec-ts.log",
+      "bytes": 93,
+      "sha256": "9e3f8a091dd5055c574d1141977c4a31ee49c013d3da76d8c9b79ebb6e9874ef"
+    },
+    {
+      "path": "handoffs/codex/artifacts/R10-run2-020-enrollment-19.log",
+      "bytes": 139,
+      "sha256": "ec52e1db41d294344afecfb2a83ae327d49e3e2a1913f6b9699f4bc85264284d"
+    },
+    {
+      "path": "handoffs/codex/artifacts/R10-run2-021-tests-e2e-consent-spec-ts.log",
+      "bytes": 264,
+      "sha256": "8d6ca1bea5a282beb04f8b27957f7ed5b39b1b83d98f54c4fa5768601cb614eb"
+    },
+    {
+      "path": "handoffs/codex/artifacts/R10-run2-022-tests-e2e-delete-login-local-ts.log",
+      "bytes": 790,
+      "sha256": "fc26986fb776479a61ccde2c740ed61b35b666c263dbc0aeb1a69caf853db415"
+    },
+    {
+      "path": "handoffs/codex/artifacts/R10-run2-023-tests-e2e-expansion-screens-local-ts.log",
+      "bytes": 1143,
+      "sha256": "b2224a45a56aa06396f54f4ca28e412b3b4d24fc741467339a97b777d293a931"
+    },
+    {
+      "path": "handoffs/codex/artifacts/R10-run2-024-tests-e2e-interface-crawl-local-ts.log",
+      "bytes": 9934,
+      "sha256": "89ad1ac85ca4702c5204c7f347afef0ead6c4d1ee8950331bc68170d4100b214"
+    },
+    {
+      "path": "handoffs/codex/artifacts/R10-run2-025-tests-e2e-operations-screens-local-ts.log",
+      "bytes": 924,
+      "sha256": "46555f8792381898499e7a8d71c2be4547479d1793ea8c578a515b1435d74ee4"
+    },
+    {
+      "path": "handoffs/codex/artifacts/R10-run2-026-tests-e2e-preferences-local-ts.log",
+      "bytes": 805,
+      "sha256": "4d6fde0d571ef3e19ed93da86165f587a11ca0f2546767a9b12a254763fc0908"
+    },
+    {
+      "path": "handoffs/codex/artifacts/R10-run2-027-tests-e2e-registry-forms-local-ts.log",
+      "bytes": 1214,
+      "sha256": "255dce5633c3fef393aaf8d76d1c11c98cc02c5f04d651ba1eac59a492e9adc9"
+    },
+    {
+      "path": "handoffs/codex/artifacts/R10-run2-028-tests-e2e-sign-in-hydration-local-ts.log",
+      "bytes": 1456,
+      "sha256": "7fa6c01bc7a1a3a6fd2a8385380f1fc281574b8fff47d8a3fd12dfa71cec0a6d"
+    },
+    {
+      "path": "handoffs/codex/artifacts/R10-run2-029-tests-e2e-start-smoke-local-ts.log",
+      "bytes": 353,
+      "sha256": "3361e17c8488f4a7014788240d2f908c59c6f766190e8f67148e97450fc06564"
+    },
+    {
+      "path": "handoffs/codex/artifacts/R10-run2-030-tests-e2e-team-local-ts.log",
+      "bytes": 564,
+      "sha256": "89937c3c5f76f4b1273162b76b3357cd5c96c753037e65268295e08020141d56"
+    },
+    {
+      "path": "handoffs/codex/artifacts/R10-run2-031-enrollment-30.log",
+      "bytes": 139,
+      "sha256": "ec52e1db41d294344afecfb2a83ae327d49e3e2a1913f6b9699f4bc85264284d"
+    },
+    {
+      "path": "handoffs/codex/artifacts/R10-run2-032-tests-e2e-test-lab-spec-ts.log",
+      "bytes": 168,
+      "sha256": "02dd39c93ffa7009065388e943d9b4a32c54bcce496465464fc7ca162a254bd3"
+    },
+    {
+      "path": "handoffs/codex/artifacts/R10-run2-033-enrollment-32.log",
+      "bytes": 139,
+      "sha256": "ec52e1db41d294344afecfb2a83ae327d49e3e2a1913f6b9699f4bc85264284d"
+    },
+    {
+      "path": "handoffs/codex/artifacts/R10-run2-034-tests-e2e-tls-spec-ts.log",
+      "bytes": 77,
+      "sha256": "82f78a05cfff2651351f1aa6cc181046c9736774cb388da5f4a27fdda8d934f9"
+    },
+    {
+      "path": "handoffs/codex/artifacts/R10-run2-035-tests-e2e-transport-preflight-ts.log",
+      "bytes": 96,
+      "sha256": "e9db058169ebaa2f338a7793bf32fe1cbe20d0431ea1376e10aba9a12a8871cd"
+    },
+    {
+      "path": "handoffs/codex/artifacts/R10-run2-036-tests-e2e-vendor-production-criteria-local-ts.log",
+      "bytes": 973,
+      "sha256": "6acde0c86c67942885617615e491554cfd2261b768c8c560a6c0af80ffe24bca"
+    },
+    {
+      "path": "handoffs/codex/artifacts/R10-run2-037-enrollment-36.log",
+      "bytes": 139,
+      "sha256": "ec52e1db41d294344afecfb2a83ae327d49e3e2a1913f6b9699f4bc85264284d"
+    },
+    {
+      "path": "handoffs/codex/artifacts/R10-run2-038-tests-e2e-workflow-spec-ts.log",
+      "bytes": 341,
+      "sha256": "9e37a0a72504d15016dd93705d20055be8ea537bbe8ae98cc653bf276778fe46"
+    },
+    {
+      "path": "handoffs/codex/artifacts/R10-run2-039-tests-integration-ai-governance-ai-governance-test-ts.log",
+      "bytes": 1491,
+      "sha256": "540e45eef14100a82d4bd96ddea0f0d2ea21f6ccc61987cf197953a66a3da8ce"
+    },
+    {
+      "path": "handoffs/codex/artifacts/R10-run2-040-tests-integration-ai-governance-model-versions-test-ts.log",
+      "bytes": 1499,
+      "sha256": "623f0ffbf88ef534427ce3bf7c40b0839752678b2fae4da553ba6fc2363448ac"
+    },
+    {
+      "path": "handoffs/codex/artifacts/R10-run2-041-tests-integration-ai-governance-monitor-test-ts.log",
+      "bytes": 523,
+      "sha256": "ec4ff0c43e4d8b917082cd42ebcfb7b93acf2d5273abc15d339f09661e20ed88"
+    },
+    {
+      "path": "handoffs/codex/artifacts/R10-run2-042-tests-integration-audit-audit-test-ts.log",
+      "bytes": 4086,
+      "sha256": "10928325f423f55578b331523be3494d42758c949c11ee06cd3ff97536e6a223"
+    },
+    {
+      "path": "handoffs/codex/artifacts/R10-run2-043-tests-integration-audit-retention-test-ts.log",
+      "bytes": 1942,
+      "sha256": "7b8124519f08d6420d1238ce99157c6a9fec51712e7d8d5c35246a9478f6da0d"
+    },
+    {
+      "path": "handoffs/codex/artifacts/R10-run2-044-tests-integration-bootstrap-test-ts.log",
+      "bytes": 2712,
+      "sha256": "f86d7d09c6b86e11a64a09569db45a6043b98156061fac624a150c1fba19609c"
+    },
+    {
+      "path": "handoffs/codex/artifacts/R10-run2-045-tests-integration-consent-canaries-test-ts.log",
+      "bytes": 1573,
+      "sha256": "5cb2a7614a7dc47db9c9a165504705b2b0562c0a99ad56d130d07742af1a31e8"
+    },
+    {
+      "path": "handoffs/codex/artifacts/R10-run2-046-tests-integration-consent-canary-grant-admission-test-ts.log",
+      "bytes": 3683,
+      "sha256": "caf92036e237eb0fa6cd5ef7cb93ead71d6213e562b2264496c0847e38ccc17d"
+    },
+    {
+      "path": "handoffs/codex/artifacts/R10-run2-047-tests-integration-consent-canary-retirement-test-ts.log",
+      "bytes": 933,
+      "sha256": "1df33207b1ee9fdd66a95918e6cf90ef36a94b61de95aab47f1904b302f4e44b"
+    },
+    {
+      "path": "handoffs/codex/artifacts/R10-run2-048-tests-integration-consent-consent-test-ts.log",
+      "bytes": 2398,
+      "sha256": "9f11762fca9c29846a2daf322a32dd9808eb6d4279c38802abc99970440d303c"
+    },
+    {
+      "path": "handoffs/codex/artifacts/R10-run2-049-tests-integration-consent-expiry-test-ts.log",
+      "bytes": 5672,
+      "sha256": "5ae2a1712a79159b193fb91542597401659f9d28a08827980db4767255e968ec"
+    },
+    {
+      "path": "handoffs/codex/artifacts/R10-run2-050-tests-integration-coverage-coverage-test-ts.log",
+      "bytes": 3193,
+      "sha256": "5e71c3dcf6dd11acb4bc3bdc009f569119f8b5b509b9394ecae01d9b2a1bacf7"
+    },
+    {
+      "path": "handoffs/codex/artifacts/R10-run2-051-tests-integration-discovery-catalog-flow-test-ts.log",
+      "bytes": 2826,
+      "sha256": "214a0c2fb9cd91ceb69a798f83c496e880788340e882c7f2ac5ff6952e4a9e56"
+    },
+    {
+      "path": "handoffs/codex/artifacts/R10-run2-052-tests-integration-discovery-schema-drift-test-ts.log",
+      "bytes": 1002,
+      "sha256": "24d29b45548abe7df58e80621872f9a4ade5f7bca8a516cdb23deea32d507d99"
+    },
+    {
+      "path": "handoffs/codex/artifacts/R10-run2-053-tests-integration-enforcement-send-test-ts.log",
+      "bytes": 2605,
+      "sha256": "dc5b35082f129fa011656dc81c309f6a5034bfda6e06f2068d5d048c3b8b0a38"
+    },
+    {
+      "path": "handoffs/codex/artifacts/R10-run2-054-enrollment-53.log",
+      "bytes": 139,
+      "sha256": "ec52e1db41d294344afecfb2a83ae327d49e3e2a1913f6b9699f4bc85264284d"
+    },
+    {
+      "path": "handoffs/codex/artifacts/R10-run2-055-tests-integration-enforcement-withdrawal-timing-test-ts.log",
+      "bytes": 2498,
+      "sha256": "8b0b4d9580fb4ceec8c3d3907235a45e1e4afed04ea0bbca95983094610915c0"
+    },
+    {
+      "path": "handoffs/codex/artifacts/R10-run2-056-enrollment-55.log",
+      "bytes": 139,
+      "sha256": "ec52e1db41d294344afecfb2a83ae327d49e3e2a1913f6b9699f4bc85264284d"
+    },
+    {
+      "path": "handoffs/codex/artifacts/R10-run2-057-tests-integration-evidence-evidence-test-ts.log",
+      "bytes": 3477,
+      "sha256": "011c82b55158871a76142b5c79e7e2eab088bded64bd8dbc98d16186a5775836"
+    },
+    {
+      "path": "handoffs/codex/artifacts/R10-run2-058-tests-integration-evidence-reports-test-ts.log",
+      "bytes": 1884,
+      "sha256": "0c46c7e6e80c936f22118929fb1941f0253b75645570f554e577974acca05f8f"
+    },
+    {
+      "path": "handoffs/codex/artifacts/R10-run2-059-tests-integration-expansion-audit-mandate-test-ts.log",
+      "bytes": 7091,
+      "sha256": "66f81f132d2455cfc5fffe17043b5fd6b7ca3ae4e2cac7c28ddc62209519a31a"
+    },
+    {
+      "path": "handoffs/codex/artifacts/R10-run2-060-tests-integration-expansion-classification-test-ts.log",
+      "bytes": 1965,
+      "sha256": "96993cf0222815cdf2b4d0e0a404a1e442f14ad3a7a901d95f0f9269f5a85fa0"
+    },
+    {
+      "path": "handoffs/codex/artifacts/R10-run2-061-tests-integration-expansion-cmp-test-ts.log",
+      "bytes": 2567,
+      "sha256": "44c69e2738d16b5617ca385caa6e6b5ff0b182636bb2ce39d95f9e93a043be4c"
+    },
+    {
+      "path": "handoffs/codex/artifacts/R10-run2-062-tests-integration-expansion-delivery-test-ts.log",
+      "bytes": 2442,
+      "sha256": "37d18f5c9fb9db5e081e134ae37855d7d3dcf3a356cea4f0d51b9ce52e7c3e50"
+    },
+    {
+      "path": "handoffs/codex/artifacts/R10-run2-063-tests-integration-expansion-dpdpa-audit-test-ts.log",
+      "bytes": 3286,
+      "sha256": "8eb29c3748f11b839164d571d0242c676d98b88ad4c26190ab6d37013dba0bd1"
+    },
+    {
+      "path": "handoffs/codex/artifacts/R10-run2-064-tests-integration-expansion-grc-lifecycle-test-ts.log",
+      "bytes": 4436,
+      "sha256": "0cb6707e2137d9fe526ff47fd92316c1e11bfcbf0b7af48b6ca5035c5448e5c0"
+    },
+    {
+      "path": "handoffs/codex/artifacts/R10-run2-065-tests-integration-expansion-impact-test-ts.log",
+      "bytes": 2492,
+      "sha256": "8341500e12af570db0ee9a3c98222d2618b6fae5734f6337c8ec61df4e139f99"
+    },
+    {
+      "path": "handoffs/codex/artifacts/R10-run2-066-tests-integration-expansion-policy-discovery-test-ts.log",
+      "bytes": 2099,
+      "sha256": "18dc5869aa64a76bd83f4ade9e2838e0ec374b2f10a176c04d9d01e28aa1cbe5"
+    },
+    {
+      "path": "handoffs/codex/artifacts/R10-run2-067-tests-integration-expansion-preferences-test-ts.log",
+      "bytes": 2481,
+      "sha256": "f4dbffd0cd96399f53e740fe92627db2f7266cac8bcba61c93caf4a846971030"
+    },
+    {
+      "path": "handoffs/codex/artifacts/R10-run2-068-tests-integration-expansion-response-packages-test-ts.log",
+      "bytes": 2991,
+      "sha256": "679823e9ce9e4e55fb8927315e926e6d4527a70817b9f2efe2d0c15649c44ae0"
+    },
+    {
+      "path": "handoffs/codex/artifacts/R10-run2-069-tests-integration-expansion-ropa-exports-test-ts.log",
+      "bytes": 3727,
+      "sha256": "2499e399e3a9f1b8246c6a5cc417a52eeb724f82ae3543333f2cde17d0969e70"
+    },
+    {
+      "path": "handoffs/codex/artifacts/R10-run2-070-tests-integration-expansion-staff-delete-test-ts.log",
+      "bytes": 1670,
+      "sha256": "66a3dc98cf069f98cdaf5be462b3f4c33736450efb4b221469a96cfbc37acb30"
+    },
+    {
+      "path": "handoffs/codex/artifacts/R10-run2-071-tests-integration-expansion-staff-members-test-ts.log",
+      "bytes": 2534,
+      "sha256": "916f476bf455f58aa6b85562fd63d975e3c80fa8679823111512decf4fa05020"
+    },
+    {
+      "path": "handoffs/codex/artifacts/R10-run2-072-tests-integration-expansion-third-party-test-ts.log",
+      "bytes": 2492,
+      "sha256": "1750a77595d545840bc3453706bd65be289061580605c6078b659ba22705425d"
+    },
+    {
+      "path": "handoffs/codex/artifacts/R10-run2-073-tests-integration-graph-graph-test-ts.log",
+      "bytes": 2948,
+      "sha256": "8a61af980ba521a11ce0e00d8bcf7f3aa6ab23195867f1dea3a8ed3a13f72415"
+    },
+    {
+      "path": "handoffs/codex/artifacts/R10-run2-074-tests-integration-grc-http-test-ts.log",
+      "bytes": 513,
+      "sha256": "42998477d1ced1371416005db487a68f1ce4a76dc6cde08b7e28f89a447ce052"
+    },
+    {
+      "path": "handoffs/codex/artifacts/R10-run2-075-tests-integration-incidents-incidents-test-ts.log",
+      "bytes": 2597,
+      "sha256": "2298730d3188e36af50eeb0e8c9a285c139c381f5121762a65d0811b50c047f5"
+    },
+    {
+      "path": "handoffs/codex/artifacts/R10-run2-076-tests-integration-licensing-import-races-test-ts.log",
+      "bytes": 269,
+      "sha256": "b1bc47648d417f14a5aa5dfee33c4e3afcaa711ea6ae98607dd27c23c3d1d138"
+    },
+    {
+      "path": "handoffs/codex/artifacts/R10-run2-077-tests-integration-licensing-licensing-test-ts.log",
+      "bytes": 1231,
+      "sha256": "a7d46e51767b4468d9598c0dfae8f5bd687aa8afaf3b0d4e83ce9a3f4bee6c3b"
+    },
+    {
+      "path": "handoffs/codex/artifacts/R10-run2-078-tests-integration-licensing-quota-race-test-ts.log",
+      "bytes": 948,
+      "sha256": "70f762159494b214b2b2824147e74b56a2bd2a2e81d0267b02505306b6ad47c8"
+    },
+    {
+      "path": "handoffs/codex/artifacts/R10-run2-079-tests-integration-licensing-tiers-test-ts.log",
+      "bytes": 1061,
+      "sha256": "71ff59af3ee389f0dddcdbf04749ed2fbdc988ce2f20adad89794464cafd10f5"
+    },
+    {
+      "path": "handoffs/codex/artifacts/R10-run2-080-tests-integration-lifecycle-test-ts.log",
+      "bytes": 860,
+      "sha256": "68480e54a15ba5d545b9bc2de138378bb4fc6f642b6f9fa187f68a3988cad6a5"
+    },
+    {
+      "path": "handoffs/codex/artifacts/R10-run2-081-tests-integration-monitoring-backup-drill-test-ts.log",
+      "bytes": 588,
+      "sha256": "d3519ac854851e622b38b59fac97417e72cb5885d70e23bc75efa3475ebfb36f"
+    },
+    {
+      "path": "handoffs/codex/artifacts/R10-run2-082-tests-integration-monitoring-monitoring-test-ts.log",
+      "bytes": 2129,
+      "sha256": "5c01013d37413f14d14a824273dd6746b6796e2b7a40f70b47024c3ffab3fdef"
+    },
+    {
+      "path": "handoffs/codex/artifacts/R10-run2-083-tests-integration-monitoring-restore-test-ts.log",
+      "bytes": 2461,
+      "sha256": "28a9e4ee4636eef49e494d86c70bc9dbd87b44d6a777611db947d935121434d5"
+    },
+    {
+      "path": "handoffs/codex/artifacts/R10-run2-084-tests-integration-monitoring-vendor-visibility-test-ts.log",
+      "bytes": 1445,
+      "sha256": "4905a34e9c0e0bb1998f5b9000c0a05732db43f3d7d617ab7c39a7fb5119fd53"
+    },
+    {
+      "path": "handoffs/codex/artifacts/R10-run2-085-tests-integration-notices-languages-test-ts.log",
+      "bytes": 1730,
+      "sha256": "18ffe180df962ed5b7fbb3d5b4260d9ec88ce2ae83355212b450e54621b8faa9"
+    },
+    {
+      "path": "handoffs/codex/artifacts/R10-run2-086-tests-integration-notifications-notifications-test-ts.log",
+      "bytes": 2014,
+      "sha256": "964fcd0a4aa62654ae946664d0290b22ffb7abae3ba5174a9e5cac807c59e020"
+    },
+    {
+      "path": "handoffs/codex/artifacts/R10-run2-087-tests-integration-onboarding-connection-test-ts.log",
+      "bytes": 2677,
+      "sha256": "f7953d8ec85d62461c59ced9f4d3e06ef014b8822683bf06ca6fec0bfc1ce037"
+    },
+    {
+      "path": "handoffs/codex/artifacts/R10-run2-088-tests-integration-onboarding-file-intake-test-ts.log",
+      "bytes": 1310,
+      "sha256": "fbf6d484fadccb296004addd8d577e360fbc7dbed72ffb841977f0df56f59d64"
+    },
+    {
+      "path": "handoffs/codex/artifacts/R10-run2-089-tests-integration-onboarding-file-intake-adversarial-test-ts.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "handoffs/codex/artifacts/R10-run2-090-tests-integration-onboarding-first-run-test-ts.log",
+      "bytes": 1199,
+      "sha256": "e2faf1ca4ea4512efe8881a8a4dd9a7326ec41a7b54ba4f1f5da91d55b67f06c"
+    },
+    {
+      "path": "handoffs/codex/artifacts/R10-run2-091-tests-integration-onboarding-first-run-http-test-ts.log",
+      "bytes": 507,
+      "sha256": "f276378346878e68aa89571ca72b12fa552083781d13ef9c47cdc714f9ef4079"
+    },
+    {
+      "path": "handoffs/codex/artifacts/R10-run2-092-tests-integration-onboarding-imports-test-ts.log",
+      "bytes": 2089,
+      "sha256": "8ca51052ee9b5739af35a0a7d8e48a89e2d06a744980b0e19b6c5d167fdc8130"
+    },
+    {
+      "path": "handoffs/codex/artifacts/R10-run2-093-tests-integration-onboarding-owner-recovery-test-ts.log",
+      "bytes": 1493,
+      "sha256": "a3328d11f7dff91e8d5d73db5d8220b3cd97a5bc3d633c1b8f4b519e513224ec"
+    },
+    {
+      "path": "handoffs/codex/artifacts/R10-run2-094-tests-integration-onboarding-preflight-test-ts.log",
+      "bytes": 1644,
+      "sha256": "465da714125aa25e288b71d079bf0e5361295f1928bad5ed0693f33b40d3aece"
+    },
+    {
+      "path": "handoffs/codex/artifacts/R10-run2-095-tests-integration-onboarding-real-principals-test-ts.log",
+      "bytes": 2659,
+      "sha256": "bd30b6c7a80a5afb4ae9fc13a709a043ca79958cce005486b372569524a19db0"
+    },
+    {
+      "path": "handoffs/codex/artifacts/R10-run2-096-tests-integration-opa-cold-start-test-ts.log",
+      "bytes": 938,
+      "sha256": "9b245660692b86dcffdfb9bfc940bc0fcae1c48cc0154176ba06b365f1f09955"
+    },
+    {
+      "path": "handoffs/codex/artifacts/R10-run2-097-tests-integration-operations-applicability-test-ts.log",
+      "bytes": 1505,
+      "sha256": "634724e5e13bd747f0769e10ecbb4e0ba44db062db10ebbbbbd9952ce3d3c39c"
+    },
+    {
+      "path": "handoffs/codex/artifacts/R10-run2-098-tests-integration-operations-backup-obligations-test-ts.log",
+      "bytes": 2227,
+      "sha256": "db0547ac280e174aedf859c9c5af96acd70dfa8b2f7947c01dd88fd333dd1a08"
+    },
+    {
+      "path": "handoffs/codex/artifacts/R10-run2-099-tests-integration-operations-breach-test-ts.log",
+      "bytes": 1519,
+      "sha256": "83a523c5453d15446aacaa886541cadfb2ead84af065aa7406405d6b8055184a"
+    },
+    {
+      "path": "handoffs/codex/artifacts/R10-run2-100-tests-integration-operations-consent-manager-test-ts.log",
+      "bytes": 1067,
+      "sha256": "08c788b889361c22ae9ad057596f57753369fcc6c99fd38200fbbfd9507caca1"
+    },
+    {
+      "path": "handoffs/codex/artifacts/R10-run2-101-tests-integration-operations-consent-withdrawal-test-ts.log",
+      "bytes": 3292,
+      "sha256": "adc2b1bc7842500e8b2a0f925094afdb0983fd95fdbbbf47051edd2bf348ea72"
+    },
+    {
+      "path": "handoffs/codex/artifacts/R10-run2-102-tests-integration-operations-correction-test-ts.log",
+      "bytes": 862,
+      "sha256": "298fccc87a93cd86b4a7399d245fedb169f39659a1bb38592330734795e51b3b"
+    },
+    {
+      "path": "handoffs/codex/artifacts/R10-run2-103-tests-integration-operations-erasure-intimation-test-ts.log",
+      "bytes": 1290,
+      "sha256": "d078068b528aebe514b252de04d80edcaae2795c364bbe770c6d1ae5951cdb12"
+    },
+    {
+      "path": "handoffs/codex/artifacts/R10-run2-104-tests-integration-operations-estate-import-test-ts.log",
+      "bytes": 1476,
+      "sha256": "81a2d474a502301f756dba8d37d5191e431f5d136fed21c7fb1f0488492d1590"
+    },
+    {
+      "path": "handoffs/codex/artifacts/R10-run2-105-tests-integration-operations-notice-language-drift-test-ts.log",
+      "bytes": 1497,
+      "sha256": "2eda41d26d8f58ff9aa8551fa6674e57bac347088f025f916ae7839a560c2d4e"
+    },
+    {
+      "path": "handoffs/codex/artifacts/R10-run2-106-tests-integration-operations-notices-test-ts.log",
+      "bytes": 465,
+      "sha256": "e76fb4fd9c6631f75d95b054631e8b82228262eebffa23731cbc032c71803517"
+    },
+    {
+      "path": "handoffs/codex/artifacts/R10-run2-107-tests-integration-operations-organisation-intake-test-ts.log",
+      "bytes": 2122,
+      "sha256": "76cf0952fda1f7be3bceef25ef1b9e0a6b6f276aed0c3c8214eb6ba5377f56c2"
+    },
+    {
+      "path": "handoffs/codex/artifacts/R10-run2-108-tests-integration-operations-processors-test-ts.log",
+      "bytes": 1307,
+      "sha256": "2bff1e5bd227d06dcf585ce80e67db314f7199e740f75a610e4413c359ceb55e"
+    },
+    {
+      "path": "handoffs/codex/artifacts/R10-run2-109-tests-integration-operations-registry-test-ts.log",
+      "bytes": 3086,
+      "sha256": "4418eec7219eee0876e79bb44e3fcfd06562100f837d34ced6f74dc9550b0541"
+    },
+    {
+      "path": "handoffs/codex/artifacts/R10-run2-110-tests-integration-operations-regulatory-test-ts.log",
+      "bytes": 2274,
+      "sha256": "2c9808b7924b91ce75ed02192a47fcf71653512113b06e308e5086a3253c6a40"
+    },
+    {
+      "path": "handoffs/codex/artifacts/R10-run2-111-tests-integration-operations-retention-scale-test-ts.log",
+      "bytes": 473,
+      "sha256": "d23e49fb23140a529e95f0cf5c023ae801a8c258479c074948e37903d6afb779"
+    },
+    {
+      "path": "handoffs/codex/artifacts/R10-run2-112-tests-integration-operations-rights-test-ts.log",
+      "bytes": 1749,
+      "sha256": "a357edd1563d0768820e566aa727ec4038c9282190521be82ffe8cd811c09806"
+    },
+    {
+      "path": "handoffs/codex/artifacts/R10-run2-113-tests-integration-operations-runner-test-ts.log",
+      "bytes": 1042,
+      "sha256": "f740058769f44d10397221ca6e1bc3e48e3b4f9c3f913a5bc59537e142dc7a0f"
+    },
+    {
+      "path": "handoffs/codex/artifacts/R10-run2-114-tests-integration-operations-runner-progress-test-ts.log",
+      "bytes": 2249,
+      "sha256": "c6187b6d6e9dd6546e13f94a34f336587fc5ce2bf23d9ad063e76a99794b50e9"
+    },
+    {
+      "path": "handoffs/codex/artifacts/R10-run2-115-tests-integration-operations-sdf-test-ts.log",
+      "bytes": 1421,
+      "sha256": "d5894eefe5f4c0702fe79b7cff9889bc79c4fe52c8aff7e781ce0e9d83f065d1"
+    },
+    {
+      "path": "handoffs/codex/artifacts/R10-run2-116-tests-integration-operations-withdrawal-single-pass-test-ts.log",
+      "bytes": 948,
+      "sha256": "8d7d4d0736107a365ce6f683cd7712b7d90dd05c00f9a4a6231e915b89881bd0"
+    },
+    {
+      "path": "handoffs/codex/artifacts/R10-run2-117-tests-integration-processors-processors-test-ts.log",
+      "bytes": 2321,
+      "sha256": "3b22b3da29165ad5d0a7685eb522964b5d7999fe6e54e9092a726affc30316f0"
+    },
+    {
+      "path": "handoffs/codex/artifacts/R10-run2-118-enrollment-117.log",
+      "bytes": 139,
+      "sha256": "ec52e1db41d294344afecfb2a83ae327d49e3e2a1913f6b9699f4bc85264284d"
+    },
+    {
+      "path": "handoffs/codex/artifacts/R10-run2-119-tests-integration-regression-regression-test-ts.log",
+      "bytes": 4419,
+      "sha256": "1f91f9abbec5abe8a51bfe815530ceec7596bfae94fd93523c6576605684126c"
+    },
+    {
+      "path": "handoffs/codex/artifacts/R10-run2-120-tests-integration-retention-retention-test-ts.log",
+      "bytes": 2826,
+      "sha256": "497ebe0be32c2874b93f13818c18439c3a74643e60ac87224ba727f91392ffdc"
+    },
+    {
+      "path": "handoffs/codex/artifacts/R10-run2-121-tests-integration-rights-portal-test-ts.log",
+      "bytes": 1506,
+      "sha256": "cea567f300f7a05285739aa82a3df5e68a27e29db432cb16d30ebbc9b8a8389a"
+    },
+    {
+      "path": "handoffs/codex/artifacts/R10-run2-122-tests-integration-rights-rights-test-ts.log",
+      "bytes": 4070,
+      "sha256": "5bbbc3289e32391c613b71f340e5eeacb80e35a793412ed0e1515eef163d86ff"
+    },
+    {
+      "path": "handoffs/codex/artifacts/R10-run2-123-tests-integration-support-support-test-ts.log",
+      "bytes": 3822,
+      "sha256": "caf5beb1b95a1b194d92bccf75ded3bed13da6380dd70eb3d47d341ebabb6f73"
+    },
+    {
+      "path": "handoffs/codex/artifacts/R10-run2-124-tests-integration-updates-updates-test-ts.log",
+      "bytes": 4009,
+      "sha256": "3cd8ebcb0ee2972b65813ac348ffe11d046f4501483788edb59f0a742a078c1f"
+    },
+    {
+      "path": "handoffs/codex/artifacts/R10-run2-125-tests-integration-vendor-audit-practice-test-ts.log",
+      "bytes": 8901,
+      "sha256": "5d657413c69bbe7ea3be3ea24ef336f817f0ec5c411505fa26f04c05c7e8393b"
+    },
+    {
+      "path": "handoffs/codex/artifacts/R10-run2-126-tests-integration-vendor-member-onboarding-test-ts.log",
+      "bytes": 1188,
+      "sha256": "48738ea3bad947d949fb31d4dce517e7c78b6ef812729aac7945bc1357e6da70"
+    },
+    {
+      "path": "handoffs/codex/artifacts/R10-run2-127-tests-integration-vendor-provisioning-test-ts.log",
+      "bytes": 1381,
+      "sha256": "fe4e9472482c36446f002c98fdcfa0bc8e40aa38bca7943e07576d4349af04a6"
+    },
+    {
+      "path": "handoffs/codex/artifacts/R10-run2-128-tests-integration-vendor-vendor-audit-test-ts.log",
+      "bytes": 3341,
+      "sha256": "bf3057c8c5b7d984dee1ca7430f30f331d54205f3b84439b1cbb3ff802f90642"
+    },
+    {
+      "path": "handoffs/codex/artifacts/R10-run2-129-enrollment-128.log",
+      "bytes": 139,
+      "sha256": "ec52e1db41d294344afecfb2a83ae327d49e3e2a1913f6b9699f4bc85264284d"
+    },
+    {
+      "path": "handoffs/codex/artifacts/R10-run2-130-tests-integration-workflows-workflow-test-ts.log",
+      "bytes": 1712,
+      "sha256": "29b0bde3d19fd267b34c14ca68157f9b766ac4a870fc66dd066d0579b9539edb"
+    },
+    {
+      "path": "handoffs/codex/artifacts/R10-run2-131-tests-security-auth-test-ts.log",
+      "bytes": 3522,
+      "sha256": "c6047943559d9d2dab8a516c9bfcc56f7e87296a96d54c5a236fffae2d63d3e3"
+    },
+    {
+      "path": "handoffs/codex/artifacts/R10-run2-132-tests-security-function-acl-ts.log",
+      "bytes": 6444,
+      "sha256": "5fe6fe516e42440279f1b9aa87ca9fb0a98c8b63271a82ef8e63055eb3f04e81"
+    },
+    {
+      "path": "handoffs/codex/artifacts/R10-run2-133-tests-security-graph-source-binding-ts.log",
+      "bytes": 261,
+      "sha256": "a0827b261d70e813cdef6493629ec1ff352f13c61264c292ebcbba14f6958f6d"
+    },
+    {
+      "path": "handoffs/codex/artifacts/R10-run2-134-tests-security-network-core-ts.log",
+      "bytes": 157,
+      "sha256": "2af46641830be1dabe073109c9d21480a9dfcb5396ffb853dce50c227737de32"
+    },
+    {
+      "path": "handoffs/codex/artifacts/R10-run2-135-tests-security-tls-test-ts.log",
+      "bytes": 568,
+      "sha256": "003d1869a8cdc711976ab8d70505d620967239cd1105a5f31ee366d4f1128d1b"
+    },
+    {
+      "path": "handoffs/codex/artifacts/R10-run2-136-tests-security-vendor-function-acl-ts.log",
+      "bytes": 182,
+      "sha256": "027077d35092cd5ea241350894a003a0b7bec1a9b13fac446005918459410f28"
+    },
+    {
+      "path": "handoffs/codex/artifacts/R10-run2-crawl-policy-metadata.json",
+      "bytes": 1659,
+      "sha256": "9dea9e640db1b47ad14e1a2cff810b5412214b04ca919e09c9f682b15ac4eb00"
+    },
+    {
+      "path": "handoffs/codex/artifacts/R10-run2-manifest.json",
+      "bytes": 6037,
+      "sha256": "bb585f4b1123d92afb0b68187a00e5a76799ce7851037f0900efe1da4cb48656"
+    },
+    {
+      "path": "handoffs/codex/artifacts/R10-run2-resource-observation.json",
+      "bytes": 452,
+      "sha256": "f4ad3f28580d310c771acd9fb4129e51b81bdff031bd906f87c34731bb872c84"
+    },
+    {
+      "path": "handoffs/codex/artifacts/R10-run2-results.json",
+      "bytes": 113870,
+      "sha256": "4543b4c18c5ec03c95cfa9fa0d8d50a73f4510afa2527e13dd993c470eb23435"
+    },
+    {
+      "path": "handoffs/codex/artifacts/R10-run2-seat-reader-acl-before-8086b903-9412-4184-ad57-1d14fd3d2630.log",
+      "bytes": 736,
+      "sha256": "4cc9bd5299c6651dd64bc06b0143cb690f3e825eef5b6354f5b4ef2f0b6d9644"
+    },
+    {
+      "path": "handoffs/codex/artifacts/R10-run2-vendor-import-race-before-5d1260d5-caef-448a-91f5-333bb0520352.log",
+      "bytes": 166,
+      "sha256": "e053b2a536afd0ceade2ace4a1a4b1bf07385f9d6e5dc2ca11983556fdff38b9"
+    },
+    {
+      "path": "handoffs/codex/artifacts/R10-run2.jsonl",
+      "bytes": 90411,
+      "sha256": "c94808487dc16465b5f90e14899d5bf91453c4835a77de52fc9d14484e8c5437"
+    },
+    {
+      "path": "handoffs/codex/artifacts/R10-run3-001-codex-a00-migrate.log",
+      "bytes": 106,
+      "sha256": "5ba4bbed9c8042fd971daf6f13b711b467d908b52fc1f6d5dc2ddaa603e254fc"
+    },
+    {
+      "path": "handoffs/codex/artifacts/R10-run3-002-codex-a00-auth-init.log",
+      "bytes": 95,
+      "sha256": "1dcd20ece8c2f69c8d90b047bcc5c66139835742563a4844ffd56387febd354d"
+    },
+    {
+      "path": "handoffs/codex/artifacts/R10-run3-003-codex-a00-machine-init.log",
+      "bytes": 139,
+      "sha256": "ec52e1db41d294344afecfb2a83ae327d49e3e2a1913f6b9699f4bc85264284d"
+    },
+    {
+      "path": "handoffs/codex/artifacts/R10-run3-004-rehearsal-migrate.log",
+      "bytes": 106,
+      "sha256": "a596da80e92ff9a193e3c3c6ace78ba57ef3eb7f2928d2a2837d9286b5ccd733"
+    },
+    {
+      "path": "handoffs/codex/artifacts/R10-run3-005-rehearsal-auth-init.log",
+      "bytes": 95,
+      "sha256": "1dcd20ece8c2f69c8d90b047bcc5c66139835742563a4844ffd56387febd354d"
+    },
+    {
+      "path": "handoffs/codex/artifacts/R10-run3-006-rehearsal-machine-init.log",
+      "bytes": 139,
+      "sha256": "ec52e1db41d294344afecfb2a83ae327d49e3e2a1913f6b9699f4bc85264284d"
+    },
+    {
+      "path": "handoffs/codex/artifacts/R10-run3-007-vendor-migrate.log",
+      "bytes": 117,
+      "sha256": "01b527d6161e9787b6795308adee3173d7f73c8c6414416c5836c8e6328674fa"
+    },
+    {
+      "path": "handoffs/codex/artifacts/R10-run3-008-build.log",
+      "bytes": 5863,
+      "sha256": "049f31ae7328e9aaea757b0aae0287aba479ded6d5cfe522e851dc5356651fcd"
+    },
+    {
+      "path": "handoffs/codex/artifacts/R10-run3-009-codex-a00-fixture-mfa.log",
+      "bytes": 252,
+      "sha256": "a1d07c59e1bfd9587531917241c7ca6ebd15c31f2cb008c671c26507bae63ad5"
+    },
+    {
+      "path": "handoffs/codex/artifacts/R10-run3-010-rehearsal-fixture-mfa.log",
+      "bytes": 252,
+      "sha256": "6f59ea3a69ec78b627c4fd0040c75861007650dd062acf96ddd15aea664942dc"
+    },
+    {
+      "path": "handoffs/codex/artifacts/R10-run3-011-vendor-import-race-after.log",
+      "bytes": 216,
+      "sha256": "ea23c68d09004400576509a99cab30585258a2045650c726955710bc425acda1"
+    },
+    {
+      "path": "handoffs/codex/artifacts/R10-run3-012-codex-a00-outbox-before.log",
+      "bytes": 684,
+      "sha256": "7d8aacac1837cd62182dcb5116b57757014b8669887920d9c2be03a8fd7c9ae6"
+    },
+    {
+      "path": "handoffs/codex/artifacts/R10-run3-013-rehearsal-outbox-before.log",
+      "bytes": 683,
+      "sha256": "0b9d0f16bb3a8040ac4c3ef3c100ee2243a20a9cf2739159626284d20266681c"
+    },
+    {
+      "path": "handoffs/codex/artifacts/R10-run3-014-runtime-image.log",
+      "bytes": 10993,
+      "sha256": "c76bdc29b2dec5fe6752546011cab0c01d5dfa0eda1fcbc228976edf476625b6"
+    },
+    {
+      "path": "handoffs/codex/artifacts/R10-run3-015-enrollment-14.log",
+      "bytes": 139,
+      "sha256": "ec52e1db41d294344afecfb2a83ae327d49e3e2a1913f6b9699f4bc85264284d"
+    },
+    {
+      "path": "handoffs/codex/artifacts/R10-run3-016-tests-e2e-dpdpa-audit-local-ts.log",
+      "bytes": 1612,
+      "sha256": "cf390c304622caa90b15902e02eedef65e5226c0b2ea4f35ab40c0756d25c6f0"
+    },
+    {
+      "path": "handoffs/codex/artifacts/R10-run3-017-enrollment-16.log",
+      "bytes": 139,
+      "sha256": "ec52e1db41d294344afecfb2a83ae327d49e3e2a1913f6b9699f4bc85264284d"
+    },
+    {
+      "path": "handoffs/codex/artifacts/R10-run3-018-tests-e2e-audit-mandate-local-ts.log",
+      "bytes": 984,
+      "sha256": "3c3995fff27d0709a0f46a31408bae268b621e204cf589cafb6a75f91784336a"
+    },
+    {
+      "path": "handoffs/codex/artifacts/R10-run3-019-enrollment-18.log",
+      "bytes": 139,
+      "sha256": "ec52e1db41d294344afecfb2a83ae327d49e3e2a1913f6b9699f4bc85264284d"
+    },
+    {
+      "path": "handoffs/codex/artifacts/R10-run3-020-tests-e2e-auth-spec-ts.log",
+      "bytes": 195,
+      "sha256": "a50ba080f9fb7efa4ad0ffcfd8388fa25634cfd00841786887db7304d2043179"
+    },
+    {
+      "path": "handoffs/codex/artifacts/R10-run3-021-enrollment-20.log",
+      "bytes": 139,
+      "sha256": "ec52e1db41d294344afecfb2a83ae327d49e3e2a1913f6b9699f4bc85264284d"
+    },
+    {
+      "path": "handoffs/codex/artifacts/R10-run3-022-tests-e2e-backups-and-recovery-local-ts.log",
+      "bytes": 853,
+      "sha256": "2e402bbb4df4a0ff47b6e894031724a13bc02ee1d22fca549ec7d2fe25ccd350"
+    },
+    {
+      "path": "handoffs/codex/artifacts/R10-run3-023-enrollment-22.log",
+      "bytes": 139,
+      "sha256": "ec52e1db41d294344afecfb2a83ae327d49e3e2a1913f6b9699f4bc85264284d"
+    },
+    {
+      "path": "handoffs/codex/artifacts/R10-run3-024-tests-e2e-candidate-spec-ts.log",
+      "bytes": 254,
+      "sha256": "1c81a6f00881ebac2a0f67e68da5b71ec95a3e991dbfd33ce56151df69e9c0bf"
+    },
+    {
+      "path": "handoffs/codex/artifacts/R10-run3-025-enrollment-24.log",
+      "bytes": 139,
+      "sha256": "ec52e1db41d294344afecfb2a83ae327d49e3e2a1913f6b9699f4bc85264284d"
+    },
+    {
+      "path": "handoffs/codex/artifacts/R10-run3-026-tests-e2e-configuration-spec-ts.log",
+      "bytes": 93,
+      "sha256": "9e3f8a091dd5055c574d1141977c4a31ee49c013d3da76d8c9b79ebb6e9874ef"
+    },
+    {
+      "path": "handoffs/codex/artifacts/R10-run3-027-enrollment-26.log",
+      "bytes": 139,
+      "sha256": "ec52e1db41d294344afecfb2a83ae327d49e3e2a1913f6b9699f4bc85264284d"
+    },
+    {
+      "path": "handoffs/codex/artifacts/R10-run3-028-tests-e2e-consent-spec-ts.log",
+      "bytes": 264,
+      "sha256": "b2e693f6c3095e1a787479e8d467a6c60e100d6d30c00b0d3f850f4e23c5de26"
+    },
+    {
+      "path": "handoffs/codex/artifacts/R10-run3-029-enrollment-28.log",
+      "bytes": 139,
+      "sha256": "ec52e1db41d294344afecfb2a83ae327d49e3e2a1913f6b9699f4bc85264284d"
+    },
+    {
+      "path": "handoffs/codex/artifacts/R10-run3-030-tests-e2e-expansion-screens-local-ts.log",
+      "bytes": 3897,
+      "sha256": "fc4fc151084c635495030bc47d49af4120ead31810294ce9b7caaca62a6e837a"
+    },
+    {
+      "path": "handoffs/codex/artifacts/R10-run3-031-enrollment-30.log",
+      "bytes": 139,
+      "sha256": "ec52e1db41d294344afecfb2a83ae327d49e3e2a1913f6b9699f4bc85264284d"
+    },
+    {
+      "path": "handoffs/codex/artifacts/R10-run3-032-tests-e2e-interface-crawl-local-ts.log",
+      "bytes": 18049,
+      "sha256": "62dfffa98ea7570cafd3e1a4a8a2a37b2531d5d7dd8837a05e46143e30c39481"
+    },
+    {
+      "path": "handoffs/codex/artifacts/R10-run3-033-enrollment-32.log",
+      "bytes": 139,
+      "sha256": "ec52e1db41d294344afecfb2a83ae327d49e3e2a1913f6b9699f4bc85264284d"
+    },
+    {
+      "path": "handoffs/codex/artifacts/R10-run3-034-tests-e2e-operations-screens-local-ts.log",
+      "bytes": 1946,
+      "sha256": "c0a0547794dcbe467f99b5278a195a4d534c7f447bcf81ca813965febc317cb7"
+    },
+    {
+      "path": "handoffs/codex/artifacts/R10-run3-035-enrollment-34.log",
+      "bytes": 139,
+      "sha256": "ec52e1db41d294344afecfb2a83ae327d49e3e2a1913f6b9699f4bc85264284d"
+    },
+    {
+      "path": "handoffs/codex/artifacts/R10-run3-036-tests-e2e-start-smoke-local-ts.log",
+      "bytes": 723,
+      "sha256": "3bddc3e7f086025085218e88270bd97809f2d553b0106efab88e1b4e912535ad"
+    },
+    {
+      "path": "handoffs/codex/artifacts/R10-run3-037-enrollment-36.log",
+      "bytes": 139,
+      "sha256": "ec52e1db41d294344afecfb2a83ae327d49e3e2a1913f6b9699f4bc85264284d"
+    },
+    {
+      "path": "handoffs/codex/artifacts/R10-run3-038-tests-e2e-test-lab-spec-ts.log",
+      "bytes": 168,
+      "sha256": "02dd39c93ffa7009065388e943d9b4a32c54bcce496465464fc7ca162a254bd3"
+    },
+    {
+      "path": "handoffs/codex/artifacts/R10-run3-039-enrollment-38.log",
+      "bytes": 139,
+      "sha256": "ec52e1db41d294344afecfb2a83ae327d49e3e2a1913f6b9699f4bc85264284d"
+    },
+    {
+      "path": "handoffs/codex/artifacts/R10-run3-040-tests-e2e-tls-spec-ts.log",
+      "bytes": 77,
+      "sha256": "82f78a05cfff2651351f1aa6cc181046c9736774cb388da5f4a27fdda8d934f9"
+    },
+    {
+      "path": "handoffs/codex/artifacts/R10-run3-041-enrollment-40.log",
+      "bytes": 139,
+      "sha256": "ec52e1db41d294344afecfb2a83ae327d49e3e2a1913f6b9699f4bc85264284d"
+    },
+    {
+      "path": "handoffs/codex/artifacts/R10-run3-042-tests-e2e-transport-preflight-ts.log",
+      "bytes": 308,
+      "sha256": "6c48a176456c79a40dc1ab9dd307b7b0fc13b4b2abba073728e8fc1e3ac2f1ac"
+    },
+    {
+      "path": "handoffs/codex/artifacts/R10-run3-043-enrollment-42.log",
+      "bytes": 139,
+      "sha256": "ec52e1db41d294344afecfb2a83ae327d49e3e2a1913f6b9699f4bc85264284d"
+    },
+    {
+      "path": "handoffs/codex/artifacts/R10-run3-044-tests-e2e-vendor-production-criteria-local-ts.log",
+      "bytes": 973,
+      "sha256": "975aed128032da30d7e27f64b24d93937bdeb8e5885f0fad83a612fe20c59756"
+    },
+    {
+      "path": "handoffs/codex/artifacts/R10-run3-045-enrollment-44.log",
+      "bytes": 139,
+      "sha256": "ec52e1db41d294344afecfb2a83ae327d49e3e2a1913f6b9699f4bc85264284d"
+    },
+    {
+      "path": "handoffs/codex/artifacts/R10-run3-046-tests-e2e-workflow-spec-ts.log",
+      "bytes": 341,
+      "sha256": "9e37a0a72504d15016dd93705d20055be8ea537bbe8ae98cc653bf276778fe46"
+    },
+    {
+      "path": "handoffs/codex/artifacts/R10-run3-047-enrollment-46.log",
+      "bytes": 139,
+      "sha256": "ec52e1db41d294344afecfb2a83ae327d49e3e2a1913f6b9699f4bc85264284d"
+    },
+    {
+      "path": "handoffs/codex/artifacts/R10-run3-048-tests-integration-enforcement-send-test-ts.log",
+      "bytes": 1995,
+      "sha256": "a8043790484b17154e034d7a14624b4489f8a97ef0fb8b76084cce1d621507e6"
+    },
+    {
+      "path": "handoffs/codex/artifacts/R10-run3-049-enrollment-48.log",
+      "bytes": 139,
+      "sha256": "ec52e1db41d294344afecfb2a83ae327d49e3e2a1913f6b9699f4bc85264284d"
+    },
+    {
+      "path": "handoffs/codex/artifacts/R10-run3-050-tests-integration-enforcement-withdrawal-timing-test-ts.log",
+      "bytes": 2494,
+      "sha256": "484f76d1fb751063d6458d6f359ac230cf1ab61bb7c0d3d6c25e90ce34f73470"
+    },
+    {
+      "path": "handoffs/codex/artifacts/R10-run3-051-enrollment-50.log",
+      "bytes": 139,
+      "sha256": "ec52e1db41d294344afecfb2a83ae327d49e3e2a1913f6b9699f4bc85264284d"
+    },
+    {
+      "path": "handoffs/codex/artifacts/R10-run3-052-tests-integration-expansion-staff-delete-test-ts.log",
+      "bytes": 1882,
+      "sha256": "8621496756d031ee1d99aea1f4a37a8418c96886a50c5dfa9f0de29fc825cbd0"
+    },
+    {
+      "path": "handoffs/codex/artifacts/R10-run3-053-enrollment-52.log",
+      "bytes": 139,
+      "sha256": "ec52e1db41d294344afecfb2a83ae327d49e3e2a1913f6b9699f4bc85264284d"
+    },
+    {
+      "path": "handoffs/codex/artifacts/R10-run3-054-tests-integration-expansion-staff-members-test-ts.log",
+      "bytes": 2322,
+      "sha256": "6d7f2adb3ce0e48856af7754b9f1ecc29e6fd75761910b635aca5726a928ac4e"
+    },
+    {
+      "path": "handoffs/codex/artifacts/R10-run3-055-enrollment-54.log",
+      "bytes": 139,
+      "sha256": "ec52e1db41d294344afecfb2a83ae327d49e3e2a1913f6b9699f4bc85264284d"
+    },
+    {
+      "path": "handoffs/codex/artifacts/R10-run3-056-tests-integration-grc-http-test-ts.log",
+      "bytes": 2318,
+      "sha256": "9360b26f790dbe50e4363c8d24bcb9253e283cabdfdac7ffb4336fdeb38bed6c"
+    },
+    {
+      "path": "handoffs/codex/artifacts/R10-run3-057-enrollment-56.log",
+      "bytes": 139,
+      "sha256": "ec52e1db41d294344afecfb2a83ae327d49e3e2a1913f6b9699f4bc85264284d"
+    },
+    {
+      "path": "handoffs/codex/artifacts/R10-run3-058-tests-integration-licensing-import-races-test-ts.log",
+      "bytes": 399,
+      "sha256": "2850d5036b3d2c856fcdbd988f0d0c241ee6a0ead9b7bb8c37169f51785aa7ef"
+    },
+    {
+      "path": "handoffs/codex/artifacts/R10-run3-059-enrollment-58.log",
+      "bytes": 139,
+      "sha256": "ec52e1db41d294344afecfb2a83ae327d49e3e2a1913f6b9699f4bc85264284d"
+    },
+    {
+      "path": "handoffs/codex/artifacts/R10-run3-060-tests-integration-licensing-licensing-test-ts.log",
+      "bytes": 3323,
+      "sha256": "b4cf79102516449f37cb7d33a4a2bdde0a12858b43b3e89d67fab6344a14bd20"
+    },
+    {
+      "path": "handoffs/codex/artifacts/R10-run3-061-enrollment-60.log",
+      "bytes": 139,
+      "sha256": "ec52e1db41d294344afecfb2a83ae327d49e3e2a1913f6b9699f4bc85264284d"
+    },
+    {
+      "path": "handoffs/codex/artifacts/R10-run3-062-tests-integration-licensing-quota-race-test-ts.log",
+      "bytes": 275,
+      "sha256": "f4bb0abfc4852012103dd077250244bf6b46d53590da2d2173d7edcccf706620"
+    },
+    {
+      "path": "handoffs/codex/artifacts/R10-run3-063-enrollment-62.log",
+      "bytes": 139,
+      "sha256": "ec52e1db41d294344afecfb2a83ae327d49e3e2a1913f6b9699f4bc85264284d"
+    },
+    {
+      "path": "handoffs/codex/artifacts/R10-run3-064-tests-integration-licensing-tiers-test-ts.log",
+      "bytes": 1078,
+      "sha256": "48d81936d58204d7e4e3c6fd05bb507716ac542f5641656519ece003c4c3c606"
+    },
+    {
+      "path": "handoffs/codex/artifacts/R10-run3-065-enrollment-64.log",
+      "bytes": 139,
+      "sha256": "ec52e1db41d294344afecfb2a83ae327d49e3e2a1913f6b9699f4bc85264284d"
+    },
+    {
+      "path": "handoffs/codex/artifacts/R10-run3-066-tests-integration-lifecycle-test-ts.log",
+      "bytes": 860,
+      "sha256": "d2e9af4988aa4bea42540cef1f47a3f621b90b85ee9c3287390331724a8afb41"
+    },
+    {
+      "path": "handoffs/codex/artifacts/R10-run3-067-enrollment-66.log",
+      "bytes": 139,
+      "sha256": "ec52e1db41d294344afecfb2a83ae327d49e3e2a1913f6b9699f4bc85264284d"
+    },
+    {
+      "path": "handoffs/codex/artifacts/R10-run3-068-tests-integration-onboarding-file-intake-adversarial-test-ts.log",
+      "bytes": 445,
+      "sha256": "2300aee2e14bace792c91e3b65a0caed1baf233c91ca196762099e389f9d31fe"
+    },
+    {
+      "path": "handoffs/codex/artifacts/R10-run3-069-enrollment-68.log",
+      "bytes": 139,
+      "sha256": "ec52e1db41d294344afecfb2a83ae327d49e3e2a1913f6b9699f4bc85264284d"
+    },
+    {
+      "path": "handoffs/codex/artifacts/R10-run3-070-tests-integration-onboarding-file-intake-test-ts.log",
+      "bytes": 1518,
+      "sha256": "f969a9116ddec83fd7d0c7694325dc412313153abd2dc43342d1c66b532c4913"
+    },
+    {
+      "path": "handoffs/codex/artifacts/R10-run3-071-enrollment-70.log",
+      "bytes": 139,
+      "sha256": "ec52e1db41d294344afecfb2a83ae327d49e3e2a1913f6b9699f4bc85264284d"
+    },
+    {
+      "path": "handoffs/codex/artifacts/R10-run3-072-tests-integration-opa-cold-start-test-ts.log",
+      "bytes": 938,
+      "sha256": "83db9a8b3f187df318b6027c6eda8fb5fa958fec69efec24a2fc9a8548ae3847"
+    },
+    {
+      "path": "handoffs/codex/artifacts/R10-run3-073-enrollment-72.log",
+      "bytes": 139,
+      "sha256": "ec52e1db41d294344afecfb2a83ae327d49e3e2a1913f6b9699f4bc85264284d"
+    },
+    {
+      "path": "handoffs/codex/artifacts/R10-run3-074-tests-integration-operations-backup-obligations-test-ts.log",
+      "bytes": 3045,
+      "sha256": "8bd9c4c12a0053bcae77b8a7c727b9f0653ca895c3c813ed98ac6ed0392bd3a2"
+    },
+    {
+      "path": "handoffs/codex/artifacts/R10-run3-075-enrollment-74.log",
+      "bytes": 139,
+      "sha256": "ec52e1db41d294344afecfb2a83ae327d49e3e2a1913f6b9699f4bc85264284d"
+    },
+    {
+      "path": "handoffs/codex/artifacts/R10-run3-076-tests-integration-operations-consent-withdrawal-test-ts.log",
+      "bytes": 2754,
+      "sha256": "377c760fefdfdf30126c8074a31936c752bd13adf649f4356f578b6f2af70f18"
+    },
+    {
+      "path": "handoffs/codex/artifacts/R10-run3-077-enrollment-76.log",
+      "bytes": 139,
+      "sha256": "ec52e1db41d294344afecfb2a83ae327d49e3e2a1913f6b9699f4bc85264284d"
+    },
+    {
+      "path": "handoffs/codex/artifacts/R10-run3-078-tests-integration-operations-notices-test-ts.log",
+      "bytes": 1162,
+      "sha256": "92c785a1f08f81f6a433d2c137a14f06332208a08b1d08b819326efe2d1350f7"
+    },
+    {
+      "path": "handoffs/codex/artifacts/R10-run3-079-enrollment-78.log",
+      "bytes": 139,
+      "sha256": "ec52e1db41d294344afecfb2a83ae327d49e3e2a1913f6b9699f4bc85264284d"
+    },
+    {
+      "path": "handoffs/codex/artifacts/R10-run3-080-tests-integration-operations-organisation-intake-test-ts.log",
+      "bytes": 2841,
+      "sha256": "3b01a161bc07d27c1b73a2deb49310b0c1886df9367f8932549f0085ee150dd4"
+    },
+    {
+      "path": "handoffs/codex/artifacts/R10-run3-081-enrollment-80.log",
+      "bytes": 139,
+      "sha256": "ec52e1db41d294344afecfb2a83ae327d49e3e2a1913f6b9699f4bc85264284d"
+    },
+    {
+      "path": "handoffs/codex/artifacts/R10-run3-082-tests-integration-operations-retention-scale-test-ts.log",
+      "bytes": 1188,
+      "sha256": "c38820499822d645e5adceb9226d5e1890c7aec72d183d47ed7662efa63027a3"
+    },
+    {
+      "path": "handoffs/codex/artifacts/R10-run3-083-enrollment-82.log",
+      "bytes": 139,
+      "sha256": "ec52e1db41d294344afecfb2a83ae327d49e3e2a1913f6b9699f4bc85264284d"
+    },
+    {
+      "path": "handoffs/codex/artifacts/R10-run3-084-tests-integration-operations-runner-test-ts.log",
+      "bytes": 615,
+      "sha256": "ba7d40b3ff5a719f18e27483b06fdce4d11135ff8995a0ed3753c81833fb0345"
+    },
+    {
+      "path": "handoffs/codex/artifacts/R10-run3-085-enrollment-84.log",
+      "bytes": 139,
+      "sha256": "ec52e1db41d294344afecfb2a83ae327d49e3e2a1913f6b9699f4bc85264284d"
+    },
+    {
+      "path": "handoffs/codex/artifacts/R10-run3-086-tests-integration-vendor-audit-practice-test-ts.log",
+      "bytes": 8777,
+      "sha256": "b8ae323a99433f1cf45f051a7ac36f561ca34ebaedf6b16a888b4b46fe2c99d8"
+    },
+    {
+      "path": "handoffs/codex/artifacts/R10-run3-087-enrollment-86.log",
+      "bytes": 139,
+      "sha256": "ec52e1db41d294344afecfb2a83ae327d49e3e2a1913f6b9699f4bc85264284d"
+    },
+    {
+      "path": "handoffs/codex/artifacts/R10-run3-088-tests-integration-vendor-member-onboarding-test-ts.log",
+      "bytes": 1188,
+      "sha256": "48738ea3bad947d949fb31d4dce517e7c78b6ef812729aac7945bc1357e6da70"
+    },
+    {
+      "path": "handoffs/codex/artifacts/R10-run3-089-enrollment-88.log",
+      "bytes": 139,
+      "sha256": "ec52e1db41d294344afecfb2a83ae327d49e3e2a1913f6b9699f4bc85264284d"
+    },
+    {
+      "path": "handoffs/codex/artifacts/R10-run3-090-tests-integration-vendor-provisioning-test-ts.log",
+      "bytes": 1540,
+      "sha256": "64797bf89c441ad851c1d8dcc0b52ea92dd4ff029c532c31a7e81835a1ace27c"
+    },
+    {
+      "path": "handoffs/codex/artifacts/R10-run3-091-enrollment-90.log",
+      "bytes": 139,
+      "sha256": "ec52e1db41d294344afecfb2a83ae327d49e3e2a1913f6b9699f4bc85264284d"
+    },
+    {
+      "path": "handoffs/codex/artifacts/R10-run3-092-tests-integration-vendor-schema-equivalence-test-ts.log",
+      "bytes": 373,
+      "sha256": "089ba57119af01944d797243ec12db5cc58d55738572ebd434aa0e380be36aa2"
+    },
+    {
+      "path": "handoffs/codex/artifacts/R10-run3-093-enrollment-92.log",
+      "bytes": 139,
+      "sha256": "ec52e1db41d294344afecfb2a83ae327d49e3e2a1913f6b9699f4bc85264284d"
+    },
+    {
+      "path": "handoffs/codex/artifacts/R10-run3-094-tests-integration-vendor-service-licence-test-ts.log",
+      "bytes": 884,
+      "sha256": "0dabe3d9a6948624aaa567da664c8abca84311f3cc9b88f1047a5631315c51af"
+    },
+    {
+      "path": "handoffs/codex/artifacts/R10-run3-095-enrollment-94.log",
+      "bytes": 139,
+      "sha256": "ec52e1db41d294344afecfb2a83ae327d49e3e2a1913f6b9699f4bc85264284d"
+    },
+    {
+      "path": "handoffs/codex/artifacts/R10-run3-096-tests-integration-workflows-workflow-test-ts.log",
+      "bytes": 1003,
+      "sha256": "304bd1f9b2f6e2b7dda99cda091fdce9e18b2560701ea26536806ae7bb492d2c"
+    },
+    {
+      "path": "handoffs/codex/artifacts/R10-run3-097-enrollment-96.log",
+      "bytes": 139,
+      "sha256": "ec52e1db41d294344afecfb2a83ae327d49e3e2a1913f6b9699f4bc85264284d"
+    },
+    {
+      "path": "handoffs/codex/artifacts/R10-run3-098-tests-security-auth-test-ts.log",
+      "bytes": 3921,
+      "sha256": "e1b927a3b2efef5692bcf8fa71a50f1e9914150793479e83e587cdf1fb4fb2b6"
+    },
+    {
+      "path": "handoffs/codex/artifacts/R10-run3-099-enrollment-98.log",
+      "bytes": 139,
+      "sha256": "ec52e1db41d294344afecfb2a83ae327d49e3e2a1913f6b9699f4bc85264284d"
+    },
+    {
+      "path": "handoffs/codex/artifacts/R10-run3-100-tests-security-function-acl-ts.log",
+      "bytes": 14254,
+      "sha256": "c4d7bce4133cf0ab10c241944313215d9de28cd73dd3f3d7b2d02955ae7a602f"
+    },
+    {
+      "path": "handoffs/codex/artifacts/R10-run3-101-network-enrollment.log",
+      "bytes": 139,
+      "sha256": "ec52e1db41d294344afecfb2a83ae327d49e3e2a1913f6b9699f4bc85264284d"
+    },
+    {
+      "path": "handoffs/codex/artifacts/R10-run3-102-tests-security-network-core-ts.log",
+      "bytes": 888,
+      "sha256": "2344cdf27c2a4edc70818c02f4b9537f08bfa28435ea9a6ad98d6a8c4fa3c93c"
+    },
+    {
+      "path": "handoffs/codex/artifacts/R10-run3-103-enrollment-102.log",
+      "bytes": 139,
+      "sha256": "ec52e1db41d294344afecfb2a83ae327d49e3e2a1913f6b9699f4bc85264284d"
+    },
+    {
+      "path": "handoffs/codex/artifacts/R10-run3-104-tests-security-tls-test-ts.log",
+      "bytes": 568,
+      "sha256": "613d1eecda0f551c91003ee0ac942c8a37cec32b2acc48e0d7769b7c755d7158"
+    },
+    {
+      "path": "handoffs/codex/artifacts/R10-run3-105-enrollment-104.log",
+      "bytes": 139,
+      "sha256": "ec52e1db41d294344afecfb2a83ae327d49e3e2a1913f6b9699f4bc85264284d"
+    },
+    {
+      "path": "handoffs/codex/artifacts/R10-run3-106-tests-security-vendor-function-acl-ts.log",
+      "bytes": 197,
+      "sha256": "af9c78c13c8d543db39fe07c4d901ef9f5706a5d254507d1a3e4d2e48626b86a"
+    },
+    {
+      "path": "handoffs/codex/artifacts/R10-run3-107-codex-a00-outbox-after.log",
+      "bytes": 745,
+      "sha256": "16dca502720a643634d9daeebf258206ac671709661987254e862bd7e978aa93"
+    },
+    {
+      "path": "handoffs/codex/artifacts/R10-run3-108-rehearsal-outbox-after.log",
+      "bytes": 683,
+      "sha256": "7a307cd114e72de229bb315ca82258b25961fc38218efdda94678d23d03b2235"
+    },
+    {
+      "path": "handoffs/codex/artifacts/R10-run3-crawl-policy-metadata.json",
+      "bytes": 1679,
+      "sha256": "94c053c6c629c08f672771e4a8890d29f7a4f3b6503833ffb9492a387d943e91"
+    },
+    {
+      "path": "handoffs/codex/artifacts/R10-run3-manifest.json",
+      "bytes": 2280,
+      "sha256": "58e238309e6b1272e5e6321eb8e1dba3c3be2b6b642f325dabbef35a044143fe"
+    },
+    {
+      "path": "handoffs/codex/artifacts/R10-run3-results.json",
+      "bytes": 96299,
+      "sha256": "f200743a3231c8d9e256b07d3aacf0312a8e2ebc05941fa41caaad1a21951846"
+    },
+    {
+      "path": "handoffs/codex/artifacts/R10-run3-selection.json",
+      "bytes": 2617,
+      "sha256": "b3e1ffe426961a4708036af75019a43c93e0e634d0505ace5adde74eee863b32"
+    },
+    {
+      "path": "handoffs/codex/artifacts/R10-run3-triage.json",
+      "bytes": 16247,
+      "sha256": "62b7539b1e50db0add779f1e90c2d46809d0a1bedd58060ac44b248071c27b79"
+    },
+    {
+      "path": "handoffs/codex/artifacts/R10-run3-workflow-dispatch-reconstruction.json",
+      "bytes": 968,
+      "sha256": "3b99fd8c9e16b548a1a362f05b96f8da851b63b5a457a18ecb00ac07a360b83b"
+    },
+    {
+      "path": "handoffs/codex/artifacts/R10-run3.jsonl",
+      "bytes": 76014,
+      "sha256": "25615f087dac33b7d55f5ecf8c1ced43aab65520497b57765d15b6c8c4594424"
+    },
+    {
+      "path": "handoffs/codex/artifacts/R10-runtime-cleanup.json",
+      "bytes": 2662,
+      "sha256": "3ec7a6f11356a4533eb4f18edb59571aef3e734b8bea1cc1fd669a075b5f870e"
+    },
+    {
+      "path": "handoffs/codex/artifacts/R10-scope-B-final.json",
+      "bytes": 11295,
+      "sha256": "8750abfdd7033a8f76c1dda1c686a9ebbc6326928bdc8c150f9c4a8dcc1e008a"
+    },
+    {
+      "path": "handoffs/codex/artifacts/R10-staged-secret-scan.json",
+      "bytes": 117,
+      "sha256": "3c3aff8a9dadc6d2bca06e360f23c5f6d14f6448be17f104d3b8737aa27d346f"
+    },
+    {
+      "path": "handoffs/codex/artifacts/R10-suite-matrix.json",
+      "bytes": 122904,
+      "sha256": "b6430f0f6b52512ebca74fd90904eba5f4f15dca2abbd8beffb328fd01002ecf"
+    },
+    {
+      "path": "handoffs/codex/artifacts/R10-temporary-CA-cleanup.json",
+      "bytes": 272,
+      "sha256": "82ae4f2fef10ee7d307196385ee122acd9e99130138c329da8a366b749a170fd"
+    },
+    {
+      "path": "handoffs/codex/artifacts/R10-temporary-CA-trust.json",
+      "bytes": 200,
+      "sha256": "be5c25a93eef3d319e3989aa75f5e12952c586d5257b80e3624bf9040829760b"
+    },
+    {
+      "path": "handoffs/codex/artifacts/V1-COMMERCE-ISSUANCE-01-commerce-ad25ef9d-c864-4cef-bb8e-253418144cbb.json",
+      "bytes": 13192,
+      "sha256": "35fdcc9c70b796f1138a2f4b9cde9f9ed44f06bcd705284c9396210e78f87390"
+    },
+    {
+      "path": "handoffs/codex/artifacts/V1-EXPANSION-01-assessment-race-9ab65ad3-9168-43b8-b8c0-ff71ecb090db.json",
+      "bytes": 929,
+      "sha256": "635bdc6cf696c6d94ad9b12e2b40a8e594b9601a2d848c760bdb17aa2f3d8835"
+    },
+    {
+      "path": "handoffs/codex/artifacts/V1-EXPANSION-02-grc-d188cea1-b928-425f-a3d7-8e0b20abdbc8.json",
+      "bytes": 4062,
+      "sha256": "4e39b2b124a30ce983f1bbf846bbeaa07b1cde63e8f3a498e4a667e787fb3a3c"
+    },
+    {
+      "path": "handoffs/codex/artifacts/V1-EXPANSION-04-grc-a24452bd-cbd3-4bde-b2e5-499e9573aca6.json",
+      "bytes": 3963,
+      "sha256": "5a70c6c45c0c92b2a01e1bcf9e6e461b69d178964ac8f82ef973c77d0fa18043"
+    },
+    {
+      "path": "handoffs/codex/artifacts/V1-EXPANSION-04-http-2f967071-a905-46f9-bd29-3f2849b68050.json",
+      "bytes": 5541,
+      "sha256": "4f2cf8722650e15d0a76925c14d136bcf51042b7183cf258f8e6fa2010ed7fb1"
+    },
+    {
+      "path": "handoffs/codex/artifacts/V1-EXPANSION-04-http-3b372550-f601-4e80-96ae-2d3fe1c3ca8b.json",
+      "bytes": 985,
+      "sha256": "c0799eb81db538b6100d85f95e34ff51524a29194ae60526ea6d89f84255d48d"
+    },
+    {
+      "path": "handoffs/codex/round10-acl-review.ts",
+      "bytes": 807,
+      "sha256": "8a399dec97cc13ef330df98561310dcbc9990fe9112e082bf0f501fced4b4ccd"
+    },
+    {
+      "path": "handoffs/codex/round10-browser-errors.mjs",
+      "bytes": 1083,
+      "sha256": "3426873d8674801130fef7ff6ece54edaa357b738d9f263ad63e175f175f4969"
+    },
+    {
+      "path": "handoffs/codex/round10-cheap-checks.mjs",
+      "bytes": 1377,
+      "sha256": "b575727fa574b65dc822cb189c014fb8981f88ff9a3ebcbf2fe7ad7d5b7a6d26"
+    },
+    {
+      "path": "handoffs/codex/round10-command-ledger.md",
+      "bytes": 162247,
+      "sha256": "d9d4b0065f69a7c4b7fe4718b0e4a1e62823dc808f19a10b169013c294941971"
+    },
+    {
+      "path": "handoffs/codex/round10-dispatch-observation.ts",
+      "bytes": 1702,
+      "sha256": "5af3a2111d00faeca95923b01f2ee4475de7ac75e6265f578d2496c4bfd1df61"
+    },
+    {
+      "path": "handoffs/codex/round10-final-fixes.py",
+      "bytes": 23526,
+      "sha256": "70c2e0fe87ba19a39ef7a7ce636c9c3f0ca0ee6e1f982c1ffa7f662a7d368b5f"
+    },
+    {
+      "path": "handoffs/codex/round10-fixture-mfa.ts",
+      "bytes": 796,
+      "sha256": "1671df988c4573d1217cd236c7f13efc9a1507cdbb3c15f5313ec6a8bbb07746"
+    },
+    {
+      "path": "handoffs/codex/round10-outbox-snapshot.ts",
+      "bytes": 1838,
+      "sha256": "3363616999b77dfc43a68307e0bd18aea6331d28d9c2bc3ec1475a4cc4f2dbc7"
+    },
+    {
+      "path": "handoffs/codex/round10-policy-window.mjs",
+      "bytes": 2017,
+      "sha256": "07590611f2162d1a75b5d1057a60dc738b5379154c061d09e770b3ef069c71f0"
+    },
+    {
+      "path": "handoffs/codex/round10-report.py",
+      "bytes": 3477,
+      "sha256": "3e4385cc23b0b30fc88a03f9cb5e2a43f8d9e5622361ddf82f5d22a835b9409a"
+    },
+    {
+      "path": "handoffs/codex/round10-run.mjs",
+      "bytes": 7407,
+      "sha256": "46126ca9d0f4de20d54e8db8bcdf0e420b0e41b7c2dc2644b86437664412f3ad"
+    },
+    {
+      "path": "handoffs/codex/round10-run2-diagnostics.mjs",
+      "bytes": 1431,
+      "sha256": "6758edd1606975c06b9fad494162dd3860f843c717eef5097d24c78ce261cf9a"
+    },
+    {
+      "path": "handoffs/codex/round10-run3-suites.json",
+      "bytes": 2149,
+      "sha256": "0db18ae0723bbbec871135806d3d8bba256095272bbc1877ee406b63e145261f"
+    },
+    {
+      "path": "handoffs/codex/round10-secret-scan.mjs",
+      "bytes": 1758,
+      "sha256": "8d9b496753fe1d66f23c0cae810c8cf27d82ef2a70a4db053b0c4c4934d9932a"
+    },
+    {
+      "path": "handoffs/codex/round10-status.mjs",
+      "bytes": 585,
+      "sha256": "22d0eeb7e6b3bbdd61b8c932fc975b6bd6b9fc7874ea8a66a6723968e7e0bc3c"
+    },
+    {
+      "path": "handoffs/codex/round10-suite-results.md",
+      "bytes": 11260,
+      "sha256": "73000ba4132d538daf5a00f5645ece3ff61bb2752ebe588ef10c1d898b380829"
+    },
+    {
+      "path": "handoffs/codex/round10-vendor-import-race.ts",
+      "bytes": 2465,
+      "sha256": "c979b159e8ae53284d1a52fbe7737473f940c50ac2eea47afececb637d5728fb"
+    }
+  ]
+}

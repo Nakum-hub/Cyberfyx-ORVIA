@@ -1,0 +1,25 @@
+PASS an uploaded PDF is staged as a document and nothing is applied
+PASS the same content uploaded twice is one item
+PASS a read-only login cannot upload
+PASS a disguised file is not taken for what its name says
+PASS a document cannot be linked to a record that does not exist
+PASS an approved document is kept with who decided and why
+PASS a kept document can be opened, byte for byte
+PASS a decision is final
+PASS the database refuses to reopen or delete a decided file
+PASS an unreadable file says why and cannot be approved
+PASS a rejected file's content is removed and its record kept
+PASS existing-data rows are recognised by the contract schema
+PASS approval creates an onboarding job holding the rows, still waiting to be processed
+PASS the routed file's staged copy is not kept twice
+PASS a signed licence file is recognised and names the permission approval needs
+PASS approving it needs the same permission as importing a licence
+PASS the owner's approval imports it as the licence
+PASS only complete regular files are taken: partial, still-being-written and linked files are left alone
+PASS a picked-up file moves to accepted/, an empty one to rejected/ with a reason
+PASS a file from the inbox folder waits for approval like an upload
+PASS the same content dropped again is the same item
+PASS the screen reports whether this installation has an inbox folder
+Artifact: handoffs/codex/artifacts/DPDP-operations-file-intake-1790967916082-91132e9e-9147-422d-b0ea-bb59c2700767.json
+
+22 assertions, 0 failures.

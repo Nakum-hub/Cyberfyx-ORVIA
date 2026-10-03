@@ -1,0 +1,30 @@
+Authentication fixture idle window: 61s remaining; controls unchanged.
+Authentication fixture idle window: 31s remaining; controls unchanged.
+Authentication fixture idle window: 1s remaining; controls unchanged.
+PASS the product counts zero payload columns on the audit table
+PASS and the audit table really is an envelope and nothing else
+PASS so there is no payload whose justified deletion an envelope would have to survive
+PASS all eight audited categories are retained under exactly one purpose each
+PASS and each of the four purposes is reported once
+PASS a purpose nobody has configured reports that, rather than a default number
+PASS a period cannot be recorded without saying what it rests on
+PASS and the refusal names the field rather than failing bare
+PASS recording a period is accepted and attributed
+PASS the purpose now reports its period and stops saying it has none
+PASS nothing recorded moments ago is beyond a ten-year period
+PASS a second rule for the same purpose is recorded rather than refused
+PASS the newest rule is the one in force
+PASS and the overdue count is measured against it rather than reported as a constant
+PASS the period that was replaced is still on the record
+PASS and a recorded rule cannot be edited or removed, even by the migrator
+PASS reading the schedule never removes anything, however overdue the events are
+PASS and the trail refuses deletion at the database, past its period or not
+PASS the report says so structurally rather than only in prose
+PASS the report counts the declared snapshots that cover the trail
+PASS and states that nothing it describes reaches a copy held in one
+PASS an auditor holding audit.read may read the schedule
+PASS but may not set a period, which is audit administration
+PASS a member may not read the schedule
+Artifact: handoffs/codex/artifacts/DPDP-audit-retention-integration-1790954935853-6ff4291b-63d9-4e12-9a03-a8ef29372977.json
+
+24 assertions, 0 failures.

@@ -1,0 +1,20 @@
+PASS customer /workspace
+PASS customer /workspace/plan
+PASS customer /workspace/files
+PASS customer /workspace/team
+PASS customer /workspace/rights
+PASS customer /workspace/consent-records
+PASS customer /workspace/personal-data-breaches
+PASS customer /workspace/organisation-intake
+PASS customer /workspace/registry-notices
+PASS customer /workspace/processors
+PASS customer /workspace/regulatory
+PASS customer /workspace/audit-trail
+PASS vendor /vendor/sign-in
+PASS vendor /vendor/account-setup
+PASS vendor /vendor/team
+PASS vendor /vendor/organisations
+PASS vendor /vendor/engagements
+PASS vendor /vendor/licences
+PASS vendor /vendor/practice
+readyz customer=200 vendor=200; external requests: 0; 19/19 screens OK -> PASS

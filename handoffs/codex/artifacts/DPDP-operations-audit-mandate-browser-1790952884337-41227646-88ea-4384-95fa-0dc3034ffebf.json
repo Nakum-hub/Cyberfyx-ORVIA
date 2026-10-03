@@ -1,0 +1,32 @@
+{
+  "task_id": "DPDP",
+  "fixture_kind": "CUSTOMER_LOCAL_SYNTHETIC",
+  "recorded_at": "2026-10-02T14:54:44.337Z",
+  "suite": "audit-mandate-browser",
+  "assertions": [
+    {
+      "name": "leadership sees the practice overview from real records",
+      "result": "PASS",
+      "expected": [
+        true,
+        true
+      ],
+      "actual": [
+        true,
+        true
+      ]
+    },
+    {
+      "name": "unexpected failure in vendor leadership and engagement",
+      "result": "FAIL",
+      "expected": "no error",
+      "actual": "Invalid URL"
+    }
+  ],
+  "passed": 1,
+  "failures": 1,
+  "profile": "codex-a00",
+  "test_adapter_only": true,
+  "limitation": "Connector effects are exercised against the synthetic records test adapter; no live customer system was contacted.",
+  "run_id": "f6931179-4e6a-43b0-97a1-f27e91045c41"
+}

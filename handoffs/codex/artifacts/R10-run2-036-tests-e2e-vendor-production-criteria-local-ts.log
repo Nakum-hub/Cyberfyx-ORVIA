@@ -1,0 +1,14 @@
+TypeError: Invalid URL
+    at new URL (node:internal/url:895:25)
+    at authenticatorCode (C:\Cyberfyx-projects\Cyberfyx_ORVIA\.worktrees\round10\shared\testing\src\http-fixture.ts:19:16)
+    at vendorSignIn (C:\Cyberfyx-projects\Cyberfyx_ORVIA\.worktrees\round10\tests\e2e\vendor-production-criteria-local.ts:46:59)
+    at async <anonymous> (C:\Cyberfyx-projects\Cyberfyx_ORVIA\.worktrees\round10\tests\e2e\vendor-production-criteria-local.ts:98:44)
+    at async Object.run (C:\Cyberfyx-projects\Cyberfyx_ORVIA\.worktrees\round10\shared\testing\src\operations-fixture.ts:117:28)
+    at async <anonymous> (C:\Cyberfyx-projects\Cyberfyx_ORVIA\.worktrees\round10\tests\e2e\vendor-production-criteria-local.ts:95:3) {
+  code: 'ERR_INVALID_URL',
+  input: 'undefined'
+}
+Server diagnostics (safe codes only): 
+Artifact: handoffs/codex/artifacts/DPDP-operations-vendor-production-criteria-browser-1790954416505-448f6e06-58a1-4cef-8fd7-8b4234aa09c2.json
+
+1 assertions, 1 failures.

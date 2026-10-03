@@ -4,6 +4,7 @@ import assert from 'node:assert/strict';
 import { ENTITLEMENTS, classifyRoute, routes } from '../../shared/contracts/src/index.ts';
 import { detectFile } from '../../backend/domain/src/onboarding/file-intake.ts';
 import { example } from '../../shared/contracts/src/examples.ts';
+import { officeFixture } from '../../shared/testing/src/office-fixture.ts';
 
 const json = (v: unknown) => Buffer.from(JSON.stringify(v));
 
@@ -29,7 +30,9 @@ test('a file is a licence, inventory or onboarding rows only if the contract sch
 test('anything else is a document or unreadable, never silently something else', () => {
   assert.equal(detectFile('agreement.pdf', Buffer.from('%PDF-1.7\n...')).kind, 'DOCUMENT');
   assert.equal(detectFile('agreement.pdf', Buffer.from('MZ fake executable')).kind, 'UNRECOGNISED', 'content must match the extension');
-  assert.equal(detectFile('policy.docx', Buffer.from([0x50, 0x4b, 0x03, 0x04, 0])).kind, 'DOCUMENT');
+  assert.equal(detectFile('policy.docx', officeFixture('docx')).kind, 'DOCUMENT');
+  assert.equal(detectFile('sheet.xlsx', officeFixture('xlsx')).kind, 'DOCUMENT');
+  assert.equal(detectFile('sheet.xlsx', officeFixture('docx')).kind, 'UNRECOGNISED');
   assert.equal(detectFile('notes.txt', Buffer.from('hello')).kind, 'DOCUMENT');
   assert.equal(detectFile('tool.exe', Buffer.from('MZ')).kind, 'UNRECOGNISED');
   assert.equal(detectFile('broken.json', Buffer.from('{ not json')).kind, 'UNRECOGNISED');

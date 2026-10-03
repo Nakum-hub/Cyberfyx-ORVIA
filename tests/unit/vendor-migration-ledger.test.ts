@@ -26,6 +26,7 @@ function database(ledger: Map<string, string>) {
 }
 test('fresh runner uses unique prefixes and preserves the fulfilment dependency order', async () => {
   const ids = vendorMigrationIds();
+  assert.equal(ids[ids.indexOf('0018_service_licence_import_serialization')-1],'0103_service_licences');
   assert.equal(new Set(ids.map(id => id.slice(0, 4))).size, ids.length);
   assert.equal(ids[ids.indexOf(current) - 1], '0002_checkout_attempts');
   assert.equal(ids[ids.indexOf(current) + 1], '0003_vendor_service');

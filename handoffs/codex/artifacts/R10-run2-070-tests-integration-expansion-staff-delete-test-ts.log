@@ -1,0 +1,33 @@
+Authentication fixture idle window: 61s remaining; controls unchanged.
+Authentication fixture idle window: 31s remaining; controls unchanged.
+Authentication fixture idle window: 1s remaining; controls unchanged.
+PASS "delete" is not accepted
+PASS "Delete" is not accepted
+PASS "DELETE " is not accepted
+PASS " DELETE" is not accepted
+PASS "DELET" is not accepted
+PASS "" is not accepted
+PASS no confirmation at all is not accepted
+PASS the database function itself refuses anything but DELETE
+PASS the member was not deleted by any of those attempts
+PASS the login is deleted and inactive, name and address kept on the list
+PASS the seat is freed
+PASS the deleted member is signed out at once
+PASS the deleted member cannot sign in with their password
+PASS a deleted login cannot be reactivated
+PASS a deleted login cannot be deleted twice
+PASS the same address can be added again as a new login
+PASS the owner cannot be deleted through the member route
+PASS an administrator is not deleted through the member route
+PASS an administrator deletes their own login only through My login
+PASS a member cannot delete another login
+PASS the owner cannot delete their own login
+PASS another organisation cannot delete this organisation's member
+PASS self-deletion also needs the exact word
+PASS an auditor deletes their own login and is signed out
+PASS a member with an authenticator deletes their own login
+PASS both self-deleted logins are listed as deleted
+PASS deletion by an administrator and self-deletion are both audited
+Artifact: handoffs/codex/artifacts/DPDP-operations-staff-delete-1790957094456-bccd0d11-6750-4f7b-a2d5-a9a7ecaa6d84.json
+
+27 assertions, 0 failures.

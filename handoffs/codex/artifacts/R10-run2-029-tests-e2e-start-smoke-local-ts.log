@@ -1,0 +1,11 @@
+node:internal/modules/run_main:107
+    triggerUncaughtException(
+    ^
+
+browserType.launch: Failed to launch chromium because executable doesn't exist at /opt/pw-browsers/chromium
+    at <anonymous> (C:\Cyberfyx-projects\Cyberfyx_ORVIA\.worktrees\round10\tests\e2e\start-smoke-local.ts:56:34) {
+  log: [],
+  name: 'Error'
+}
+
+Node.js v24.21.0

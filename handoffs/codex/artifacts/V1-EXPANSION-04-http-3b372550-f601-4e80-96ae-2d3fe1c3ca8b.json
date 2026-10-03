@@ -1,0 +1,48 @@
+{
+  "task_id": "V1-EXPANSION-04",
+  "result": "FAIL",
+  "database": "orvia_grc_http_3b372550f6014e8096ae2d3fe1c3ca8b",
+  "phase": "contracts and idempotency",
+  "results": [
+    {
+      "name": "privileged session without MFA denied",
+      "result": "PASS"
+    },
+    {
+      "name": "anonymous request denied",
+      "result": "PASS"
+    },
+    {
+      "name": "principal denied staff GRC",
+      "result": "PASS"
+    },
+    {
+      "name": "auditor can read controls",
+      "result": "PASS"
+    },
+    {
+      "name": "auditor cannot create framework",
+      "result": "PASS"
+    },
+    {
+      "name": "missing idempotency key denied",
+      "result": "PASS"
+    },
+    {
+      "name": "wrong origin denied",
+      "result": "PASS"
+    },
+    {
+      "name": "unexpected authority fields rejected",
+      "result": "PASS"
+    },
+    {
+      "name": "framework creation succeeds",
+      "result": "FAIL"
+    }
+  ],
+  "error": {
+    "name": "Error",
+    "code": "UNCLASSIFIED"
+  }
+}

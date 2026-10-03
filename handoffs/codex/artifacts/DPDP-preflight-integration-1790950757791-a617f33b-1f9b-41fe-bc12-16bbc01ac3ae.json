@@ -1,0 +1,14 @@
+{
+  "task_id": "DPDP",
+  "fixture_kind": "CUSTOMER_LOCAL_SYNTHETIC",
+  "recorded_at": "2026-10-02T14:19:17.791Z",
+  "profile": "codex-a00",
+  "phase": "setup",
+  "assertions": [],
+  "result": "FAIL",
+  "error": {
+    "name": "error",
+    "code": "22P02"
+  },
+  "run_id": "20b4f246-4347-4476-ba40-afd4cfef246b"
+}

@@ -1,0 +1,85 @@
+{
+  "task_id": "DPDP",
+  "fixture_kind": "CUSTOMER_LOCAL_SYNTHETIC",
+  "recorded_at": "2026-10-02T17:52:29.089Z",
+  "results": [
+    {
+      "function": "vendor.require_may_manage(uuid,uuid)",
+      "result": "PASS"
+    },
+    {
+      "function": "vendor.provisioning_require(uuid,text)",
+      "result": "PASS"
+    },
+    {
+      "function": "vendor.service_licence_in_force()",
+      "result": "PASS"
+    },
+    {
+      "function": "vendor.active_member_logins(uuid)",
+      "result": "PASS"
+    },
+    {
+      "function": "vendor.service_seat_guard()",
+      "result": "PASS"
+    },
+    {
+      "function": "vendor.create_member_pending(uuid,uuid,text,text,text)",
+      "result": "PASS"
+    },
+    {
+      "function": "vendor.issue_setup_code(uuid,uuid,text,integer)",
+      "result": "PASS"
+    },
+    {
+      "function": "vendor.set_member_password(uuid,uuid,text)",
+      "result": "PASS"
+    },
+    {
+      "function": "vendor.complete_account_setup(text,text,text)",
+      "result": "PASS"
+    },
+    {
+      "function": "vendor.team_password_state()",
+      "result": "PASS"
+    },
+    {
+      "function": "vendor.provisioning_client(uuid)",
+      "result": "PASS"
+    },
+    {
+      "function": "vendor.provisioning_accept_nonce(uuid,text)",
+      "result": "PASS"
+    },
+    {
+      "function": "vendor.provisioning_audit(uuid,text,uuid,uuid)",
+      "result": "PASS"
+    },
+    {
+      "function": "vendor.provisioning_accounts(uuid)",
+      "result": "PASS"
+    },
+    {
+      "function": "vendor.provisioning_create_account(uuid,uuid,text,text,text,text,integer)",
+      "result": "PASS"
+    },
+    {
+      "function": "vendor.provisioning_issue_code(uuid,uuid,text,integer)",
+      "result": "PASS"
+    },
+    {
+      "function": "vendor.provisioning_deactivate(uuid,uuid)",
+      "result": "PASS"
+    },
+    {
+      "function": "vendor.import_service_licence(uuid,uuid,uuid,jsonb,text,text)",
+      "result": "PASS"
+    },
+    {
+      "function": "vendor.service_licence_state()",
+      "result": "PASS"
+    }
+  ],
+  "result": "PASS",
+  "run_id": "d49ed6cd-f15e-4333-aa4b-8ab6f86bab57"
+}

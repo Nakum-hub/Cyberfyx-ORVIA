@@ -1,0 +1,15 @@
+import {spawnSync} from 'node:child_process';
+import {readFileSync,writeFileSync} from 'node:fs';
+const run=process.argv[2]??'2';
+if(!['2','3'].includes(run))throw new Error('Unsupported run');
+const rows=readFileSync(`handoffs/codex/artifacts/R10-run${run}.jsonl`,'utf8').trim().split('\n').map(JSON.parse);
+const crawl=rows.find(r=>r.label==='tests/e2e/interface-crawl-local.ts');
+if(!crawl)throw new Error('Completed crawl required');
+const r=spawnSync('docker',['logs','--since',crawl.started_at,'--until',crawl.ended_at,'orvia-round10-customer-opa-1'],{encoding:'utf8',windowsHide:true,maxBuffer:16*1024*1024});
+const events=(r.stdout+r.stderr).split(/\r?\n/).flatMap(line=>{try{const j=JSON.parse(line);return [{time:j.time,req_id:j.req_id,msg:j.msg,status:j.resp_status,duration_ms:j.resp_duration}];}catch{return [];}});
+const received=events.filter(e=>e.msg==='Received request.'),sent=events.filter(e=>e.msg==='Sent response.');
+const responseIds=new Set(sent.map(e=>e.req_id));
+const state=spawnSync('docker',['inspect','--format','{{json .State}}','orvia-round10-customer-opa-1'],{encoding:'utf8',windowsHide:true});
+const report={crawl_head:crawl.head,crawl_started_at:crawl.started_at,crawl_ended_at:crawl.ended_at,crawl_status:crawl.status,logs_exit:r.status,received:received.length,sent:sent.length,missing_responses:received.filter(e=>!responseIds.has(e.req_id)).length,status_counts:sent.reduce((a,e)=>(a[e.status]=(a[e.status]??0)+1,a),{}),maximum_service_ms:Math.max(0,...sent.map(e=>e.duration_ms??0)),slowest:sent.sort((a,b)=>(b.duration_ms??0)-(a.duration_ms??0)).slice(0,5),container_state_exit:state.status,container_state:JSON.parse(state.stdout),limitation:'Server service times alone cannot measure client queueing, transport delay or host event-loop delay. Container state is current, not a historical resource trace.'};
+writeFileSync(`handoffs/codex/artifacts/R10-run${run}-crawl-policy-metadata.json`,JSON.stringify(report,null,2));
+console.log(JSON.stringify(report));

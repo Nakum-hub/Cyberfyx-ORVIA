@@ -1,0 +1,51 @@
+Authentication fixture idle window: 44s remaining; controls unchanged.
+Authentication fixture idle window: 14s remaining; controls unchanged.
+PASS declared asset is stored with its reviewed category
+PASS a declaration carries no observation time
+PASS a new record is not silently treated as reviewed
+PASS staff claim cannot create an observed asset
+PASS a child asset cannot claim a parent in another system
+PASS an asset cannot be recorded against an unknown system
+PASS activity records its owner and stays unreviewed
+PASS an activity cannot claim a condition its purpose does not support
+PASS a stored-in edge resolves both typed endpoints
+PASS an edge whose endpoints contradict its type is rejected
+PASS an edge cannot point at a node that does not exist in scope
+PASS a second live edge of the same type between the same nodes is rejected
+PASS search finds the declared asset
+PASS search states that it is not an estate discovery scan
+PASS an undeclared query parameter is rejected, not ignored
+PASS a query below the declared minimum length is rejected
+PASS depth one reaches the directly related nodes only
+PASS depth two reaches the purpose the activity serves
+PASS traversal says absence of an edge is not proof of no flow
+PASS a traversal depth outside the declared bound is rejected
+PASS the impact endpoint resolves the node kind from its identifier
+PASS changing a system identifies the policy version bound to it
+PASS changing a system identifies the assets stored in it
+PASS changing a purpose identifies the workflow it produced
+PASS nothing is left silently unassessed
+PASS processor impact is now a real dimension
+PASS retention impact is now a real dimension
+PASS an owner is attributed to the affected assets
+PASS impact for an identifier that is not a node in scope is not found
+PASS the detail endpoint returns the same record as the list
+PASS an unknown asset identifier is not found
+PASS the personal payload is gone
+PASS the tombstone states its justification
+PASS category assignments are erased with the payload
+PASS every relationship that referenced the asset still resolves
+PASS the tombstoned node is still reachable and is labelled as a tombstone
+PASS the erased payload is no longer searchable
+PASS a recorded tombstone cannot be rewritten
+PASS the maintenance role does bypass row-level security, so the trigger is what is being tested
+PASS the trigger refuses to rewrite a recorded tombstone even for a superuser
+PASS the trigger refuses to delete graph history even for a superuser
+PASS the trigger refuses to delete a relationship older evidence may reference
+PASS the original tombstone justification is intact after every attempt
+PASS an auditor may read the inventory
+PASS an auditor cannot write the inventory
+PASS a member without the graph capability is refused
+Artifact: handoffs/codex/artifacts/DPDP-graph-integration-1790957307538-ef09d4c5-0dd1-46cf-a42b-a07254a868d5.json
+
+46 assertions, 0 failures.

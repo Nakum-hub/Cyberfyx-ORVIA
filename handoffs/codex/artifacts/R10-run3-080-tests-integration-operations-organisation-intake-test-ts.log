@@ -1,0 +1,50 @@
+Authentication fixture idle window: 61s remaining; controls unchanged.
+Authentication fixture idle window: 31s remaining; controls unchanged.
+Authentication fixture idle window: 1s remaining; controls unchanged.
+PASS the synthetic fixture organisation has the Privacy Centre on
+PASS a Data Principal can use it while it is on
+PASS an organisation admin cannot switch it
+PASS the owner switches it off
+PASS every Data Principal request is then refused, saying why
+PASS switching it off twice is refused
+PASS switched back on, the same session works again
+PASS an organisation admin cannot create an intake key
+PASS the key is returned once, 64 hex characters
+PASS the key list never carries the key
+PASS the database keeps only its digest
+PASS no key: refused
+PASS a wrong key: refused
+PASS a request from a browser page (Origin) is refused, so the key cannot live in a web page
+PASS a request carrying cookies is refused
+PASS a key limited to consent cannot send a rights request
+PASS a submission is recorded as received, and a receipt is not completion
+PASS the same idempotency key returns the same submission
+PASS the same idempotency key with a different body is refused
+PASS another key cannot read this key's submission
+PASS staff in another organisation see none of these submissions
+PASS the runner processed every submission of this run: four applied, two sent to staff
+PASS the runner reports what it did (earlier queued submissions included)
+PASS the withdrawal is applied and the consent now reads withdrawn
+PASS both events are on the record, from the organisation's system, each naming its submission
+PASS the withdrawal has a propagation run, like any other withdrawal
+PASS the consent record is the person's own
+PASS the rights request is in the Workspace, from the organisation's app, for this person, identity established
+PASS an identifier that matched nobody still becomes a request, with identity left for staff
+PASS a consent change for an unknown identifier waits for staff with the reason
+PASS a real person on this synthetic installation is not stored; it waits for staff and says why
+PASS no principal was recorded for the real address
+PASS staff see both submissions waiting for them
+PASS an auditor can read but not mark handled
+PASS staff mark it handled with a note
+PASS an applied submission cannot be marked handled
+PASS a revoked key is refused at once
+PASS a key is revoked once
+PASS what was received cannot be rewritten
+PASS an applied submission cannot be sent back to received
+PASS a submission cannot be deleted
+PASS a key cannot be re-pointed to another digest
+PASS a revocation cannot be undone
+PASS a Privacy Centre change cannot be rewritten
+Artifact: handoffs/codex/artifacts/DPDP-operations-organisation-intake-1790968171293-889066f3-6abf-4559-a79d-f4ff2153c20b.json
+
+44 assertions, 0 failures.

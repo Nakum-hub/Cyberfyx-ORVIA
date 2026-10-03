@@ -62,11 +62,13 @@ try {
   const owner = scenario.owner;    // ORG_SUPER_ADMIN: also licence.manage
   const installation = (await db.query('SELECT installation_id FROM bootstrap_profile WHERE singleton=1')).rows[0].installation_id;
 
+  const historyTop=(await db.query('SELECT max(sequence) AS top FROM app.licences WHERE tenant_id=$1 AND legal_entity_id=$2 AND environment_id=$3',[scenario.scope.tenant_id,scenario.scope.legal_entity_id,scenario.scope.environment_id])).rows[0].top;
+  let sequence=historyTop===null?null:Number(historyTop);
   const baseClaims = (overrides: Record<string, unknown> = {}) => ({
     licence_id: randomUUID(), edition: 'CONTROL', entitlements: ['PRIVACY_GRAPH', 'RIGHTS_MANAGEMENT'],
     installation_id: installation, audience: 'ORVIA_CUSTOMER_INSTALLATION',
     valid_from: days(-1), valid_to: days(365), licensed_limits: { environments: 3, staff_members: 25 },
-    ...overrides,
+    ...(sequence===null?{}:{sequence:++sequence}),...overrides,
   });
   const importIt = (claims: Record<string, unknown>, options: { signer?: string; tamper?: boolean } = {}, as = owner) =>
     as.call('/api/v1/admin/licences', { licence: signLicence(claims, options) }, key());
@@ -91,7 +93,8 @@ try {
   check('the refusal names an invalid signature when claims were altered after signing', await fieldCode(tampered), 'invalid_signature');
   const wrongInstallation = await importIt(baseClaims({ installation_id: randomUUID() }));
   check('a licence bound to another installation is refused', await fieldCode(wrongInstallation), 'wrong_installation');
-  const notYet = await importIt(baseClaims({ valid_from: days(10), valid_to: days(400) }));
+  const legacyFuture:Record<string,unknown>=baseClaims({valid_from:days(10),valid_to:days(400)});delete legacyFuture.sequence;
+  const notYet = await importIt(legacyFuture);
   check('a licence that is not yet valid is refused', await fieldCode(notYet), 'not_yet_valid');
   const expired = await importIt(baseClaims({ valid_from: days(-400), valid_to: days(-1) }));
   check('an expired licence is refused at import', await fieldCode(expired), 'expired');
@@ -108,12 +111,22 @@ try {
   check('an active licence says expiry never withdraws reading or export', state.continuity_note.includes('never withdrawn'), true);
   const replay = await importIt(claims);
   check('re-importing the same licence is a replay, not a renewal', await fieldCode(replay), 'replayed');
-  const edit = await db.query(`UPDATE app.licences SET edition='ENTERPRISE' WHERE licence_id=$1`, [claims.licence_id]).then(() => 'ACCEPTED').catch(() => 'REJECTED');
-  check('the stored licence can be superseded but its terms cannot be edited', edit, 'ACCEPTED');
-  const editClaims = await db.query(`UPDATE app.licences SET valid_to=now()+interval '10 years' WHERE licence_id=$1`, [claims.licence_id]).then(() => 'ACCEPTED').catch(() => 'REJECTED');
-  check('the database refuses to extend a licence validity window', editClaims, 'REJECTED');
-  const deleteIt = await db.query('DELETE FROM app.licences WHERE licence_id=$1', [claims.licence_id]).then(() => 'ACCEPTED').catch(() => 'REJECTED');
-  check('a licence record is never deleted', deleteIt, 'REJECTED');
+  const mutation=await db.connect();
+  try {
+    for(const expression of ["edition='ENTERPRISE'","valid_to=now()+interval '10 years'","term='MONTHLY'","sequence=999999","trial=true","claims='{}'::jsonb","signature='changed'",`signing_key_id='${randomUUID()}'`,`installation_id='${randomUUID()}'`,`licence_id='${randomUUID()}'`,`id='${randomUUID()}'`,"valid_from=now()-interval '10 years'",`imported_by='${randomUUID()}'`,"imported_at=now()-interval '1 year'"]) {
+      await mutation.query('BEGIN');
+      const error=await mutation.query('UPDATE app.licences SET '+expression+' WHERE licence_id=$1',[claims.licence_id]).then(()=>null,(e:{code:string;message:string})=>({code:e.code,message:e.message}));
+      await mutation.query('ROLLBACK');
+      check('stored signed terms are immutable: '+expression,error,{code:'23514',message:'A licence cannot be edited after import'});
+    }
+    await mutation.query('BEGIN');
+    const control=await mutation.query('UPDATE app.licences SET active=false WHERE licence_id=$1',[claims.licence_id]);
+    check('supersession may deactivate the stored licence',control.rowCount,1);await mutation.query('ROLLBACK');
+    await mutation.query('BEGIN');
+    const deletion=await mutation.query('DELETE FROM app.licences WHERE licence_id=$1',[claims.licence_id]).then(()=>null,(e:{code:string;message:string})=>({code:e.code,message:e.message}));
+    await mutation.query('ROLLBACK');
+    check('a licence record is never deleted',deletion,{code:'23514',message:'A licence record is never deleted'});
+  }finally{await mutation.query('ROLLBACK');mutation.release();}
 
   // --- FR-M28-01: five gates, all required -----------------------------------
   phase = 'entitlement gates';

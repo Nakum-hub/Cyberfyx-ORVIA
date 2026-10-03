@@ -1,0 +1,18 @@
+AuthLoginFailure: Synthetic login failed
+    at failedAuthResponse (C:\Cyberfyx-projects\Cyberfyx_ORVIA\.worktrees\round10\backend\auth\src\errors.ts:52:10)
+    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+    at async HttpFixture.login (C:\Cyberfyx-projects\Cyberfyx_ORVIA\.worktrees\round10\shared\testing\src\http-fixture.ts:78:36)
+    at async HttpFixture.h.login (C:\Cyberfyx-projects\Cyberfyx_ORVIA\.worktrees\round10\shared\testing\src\operations-fixture.ts:26:88)
+    at async <anonymous> (C:\Cyberfyx-projects\Cyberfyx_ORVIA\.worktrees\round10\tests\integration\onboarding\file-intake.test.ts:25:17)
+    at async Object.run (C:\Cyberfyx-projects\Cyberfyx_ORVIA\.worktrees\round10\shared\testing\src\operations-fixture.ts:117:28)
+    at async <anonymous> (C:\Cyberfyx-projects\Cyberfyx_ORVIA\.worktrees\round10\tests\integration\onboarding\file-intake.test.ts:24:1) {
+  http_status: 500,
+  response_code: 'UNKNOWN',
+  request_id: 'b3c51b35-de9a-4ecb-a8a0-775ad5e3fa9b',
+  code: 'AUTH_LOGIN_FAILED'
+}
+Server diagnostics (safe codes only): # SERVER_ERROR:  [Error: error:078C0100:common libcrypto routines::malloc failure]
+
+Artifact: handoffs/codex/artifacts/DPDP-operations-file-intake-1790958517202-49618561-9904-49bc-bf25-319d99b3d563.json
+
+1 assertions, 1 failures.

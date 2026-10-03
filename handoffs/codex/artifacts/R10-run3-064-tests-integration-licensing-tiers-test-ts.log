@@ -1,0 +1,12 @@
+PASS the FOUNDATION licence is in force
+FAIL protective wind-down reaches scoped resource validation: toggle_control_test {"expected":{"status":404,"codes":[]},"actual":{"status":404,"codes":["not_found"]}}
+Error: Assertion failed: protective wind-down reaches scoped resource validation: toggle_control_test
+    at check (C:\Cyberfyx-projects\Cyberfyx_ORVIA\.worktrees\round10\shared\testing\src\operations-fixture.ts:29:147)
+    at <anonymous> (C:\Cyberfyx-projects\Cyberfyx_ORVIA\.worktrees\round10\tests\integration\licensing\tiers.test.ts:67:5)
+    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+    at async Object.run (C:\Cyberfyx-projects\Cyberfyx_ORVIA\.worktrees\round10\shared\testing\src\operations-fixture.ts:117:28)
+    at async <anonymous> (C:\Cyberfyx-projects\Cyberfyx_ORVIA\.worktrees\round10\tests\integration\licensing\tiers.test.ts:27:1)
+Server diagnostics (safe codes only): 
+Artifact: handoffs/codex/artifacts/DPDP-operations-licence-tiers-1790967844680-db63f53a-6563-478c-8de6-1c615e50c472.json
+
+3 assertions, 2 failures.

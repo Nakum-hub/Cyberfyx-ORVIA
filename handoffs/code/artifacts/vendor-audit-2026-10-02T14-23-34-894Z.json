@@ -1,0 +1,85 @@
+{
+  "suite": "vendor-audit",
+  "database": "orvia_vendor_test_f43a7e17e211413f99dbc1aa1a9f262a",
+  "passed": 18,
+  "failed": 1,
+  "results": [
+    {
+      "name": "schema: every vendor table forces row-level security",
+      "result": "PASS"
+    },
+    {
+      "name": "schema: the migration runner refuses a vendor table without forced row-level security",
+      "result": "PASS"
+    },
+    {
+      "name": "setup: no code issued",
+      "result": "PASS"
+    },
+    {
+      "name": "setup: wrong code refused and counted",
+      "result": "PASS"
+    },
+    {
+      "name": "setup: completes and creates super admin and admin",
+      "result": "PASS"
+    },
+    {
+      "name": "setup: closed afterwards",
+      "result": "PASS"
+    },
+    {
+      "name": "vendor API refuses a session without MFA",
+      "result": "PASS"
+    },
+    {
+      "name": "super admin with MFA reads the team",
+      "result": "PASS"
+    },
+    {
+      "name": "unauthenticated vendor API is 401",
+      "result": "PASS"
+    },
+    {
+      "name": "admin cannot create another vendor admin",
+      "result": "PASS"
+    },
+    {
+      "name": "admin creates audit members",
+      "result": "PASS"
+    },
+    {
+      "name": "auditor cannot manage the team",
+      "result": "PASS"
+    },
+    {
+      "name": "auditor cannot read the team",
+      "result": "PASS"
+    },
+    {
+      "name": "typed DELETE required",
+      "result": "PASS"
+    },
+    {
+      "name": "delete login is permanent",
+      "result": "PASS"
+    },
+    {
+      "name": "admin cannot delete the super admin",
+      "result": "PASS"
+    },
+    {
+      "name": "organisation created",
+      "result": "PASS"
+    },
+    {
+      "name": "client vendor-account created",
+      "result": "PASS"
+    },
+    {
+      "name": "suite",
+      "result": "FAIL",
+      "detail": "TypeError: Cannot read properties of undefined (reading 'claims')\n    at <anonymous> (C:\\Cyberfyx-projects\\Cyberfyx_ORVIA\\.worktrees\\round10\\tests\\integration\\vendor\\vendor-audit.test.ts:105:75)\n    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)"
+    }
+  ]
+}

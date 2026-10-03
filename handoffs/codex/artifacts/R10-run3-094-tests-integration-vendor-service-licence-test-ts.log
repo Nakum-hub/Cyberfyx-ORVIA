@@ -1,0 +1,19 @@
+PASS with no licence the state says so and members are not limited
+PASS only the super administrator imports the vendor licence
+PASS the super administrator imports it
+PASS a second member fits
+PASS a third member is refused at the seat limit
+PASS an administrator is not counted
+PASS the limit applies to accounts the website creates too
+PASS deactivating a member frees a seat
+PASS reactivating beyond the limit is refused
+PASS an older sequence is refused
+PASS another installation's licence is refused
+PASS a licence changed after signing is refused
+PASS a licence signed with the customer licence key is refused
+PASS a customer licence cannot be imported as the vendor licence, whoever signed it
+PASS and a vendor licence can never pass as a customer licence
+PASS a renewal with a higher sequence takes over
+PASS imported licences are never edited
+
+service-licence: 17/17 passed

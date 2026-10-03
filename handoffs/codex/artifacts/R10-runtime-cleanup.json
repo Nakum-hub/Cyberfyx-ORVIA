@@ -1,0 +1,59 @@
+{
+    "timestamp":  "2026-10-02T19:23:07.7164834Z",
+    "containers":  [
+                       {
+                           "exit_code":  0,
+                           "running":  false,
+                           "name":  "/orvia-round10-customer-postgres-1",
+                           "project":  "orvia-round10-customer"
+                       },
+                       {
+                           "exit_code":  0,
+                           "running":  false,
+                           "name":  "/orvia-round10-customer-loopback-1",
+                           "project":  "orvia-round10-customer"
+                       },
+                       {
+                           "exit_code":  0,
+                           "running":  false,
+                           "name":  "/orvia-round10-customer-opa-1",
+                           "project":  "orvia-round10-customer"
+                       },
+                       {
+                           "exit_code":  0,
+                           "running":  false,
+                           "name":  "/orvia-round10-customer-temporal-1",
+                           "project":  "orvia-round10-customer"
+                       },
+                       {
+                           "exit_code":  0,
+                           "running":  false,
+                           "name":  "/orvia-round10-rehearsal-postgres-1",
+                           "project":  "orvia-round10-rehearsal"
+                       },
+                       {
+                           "exit_code":  0,
+                           "running":  false,
+                           "name":  "/orvia-round10-rehearsal-loopback-1",
+                           "project":  "orvia-round10-rehearsal"
+                       },
+                       {
+                           "exit_code":  0,
+                           "running":  false,
+                           "name":  "/orvia-round10-rehearsal-temporal-1",
+                           "project":  "orvia-round10-rehearsal"
+                       },
+                       {
+                           "exit_code":  0,
+                           "running":  false,
+                           "name":  "/orvia-round10-rehearsal-opa-1",
+                           "project":  "orvia-round10-rehearsal"
+                       },
+                       {
+                           "running":  false,
+                           "name":  "/orvia-round10-grc-opa",
+                           "exit_code":  0
+                       }
+                   ],
+    "preserved":  "All volumes, private profiles and built image retained"
+}

@@ -1,0 +1,14 @@
+PASS staff processed only a first batch
+Error: Machine enrollment expired; renew through protected local setup
+    at <anonymous> (C:\Cyberfyx-projects\Cyberfyx_ORVIA\.worktrees\round10\backend\auth\src\machine-profile.ts:45:27)
+    at Object.once (C:\Cyberfyx-projects\Cyberfyx_ORVIA\.worktrees\round10\services\worker\src\operations-runner.ts:66:28)
+    at <anonymous> (C:\Cyberfyx-projects\Cyberfyx_ORVIA\.worktrees\round10\tests\integration\operations\runner.test.ts:38:32)
+    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+    at async Object.run (C:\Cyberfyx-projects\Cyberfyx_ORVIA\.worktrees\round10\shared\testing\src\operations-fixture.ts:117:28)
+    at async <anonymous> (C:\Cyberfyx-projects\Cyberfyx_ORVIA\.worktrees\round10\tests\integration\operations\runner.test.ts:19:1) {
+  code: 'MACHINE_ENROLLMENT_EXPIRED'
+}
+Server diagnostics (safe codes only): 
+Artifact: handoffs/codex/artifacts/DPDP-operations-runner-1790961963358-0ecfb1f8-c4c7-4c0d-a181-df52ecad164b.json
+
+2 assertions, 1 failures.

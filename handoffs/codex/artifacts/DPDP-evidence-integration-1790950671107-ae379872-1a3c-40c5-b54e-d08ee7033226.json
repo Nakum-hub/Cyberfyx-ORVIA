@@ -1,0 +1,23 @@
+{
+  "task_id": "DPDP",
+  "fixture_kind": "CUSTOMER_LOCAL_SYNTHETIC",
+  "recorded_at": "2026-10-02T14:17:51.108Z",
+  "test_ids": [
+    "T13",
+    "T17",
+    "T18",
+    "T19",
+    "T20",
+    "T21",
+    "T22"
+  ],
+  "profile": "codex-a00",
+  "contract_version": "0.58.0",
+  "build_id": "j-QBjVVZ-rmxRmKwhszFj",
+  "assertions": [],
+  "result": "FAIL",
+  "limitations": [
+    "Only customer-local synthetic targets; no browser or production-readiness claim. One automatic effect attempt; unresolved effects require read reconciliation rather than blind retry."
+  ],
+  "run_id": "0a1678af-a4d1-4dd5-90e9-22810d8fc2cc"
+}

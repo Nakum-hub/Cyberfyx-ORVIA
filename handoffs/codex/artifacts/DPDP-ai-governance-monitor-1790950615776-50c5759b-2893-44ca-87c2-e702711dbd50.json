@@ -1,0 +1,15 @@
+{
+  "task_id": "DPDP",
+  "fixture_kind": "CUSTOMER_LOCAL_SYNTHETIC",
+  "recorded_at": "2026-10-02T14:16:55.776Z",
+  "profile": "codex-a00",
+  "phase": "start",
+  "assertions": [],
+  "result": "FAIL",
+  "error": {
+    "name": "error",
+    "code": "22P02"
+  },
+  "detail": "invalid input syntax for type uuid: \"round10-licence-dev-1614d3e2-4a77-432a-b83b-ffac463d3409\"",
+  "run_id": "4b03836f-f6e8-4fa2-ab29-acf0833240db"
+}

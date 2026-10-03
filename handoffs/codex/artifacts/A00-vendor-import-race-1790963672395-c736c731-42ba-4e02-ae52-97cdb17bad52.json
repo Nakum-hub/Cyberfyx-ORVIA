@@ -1,0 +1,10 @@
+{
+  "task_id": "A00",
+  "fixture_kind": "SYNTHETIC_BOOTSTRAP_ONLY",
+  "recorded_at": "2026-10-02T17:54:32.396Z",
+  "expected_defect": true,
+  "lower_sequence_accepted": false,
+  "reason": "",
+  "code": null,
+  "result": "FAIL"
+}

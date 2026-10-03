@@ -1,0 +1,52 @@
+PASS a licence naming AI_COPILOT is refused however it is signed
+PASS a licence naming VENDOR_REMOTE_ACCESS is refused however it is signed
+PASS a licence naming STAFF_DIRECTORY_SYNC is refused however it is signed
+PASS a licence naming PROACTIVE_DIAGNOSTICS is refused however it is signed
+PASS a licence from an untrusted signer is refused
+PASS the refusal names the untrusted signer
+PASS the refusal names an invalid signature when claims were altered after signing
+PASS a licence bound to another installation is refused
+PASS a licence that is not yet valid is refused
+PASS an expired licence is refused at import
+PASS a licence whose window ends before it starts is rejected by the schema
+PASS importing a licence needs its own authority, not merely read access
+PASS an imported licence records exactly what was bought
+PASS an active licence says expiry never withdraws reading or export
+PASS re-importing the same licence is a replay, not a renewal
+PASS stored signed terms are immutable: edition='ENTERPRISE'
+PASS stored signed terms are immutable: valid_to=now()+interval '10 years'
+PASS stored signed terms are immutable: term='MONTHLY'
+PASS stored signed terms are immutable: sequence=999999
+PASS stored signed terms are immutable: trial=true
+PASS stored signed terms are immutable: claims='{}'::jsonb
+PASS stored signed terms are immutable: signature='changed'
+PASS stored signed terms are immutable: signing_key_id='74c61b0f-2213-439f-99a7-504e16cb0e31'
+PASS stored signed terms are immutable: installation_id='12b41ca7-10fb-40f1-a52d-db63db8b8b56'
+PASS stored signed terms are immutable: licence_id='192a94ae-8868-4c9f-9f0a-529dc0fed0d2'
+PASS stored signed terms are immutable: id='7e3211ec-e11d-45f3-93bc-e31ce3b281d2'
+PASS stored signed terms are immutable: valid_from=now()-interval '10 years'
+PASS stored signed terms are immutable: imported_by='48ff209f-5a53-49da-8e1c-9c7dc80a61a0'
+PASS stored signed terms are immutable: imported_at=now()-interval '1 year'
+PASS supersession may deactivate the stored licence
+PASS a licence record is never deleted
+PASS every feature reports exactly five gates
+PASS every gate is named once per feature
+PASS a licensed, released, rolled-out feature the actor may use is usable
+PASS a feature the licence does not name is not usable
+PASS the blocking gate is identified rather than merely reporting a refusal
+PASS a feature held back by rollout is blocked on that gate specifically
+PASS an auditor holding the read capability passes the actor gate
+PASS the licence gate is the same for every actor
+PASS the report states plainly what no licence can enable
+PASS it says these are commitments, not withheld features
+PASS it names the model capabilities explicitly
+PASS it names vendor remote access explicitly
+PASS the report says a licence carries no commands or authority grants
+PASS the report says security and truthful outcomes are not licensed features
+Authentication fixture idle window: 61s remaining; controls unchanged.
+Authentication fixture idle window: 31s remaining; controls unchanged.
+Authentication fixture idle window: 1s remaining; controls unchanged.
+PASS a member without the licence capability is refused
+Artifact: handoffs/codex/artifacts/DPDP-licensing-integration-1790967819674-4c8ed696-a59a-421f-984e-420f79c88484.json
+
+46 assertions, 0 failures.

@@ -1,0 +1,20 @@
+{
+  "task_id": "DPDP",
+  "fixture_kind": "CUSTOMER_LOCAL_SYNTHETIC",
+  "recorded_at": "2026-10-02T16:11:20.118Z",
+  "suite": "automation-quota-race",
+  "assertions": [
+    {
+      "name": "unexpected failure in setup",
+      "result": "FAIL",
+      "expected": "no error",
+      "actual": "Cannot read properties of undefined (reading 'claims')"
+    }
+  ],
+  "passed": 0,
+  "failures": 1,
+  "profile": "codex-a00",
+  "test_adapter_only": true,
+  "limitation": "Connector effects are exercised against the synthetic records test adapter; no live customer system was contacted.",
+  "run_id": "c89dc332-cfc2-412c-8100-0ad209ab8ccb"
+}

@@ -121,7 +121,7 @@ export function createBusinessHandler(getRuntime:typeof runtime) { return (reque
     await requireCapability(r.config,current,domain,route.capability!);
     const c={tx,actor:current,requestId};
     // Revision 1.11: the tier entitlement, decided by the server in the same transaction as the work.
-    await requireEntitlement(c,route);
+   await requireEntitlement(c,route,input);
     await requireLimit(c,route,id,input);
     const execute=async()=>{
       if(route.id.startsWith('list_')&&configurationKinds.has(route.id.slice(5)))return configurationList(c,route.id.slice(5) as ConfigurationKind,page);

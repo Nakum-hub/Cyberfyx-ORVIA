@@ -1,0 +1,56 @@
+PASS a member cannot read the registry
+PASS an auditor can read the registry
+PASS an auditor cannot write the registry
+PASS a category name is unique
+PASS the reference records that a source key was supplied
+PASS the source key itself is never stored, only its keyed digest
+PASS a reference belongs to one person per system
+PASS one person keeps separate relationship contexts
+PASS an unknown relationship status stays unknown
+PASS ending a context records its end
+PASS a context is ended once
+PASS context creation and end are emitted as events
+PASS processing is reported per relationship context
+PASS an activity for another category is not attributed to this person
+PASS a person cannot be merged into themselves
+PASS a merged record points at the surviving person
+PASS a merged record takes no new references
+PASS an unmerge restores the record
+PASS a recorded representative starts unverified
+PASS an organisation admin cannot record a representative
+PASS an organisation admin cannot record child status
+PASS the person who recorded a representative cannot verify it
+PASS a second person verifies the representative
+PASS representatives are sensitive: an organisation admin cannot list them
+PASS a super admin can list representatives
+PASS for a person with a portal identity, a nomination must cite the V1 mandate
+PASS a mandate of the wrong kind does not authorise a nomination
+PASS an unverified nomination cannot be activated
+PASS a verified nomination is activated on a recorded basis
+PASS only a nomination is activated
+PASS no child status is inferred where none is recorded
+PASS a status other than unknown needs evidence
+PASS an unknown status carries no restrictions: nothing is inferred
+PASS established verifiable consent must name the guardian and its evidence
+PASS a recorded child carries the package's child restrictions
+PASS child status is sensitive: an organisation admin cannot read it
+PASS a super admin reads the latest status
+PASS a child status record cannot be rewritten
+PASS a safeguard cannot claim available evidence without citing it
+PASS a safeguard without evidence is recorded as missing evidence, not as implemented
+PASS a safeguard record cannot be rewritten
+PASS a reference cannot be rewritten
+PASS a reference cannot be deleted
+PASS an activity with an unresolved condition widens the denominator without counting as resolved
+PASS coverage is a set of ratios and never a compliance score
+PASS batched activity reads preserve detail history, links and unresolved gaps
+PASS the first activity page retains its next cursor
+PASS the next activity page retains the older record without repetition
+PASS the final activity page retains the original relationship activity and ends the traversal
+PASS batched purpose reads preserve all fields and versions
+PASS batched activity children do not cross tenant scope
+PASS another tenant cannot read this person
+PASS another tenant sees none of these references
+Artifact: handoffs/codex/artifacts/DPDP-operations-registry-1790961715137-7580f885-ae7e-41e1-945d-5ea5a38d0450.json
+
+53 assertions, 0 failures.

@@ -1,0 +1,32 @@
+PASS a UUID client header accepts canonical case variants with the same sealed identity
+PASS signed malformed JSON is a bounded validation refusal
+PASS the provisioning limit counts UTF-8 bytes, not characters
+PASS invalid UUID-shaped client identifiers are unauthenticated, not database errors
+PASS the website creates the super administrator and gets a setup code, not a password
+PASS first-run setup is then closed
+PASS a second super administrator is refused
+PASS the owner sets their password at the vendor service with the code
+PASS and signs in
+PASS the website adds an administrator and a member
+PASS the website reads vendor accounts (never client-organisation accounts)
+PASS the website re-issues a setup code
+PASS a signed POST with no body retains the exact empty-body signature
+PASS the earlier code no longer works
+PASS a members-only client cannot create an administrator
+PASS nor read accounts
+PASS but can add a member
+PASS the super administrator cannot be deactivated through the website
+PASS a member can be deactivated
+PASS a wrong signature is refused
+PASS a changed body is refused
+PASS a stale request is refused
+PASS a request is accepted once
+PASS the same request replayed is refused
+PASS a request signed for another product is refused, even with the right key
+PASS an unknown client is refused
+PASS a browser session cookie is not accepted on this API
+PASS a revoked client is refused
+PASS only the sealed secret is stored
+PASS website actions are audited as the provisioning client
+
+provisioning: 30/30 passed

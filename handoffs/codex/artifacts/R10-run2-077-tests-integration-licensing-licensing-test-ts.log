@@ -1,0 +1,18 @@
+PASS a licence naming AI_COPILOT is refused however it is signed
+PASS a licence naming VENDOR_REMOTE_ACCESS is refused however it is signed
+PASS a licence naming STAFF_DIRECTORY_SYNC is refused however it is signed
+PASS a licence naming PROACTIVE_DIAGNOSTICS is refused however it is signed
+PASS a licence from an untrusted signer is refused
+PASS the refusal names the untrusted signer
+PASS the refusal names an invalid signature when claims were altered after signing
+PASS a licence bound to another installation is refused
+PASS a licence that is not yet valid is refused
+PASS an expired licence is refused at import
+PASS a licence whose window ends before it starts is rejected by the schema
+PASS importing a licence needs its own authority, not merely read access
+PASS an imported licence records exactly what was bought
+PASS an active licence says expiry never withdraws reading or export
+PASS re-importing the same licence is a replay, not a renewal
+FAIL the stored licence can be superseded but its terms cannot be edited { expected: 'ACCEPTED', actual: 'REJECTED' }
+Artifact: handoffs/codex/artifacts/DPDP-licensing-integration-1790957402086-bb672aff-d14a-4afa-9d85-ff6fe07426da.json
+{ name: 'Error', code: 'UNCLASSIFIED' }

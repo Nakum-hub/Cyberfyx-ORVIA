@@ -116,7 +116,7 @@ function Nav({ groups, usable }: { groups: NavGroup[]; usable: ReadonlySet<strin
     <nav className="shell-nav" aria-label="Primary">
       {groups.map((group, index) => {
         const current = group.items.some(item => isActive(item.href));
-        const open = current || expanded[group.group] === true;
+        const open = current || (index === 0 && pathname.endsWith('/sign-in')) || expanded[group.group] === true;
         return (
         <div className="nav-group" key={group.group}>
           <button type="button" className="group-label" aria-expanded={open}
@@ -197,6 +197,7 @@ function PlanBanner({ plan }: { plan: PlanData }) {
 
 export const WORKSPACE_NAV: NavGroup[] = [
   { group: 'Overview', items: [
+    { href: '/workspace/sign-in', label: 'Staff sign in', whenSignedOut: true },
     { href: '/workspace', label: 'Overview' },
     { href: '/workspace/failures', label: 'Attention' },
     { href: '/workspace/coverage', label: 'Coverage', entitlement: 'COVERAGE_REPORTING' },

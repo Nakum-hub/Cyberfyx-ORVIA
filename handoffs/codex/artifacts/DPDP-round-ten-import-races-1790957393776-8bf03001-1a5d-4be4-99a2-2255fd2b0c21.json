@@ -1,0 +1,21 @@
+{
+  "task_id": "DPDP",
+  "fixture_kind": "CUSTOMER_LOCAL_SYNTHETIC",
+  "recorded_at": "2026-10-02T16:09:53.776Z",
+  "observations": [
+    {
+      "name": "lower sequence",
+      "accepted": false
+    },
+    {
+      "name": "unsequenced after sequenced",
+      "accepted": false
+    },
+    {
+      "name": "second edition trial",
+      "accepted": false
+    }
+  ],
+  "result": "PASS",
+  "run_id": "4efb4950-ad60-47de-8392-1bfca31e9440"
+}

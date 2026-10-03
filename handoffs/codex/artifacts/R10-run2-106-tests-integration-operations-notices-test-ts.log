@@ -1,0 +1,8 @@
+Authentication fixture idle window: 61s remaining; controls unchanged.
+Authentication fixture idle window: 31s remaining; controls unchanged.
+Authentication fixture idle window: 1s remaining; controls unchanged.
+[DOMException [TimeoutError]: The operation was aborted due to timeout]
+Server diagnostics (safe codes only): 
+Artifact: handoffs/codex/artifacts/DPDP-operations-notices-1790961276666-ca0e3230-d3d2-4988-afee-d0db6b5c6739.json
+
+1 assertions, 1 failures.

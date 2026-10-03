@@ -1,0 +1,15 @@
+{
+  phase: 'restart OPA',
+  name: 'Error',
+  code: 'UNCLASSIFIED',
+  message: undefined,
+  cause: { name: 'Error', code: 'UNCLASSIFIED' },
+  sites: [
+    '    at docker (C:\\Cyberfyx-projects\\Cyberfyx_ORVIA\\.worktrees\\round10\\tests\\integration\\enforcement\\send.test.ts:26:170)',
+    '    at <anonymous> (C:\\Cyberfyx-projects\\Cyberfyx_ORVIA\\.worktrees\\round10\\tests\\integration\\enforcement\\send.test.ts:37:8)',
+    '    at ModuleJob.run (node:internal/modules/esm/module_job:561:25)',
+    '    at async node:internal/modules/esm/loader:647:26'
+  ]
+}
+
+Artifact: handoffs/codex/artifacts/DPDP-send-enforcement-1790950664822-1fddc43e-0d58-48ab-99e1-f761b17f4b78.json
