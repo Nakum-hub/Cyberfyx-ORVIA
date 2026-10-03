@@ -1,0 +1,22 @@
+[
+  {
+    "label": "inventory",
+    "exit": 0
+  },
+  {
+    "label": "inventory-check",
+    "exit": 0
+  },
+  {
+    "label": "contracts",
+    "exit": 0
+  },
+  {
+    "label": "unit",
+    "exit": 0
+  },
+  {
+    "label": "typecheck",
+    "exit": 0
+  }
+]

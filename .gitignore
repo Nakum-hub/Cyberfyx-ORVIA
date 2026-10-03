@@ -16,3 +16,5 @@ dist/
 !handoffs/codex/artifacts/*.log
 .pnpm-store/
 output/playwright/downloads/
+# Isolated checkouts contain their own Git history and ignored local runtime data.
+/.worktrees/
