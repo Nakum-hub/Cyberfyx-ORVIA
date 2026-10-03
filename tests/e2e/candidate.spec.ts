@@ -15,14 +15,17 @@ test('B06 branded route fallback, session-aware navigation and captured page err
   expect(retiredDemo?.status()).toBe(404);
   await expect(page.getByRole('link',{name:'Guided demo',exact:true})).toHaveCount(0);
 
-  // F-09: signed out the sign-in destination is offered; signed in it is not.
-  await page.goto('/workspace/sign-in');
+  // F-09: signed out the sign-in destination is offered; signed in it is not. The sign-in page itself is the full-screen
+  // branded sign-in (owner design 2026-10-03), so the offer is checked on the Workspace.
+  await page.goto('/workspace');
   const nav=page.getByRole('navigation',{name:'Primary'});
   await expect(nav.getByRole('link',{name:'Staff sign in',exact:true})).toBeVisible();
   await loginUi(page,h,'owner');
   await expect(nav.getByRole('link',{name:'Staff sign in',exact:true})).toHaveCount(0);
   await expect(nav.getByRole('link',{name:'Overview',exact:true})).toBeVisible();
   await page.getByRole('button',{name:'Sign out',exact:true}).click();
+  await expect(page.getByLabel('Staff email')).toBeVisible();
+  await page.goto('/workspace');
   await expect(nav.getByRole('link',{name:'Staff sign in',exact:true})).toBeVisible();
 
   // F-08: prove the audit actually captures an uncaught page error. Without the

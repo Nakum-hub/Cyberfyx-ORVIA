@@ -80,6 +80,8 @@ const ROLE: Record<string, string> = { VENDOR_SUPER_ADMIN: 'Vendor super adminis
 function Shell({ children }: { children: ReactNode }) {
   const { session, signOut } = useVendorSession(); const pathname = usePathname();
   const groups = NAV.map(g => ({ ...g, items: g.items.filter(i => can(session, i.capability)) })).filter(g => g.items.length);
+  // Sign-in and first-password set-up render the full-screen branded sign-in (BrandSignIn) without the vendor frame.
+  if ((pathname === '/vendor/sign-in' || pathname === '/vendor/account-setup') && !session) return <>{children}</>;
   return (
     <div className="shell">
       <a className="skip-link" href="#main">Skip to main content</a>

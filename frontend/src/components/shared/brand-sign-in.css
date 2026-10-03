@@ -1,0 +1,70 @@
+/* Branded sign-in (owner design 2026-10-03: frontend/src/components/Cyberfyx Orvia – Sign-in preview.html).
+   Scoped to .cfx so the rest of the interface is unaffected. Montserrat is bundled locally (@fontsource), never fetched. */
+.cfx {
+  --cfx-orange: #ffab40; --cfx-purple: #351c74; --cfx-purple-hover: #43259a; --cfx-border: #e4def0;
+  min-height: 100vh; min-height: 100dvh; box-sizing: border-box; margin: 0; padding: 24px;
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  background: #fff; color: var(--cfx-purple); overflow-x: hidden;
+  font-family: 'Montserrat', system-ui, sans-serif;
+  padding-top: max(24px, env(safe-area-inset-top, 0px)); padding-bottom: max(24px, env(safe-area-inset-bottom, 0px));
+}
+.cfx *, .cfx *::before, .cfx *::after { box-sizing: border-box; }
+.cfx-lockup { display: flex; align-items: center; }
+.cfx-shield { height: clamp(72px, 14vw, 120px); width: auto; transform: perspective(800px) scale(0) rotateY(-360deg); opacity: 0; }
+.cfx.go .cfx-shield { animation: cfx-open 2.3s linear forwards; }
+@keyframes cfx-open {
+  0% { transform: perspective(800px) scale(0) rotateY(-360deg); opacity: 0; }
+  22% { transform: perspective(800px) scale(1) rotateY(-281deg); opacity: 1; }
+  100% { transform: perspective(800px) scale(1) rotateY(0); opacity: 1; }
+}
+.cfx-reveal { display: grid; grid-template-columns: 0fr; opacity: 0; transition: grid-template-columns 1s cubic-bezier(.22,1,.36,1), opacity 1s; }
+.cfx.s1 .cfx-reveal { grid-template-columns: 1fr; opacity: 1; }
+.cfx-inner { overflow: hidden; white-space: nowrap; display: flex; align-items: baseline; min-width: 0; }
+.cfx-name, .cfx-orvia { font-weight: 800; font-size: clamp(26px, 7vw, 72px); line-height: 1.1; }
+.cfx-name { color: var(--cfx-purple); margin-left: clamp(10px, 2vw, 20px); }
+.cfx-orvia { color: var(--cfx-orange); margin-left: clamp(1px, .3vw, 4px); word-spacing: -.2em; padding-right: 4px; opacity: 0; transform: translateX(-16px); transition: opacity .6s ease-out, transform .6s ease-out; }
+.cfx.s2 .cfx-orvia { opacity: 1; transform: none; }
+.cfx-formwrap { display: grid; grid-template-rows: 0fr; transition: grid-template-rows .9s cubic-bezier(.22,1,.36,1); width: 100%; max-width: 400px; }
+.cfx.s3 .cfx-formwrap { grid-template-rows: 1fr; }
+.cfx-formclip { overflow: hidden; min-height: 0; }
+.cfx-body { padding: 40px 4px 8px; opacity: 0; transform: translateY(24px); transition: opacity .8s .35s, transform .8s .35s cubic-bezier(.22,1,.36,1); }
+.cfx.s3 .cfx-body { opacity: 1; transform: none; }
+
+/* Returning visitors in this tab, and anyone preferring reduced motion, see the final state at once. */
+.cfx.instant .cfx-shield { animation: none; transform: none; opacity: 1; }
+.cfx.instant .cfx-reveal, .cfx.instant .cfx-orvia, .cfx.instant .cfx-formwrap, .cfx.instant .cfx-body { transition: none; }
+@media (prefers-reduced-motion: reduce) { .cfx *, .cfx { transition-duration: .01s !important; animation-duration: .01s !important; } }
+
+/* Area title (which sign-in this is) and the forms the pages place inside. */
+.cfx-area { margin: 0 0 18px; font-weight: 800; font-size: 18px; color: var(--cfx-purple); text-align: center; }
+.cfx-body form, .cfx-body .panel { display: flex; flex-direction: column; gap: 14px; margin: 0; padding: 0; border: 0; background: none; box-shadow: none; max-width: none !important; }
+.cfx-body .field { display: flex; flex-direction: column; gap: 6px; margin: 0; }
+.cfx-body .field > label, .cfx-body .field .label { font-weight: 600; font-size: 13px; color: var(--cfx-purple); }
+.cfx-body .field .label [aria-hidden="true"] { display: none; }
+.cfx-body .hint { font-size: 12px; color: #6b6383; }
+.cfx-body input:not([type="checkbox"]):not([type="radio"]) {
+  width: 100%; padding: 14px 16px; border: 1.5px solid var(--cfx-border); border-radius: 10px;
+  font: 500 15px 'Montserrat', system-ui, sans-serif; color: var(--cfx-purple); background: #fff; outline: none;
+  transition: border-color .2s, box-shadow .2s;
+}
+.cfx-body input:focus { border-color: var(--cfx-purple); box-shadow: 0 0 0 4px rgba(53,28,116,.12); }
+.cfx-body input:disabled { background: #faf9fd; }
+.cfx-body button {
+  padding: 12px 14px; border-radius: 10px; cursor: pointer; font: 600 14px 'Montserrat', system-ui, sans-serif;
+  background: #fff; color: var(--cfx-purple); border: 1.5px solid var(--cfx-purple); transition: background .2s, transform .15s;
+}
+.cfx-body button.primary, .cfx-body button[type="submit"] {
+  margin-top: 8px; padding: 14px; border: 0; font-weight: 800; font-size: 15px; color: #fff; background: var(--cfx-purple);
+}
+.cfx-body button.primary:hover, .cfx-body button[type="submit"]:hover { background: var(--cfx-purple-hover); }
+.cfx-body button:active { transform: scale(.98); }
+.cfx-body button:disabled { opacity: .55; cursor: not-allowed; }
+.cfx-body button:focus-visible, .cfx-body a:focus-visible { outline: 3px solid var(--cfx-orange); outline-offset: 3px; }
+.cfx-body h3 { margin: 0; font-size: 16px; font-weight: 800; color: var(--cfx-purple); }
+.cfx-body p, .cfx-body li { margin: 0; font-size: 14px; line-height: 1.5; color: #3d3555; }
+.cfx-body .muted { color: #6b6383; font-size: 13px; }
+.cfx-body a { color: var(--cfx-purple); font-weight: 600; }
+.cfx-body code { font-size: 12px; word-break: break-all; }
+.cfx-body .notice { border-radius: 10px; font-size: 14px; }
+.cfx-body .row { display: flex; gap: 8px; flex-wrap: wrap; }
+.cfx-foot { margin-top: 28px; font-size: 11px; color: #8a83a0; text-align: center; letter-spacing: .02em; }

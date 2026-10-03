@@ -3,6 +3,7 @@ import { useState, type FormEvent } from 'react';
 import { principalAuthClient } from '@orvia/auth/client';
 import { useSession } from '../../../components/shared/session-context.tsx';
 import { NoticeBox, TextField, useHydrated } from '../../../components/shared/ui.tsx';
+import { BrandSignIn } from '../../../components/shared/brand-sign-in.tsx';
 
 /**
  * Data principal sign in. Credentials go to the local Better Auth principal
@@ -39,7 +40,7 @@ export default function PrincipalSignInPage() {
     }
   };
 
-  if(session?.actor_domain==='STAFF')return <NoticeBox tone="stop" title="Separate principal session required"><p>Sign out of the staff session or use a separate browser context before signing in as a principal.</p></NoticeBox>;
+  if(session?.actor_domain==='STAFF')return <BrandSignIn area="Privacy Centre"><NoticeBox tone="stop" title="Separate principal session required"><p>Sign out of the staff session or use a separate browser context before signing in as a principal.</p></NoticeBox></BrandSignIn>;
 
   if (status === 'authenticated' && session?.actor_domain === 'PRINCIPAL') {
     return (
@@ -51,25 +52,16 @@ export default function PrincipalSignInPage() {
   }
 
   return (
-    <>
-      <div className="page-head">
-        <h2>Sign in to the Privacy Centre</h2>
-        <p>This test environment uses synthetic principal accounts. Staff accounts cannot sign in here.</p>
-      </div>
-      <form className="panel" onSubmit={submit} noValidate style={{ maxWidth: 460 }}>
-        <TextField label="Email" type="email" value={email} onChange={setEmail} required autoComplete="username" />
-        <TextField label="Password" type="password" value={password} onChange={setPassword} required autoComplete="current-password" />
+    <BrandSignIn area="Sign in to the Privacy Centre">
+      <form className="panel" onSubmit={submit} noValidate aria-label="Privacy Centre sign in">
+        <TextField label="Email" type="email" value={email} onChange={setEmail} required autoComplete="username" placeholder="you@example.com" />
+        <TextField label="Password" type="password" value={password} onChange={setPassword} required autoComplete="current-password" placeholder="Enter your password" />
         {error ? <div className="notice notice-stop" role="alert"><p>{error}</p></div> : null}
         <button type="submit" className="primary" disabled={!hydrated || busy || !email || !password}>
           {busy ? 'Signing in…' : 'Sign in'}
         </button>
+        <p className="muted">For customers of this organisation. Staff sign in to the Workspace instead, in a separate browser window.</p>
       </form>
-      <NoticeBox tone="info" title="Separate journeys">
-        <p>
-          Staff and principal sessions are separate authentication domains. If this browser already holds a staff
-          session, sign out of it or use a separate browser context before signing in here.
-        </p>
-      </NoticeBox>
-    </>
+    </BrandSignIn>
   );
 }

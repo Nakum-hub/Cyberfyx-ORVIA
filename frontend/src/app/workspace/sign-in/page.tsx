@@ -5,6 +5,7 @@ import { describeFailure } from '../../../components/shared/errors.ts';
 import { call } from '../../../components/shared/api.ts';
 import { useSession } from '../../../components/shared/session-context.tsx';
 import { NoticeBox, TextField, useHydrated } from '../../../components/shared/ui.tsx';
+import { BrandSignIn } from '../../../components/shared/brand-sign-in.tsx';
 
 export default function StaffSignIn() {
   const hydrated = useHydrated();
@@ -50,10 +51,10 @@ export default function StaffSignIn() {
     finally { setBusy(false); }
   }
   if (session?.actor_domain === 'STAFF') return <NoticeBox tone="ok" title="Signed in"><p>Your staff session is established by the server.</p><a href="/workspace">Go to workspace</a></NoticeBox>;
-  if (session?.actor_domain === 'PRINCIPAL') return <NoticeBox tone="stop" title="Separate staff session required"><p>Sign out of the principal session or use a separate browser context before signing in as staff.</p></NoticeBox>;
-  return <><div className="page-head"><h2>Staff sign in</h2><p>Customer-local synthetic staff accounts. Privileged access requires an authenticator; no role selection grants authority.</p></div>
-    <form className="panel" onSubmit={submit} style={{maxWidth:560}}>
-      {step === 'password' ? <><TextField label="Staff email" type="email" value={email} onChange={setEmail} required autoComplete="username" /><TextField label="Password" type="password" value={password} onChange={setPassword} required autoComplete="current-password" /></> : null}
+  if (session?.actor_domain === 'PRINCIPAL') return <BrandSignIn area="Staff sign in"><NoticeBox tone="stop" title="Separate staff session required"><p>Sign out of the principal session or use a separate browser context before signing in as staff.</p></NoticeBox></BrandSignIn>;
+  return <BrandSignIn area="Staff sign in">
+    <form className="panel" onSubmit={submit} aria-label="Staff sign in">
+      {step === 'password' ? <><TextField label="Staff email" type="email" value={email} onChange={setEmail} required autoComplete="username" placeholder="you@company.com" /><TextField label="Password" type="password" value={password} onChange={setPassword} required autoComplete="current-password" placeholder="Enter your password" /></> : null}
       {step === 'replace' ? <><h3>Choose your own password</h3><p>Your administrator gave you a one-time password. Replace it now; it stops working once you do. Next you will set up your authenticator.</p><TextField label="New password" type="password" value={chosen} onChange={setChosen} required autoComplete="new-password" /><TextField label="Confirm new password" type="password" value={confirm} onChange={setConfirm} required autoComplete="new-password" /></> : null}
       {step === 'enroll' ? <><h3>Set up privileged MFA</h3><p>Password authentication alone does not authorize workspace access.</p>{!enrollment ? <TextField label="Current password for enrollment" type="password" value={password} onChange={setPassword} required autoComplete="current-password" /> : <><p>Open this local URI in your authenticator. Keep recovery codes private; this page clears them after verification.</p><details><summary>Show my authenticator enrollment and recovery codes</summary><code style={{overflowWrap:'anywhere'}}>{enrollment.totpURI}</code><ul>{enrollment.backupCodes.map(c => <li key={c}><code>{c}</code></li>)}</ul></details></>}</> : null}
       {step === 'challenge' || enrollment ? <TextField label="Authenticator code" value={code} onChange={setCode} required autoComplete="one-time-code" inputMode="numeric" maxLength={6} /> : null}
@@ -61,5 +62,5 @@ export default function StaffSignIn() {
       <button className="primary" type="submit" disabled={!hydrated || busy}>{busy ? 'Checking…' : step === 'password' ? 'Sign in' : step === 'replace' ? 'Save new password' : step === 'enroll' && !enrollment ? 'Set up authenticator' : 'Verify authenticator'}</button>
       <button type="button" onClick={reload} disabled={busy}>Check my session</button>
       {step === 'password' ? <p className="muted">Owner who lost their password or authenticator? <a href="/workspace/recover">Recover the owner login</a> with a code issued on the ORVIA server.</p> : null}
-    </form></>;
+    </form></BrandSignIn>;
 }

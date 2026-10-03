@@ -3,6 +3,7 @@ import { useEffect, useRef, useState, type FormEvent } from 'react';
 import { vendorAuthClient, accountAuthClient } from '@orvia/auth/client';
 import { NoticeBox, TextField, useHydrated } from '../../../components/shared/ui.tsx';
 import { useVendorSession, VENDOR_ROLE_LABELS } from '../../../components/vendor/vendor.tsx';
+import { BrandSignIn } from '../../../components/shared/brand-sign-in.tsx';
 
 /**
  * One sign-in page for the vendor installation, reached from the ORVIA
@@ -58,19 +59,18 @@ export default function VendorSignIn() {
     finally { setBusy(false); }
   }
   if (status === 'signed-in' && session) return <NoticeBox tone="ok" title="Signed in"><p>{session.name} — {VENDOR_ROLE_LABELS[session.role] ?? session.role}</p><a href={session.actor_domain === 'CLIENT_ACCOUNT' ? '/vendor/upload' : '/vendor/engagements'}>Continue</a></NoticeBox>;
-  return <>
-    <div className="page-head"><h2>{client ? 'Client account sign in' : 'Vendor / auditor sign in'}</h2>
-      <p>{client ? 'For client organisations uploading an audit evidence package with the engagement code their auditor gave them.' : 'Vendor staff and auditors sign in here, on the vendor\'s own installation only. An authenticator is required for every vendor login.'}</p>
-      <p>{client ? <a href="/vendor/sign-in">Vendor staff sign in instead</a> : <a href="/vendor/sign-in?account=client">Client account sign in instead</a>}</p>
-      {!client && <p>New member, or given a setup code? <a href="/vendor/account-setup">Set your password</a></p>}</div>
-    <form className="panel" onSubmit={submit} style={{ maxWidth: 560 }} aria-label={client ? 'Client account sign in' : 'Vendor sign in'}>
-      {step === 'password' ? <><TextField label="Email" type="email" value={email} onChange={setEmail} required autoComplete="username" /><TextField label="Password" type="password" value={password} onChange={setPassword} required autoComplete="current-password" /></> : null}
+  return <BrandSignIn area={client ? 'Client account sign in' : 'Vendor / auditor sign in'}>
+    <form className="panel" onSubmit={submit} aria-label={client ? 'Client account sign in' : 'Vendor sign in'}>
+      {step === 'password' ? <><TextField label="Email" type="email" value={email} onChange={setEmail} required autoComplete="username" placeholder="you@company.com" /><TextField label="Password" type="password" value={password} onChange={setPassword} required autoComplete="current-password" placeholder="Enter your password" /></> : null}
       {step === 'replace' ? <><h3>Choose your own password</h3><p>Replace the one-time password you were given. Next you will set up your authenticator.</p><TextField label="New password" type="password" value={chosen} onChange={setChosen} required autoComplete="new-password" /><TextField label="Confirm new password" type="password" value={confirm} onChange={setConfirm} required autoComplete="new-password" /></> : null}
       {step === 'enroll' ? <><h3>Set up your authenticator</h3>{!enrollment ? <TextField label="Current password for authenticator set-up" type="password" value={password} onChange={setPassword} required autoComplete="current-password" /> : <><p>Add this to your authenticator app, then enter the code it shows. Keep the recovery codes private.</p><details><summary>Show authenticator set-up and recovery codes</summary><code style={{ overflowWrap: 'anywhere' }}>{enrollment.totpURI}</code><ul>{enrollment.backupCodes.map(c => <li key={c}><code>{c}</code></li>)}</ul></details></>}</> : null}
       {step === 'challenge' || enrollment ? <TextField label="Authenticator code" value={code} onChange={setCode} required autoComplete="one-time-code" inputMode="numeric" maxLength={6} /> : null}
       {error ? <div className="notice notice-stop" role="alert">{error}</div> : null}
       <button className="primary" type="submit" disabled={!hydrated || busy}>{busy ? 'Checking…' : step === 'password' ? 'Sign in' : step === 'replace' ? 'Save new password' : step === 'enroll' && !enrollment ? 'Set up authenticator' : 'Verify authenticator'}</button>
+      {step === 'password' ? <>
+        {!client && <p className="muted">New member, or given a setup code? <a href="/vendor/account-setup">Set your password</a></p>}
+        <p className="muted">{client ? <a href="/vendor/sign-in">Vendor staff sign in instead</a> : <a href="/vendor/sign-in?account=client">Client account sign in instead</a>} · New vendor installation? <a href="/vendor/setup">First-run setup</a></p>
+      </> : null}
     </form>
-    <p className="meta">New vendor installation? <a href="/vendor/setup">First-run setup</a></p>
-  </>;
+  </BrandSignIn>;
 }

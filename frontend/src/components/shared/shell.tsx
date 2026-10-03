@@ -143,10 +143,11 @@ function Nav({ groups, usable }: { groups: NavGroup[]; usable: ReadonlySet<strin
   );
 }
 
-function Shell({ area, lane, groups, domain, detailedActor, children }: {
-  area: string; lane: string; groups: NavGroup[]; domain: 'STAFF' | 'PRINCIPAL'; detailedActor: boolean; children: ReactNode;
+function Shell({ area, lane, groups, domain, detailedActor, bare = [], children }: {
+  area: string; lane: string; groups: NavGroup[]; domain: 'STAFF' | 'PRINCIPAL'; detailedActor: boolean; bare?: string[]; children: ReactNode;
 }) {
   const { session } = useSession();
+  const pathname = usePathname();
   // Server-derived session only. Hiding a destination is presentation; the
   // sign-in route itself stays reachable and every request is still authorized
   // by the server.
@@ -156,6 +157,9 @@ function Shell({ area, lane, groups, domain, detailedActor, children }: {
     .filter(group => group.items.length > 0);
   const plan = useQuery('plan', { enabled: signedIn && domain === 'STAFF' });
   const usable = plan.data ? new Set<string>(plan.data.usable) : null;
+  // Signed out, sign-in routes render the full-screen branded sign-in (BrandSignIn) without the workspace frame; once
+  // signed in, the same route shows its confirmation inside the normal frame.
+  if (bare.includes(pathname) && !signedIn) return <>{children}</>;
   return (
     <div className="shell">
       <a className="skip-link" href="#main">Skip to main content</a>
@@ -321,7 +325,7 @@ export function SetupShell({ children }: { children: ReactNode }) {
 
 /** Staff workspace: shows organisation, role and MFA context. */
 export function WorkspaceShell({ children }: { children: ReactNode }) {
-  return <Shell area="Staff workspace" lane="Privacy Control Workspace" groups={WORKSPACE_NAV} domain="STAFF" detailedActor>{children}</Shell>;
+  return <Shell area="Staff workspace" lane="Privacy Control Workspace" groups={WORKSPACE_NAV} domain="STAFF" detailedActor bare={['/workspace/sign-in', '/workspace/recover']}>{children}</Shell>;
 }
 
 /**
@@ -329,5 +333,5 @@ export function WorkspaceShell({ children }: { children: ReactNode }) {
  * internals, connector details or another principal's data in this layout.
  */
 export function PrivacyShell({ children }: { children: ReactNode }) {
-  return <Shell area="Privacy Centre" lane="Privacy Centre" groups={PRIVACY_NAV} domain="PRINCIPAL" detailedActor={false}>{children}</Shell>;
+  return <Shell area="Privacy Centre" lane="Privacy Centre" groups={PRIVACY_NAV} domain="PRINCIPAL" detailedActor={false} bare={['/privacy/sign-in']}>{children}</Shell>;
 }
