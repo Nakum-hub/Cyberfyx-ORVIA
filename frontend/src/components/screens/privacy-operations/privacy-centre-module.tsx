@@ -42,6 +42,7 @@ export function PrivacyCentre() {
     <>
       <PageHead eyebrow="Privacy controls" title="Privacy Centre"
         lede="The privacy of the people whose data you process — your users, buyers and members (your Data Principals) — in one place: consent given and withdrawn, privacy requests, notices and contact preferences. It arrives from your own website, store or app and from files you approve; your staff maintain it here." />
+      <p className="pc-actions"><a className="button primary" href="/workspace/files#import">Import data</a> <span className="cell-sub">Upload a consent or privacy-request export from your own systems; ORVIA organises it into the right modules after you approve it.</span></p>
       <div className="tabs" role="tablist" aria-label="Privacy Centre">
         {TABS.map(t => (
           <button key={t.id} type="button" role="tab" id={`pc-tab-${t.id}`} aria-selected={t.id === current.id} aria-controls="pc-panel"

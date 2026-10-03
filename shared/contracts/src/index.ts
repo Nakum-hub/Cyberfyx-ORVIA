@@ -71,6 +71,9 @@ const expansionNames = Object.keys(expansionSchemas);
  *  grace_until and falls_back_to; FeatureAvailability gains tier, label and value. Every non-read route is classified
  *  (route-entitlements.ts) and an unlicensed gated write is refused with 403 FORBIDDEN naming the entitlement and tier
  *  (migration 0100).
+ *  0.61.0 (owner request 2026-10-03): FileIntakeKind gains CONSENT_EXPORT and PRIVACY_REQUESTS, CSV exports from the
+ *  organisation's own systems recognised by header and routed to Data Principals/Consent records and Privacy requests
+ *  (migration 0107). Additive.
  *  0.60.0 (owner decisions 2026-10-03; 0.59.0 stays reserved for Codex): the organisation's Data Principals never sign in
  *  to ORVIA. A released rights response is collected by the organisation's platform (POST
  *  /api/v1/intake/submissions/{id}/response-package, intake key) or downloaded by staff (POST
@@ -80,7 +83,7 @@ const expansionNames = Object.keys(expansionSchemas);
  *  installation server or by manual upload, are staged, and are applied only on a staff decision: list_file_intake,
  *  upload_file, file_intake_item, file_intake_content, decide_file_intake (migration 0103). ComplianceReport lists up to 1000
  *  controls and frameworks and states its completeness (it silently stopped at 100 before). Otherwise additive. */
-export const CONTRACT_VERSION = '0.60.0' as const;
+export const CONTRACT_VERSION = '0.61.0' as const;
 /** The version this build declares of itself. It is what a diagnostic report and
  *  a release manifest are compared against, so it must match package.json; a unit
  *  test asserts that rather than trusting it. */

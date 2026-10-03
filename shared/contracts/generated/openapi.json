@@ -2,8 +2,8 @@
   "openapi": "3.1.0",
   "info": {
     "title": "ORVIA customer-local synthetic contract",
-    "version": "0.60.0",
-    "description": "Contract 0.60.0 is pending consolidated Work review; accepted baseline 0.2.1. Examples are labelled synthetic contract fixtures, never runtime responses."
+    "version": "0.61.0",
+    "description": "Contract 0.61.0 is pending consolidated Work review; accepted baseline 0.2.1. Examples are labelled synthetic contract fixtures, never runtime responses."
   },
   "paths": {
     "/api/v1/admin/grc/audit-requests/{id}/responses": {
@@ -100519,6 +100519,8 @@
               "REGULATORY_PACKAGE",
               "DATA_ASSET_INVENTORY",
               "ESTATE_ROWS",
+              "CONSENT_EXPORT",
+              "PRIVACY_REQUESTS",
               "DOCUMENT",
               "UNRECOGNISED"
             ]
@@ -100712,6 +100714,8 @@
                     "REGULATORY_PACKAGE",
                     "DATA_ASSET_INVENTORY",
                     "ESTATE_ROWS",
+                    "CONSENT_EXPORT",
+                    "PRIVACY_REQUESTS",
                     "DOCUMENT",
                     "UNRECOGNISED"
                   ]

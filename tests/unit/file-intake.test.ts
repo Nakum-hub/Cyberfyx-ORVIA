@@ -3,6 +3,7 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import { ENTITLEMENTS, classifyRoute, routes } from '../../shared/contracts/src/index.ts';
 import { detectFile } from '../../backend/domain/src/onboarding/file-intake.ts';
+import { parseCsv, resolvePrivacyRequests } from '../../backend/domain/src/onboarding/csv-import.ts';
 import { example } from '../../shared/contracts/src/examples.ts';
 import { officeFixture } from '../../shared/testing/src/office-fixture.ts';
 
@@ -42,4 +43,25 @@ test('anything else is a document or unreadable, never silently something else',
   const badRow = detectFile('estate.jsonl', Buffer.from('{"row_key":"x"}'));
   assert.equal(badRow.kind, 'UNRECOGNISED');
   assert.match(badRow.detail, /Line 1/);
+});
+
+test('CSV exports from the organisation\'s own systems are recognised by header (contract 0.61.0)', () => {
+  const consent = Buffer.from('Customer Reference,email,System,Activity,Decision,occurred_at\ncust_1,a@aster.example,Aster online store,Marketing,granted,2026-09-01\n');
+  const requests = Buffer.from('email,name,right_type,description\na@aster.example,A Person,access,Please send me my data.\n');
+  assert.equal(detectFile('consents.csv', consent).kind, 'CONSENT_EXPORT');
+  assert.equal(detectFile('requests.csv', requests).kind, 'PRIVACY_REQUESTS');
+  assert.equal(detectFile('notes.csv', Buffer.from('a,b\n1,2\n')).kind, 'DOCUMENT');
+  assert.equal(detectFile('empty.csv', Buffer.from('customer_reference,system,activity,decision\n')).kind, 'UNRECOGNISED');
+});
+test('CSV parsing handles quotes, embedded commas, doubled quotes and CRLF', () => {
+  assert.deepEqual(parseCsv('a,b\r\n"x, y","say ""hi"""\r\n'), [['a', 'b'], ['x, y', 'say "hi"']]);
+});
+test('a privacy requests export is checked row by row; nothing is guessed', () => {
+  const r = resolvePrivacyRequests([
+    { line: 2, values: { email: 'p@aster.example', name: 'P', right_type: 'Erasure', description: 'Please erase my account data.' } },
+    { line: 3, values: { email: 'not-an-email', name: 'Q', right_type: 'access', description: 'Please send my data.' } },
+    { line: 4, values: { email: 'r@aster.example', name: 'R', right_type: 'refund', description: 'I want my money back.' } },
+  ]);
+  assert.equal(r.apply.length, 1); assert.equal(r.apply[0]!.right, 'ERASURE');
+  assert.deepEqual(r.skipped.map(s => s.line), [3, 4]);
 });

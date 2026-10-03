@@ -10,6 +10,7 @@ import { submitImport } from './imports.ts';
 import { importPackage } from '../regulatory/packages.ts';
 import { createJob, appendRows } from '../operations/bulk-import.ts';
 import { isText, isOffice } from './document-types.ts';
+import { detectCsv, resolveConsentExport, resolvePrivacyRequests, applyPrivacyRequests, reviewDetail, type CsvDetection } from './csv-import.ts';
 
 /**
  * File intake (revision 1.12, migration 0103). A file arrives from the local inbox folder (the worker) or by manual upload
@@ -23,7 +24,7 @@ type Kind = typeof S.FileIntakeKind.options[number];
 type Detection = { kind: Kind; content_type: string; detail: string; parsed?: unknown };
 const ROUTE_FOR: Partial<Record<Kind, string>> = {
   LICENCE: 'import_licence', RELEASE: 'import_release', REGULATORY_PACKAGE: 'import_regulatory_package',
-  DATA_ASSET_INVENTORY: 'submit_import', ESTATE_ROWS: 'create_bulk_job',
+  DATA_ASSET_INVENTORY: 'submit_import', ESTATE_ROWS: 'create_bulk_job', CONSENT_EXPORT: 'create_bulk_job', PRIVACY_REQUESTS: 'create_rights_request',
 };
 const ON_APPROVAL: Record<Kind, string> = {
   LICENCE: 'Imported as the installation licence; its signature, installation and sequence are checked on import.',
@@ -31,6 +32,8 @@ const ON_APPROVAL: Record<Kind, string> = {
   REGULATORY_PACKAGE: 'Imported as a regulatory package; it waits for its own adoption decision.',
   DATA_ASSET_INVENTORY: 'Submitted as a data-inventory import; the batch waits in quarantine for row decisions and apply.',
   ESTATE_ROWS: 'Uploaded as an existing-data onboarding job; rows are applied when the job is processed.',
+  CONSENT_EXPORT: 'Each person goes to Data Principals and each consent event onto their record in Consent records; ORVIA applies the rows within about a minute.',
+  PRIVACY_REQUESTS: 'Each row becomes a privacy request in Privacy requests, recorded by staff, with its statutory handling from there.',
   DOCUMENT: 'Kept as a document, optionally linked to a record.',
   UNRECOGNISED: 'Cannot be approved: ORVIA does not read this file. Reject it, or fix and drop it again.',
 };
@@ -93,7 +96,12 @@ export function detectFile(name: string, bytes: Buffer): Detection {
       : 'JSON, but not a licence, release, regulatory package, data inventory or existing-data rows.';
     return { kind: 'UNRECOGNISED', content_type, detail: hint };
   }
-  const label: Record<string, string> = { csv: 'CSV document (kept as a document; data imports use the JSON formats)', txt: 'Text document', pdf: 'PDF document', docx: 'Word document', xlsx: 'Spreadsheet', png: 'Image', jpg: 'Image', jpeg: 'Image' };
+  if (ext === 'csv') {
+    const csv = detectCsv(bytes.toString('utf8'));
+    if (csv && 'error' in csv) return { kind: 'UNRECOGNISED', content_type, detail: csv.error };
+    if (csv) return { kind: csv.kind, content_type, detail: `${csv.kind === 'CONSENT_EXPORT' ? 'Consent export' : 'Privacy requests export'}: ${csv.lines.length} row(s).`, parsed: csv };
+  }
+  const label: Record<string, string> = { csv: 'CSV document (kept as a document: its header is not a consent export or a privacy requests export)', txt: 'Text document', pdf: 'PDF document', docx: 'Word document', xlsx: 'Spreadsheet', png: 'Image', jpg: 'Image', jpeg: 'Image' };
   return { kind: 'DOCUMENT', content_type, detail: `${label[ext]}.` };
 }
 
@@ -117,6 +125,13 @@ export async function stageFile(c: Context, source: 'MANUAL_UPLOAD' | 'INBOX_FOL
   if (bytes.length < 1 || bytes.length > S.FILE_INTAKE_MAX_BYTES) throw new AccessError(400, 'VALIDATION_ERROR', [{ field: 'file', code: 'size_out_of_range' }]);
   const safeName = name.replace(/[/\\\p{Cc}]/gu, '_').slice(0, 200) || 'file';
   const found = detectFile(safeName, bytes);
+  // A CSV export is reviewed as it arrives: names resolved to registered systems and activities, and every row that cannot
+  // be applied listed with its reason, so the approver sees exactly what approval will do.
+  if (found.kind === 'CONSENT_EXPORT' || found.kind === 'PRIVACY_REQUESTS') {
+    const csv = found.parsed as CsvDetection;
+    try { found.detail = reviewDetail(found.kind === 'CONSENT_EXPORT' ? await resolveConsentExport(c, csv.lines, safeName) : resolvePrivacyRequests(csv.lines)); }
+    catch { found.detail = `${found.detail} Names are resolved again when a staff member reviews it.`; }
+  }
   const sha = createHash('sha256').update(bytes).digest('hex');
   const s = scopeValues(c.actor);
   const row = (await c.tx.query(`INSERT INTO app.file_intake_items(tenant_id,legal_entity_id,environment_id,id,source,original_name,content_type,size_bytes,sha256,detected_kind,detail,content,received_by)
@@ -196,20 +211,36 @@ export async function decideFileIntake(c: Context, id: string, input: unknown, i
   if (!c.actor.capabilities.includes(route.capability!)) throw new AccessError(403, 'FORBIDDEN', [{ field: 'capability', code: route.capability!.replace(/\./g, '_') }]);
   await requireEntitlement(c, route);
   const parsed = detectFile(row.original_name, row.content as Buffer).parsed;
-  let resource: string;
+  let resource: string; let outcome: string | null = null;
   if (kind === 'LICENCE') resource = (await importLicence(c, parsed, installationId)).licence_id;
   else if (kind === 'RELEASE') resource = (await importRelease(c, parsed)).id;
   else if (kind === 'REGULATORY_PACKAGE') resource = (await importPackage(c, parsed)).id;
   else if (kind === 'DATA_ASSET_INVENTORY') resource = (await submitImport(c, parsed)).id;
-  else {
+  else if (kind === 'CONSENT_EXPORT') {
+    const review = await resolveConsentExport(c, (parsed as CsvDetection).lines, row.original_name);
+    if (!review.apply.length) throw new AccessError(409, 'EPOCH_CONFLICT', [{ field: 'content', code: 'no_row_can_be_applied' }]);
+    const job = await createJob(c, { source_label: `File ${row.original_name}`.slice(0, 120), mapping_version: 'csv-consent-1' });
+    for (let first = 0; first < review.apply.length; first += 500) await appendRows(c, job.id, { first_ordinal: first, rows: review.apply.slice(first, first + 500) });
+    // Approval is the decision to apply: queue the job for the operations runner instead of waiting for a second click.
+    await c.tx.query(`UPDATE app.bulk_jobs SET status='PROCESSING',updated_at=clock_timestamp() WHERE ${predicate} AND id=$4 AND status='RECEIVING'`, [...s, job.id]);
+    outcome = reviewDetail(review);
+    resource = job.id;
+  } else if (kind === 'PRIVACY_REQUESTS') {
+    const review = resolvePrivacyRequests((parsed as CsvDetection).lines);
+    const result = await applyPrivacyRequests(c, review.apply);
+    if (!result.created.length) throw new AccessError(409, 'EPOCH_CONFLICT', [{ field: 'content', code: 'no_row_can_be_applied' }]);
+    const notApplied = [...review.skipped, ...result.refused].sort((a, b) => a.line - b.line);
+    outcome = reviewDetail({ apply: result.created, skipped: notApplied, summary: `Privacy requests: ${result.created.length} request(s) recorded in Privacy requests${notApplied.length ? `; ${notApplied.length} row(s) not applied` : ''}.` });
+    resource = result.created[0]!;
+  } else {
     const rows = parsed as unknown[];
     const job = await createJob(c, { source_label: `File ${row.original_name}`.slice(0, 120), mapping_version: 'file-intake-1' });
     for (let first = 0; first < rows.length; first += 500) await appendRows(c, job.id, { first_ordinal: first, rows: rows.slice(first, first + 500) });
     resource = job.id;
   }
   // The data now lives where it was routed; the staged copy is not kept twice.
-  const done = (await c.tx.query(`UPDATE app.file_intake_items SET state='ROUTED', content=NULL, decided_at=clock_timestamp(), decided_by=$5, decision_reason=$6, routed_resource_id=$7
-    WHERE ${predicate} AND id=$4 RETURNING ${COLUMNS}`, [...s, id, c.actor.actor_id, value.reason, resource])).rows[0];
+  const done = (await c.tx.query(`UPDATE app.file_intake_items SET state='ROUTED', content=NULL, decided_at=clock_timestamp(), decided_by=$5, decision_reason=$6, routed_resource_id=$7,
+    detail=coalesce($8, detail) WHERE ${predicate} AND id=$4 RETURNING ${COLUMNS}`, [...s, id, c.actor.actor_id, value.reason, resource, outcome])).rows[0];
   await audit(c, 'file_intake.route', id);
   return view(done);
 }

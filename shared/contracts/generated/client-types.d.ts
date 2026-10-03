@@ -6465,7 +6465,7 @@ export interface components {
             size_bytes: number;
             sha256: string;
             /** @enum {string} */
-            detected_kind: "LICENCE" | "RELEASE" | "REGULATORY_PACKAGE" | "DATA_ASSET_INVENTORY" | "ESTATE_ROWS" | "DOCUMENT" | "UNRECOGNISED";
+            detected_kind: "LICENCE" | "RELEASE" | "REGULATORY_PACKAGE" | "DATA_ASSET_INVENTORY" | "ESTATE_ROWS" | "CONSENT_EXPORT" | "PRIVACY_REQUESTS" | "DOCUMENT" | "UNRECOGNISED";
             detail: string;
             /** @enum {string} */
             state: "STAGED" | "ROUTED" | "KEPT" | "REJECTED";
@@ -6493,7 +6493,7 @@ export interface components {
                 size_bytes: number;
                 sha256: string;
                 /** @enum {string} */
-                detected_kind: "LICENCE" | "RELEASE" | "REGULATORY_PACKAGE" | "DATA_ASSET_INVENTORY" | "ESTATE_ROWS" | "DOCUMENT" | "UNRECOGNISED";
+                detected_kind: "LICENCE" | "RELEASE" | "REGULATORY_PACKAGE" | "DATA_ASSET_INVENTORY" | "ESTATE_ROWS" | "CONSENT_EXPORT" | "PRIVACY_REQUESTS" | "DOCUMENT" | "UNRECOGNISED";
                 detail: string;
                 /** @enum {string} */
                 state: "STAGED" | "ROUTED" | "KEPT" | "REJECTED";

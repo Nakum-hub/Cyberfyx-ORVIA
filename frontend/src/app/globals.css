@@ -828,3 +828,8 @@ h1, h2, h3, .page-head h2, .metric .metric-value, .section-title, .shell-nav .gr
   .shell-body { background: linear-gradient(to right, var(--panel) calc(var(--shell-nav) - 1px), var(--line) calc(var(--shell-nav) - 1px), var(--line) var(--shell-nav), transparent var(--shell-nav)); }
   .shell-nav { border-right: 0; }
 }
+/* A link that acts as a primary action (e.g. "Import data"). */
+a.button { display: inline-block; padding: 8px 14px; border-radius: var(--r-md); border: 1px solid var(--line-strong); text-decoration: none; font-weight: 600; }
+a.button.primary { background: var(--accent); border-color: var(--accent); color: var(--accent-ink); }
+a.button.primary:hover { background: var(--accent-strong); border-color: var(--accent-strong); }
+.pc-actions { display: flex; align-items: center; gap: var(--s3); flex-wrap: wrap; margin: 0 0 var(--s5); }
