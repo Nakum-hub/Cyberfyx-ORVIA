@@ -123,6 +123,7 @@
     "demo:remove": "tsx scripts/demo-remove.ts",
     "demo:tier": "tsx scripts/demo-tier.ts",
     "demo:inventory": "tsx scripts/demo-inventory.ts",
+    "demo:modules": "tsx scripts/demo-modules.ts",
     "demo:code": "tsx scripts/demo-accounts.ts code",
     "start:vendor": "tsx scripts/start-vendor.ts",
     "evidence:export": "tsx scripts/evidence-export.ts",
