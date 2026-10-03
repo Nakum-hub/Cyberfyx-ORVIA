@@ -26,7 +26,7 @@ import { safeError } from '../shared/testing/src/evidence.ts';
 import { privateDirectory, writePrivateJson } from './local-private.ts';
 import { recordsTarget } from '../shared/testing/src/records-target.ts';
 import { spawnSync } from 'node:child_process';
-import { existsSync, readFileSync } from 'node:fs';
+import { copyFileSync, existsSync, readFileSync, writeFileSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
 import { childEnvironment, toolchainExecutable } from './orvia-cli.ts';
 
@@ -81,6 +81,20 @@ try {
     process.stdout.write(`\n  The demonstration data is already loaded (intake key "${DEMO_STORE}" exists). Nothing was changed.\n\n`); process.exit(0);
   }
   process.stdout.write('\n  Loading the synthetic DPDP dataset into the running installation\n  ------------------------------------------------------------\n');
+
+  // Snapshot first, so the demonstration data can be removed later in one step (npm run demo:remove): ORVIA's consent
+  // history, audit trail and receipts are append-only by design and cannot be deleted record by record. pg_dump reads
+  // only. The sign-in journal is kept with it, so restored accounts and their authenticators stay in step.
+  const snapshots = resolve(h.config.directory, 'snapshots'); privateDirectory(snapshots);
+  const container = `${profile.compose_project}-postgres-1`;
+  const password = readFileSync(resolve(h.config.directory, 'postgres-password'), 'utf8').trim();
+  for (const database of [profile.database, `${profile.database}_targets`]) {
+    const dump = spawnSync('docker', ['exec', '-e', 'PGPASSWORD', container, 'pg_dump', '-h', '127.0.0.1', '-U', 'orvia_migrator', '-Fc', database], { env: { ...process.env, PGPASSWORD: password }, maxBuffer: 1024 * 1024 * 1024, windowsHide: true });
+    if (dump.status !== 0 || !dump.stdout?.length) throw new Error(`The database snapshot (${database}) could not be taken, so nothing was loaded.`);
+    writeFileSync(resolve(snapshots, `before-demo-data-${database}.dump`), dump.stdout, { mode: 0o600 });
+  }
+  copyFileSync(resolve(h.config.directory, 'auth/bootstrap.json'), resolve(snapshots, 'before-demo-data-bootstrap.json'));
+  step('Snapshot taken (npm run demo:remove restores it)');
 
   // The DPDP regulatory package. Without an approved package ORVIA cannot trace "consent" to a provision or compute any
   // statutory deadline, and it says so instead of guessing. The package is built from the official Act and Rules (the
