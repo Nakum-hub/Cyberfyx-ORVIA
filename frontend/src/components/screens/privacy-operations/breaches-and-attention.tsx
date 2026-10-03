@@ -31,7 +31,7 @@ export function PersonalDataBreaches() {
                 { key: 'incident', header: 'Incident', cell: b => <a className="cell-primary" href={`/workspace/personal-data-breaches/${b.incident_id}`}>{shortId(b.incident_id)}<span className="cell-sub">{b.facts.nature}</span></a> },
                 { key: 'aware', header: 'Aware since', cell: b => b.became_aware_at ? formatTime(b.became_aware_at) : <Badge label="Not recorded" tone="unknown" meaning="Deadlines that run from awareness are unresolved." /> },
                 { key: 'count', header: 'People affected', cell: b => b.affected_count_state === 'UNKNOWN' ? 'Unknown' : `${b.affected_count} (${b.affected_count_state.toLowerCase()})` },
-                { key: 'open', header: 'Open tasks', cell: b => String(b.tasks.filter(t => t.state === 'OPEN').length) },
+                { key: 'open', header: 'Open tasks', cell: b => { const open = b.tasks.filter(t => t.state === 'OPEN'); const later = open.filter(t => t.legal_status === 'NOT_YET_IN_FORCE').length; return later ? `${open.length - later} (+${later} not yet in force)` : String(open.length); } },
                 { key: 'overdue', header: 'Overdue', cell: b => b.tasks.some(t => t.overdue) ? <Badge label="Overdue" tone="stop" meaning="At least one task is past its deadline." /> : 'No' },
                 { key: 'package', header: 'Package', cell: b => `${b.package.version}${b.package.distribution === 'TEST_FIXTURE' ? ' (test fixture)' : ''}` },
               ]} />

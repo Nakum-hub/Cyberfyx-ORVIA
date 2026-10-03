@@ -97,8 +97,9 @@ try{
     processing_activity_id:activity.id,input_asset_id:asset.id,output_system_id:scenario.system.id,processor_id:null},key());
   check('AI inventory linked to observed dataset',aiResponse.status,201);
   const ai=S.AiSystem.parse(await aiResponse.json());
-  check('durable AI monitor processed source',await sweepAiGovernance(runtime.scoped,
-    runtime.enrollment.identities.map(x=>x.id))>=1,true);
+  // Drain due monitor jobs as the running worker would (20 per pass); earlier runs may have left jobs ahead of this one.
+  let monitored=0;for(let pass=0,n=-1;pass<50&&n!==0;pass++){n=await sweepAiGovernance(runtime.scoped,runtime.enrollment.identities.map(x=>x.id));monitored+=n;}
+  check('durable AI monitor processed source',monitored>=1,true);
   const aiDetail=S.AiSystemDetail.parse(await (await auditor.call(`/api/v1/admin/ai-systems/${ai.id}`)).json());
   check('AI monitor names independently read input but not model behavior',
     [aiDetail.events[0]?.state,aiDetail.events[0]?.source_reference,aiDetail.events[0]?.detail.includes('does not classify')],

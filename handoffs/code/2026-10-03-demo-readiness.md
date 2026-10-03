@@ -12,6 +12,8 @@ executed is marked NOT_RUN.
 | F3 | After signing in, a "Signed in / Go to workspace" dead end | Extra click; looked unfinished | Goes straight to the workspace | `test:e2e:demo-data`, all roles |
 | F4 | Workspace had none of the Cyberfyx identity | The product looked like two different apps | Brand layer: purple, orange marker, local Montserrat headings, shield wordmark, full-height navigation | Screenshots `output/playwright/demo-data/` |
 | F5 | Intake submissions read "Consent withdrawn for activity 348f4890-…" | Unreadable to staff | Named by activity: "Consent withdrawn: Promotional email and SMS" | `test:e2e:demo-data` assertion |
+| F7 | A breach task whose Rule 7 duty had not commenced (13 May 2027) was counted as open and would turn "overdue" at its computed due time, raise attention and DPO notices, and count as "missed the timer" in DPDPA audit indicators | From 5 October the demo breach would have shown an overdue statutory duty that is not yet law | Overdue, due-soon, notifications and audit timeliness count only duties in force at awareness; the list shows "0 (+3 not yet in force)" | breach 19/19, incidents 42/42, notifications 31/31, sdf 22/22, audit-indicator-counts 21/21, dpdpa-audit 56/56, audit-mandate 102/102, operations screens 30/30 |
+| F8 | Two AI-governance tests assumed the monitor queue was empty | Intermittent red tests on a long-lived database | Drain due jobs as the running worker does, then check own system | monitor 9/9, catalog-flow 58/58 |
 | F6 | The rehearsal installation was almost empty | Most screens said "Nothing recorded yet" | `npm run demo:data`: a DPDP dataset through the real API, with a snapshot first | 27/27 submissions applied; 3/3 withdrawals Completed and verified; 38/38 screen checks (run 4 times, including after a full remove-and-reload cycle) |
 
 ## Test harness and data issues found (not product defects)
@@ -41,6 +43,13 @@ executed is marked NOT_RUN.
 5. **No requester names on consent records either.** By design, ORVIA stores only a keyed digest of store identifiers,
    so records show the reference. A display-name source for staff needs an owner decision.
 
-## Results of this session
+## Results of this session (all executed)
 
-See the battery summary appended below when it completes.
+| Check | Result |
+|---|---|
+| Static | typecheck, lint, contracts (500 route examples, contract 0.60.0), unit tests 428/428 |
+| Full battery: 99 integration suites (excl. lifecycle), 2 security, 10 browser suites incl. full interface crawl | 105 passed; 4 failed and were then explained and rerun under correct conditions: AI monitor and catalog-flow (test fixed, now 9/9 and 58/58), grc-http (needs its own OPA, now passes), migration upgrade (read timeout under load, now 10/10) |
+| Targeted reruns after the F7 fix, on a fresh build | 13/13 suites pass |
+| Organisation side, demo data (`test:e2e:demo-data`) | 38/38, five times, including a full remove → start → load cycle |
+| Vendor/auditor/client side | start smoke 21/21; DPDPA audit engagement 24/24; audit mandate 20/20; vendor production criteria 15/15; sign-in hydration 15/15; 30-minute sign-out 7/7; branded sign-in for vendor admin, audit lead, audit reviewer, client account 4/4 (in `test:e2e:demo-data`, 42/42 with the vendor service running) |
+| NOT_RUN | lifecycle.test (needs a database reset authorisation); network-core (needs the packaged image); TLS suite not rerun this session |

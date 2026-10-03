@@ -88,7 +88,7 @@ export async function collect(c: Context, spec: Collection, now = new Date()): P
 /** Population and yes/no test for each auditor-sampled population; only counts and a digest of the selection leave. */
 const POPULATIONS: Record<C.SamplePopulation, string> = {
   CONSENT_EVENTS_WITH_EVIDENCE: `SELECT id::text AS id, evidence_state='EVIDENCE_AVAILABLE' AS pass FROM app.consent_record_events WHERE ${predicate}`,
-  BREACH_TASKS_WITHIN_TIMER: `SELECT id::text AS id, completed_at<=due_at AS pass FROM app.breach_tasks WHERE ${predicate} AND state='COMPLETED' AND due_at IS NOT NULL AND kind IN ('PRINCIPAL_INTIMATION','BOARD_INTIMATION','BOARD_DETAILED_REPORT')`,
+  BREACH_TASKS_WITHIN_TIMER: `SELECT id::text AS id, completed_at<=due_at AS pass FROM app.breach_tasks WHERE ${predicate} AND state='COMPLETED' AND legal_status<>'NOT_YET_IN_FORCE' AND due_at IS NOT NULL AND kind IN ('PRINCIPAL_INTIMATION','BOARD_INTIMATION','BOARD_DETAILED_REPORT')`,
   GRIEVANCES_RESOLVED_WITHIN_90_DAYS: `SELECT r.id::text AS id, coalesce((SELECT min(e.recorded_at) FROM app.rights_request_events e WHERE e.tenant_id=r.tenant_id AND e.legal_entity_id=r.legal_entity_id AND e.environment_id=r.environment_id
       AND e.request_id=r.id AND e.to_state IN ('COMPLETED','REJECTED','CLOSED')) <= r.received_at + interval '90 days', false) AS pass
     FROM app.rights_requests r WHERE r.tenant_id=$1 AND r.legal_entity_id=$2 AND r.environment_id=$3 AND r.right_type='GRIEVANCE' AND r.state IN ('COMPLETED','REJECTED','CLOSED')`,

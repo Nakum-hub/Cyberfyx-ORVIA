@@ -151,9 +151,10 @@ try {
         await p.getByLabel('Authenticator code', { exact: true }).fill(authenticatorCode(u.totp));
         await p.getByRole('button', { name: 'Verify authenticator', exact: true }).click();
         await p.waitForURL(landing, { timeout: 30_000 });
-        const text = (await p.locator('main').innerText()).replace(/\s+/g, ' ');
+        let text = '';
+        for (let i = 0; i < 60; i++) { text = (await p.locator('main').innerText()).replace(/\s+/g, ' '); if (!/Loading/.test(text)) break; await p.waitForTimeout(250); }
         await p.screenshot({ path: resolve(shots, `vendor-${name}.png`), fullPage: true });
-        check(`vendor side: the ${role} signs in through the branded page and lands on ${new URL(p.url()).pathname}`, !/Not permitted|Request failed|Something went wrong/.test(text), text.slice(0, 200));
+        check(`vendor side: the ${role} signs in through the branded page and lands on ${new URL(p.url()).pathname}`, !/Not permitted|Request failed|Something went wrong|Loading/.test(text), text.slice(0, 200));
       } catch (error) { await p.screenshot({ path: resolve(shots, `vendor-failure-${name}.png`) }).catch(() => undefined); check(`vendor side: the ${role} signs in`, false, String(error).slice(0, 200)); }
       finally { await c.close(); }
     }
