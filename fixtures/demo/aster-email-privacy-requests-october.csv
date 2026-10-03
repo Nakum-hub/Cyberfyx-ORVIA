@@ -1,0 +1,10 @@
+email,name,right_type,description,received_at
+aarav.patel@aster.example,Aarav Patel,access,"Wrote to privacy@ asking for a copy of all data held, including loyalty points history.",2026-09-22
+vihaan.reddy@aster.example,Vihaan Reddy,erasure,Asked by email to delete the loyalty account and all marketing data; keeps the store account.,2026-09-23
+anika.chopra@aster.example,Anika Chopra,correction,Reported a misspelt surname on the loyalty card and in order receipts.,2026-09-24
+navya.saxena@aster.example,Navya Saxena,grievance,Complained that SMS offers continued for a week after switching them off in the app.,2026-09-25
+pari.ghosh@aster.example,Pari Ghosh,nomination,Wants to nominate a family member to act on their behalf if incapacitated.,2026-09-26
+aryan.banerjee@aster.example,Aryan Banerjee,access,"Asked which third parties receive order data, and for a copy of it.",2026-09-27
+sara.nair@aster.example,Sara Nair,erasure,Closing account after moving abroad; asked for erasure of order history no longer required.,2026-09-29
+laksh.saxena@aster.example,Laksh Saxena,correction,Asked to correct the date of birth recorded at loyalty signup.,2026-09-30
+kiran.unknown@aster.example,Kiran,unsubscribe,Not a DPDP right: should be reported and not recorded.,2026-09-30

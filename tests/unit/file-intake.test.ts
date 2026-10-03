@@ -3,7 +3,8 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import { ENTITLEMENTS, classifyRoute, routes } from '../../shared/contracts/src/index.ts';
 import { detectFile } from '../../backend/domain/src/onboarding/file-intake.ts';
-import { parseCsv, resolvePrivacyRequests } from '../../backend/domain/src/onboarding/csv-import.ts';
+import { detectCsv, parseCsv, resolvePrivacyRequests } from '../../backend/domain/src/onboarding/csv-import.ts';
+import { readFileSync } from 'node:fs';
 import { example } from '../../shared/contracts/src/examples.ts';
 import { officeFixture } from '../../shared/testing/src/office-fixture.ts';
 
@@ -64,4 +65,20 @@ test('a privacy requests export is checked row by row; nothing is guessed', () =
   ]);
   assert.equal(r.apply.length, 1); assert.equal(r.apply[0]!.right, 'ERASURE');
   assert.deepEqual(r.skipped.map(s => s.line), [3, 4]);
+});
+
+test('the synthetic demonstration files in fixtures/demo are recognised and reviewed as fixtures/demo/README.md says', () => {
+  const read = (f: string) => readFileSync(new URL(`../../fixtures/demo/${f}`, import.meta.url), 'utf8');
+  for (const [file, kind, rows] of [['aster-crm-consent-export.csv', 'CONSENT_EXPORT', 8], ['aster-loyalty-app-consent-export.csv', 'CONSENT_EXPORT', 69],
+    ['aster-helpdesk-privacy-requests.csv', 'PRIVACY_REQUESTS', 5], ['aster-email-privacy-requests-october.csv', 'PRIVACY_REQUESTS', 9]] as const) {
+    const d = detectCsv(read(file));
+    assert.ok(d && 'kind' in d, file); assert.equal(d.kind, kind, file); assert.equal(d.lines.length, rows, file);
+    for (const l of d.lines) if (l.values.email) assert.match(l.values.email, /@aster\.example$|@example\.com$/, `${file} line ${l.line}: synthetic addresses only`);
+  }
+  const helpdesk = detectCsv(read('aster-helpdesk-privacy-requests.csv')) as { lines: Parameters<typeof resolvePrivacyRequests>[0] };
+  assert.equal(resolvePrivacyRequests(helpdesk.lines).apply.length, 4);
+  const october = detectCsv(read('aster-email-privacy-requests-october.csv')) as { lines: Parameters<typeof resolvePrivacyRequests>[0] };
+  const r = resolvePrivacyRequests(october.lines);
+  assert.equal(r.apply.length, 8); assert.deepEqual(r.skipped.map(s => s.line), [10]);
+  assert.deepEqual([...new Set(r.apply.map(a => a.right))].sort(), ['ACCESS', 'CORRECTION', 'ERASURE', 'GRIEVANCE', 'NOMINATION']);
 });

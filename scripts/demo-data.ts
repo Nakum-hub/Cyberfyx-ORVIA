@@ -29,6 +29,7 @@ import { spawnSync } from 'node:child_process';
 import { copyFileSync, existsSync, readFileSync, writeFileSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
 import { childEnvironment, toolchainExecutable } from './orvia-cli.ts';
+import { loadInventory } from './demo-inventory.ts';
 
 // Like npm start: run once under the pinned toolchain with the rehearsal profile and the local CA trusted (certificate
 // verification stays on), whatever Node and environment the operator's terminal has.
@@ -193,6 +194,9 @@ try {
     processorName = processor.name;
     step('Processor and its engagement (delivery partner)');
   } else process.stdout.write('  --   Processor skipped: this installation has no configured V1 purpose to authorise it for\n');
+
+  // What the store holds, as privacy-graph data assets (Data inventory, graph neighbourhood, change impact).
+  await loadInventory(admin, system.id, scope, step);
 
   // The store's customers as Data Principals (the email becomes a keyed digest; it is never stored).
   for (const p of PEOPLE) await ok(admin.call('/api/v1/admin/data-principals', { principal_id: null, references: [{ system_id: system.id, target_reference: p.ref, source_key: p.email }] }, key()), S.schemas.Subject);
