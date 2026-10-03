@@ -34,18 +34,19 @@ ORVIA reviews the file, organises it according to the DPDP Act into the right mo
 - T1.4 Tests: integration test of both CSVs (good rows, unresolvable rows, a real address refused), an e2e upload,
   approval and module check, and demo data CSVs under `fixtures/demo/`.
 
-### T2 Policy graph and every module show the data correctly  `[~]`
-Checked 2026-10-03 (screenshots, Aster owner): Records of processing shows the 3 demo activities with their gaps;
-People & targets, Decision preview and the Privacy Centre show the demo data; the manual import and the automatic intake
-land in the same Data Principals / Consent records / Privacy requests (proved by `test:e2e:demo-import`).
-Still to do:
-- **Data inventory is empty** with the demo data: `demo:data` registers systems and activities in the registry but
-  creates no privacy-graph data assets. Add `create_data_asset` / `create_relationship` calls to `scripts/demo-data.ts`
-  (customer profile, order history, marketing preferences on the Aster online store), then link
-  `graph_activity_id` so Records of processing stops flagging "Declared system not in the graph".
-- **Control map is cluttered** with "Synthetic workflow …" rows left by earlier test suites on the rehearsal database.
-  Before the CEO demo either restore the clean snapshot taken after `demo:data` or filter the map to the demo systems.
-- Extend `test:e2e:demo-data` with inventory and control-map assertions once the assets exist.
+### T2 Policy graph and every module show the data correctly  `[x]` except the clean-installation item below
+- Done 2026-10-03: `npm run demo:inventory` (also called by demo:data) adds the store's datasets, fields, backup copy,
+  graph activities and relationships, so Data inventory, graph neighbourhood and change impact show data.
+  `npm run demo:modules` fills organisation profile, DPDP framework/controls/risks, continuous compliance (3 tests run),
+  DPIA template/DPIA/finding, processor assessment/finding, AI system, website consent site, preference topics,
+  message template, retention constraint and legal hold, nominee and nomination mandate, derived gaps. Crawl of all
+  70 workspace screens: the main list of each of these is no longer empty.
+- **Open (needs the owner's go-ahead: it resets the rehearsal database):** the rehearsal database also holds leftovers
+  from automated test suites ("Synthetic workflow …" on the control map, "Browser purpose …" in reports). For the CEO,
+  build a clean installation: fresh rehearsal profile, `npm start`, `demo:data`, `demo:modules`, `demo:tier` x2, then
+  the checks in the guide. Not done here because resetting a database needs the owner's authorisation.
+- Still empty by design (would need faking): releases/updates, support cases, restores, catalog readings of a live
+  database, guided connections, notifications sent.
 
 ### T3 Tier-based access visible in the interface  `[x]` (npm run demo:tier; npm run test:e2e:demo-tiers 13/13). Owner input: confirm Tier 2/3 options and seats (placeholders 25 and 100 in backend/vendor/plans/catalogue.ts)
 - Demo: two organisations on the rehearsal installation (Aster = ENTERPRISE, Birch = FOUNDATION), each with a licence
@@ -54,13 +55,23 @@ Still to do:
   protective controls stay available on every tier. Add assertions to the demo check.
 - Out of scope (owner will do later): subscription prices, payment gateway.
 
-### T4 Organisation roles and member management demo  `[ ]`
-- Org super admin creates an admin and a member through the Team page (one-time password, first sign-in replaces
-  it, MFA enrolment). Show what each role sees. Add demo staff to `demo:data` and the steps to the guide.
+### T4 Organisation roles and member management demo  `[~]` guide written; fresh browser rerun NOT_RUN
+- Guide steps 7 and 11 in `docs/demo/CEO_DEMO_V1.md` (Team → Add member → one-time password → I have handed it over →
+  first sign-in replaces password → authenticator). Verified earlier today by `team-local` 8/8 (before the layout
+  change). Not rerun after the desktop-fit layout: NOT_RUN. Next: rerun team-local; optionally add demo staff.
 
-### T5 Vendor side: super admin and admin, records, creating members  `[ ]`
-- Vendor owner and admin: organisations, licences, engagements, team. Create a member with a setup code. Check with
-  Playwright, then add to the guide and the demo check.
+### T5 Vendor side: super admin and admin, records, creating members  `[~]` guide written; fresh browser rerun NOT_RUN
+- Guide step 12 (Organisations → Add organisation / Create vendor account; Team → Add vendor member → setup code →
+  /vendor/account-setup). Verified earlier today by `dpdpa-audit-local` 24/24 including the vendor team phase (before
+  the layout change). Next: `npm run start:vendor`, rerun dpdpa-audit-local, screenshot vendor screens.
+
+### T8 Reports export as readable PDF  `[x]` (npm run test:e2e:demo-report-pdf 13/13)
+- "Save as PDF" button on Reports (browser print dialog; no server-side PDF by design). Chromium print-to-PDF of the
+  board, regulator and full presets: A4, 21-22 pages, workspace hidden, report and data present. Files in
+  output/playwright/demo-report-pdf/.
+
+### T9 Synthetic demo files in GitHub  `[x]` (unit file-intake 7/7 checks them)
+- `fixtures/demo/` (README lists each file and what ORVIA shows). Owner deletes after the V1 demo.
 
 ### T7 Desktop layout: fit the screen, scroll inside, tabs instead of long pages  `[x]` (demo-tiers 15/15 incl. 2 layout checks; demo-import 12/12; demo-data 38/38)
 - Owner request 2026-10-03. On a desktop window the shell is viewport height; navigation and content scroll separately;
@@ -70,7 +81,7 @@ Still to do:
 - Not done: the full interface crawl (`UI1` crawl script) was not rerun on the new layout: NOT_RUN. Rerun it, and the
   other e2e suites that take full-page screenshots (they now capture only the visible pane).
 
-### T6 Everything else important for the demo  `[ ]`
+### T6 Everything else important for the demo  `[~]` guide updated 2026-10-03 (import, tiers, roles, vendor, PDF, modules)
 - Rerun the full interface crawl after T1 to T5; update `docs/demo/CEO_DEMO_V1.md`; push.
 
 ## Not in V1 demo scope (owner will finish after the demo)

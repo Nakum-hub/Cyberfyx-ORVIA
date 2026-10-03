@@ -152,6 +152,15 @@ await step('Representation: a nominee recorded for a shopper (cust_1013) after h
   await post(`/api/v1/admin/data-principal-representatives/${rep.id}/verification`, { verification: 'VERIFIED', evidence_reference: 'Identity of nominee checked against the nomination form.' }, second);
 });
 
+await step('Representation: a nomination mandate for the shopper who asked to nominate her sister', async () => {
+  const principals = ((await get('/api/v1/admin/principals?limit=100')).items ?? []) as Json[];
+  const neha = principals.find(p => String(p.email ?? '').toLowerCase() === 'neha.joshi@aster.example') ?? principals.find(p => /Neha Joshi/.test(String(p.display_name ?? '')));
+  if (!neha) throw new Error('the requester neha.joshi@aster.example is not a recorded principal (demo:data store requests not loaded?)');
+  if (await has('/api/v1/admin/mandates?limit=100', m => m.principal_id === neha.id && m.kind === 'NOMINATION')) return;
+  await post('/api/v1/admin/mandates', { kind: 'NOMINATION', principal_id: neha.id, representative_reference: 'Sister (synthetic): nominee.joshi@aster.example',
+    permitted_rights: ['ACCESS', 'CORRECTION', 'ERASURE', 'GRIEVANCE'], valid_from: at(-5), valid_to: null, evidence_reference: 'Nomination form N-2026-0042 signed in the store app (DPDP s.14, Rule 14(4))' });
+});
+
 await step('Gaps: coverage gaps derived from everything recorded', () => post('/api/v1/admin/gaps/derive'));
 
 process.stdout.write(failures.length ? `\n  ${failures.length} step(s) refused: ${failures.join('; ')}.\n\n` : '\n  Every module now has demonstration records. Sign in as the owner to see them.\n\n');
