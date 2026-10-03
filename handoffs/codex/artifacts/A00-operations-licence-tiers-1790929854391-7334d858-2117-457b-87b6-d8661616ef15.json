@@ -1,0 +1,107 @@
+{
+  "task_id": "A00",
+  "fixture_kind": "SYNTHETIC_BOOTSTRAP_ONLY",
+  "recorded_at": "2026-10-02T08:30:54.391Z",
+  "suite": "licence-tiers",
+  "assertions": [
+    {
+      "name": "the FOUNDATION licence is in force",
+      "result": "PASS",
+      "expected": [
+        "FOUNDATION",
+        "ACTIVE"
+      ],
+      "actual": [
+        "FOUNDATION",
+        "ACTIVE"
+      ]
+    },
+    {
+      "name": "a FOUNDATION installation is refused every Control and Enterprise write",
+      "result": "PASS",
+      "expected": [],
+      "actual": []
+    },
+    {
+      "name": "a FOUNDATION installation keeps every legal-floor write",
+      "result": "PASS",
+      "expected": [],
+      "actual": []
+    },
+    {
+      "name": "the walk covered the higher-tier writes (capability refusals are not counted as tier refusals)",
+      "result": "PASS",
+      "expected": true,
+      "actual": true
+    },
+    {
+      "name": "a refusal names the entitlement and the tier that includes it",
+      "result": "PASS",
+      "expected": [
+        "entitlement_required",
+        "realtime_enforcement",
+        "control"
+      ],
+      "actual": [
+        "entitlement_required",
+        "realtime_enforcement",
+        "control"
+      ]
+    },
+    {
+      "name": "the plan reports usage against the licensed limits",
+      "result": "PASS",
+      "expected": [
+        true,
+        true
+      ],
+      "actual": [
+        true,
+        true
+      ]
+    },
+    {
+      "name": "a website beyond the plan is refused, naming the limit",
+      "result": "PASS",
+      "expected": {
+        "status": 409,
+        "codes": [
+          "plan_limit_reached",
+          "websites",
+          "0"
+        ]
+      },
+      "actual": {
+        "status": 409,
+        "codes": [
+          "plan_limit_reached",
+          "websites",
+          "0"
+        ]
+      }
+    },
+    {
+      "name": "a connected system beyond the plan is refused, naming the limit",
+      "result": "FAIL",
+      "expected": [
+        "plan_limit_reached",
+        "connected_systems"
+      ],
+      "actual": [
+        "entitlement_required",
+        "workflow_automation"
+      ]
+    },
+    {
+      "name": "unexpected failure in limits",
+      "result": "FAIL",
+      "expected": "no error",
+      "actual": "Assertion failed: a connected system beyond the plan is refused, naming the limit"
+    }
+  ],
+  "passed": 7,
+  "failures": 2,
+  "profile": "codex-a00",
+  "test_adapter_only": true,
+  "limitation": "Connector effects are exercised against the synthetic records test adapter; no live customer system was contacted."
+}

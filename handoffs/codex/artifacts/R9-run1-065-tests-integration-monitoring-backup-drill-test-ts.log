@@ -1,0 +1,12 @@
+C:\Cyberfyx-projects\Cyberfyx_ORVIA\.worktrees\round9\scripts\backup-drill.ts:43
+  if (r.status !== 0) throw new Error(`${args[0]} failed: ${String(r.stderr).slice(0, 300).replace(/PGPASSWORD=\S+/g, 'PGPASSWORD=***')}`);
+                            ^
+
+Error: pg_dump failed: pg_dump: error: connection to server at "127.0.0.1", port 5432 failed: FATAL:  password authentication failed for user "orvia_migrator"
+
+    at inContainer (C:\Cyberfyx-projects\Cyberfyx_ORVIA\.worktrees\round9\scripts\backup-drill.ts:43:29)
+    at runDrill (C:\Cyberfyx-projects\Cyberfyx_ORVIA\.worktrees\round9\scripts\backup-drill.ts:55:16)
+    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+    at async <anonymous> (C:\Cyberfyx-projects\Cyberfyx_ORVIA\.worktrees\round9\tests\integration\monitoring\backup-drill.test.ts:12:15)
+
+Node.js v24.21.0

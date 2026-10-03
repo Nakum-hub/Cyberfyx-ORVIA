@@ -1,0 +1,16 @@
+PASS the throwaway database is migrated to the last V1 migration
+loaded app.audit_events: 123831 rows in 9342 ms
+loaded app.consent_interactions: 42635 rows in 3697 ms
+loaded app.idempotency_records: 8794 rows in 2655 ms
+PASS V1 tables hold real V1 rows before the upgrade
+PASS the upgrade applies every later migration over V1 data, in order
+PASS no existing V1 row or value is changed by the upgrade
+PASS the upgraded schema has the same columns as a fresh installation
+PASS the upgraded schema has the same constraints as a fresh installation
+PASS the upgraded schema has the same indexes as a fresh installation
+PASS the upgraded schema has the same policies as a fresh installation
+PASS the upgraded schema has the same triggers as a fresh installation
+PASS running the migrations again applies nothing
+Artifact: handoffs/codex/artifacts/DPDP-migration-upgrade-1790926501710-6a753557-5a96-40e0-8623-24db7d4c49fe.json
+
+10 assertions, 0 failures.

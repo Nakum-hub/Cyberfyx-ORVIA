@@ -1,4 +1,6 @@
 import { randomUUID } from 'node:crypto';
+import type { QueryResultRow } from 'pg';
+import { pageChildren } from './page-children.ts';
 import * as R from '../../../../shared/contracts/src/registry.ts';
 import { audit, type Context, type Page } from '../shared/transaction.ts';
 import { emit, exists, iso, packageAt, pageOf, predicate, refuse, scope, only } from '../operations/shared.ts';
@@ -14,10 +16,10 @@ type PurposeVersionRow = { id: string; purpose_id: string; version: number; desc
 const purposeVersionView = (v: PurposeVersionRow) => ({ id: v.id, version: v.version, description: v.description, status: v.status, effective_from: iso(v.effective_from), effective_to: iso(v.effective_to),
   change_reason: v.change_reason, evidence_reference: v.evidence_reference, v1_purpose_id: v.v1_purpose_id, recorded_at: iso(v.recorded_at), recorded_by: v.recorded_by });
 
-async function purposeView(c: Context, id: string, impact: R.RegistryPurposeValue['impact'] = null) {
-  const row = (await c.tx.query(`SELECT * FROM app.registry_purposes WHERE ${predicate} AND id=$4`, [...scope(c), id])).rows[0];
+async function purposeView(c: Context, id: string, impact: R.RegistryPurposeValue['impact'] = null, prepared?: { row: QueryResultRow; versions: PurposeVersionRow[] }) {
+  const row = prepared?.row ?? (await c.tx.query(`SELECT * FROM app.registry_purposes WHERE ${predicate} AND id=$4`, [...scope(c), id])).rows[0];
   if (!row) refuse(404, 'id', 'not_found');
-  const versions = (await c.tx.query(`SELECT * FROM app.registry_purpose_versions WHERE ${predicate} AND purpose_id=$4 ORDER BY version LIMIT 100`, [...scope(c), id])).rows as PurposeVersionRow[];
+  const versions = prepared?.versions ?? (await c.tx.query(`SELECT * FROM app.registry_purpose_versions WHERE ${predicate} AND purpose_id=$4 ORDER BY version LIMIT 100`, [...scope(c), id])).rows as PurposeVersionRow[];
   return R.RegistryPurpose.parse({ id: row.id, name: row.name, owner_reference: row.owner_reference, versions: versions.map(purposeVersionView), impact });
 }
 
@@ -63,10 +65,11 @@ export async function revisePurpose(c: Context, id: string, input: unknown) {
   return purposeView(c, id, impact);
 }
 export async function purposeList(c: Context, page: Page) {
-  const rows = (await c.tx.query(`SELECT id FROM app.registry_purposes WHERE ${predicate} AND ($4::uuid IS NULL OR (recorded_at,id) < (SELECT recorded_at,id FROM app.registry_purposes WHERE ${predicate} AND id=$4)) ORDER BY recorded_at DESC,id DESC LIMIT $5`, [...scope(c), page.cursor, page.limit + 1])).rows;
+  const rows = (await c.tx.query(`SELECT * FROM app.registry_purposes WHERE ${predicate} AND ($4::uuid IS NULL OR (recorded_at,id) < (SELECT recorded_at,id FROM app.registry_purposes WHERE ${predicate} AND id=$4)) ORDER BY recorded_at DESC,id DESC LIMIT $5`, [...scope(c), page.cursor, page.limit + 1])).rows;
   const paged = pageOf(rows, page.limit, r => r.id);
   const items = [];
-  for (const row of paged.items) items.push(await purposeView(c, row.id));
+  const versions = await pageChildren(c, 'purpose', paged.items.map(r => r.id)) as PurposeVersionRow[];
+  for (const row of paged.items) items.push(await purposeView(c, row.id, null, { row, versions: versions.filter(v => v.purpose_id === row.id) }));
   return { items, next_cursor: paged.next_cursor };
 }
 
@@ -202,19 +205,20 @@ export async function closeLink(c: Context, id: string, input: unknown) {
   return linkView(closed);
 }
 
-export async function activityView(c: Context, id: string) {
+type ActivityPageRecord = { row: QueryResultRow; versions: QueryResultRow[]; links: LinkRow[]; condition: QueryResultRow | undefined; bound: string[]; rules: number };
+export async function activityView(c: Context, id: string, prepared?: ActivityPageRecord) {
   const s = scope(c);
-  const row = (await c.tx.query(`SELECT * FROM app.registry_activities WHERE ${predicate} AND id=$4`, [...s, id])).rows[0];
+  const row = prepared?.row ?? (await c.tx.query(`SELECT * FROM app.registry_activities WHERE ${predicate} AND id=$4`, [...s, id])).rows[0];
   if (!row) refuse(404, 'id', 'not_found');
-  const versions = (await c.tx.query(`SELECT * FROM app.registry_activity_versions WHERE ${predicate} AND activity_id=$4 ORDER BY version LIMIT 100`, [...s, id])).rows;
-  const links = (await c.tx.query(`SELECT * FROM app.registry_activity_links WHERE ${predicate} AND activity_id=$4 ORDER BY valid_from,id LIMIT 200`, [...s, id])).rows as LinkRow[];
+  const versions = prepared?.versions ?? (await c.tx.query(`SELECT * FROM app.registry_activity_versions WHERE ${predicate} AND activity_id=$4 ORDER BY version LIMIT 100`, [...s, id])).rows;
+  const links = prepared?.links ?? (await c.tx.query(`SELECT * FROM app.registry_activity_links WHERE ${predicate} AND activity_id=$4 ORDER BY valid_from,id LIMIT 200`, [...s, id])).rows as LinkRow[];
   const current = versions.find(v => v.status === 'CURRENT');
-  const condition = current?.condition_id ? (await c.tx.query(`SELECT code,unresolved FROM app.processing_conditions WHERE ${predicate} AND id=$4`, [...s, current.condition_id])).rows[0] : null;
+  const condition = prepared ? prepared.condition : current?.condition_id ? (await c.tx.query(`SELECT code,unresolved FROM app.processing_conditions WHERE ${predicate} AND id=$4`, [...s, current.condition_id])).rows[0] : null;
   const live = links.filter(l => l.valid_to === null);
   const has = (kind: string) => live.some(l => l.link_kind === kind);
   const systems = live.filter(l => l.link_kind === 'SYSTEM').map(l => l.system_id!);
-  const bound = systems.length ? (await c.tx.query(`SELECT system_id FROM app.connector_bindings WHERE ${predicate} AND valid_to IS NULL AND system_id=ANY($4::uuid[])`, [...s, systems])).rows.map(r => r.system_id) : [];
-  const rules = Number((await c.tx.query(`SELECT count(*) n FROM app.retention_rules WHERE ${predicate} AND status='ACTIVE' AND activity_id=$4`, [...s, id])).rows[0].n);
+  const bound = prepared?.bound ?? (systems.length ? (await c.tx.query(`SELECT system_id FROM app.connector_bindings WHERE ${predicate} AND valid_to IS NULL AND system_id=ANY($4::uuid[])`, [...s, systems])).rows.map(r => r.system_id) : []);
+  const rules = prepared?.rules ?? Number((await c.tx.query(`SELECT count(*) n FROM app.retention_rules WHERE ${predicate} AND status='ACTIVE' AND activity_id=$4`, [...s, id])).rows[0].n);
   const gaps: string[] = [];
   if (!condition) gaps.push('NO_CONDITION'); else if (condition.unresolved) gaps.push('CONDITION_UNRESOLVED');
   if (condition?.code === 'CONSENT' && !(current?.notice_version_ids ?? []).length) gaps.push('NO_NOTICE_FOR_CONSENT');
@@ -235,14 +239,27 @@ export async function activityView(c: Context, id: string) {
 export async function activityList(c: Context, page: Page, query: unknown) {
   const q = (query ?? {}) as { system_id?: string; data_category_id?: string; as_of?: string };
   const at = q.as_of ? new Date(q.as_of) : new Date();
-  const rows = (await c.tx.query(`SELECT a.id FROM app.registry_activities a WHERE a.tenant_id=$1 AND a.legal_entity_id=$2 AND a.environment_id=$3
+  const rows = (await c.tx.query(`SELECT a.* FROM app.registry_activities a WHERE a.tenant_id=$1 AND a.legal_entity_id=$2 AND a.environment_id=$3
     AND ($4::uuid IS NULL OR EXISTS(SELECT 1 FROM app.registry_activity_links l WHERE l.tenant_id=a.tenant_id AND l.legal_entity_id=a.legal_entity_id AND l.environment_id=a.environment_id AND l.activity_id=a.id AND l.system_id=$4 AND l.valid_from<=$6 AND (l.valid_to IS NULL OR l.valid_to>$6)))
     AND ($5::uuid IS NULL OR EXISTS(SELECT 1 FROM app.registry_activity_links l WHERE l.tenant_id=a.tenant_id AND l.legal_entity_id=a.legal_entity_id AND l.environment_id=a.environment_id AND l.activity_id=a.id AND l.data_category_id=$5 AND l.valid_from<=$6 AND (l.valid_to IS NULL OR l.valid_to>$6)))
     AND ($7::uuid IS NULL OR (a.recorded_at,a.id) < (SELECT a.recorded_at,a.id FROM app.registry_activities a WHERE a.tenant_id=$1 AND a.legal_entity_id=$2 AND a.environment_id=$3
     AND ($4::uuid IS NULL OR EXISTS(SELECT 1 FROM app.registry_activity_links l WHERE l.tenant_id=a.tenant_id AND l.legal_entity_id=a.legal_entity_id AND l.environment_id=a.environment_id AND l.activity_id=a.id AND l.system_id=$4 AND l.valid_from<=$6 AND (l.valid_to IS NULL OR l.valid_to>$6)))
     AND ($5::uuid IS NULL OR EXISTS(SELECT 1 FROM app.registry_activity_links l WHERE l.tenant_id=a.tenant_id AND l.legal_entity_id=a.legal_entity_id AND l.environment_id=a.environment_id AND l.activity_id=a.id AND l.data_category_id=$5 AND l.valid_from<=$6 AND (l.valid_to IS NULL OR l.valid_to>$6))) AND a.id=$7)) ORDER BY a.recorded_at DESC,a.id DESC LIMIT $8`, [...scope(c), q.system_id ?? null, q.data_category_id ?? null, at, page.cursor, page.limit + 1])).rows;
   const paged = pageOf(rows, page.limit, r => r.id);
-  const items = [];
-  for (const r of paged.items) items.push(await activityView(c, r.id));
+  const items: Awaited<ReturnType<typeof activityView>>[] = [];
+  const ids = paged.items.map(r => r.id);
+  if (!ids.length) return { items, next_cursor: paged.next_cursor };
+  const versions = await pageChildren(c, 'activityVersions', ids);
+  const links = await pageChildren(c, 'activityLinks', ids) as LinkRow[];
+  const conditions = (await c.tx.query(`SELECT id,code,unresolved FROM app.processing_conditions WHERE ${predicate} AND id=ANY($4::uuid[])`, [...scope(c), versions.map(v => v.condition_id).filter(Boolean)])).rows;
+  const systems = links.filter(l => l.valid_to === null && l.link_kind === 'SYSTEM').map(l => l.system_id!);
+  const bound = systems.length ? (await c.tx.query(`SELECT system_id FROM app.connector_bindings WHERE ${predicate} AND valid_to IS NULL AND system_id=ANY($4::uuid[])`, [...scope(c), systems])).rows.map(r => r.system_id as string) : [];
+  const rules = (await c.tx.query(`SELECT activity_id,count(*) n FROM app.retention_rules WHERE ${predicate} AND status='ACTIVE' AND activity_id=ANY($4::uuid[]) GROUP BY activity_id`, [...scope(c), ids])).rows;
+  for (const row of paged.items) {
+    const ownVersions = versions.filter(v => v.activity_id === row.id);
+    const current = ownVersions.find(v => v.status === 'CURRENT');
+    items.push(await activityView(c, row.id, { row, versions: ownVersions, links: links.filter(l => l.activity_id === row.id),
+      condition: conditions.find(v => v.id === current?.condition_id), bound, rules: Number(rules.find(r => r.activity_id === row.id)?.n ?? 0) }));
+  }
   return { items, next_cursor: paged.next_cursor };
 }

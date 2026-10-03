@@ -1,0 +1,15 @@
+PASS a read-only role cannot register a Consent Manager
+PASS the Consent Manager is registered active with its Board registration
+PASS the same Board registration cannot be registered twice
+PASS the consent record shows the Consent Manager and artefact
+PASS a record is linked to one Consent Manager only
+PASS a relay naming another artefact is refused
+PASS a relayed withdrawal withdraws the consent and starts propagation
+PASS the Consent Manager is suspended with its reason
+PASS no new consent can be linked to a suspended Consent Manager
+PASS a withdrawal relayed after suspension is still honoured
+PASS a cancelled Consent Manager cannot change status again
+PASS the register lists it as cancelled
+Artifact: handoffs/codex/artifacts/DPDP-operations-consent-manager-1790927125672-6156074c-48c8-4627-9b9f-25eef8542ad4.json
+
+12 assertions, 0 failures.

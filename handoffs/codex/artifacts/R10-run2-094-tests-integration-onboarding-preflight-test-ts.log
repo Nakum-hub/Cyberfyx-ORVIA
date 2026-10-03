@@ -1,0 +1,23 @@
+PASS every gate the requirement names is reported exactly once
+PASS the application runtime received vendor public keys and no private key
+PASS every gate says what it examined, however it turned out
+PASS the two derived lists agree with the gates they came from
+PASS the backup gate answers from the declared record and never from its absence
+PASS a missing backup record fails the gate rather than passing it
+PASS the gate never claims to have seen the archive itself
+PASS passing the technical gates is never stated as a legal conclusion
+PASS the storage gate reports what the database itself is configured to do
+PASS the identity gate is scoped to this organisation and not to every owner in the database
+PASS the identity gate counted the primary owners that actually exist locally
+PASS the runtime gate names the address this process is really serving on
+PASS the runtime gate names the interpreter this process is really running on
+PASS a loopback-only HTTP profile is not reported as a transport failure, and says why
+PASS the telemetry gate read the environment this process is actually running with
+PASS the package gate is decided by whether the installed version has a verified manifest behind it
+PASS a failing package gate names what to do about it rather than only reporting a red mark
+PASS the egress gate counted the configured endpoints and says the firewall is not what it checked
+PASS an auditor may read the gates
+PASS an actor without installation-health authority is refused
+Artifact: handoffs/codex/artifacts/DPDP-preflight-integration-1790959841466-96ca5051-c92d-46b6-9ccf-1edd64e1a69e.json
+
+20 assertions, 0 failures.

@@ -7,6 +7,7 @@
 // then closed for good, including for a newly issued code; the application role
 // cannot read the code table; owner and administrator must differ.
 import assert from 'node:assert/strict';
+import { postgresContainer } from '../../../shared/testing/src/postgres-container.ts';
 import { spawnSync } from 'node:child_process';
 import { randomUUID } from 'node:crypto';
 import { connectDatabase } from '../../../database/customer/src/index.ts';
@@ -19,7 +20,7 @@ const results: { name: string; result: 'PASS' | 'FAIL' }[] = [];
 const check = (name: string, actual: unknown, expected: unknown) => { try { assert.deepEqual(actual, expected); results.push({ name, result: 'PASS' }); console.log(`PASS ${name}`); } catch { results.push({ name, result: 'FAIL' }); console.log(`FAIL ${name} ${JSON.stringify({ expected, actual })}`); process.exitCode = 1; } };
 const profile = loadProfile();
 const scratch = `orvia_first_run_${randomUUID().replace(/-/g, '').slice(0, 12)}`;
-const container = `${profile.compose_project}-postgres-1`;
+const container = postgresContainer(profile);
 const exec = (args: string[], input?: Buffer) => { const r = spawnSync('docker', ['exec', '-i', '-e', `PGPASSWORD=${profile.password}`, container, ...args], { input, maxBuffer: 256 * 1024 * 1024 }); if (r.status !== 0) throw new Error(`${args[0]} failed: ${String(r.stderr).slice(0, 200)}`); return r.stdout as Buffer; };
 const bootstrap = connectDatabase({ ...profile, database: 'postgres' }).pool;
 await bootstrap.query(`CREATE DATABASE ${scratch}`);

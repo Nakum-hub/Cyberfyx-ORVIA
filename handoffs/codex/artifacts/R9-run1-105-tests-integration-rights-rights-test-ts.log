@@ -1,0 +1,70 @@
+Authentication fixture idle window: 61s remaining; controls unchanged.
+Authentication fixture idle window: 31s remaining; controls unchanged.
+Authentication fixture idle window: 1s remaining; controls unchanged.
+PASS a new request starts in the master vocabulary
+PASS nothing is assessed or executed merely because a request exists
+PASS a request made by the principal themselves has self authority
+PASS a transition outside the canonical map is refused
+PASS a lifecycle state that does not exist is rejected by the contract
+PASS the declared first step is permitted
+PASS an exact match cannot claim two references
+PASS an ambiguous review must actually be ambiguous
+PASS a no-match review cannot name matched references
+PASS an ambiguous grade is recorded truthfully, not softened
+PASS an ambiguous identity cannot begin a disclosing execution
+PASS an ambiguous identity cannot receive a disclosure
+PASS a later exact review resolves the identity
+PASS an established identity may now execute
+PASS releasing a response needs its own capability, not merely write access
+PASS an already-expired delivery is rejected
+PASS redaction review cannot be declined and still release
+PASS the response dimension moves without changing the lifecycle state
+PASS a response cannot be released twice
+PASS an unreachable destination is recorded, not dropped
+PASS unresolved destinations are visible in the scope dimension
+PASS entering execution claims nothing until an outcome is recorded
+PASS a request with no recorded outcome cannot claim completion
+PASS a success on every planned system is still partial while a destination is unreached
+PASS a request with unreachable destinations still cannot claim completion
+PASS the lifecycle move does not change what the outcomes already said
+PASS the recorded outcome names its method and evidence
+PASS closure does not rewrite what execution achieved
+PASS closure keeps the unresolved destination visible
+PASS closure records why it was closed
+PASS a closed request is terminal
+PASS the database itself refuses to reopen a closed request
+PASS the server marks a supported operation automatable
+PASS an operation no connector implements is not automatable, whatever was asked for
+PASS an outcome cannot be recorded before execution begins
+PASS success cannot be claimed without evidence
+PASS outstanding work cannot carry evidence
+PASS an effect is only unknown after a connector attempt
+PASS a connector cannot be credited with an operation it does not implement
+PASS an outcome cannot be recorded for a system the plan does not name
+PASS outstanding manual work is reported as needing a person
+PASS a manual request still cannot claim completion
+PASS a recorded outcome cannot be replaced by a second one
+PASS the database refuses to rewrite a recorded outcome
+PASS a system with a recorded outcome cannot be dropped from the plan
+PASS re-scoping cannot change the action a system was already executed under
+PASS re-scoping cannot discard a system whose outcome was recorded
+PASS re-scoping that keeps the executed system unchanged is permitted
+PASS a guardian mandate is a distinct kind with its own permitted rights
+PASS a mandate cannot end before it begins
+PASS a request under a mandate is not treated as self authority
+PASS a mandate does not authorise a right it does not name
+PASS an expired mandate does not carry authority
+PASS a revocation records when and why
+PASS revoking a mandate immediately withdraws authority from its open requests
+PASS a revoked authority blocks new execution
+PASS a revoked mandate stays revoked on retry
+PASS changing scope after approval sends the request back for approval
+PASS every transition is recorded in append-only history
+PASS request history cannot be rewritten
+PASS request history cannot be deleted
+PASS an auditor may read rights requests
+PASS an auditor cannot create a rights request
+PASS a member without the rights capability is refused
+Artifact: handoffs/codex/artifacts/DPDP-rights-integration-1790928707505-ea6a0f9b-2d05-4bff-af92-70a70271f031.json
+
+64 assertions, 0 failures.

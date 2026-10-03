@@ -13,7 +13,7 @@
  * new source file is qualified once it is tracked, which is also when it can
  * belong to a candidate.
  */
-export const EXCLUDED_PREFIXES = ['handoffs/', 'artifacts/', 'docs/'];
+export const EXCLUDED_PREFIXES = ['handoffs/', 'artifacts/', 'docs/', 'output/playwright/'];
 
 /**
  * Live state documents. These record where the programme has got to — the

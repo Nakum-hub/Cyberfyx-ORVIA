@@ -1,0 +1,7 @@
+Authentication fixture idle window: 17s remaining; controls unchanged.
+PASS the incoming junction is refused for the exact reason
+PASS unrecognised bytes and linked incoming folders are refused
+PASS hard-linked external bytes are refused while an ordinary inbox file is staged
+Artifact: handoffs/codex/artifacts/DPDP-operations-round-ten-file-intake-adversarial-1790967905902-8a49b167-0b7a-4d19-9923-0da70d859570.json
+
+3 assertions, 0 failures.

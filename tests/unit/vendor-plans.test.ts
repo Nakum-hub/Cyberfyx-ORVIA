@@ -37,3 +37,12 @@ test('a catalogue with an impossible seat count or duplicate code is refused', (
 test('an unknown entitlement is refused rather than signed', () => {
   assert.throws(() => issueLicence({ ...request('tier_1_members_5'), entitlements: ['EVERYTHING'] }, key));
 });
+
+test('an issued licence carries its term and sequence (anti-rollback), and a trial is marked as one', () => {
+  const { licence } = issueLicence({ ...request('tier_1_members_5'), term: 'QUARTERLY', sequence: 7 }, key);
+  assert.deepEqual([licence.claims.term, licence.claims.sequence, licence.claims.trial], ['QUARTERLY', 7, false]);
+  assert.ok(verify(null, Buffer.from(canonicalJson(licence.claims)), pair.publicKey, Buffer.from(licence.signature, 'base64url')), 'term and sequence are signed');
+});
+test('the vendor refuses to issue a Foundation licence naming a higher-tier feature', () => {
+  assert.throws(() => issueLicence({ ...request('tier_1_members_5'), entitlements: ['PRIVACY_GRAPH', 'REALTIME_ENFORCEMENT'] }, key), /exceeds edition/);
+});

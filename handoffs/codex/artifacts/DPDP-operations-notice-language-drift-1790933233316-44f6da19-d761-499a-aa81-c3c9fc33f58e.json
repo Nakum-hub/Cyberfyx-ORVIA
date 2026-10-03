@@ -1,0 +1,265 @@
+{
+  "task_id": "DPDP",
+  "fixture_kind": "CUSTOMER_LOCAL_SYNTHETIC",
+  "recorded_at": "2026-10-02T09:27:13.316Z",
+  "suite": "notice-language-drift",
+  "assertions": [
+    {
+      "name": "with one scope everywhere, nothing is out of step; the latest original (Hindi) is the reference",
+      "result": "PASS",
+      "expected": [
+        0,
+        "hi",
+        {
+          "en": "MAY_BE_BEHIND",
+          "ta": "IN_STEP",
+          "hi": "REFERENCE"
+        }
+      ],
+      "actual": [
+        0,
+        "hi",
+        {
+          "en": "MAY_BE_BEHIND",
+          "hi": "REFERENCE",
+          "ta": "IN_STEP"
+        }
+      ]
+    },
+    {
+      "name": "the twenty languages without a notice are listed, for information",
+      "result": "PASS",
+      "expected": [
+        20,
+        true
+      ],
+      "actual": [
+        20,
+        true
+      ]
+    },
+    {
+      "name": "no attention while the languages agree",
+      "result": "PASS"
+    },
+    {
+      "name": "publishing a new scope while other languages are current is refused and names them",
+      "result": "PASS",
+      "expected": [
+        409,
+        [
+          "other_locales_would_be_out_of_step",
+          "hi",
+          "ta"
+        ]
+      ],
+      "actual": [
+        409,
+        [
+          "other_locales_would_be_out_of_step",
+          "hi",
+          "ta"
+        ]
+      ]
+    },
+    {
+      "name": "saying no is the same as not saying",
+      "result": "PASS",
+      "expected": 409,
+      "actual": 409
+    },
+    {
+      "name": "Tamil and Hindi now state a different scope from the English reference",
+      "result": "PASS",
+      "expected": [
+        "en",
+        2,
+        {
+          "en": "REFERENCE",
+          "ta": "SCOPE_MISMATCH",
+          "hi": "SCOPE_MISMATCH"
+        }
+      ],
+      "actual": [
+        "en",
+        2,
+        {
+          "en": "REFERENCE",
+          "hi": "SCOPE_MISMATCH",
+          "ta": "SCOPE_MISMATCH"
+        }
+      ]
+    },
+    {
+      "name": "the report names the purpose Tamil is missing",
+      "result": "PASS",
+      "expected": [
+        [
+          "c4c29768-e04d-44f9-bead-2e5c0d13f5af"
+        ],
+        []
+      ],
+      "actual": [
+        [
+          "c4c29768-e04d-44f9-bead-2e5c0d13f5af"
+        ],
+        []
+      ]
+    },
+    {
+      "name": "Operations attention names the notice and both languages",
+      "result": "PASS",
+      "expected": [
+        2,
+        true
+      ],
+      "actual": [
+        2,
+        true
+      ]
+    },
+    {
+      "name": "what each language currently states is kept as published (what Data Principals see is unchanged by the report)",
+      "result": "PASS",
+      "expected": [
+        [
+          "en",
+          2
+        ],
+        [
+          "hi",
+          1
+        ],
+        [
+          "ta",
+          1
+        ]
+      ],
+      "actual": [
+        [
+          "en",
+          2
+        ],
+        [
+          "hi",
+          1
+        ],
+        [
+          "ta",
+          1
+        ]
+      ]
+    },
+    {
+      "name": "catching Tamil up needs no acknowledgement although Hindi is still behind",
+      "result": "PASS",
+      "expected": {
+        "en": "REFERENCE",
+        "ta": "IN_STEP",
+        "hi": "SCOPE_MISMATCH"
+      },
+      "actual": {
+        "en": "REFERENCE",
+        "hi": "SCOPE_MISMATCH",
+        "ta": "IN_STEP"
+      }
+    },
+    {
+      "name": "attention now counts one language",
+      "result": "PASS",
+      "expected": 1,
+      "actual": 1
+    },
+    {
+      "name": "an English rewording with the same scope needs no acknowledgement and leaves the Tamil translation behind its source",
+      "result": "PASS",
+      "expected": {
+        "en": "REFERENCE",
+        "ta": "BEHIND_ITS_SOURCE",
+        "hi": "SCOPE_MISMATCH"
+      },
+      "actual": {
+        "en": "REFERENCE",
+        "hi": "SCOPE_MISMATCH",
+        "ta": "BEHIND_ITS_SOURCE"
+      }
+    },
+    {
+      "name": "a translation published after the original does not make the original look stale",
+      "result": "PASS",
+      "expected": [
+        "en",
+        "REFERENCE"
+      ],
+      "actual": [
+        "en",
+        "REFERENCE"
+      ]
+    },
+    {
+      "name": "every language states the same scope again and attention clears",
+      "result": "PASS",
+      "expected": [
+        0,
+        null
+      ],
+      "actual": [
+        0,
+        null
+      ]
+    },
+    {
+      "name": "a translation of a draft is refused",
+      "result": "PASS",
+      "expected": [
+        "translate_a_published_version"
+      ],
+      "actual": [
+        "translate_a_published_version"
+      ]
+    },
+    {
+      "name": "a translation into the same language is refused",
+      "result": "PASS",
+      "expected": [
+        "translation_shares_the_source_locale"
+      ],
+      "actual": [
+        "translation_shares_the_source_locale"
+      ]
+    },
+    {
+      "name": "a translation of another notice is refused",
+      "result": "PASS",
+      "expected": [
+        "translation_source_belongs_to_another_notice"
+      ],
+      "actual": [
+        "translation_source_belongs_to_another_notice"
+      ]
+    },
+    {
+      "name": "the database refuses a translation into its own source language",
+      "result": "PASS",
+      "expected": "a translation translates another locale of the same notice",
+      "actual": "a translation translates another locale of the same notice"
+    },
+    {
+      "name": "a read-only role reads the report",
+      "result": "PASS",
+      "expected": 200,
+      "actual": 200
+    },
+    {
+      "name": "another tenant sees none of this notice",
+      "result": "PASS",
+      "expected": false,
+      "actual": false
+    }
+  ],
+  "passed": 20,
+  "failures": 0,
+  "profile": "codex-a00",
+  "test_adapter_only": true,
+  "limitation": "Connector effects are exercised against the synthetic records test adapter; no live customer system was contacted."
+}

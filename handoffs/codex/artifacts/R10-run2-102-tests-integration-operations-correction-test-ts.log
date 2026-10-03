@@ -1,0 +1,15 @@
+PASS a correction run must name the corrected values
+PASS a correction is not destructive, so it needs no dry-run approval
+PASS the system of record is written before any copy
+PASS the corrected value is held only as a digest on the action
+PASS both automated systems are corrected and verified
+PASS the manual system is reported not supported
+PASS the target now holds the corrected value
+PASS verification compares digests and records no personal value
+PASS the corrected value is purged once its actions are settled
+PASS two configured systems of record leave the source of truth unresolved, and nothing is written
+PASS the run records which category had no single system of record
+PASS the targets are unchanged
+Artifact: handoffs/codex/artifacts/DPDP-operations-correction-1790960272727-913024f5-b2ea-4a39-bd6d-0f43abdceeb9.json
+
+12 assertions, 0 failures.

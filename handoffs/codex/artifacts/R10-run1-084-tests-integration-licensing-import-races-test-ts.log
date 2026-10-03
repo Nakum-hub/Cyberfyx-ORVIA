@@ -1,0 +1,11 @@
+invalid input syntax for type uuid: "round10-synthetic"
+C:\Cyberfyx-projects\Cyberfyx_ORVIA\.worktrees\round10\shared\testing\src\evidence.ts:6
+  if(!/^[a-z-]+$/.test(kind))throw new Error('Invalid evidence kind');
+                                   ^
+
+Error: Invalid evidence kind
+    at writeEvidence (C:\Cyberfyx-projects\Cyberfyx_ORVIA\.worktrees\round10\shared\testing\src\evidence.ts:6:36)
+    at <anonymous> (C:\Cyberfyx-projects\Cyberfyx_ORVIA\.worktrees\round10\tests\integration\licensing\import-races.test.ts:31:27)
+    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+
+Node.js v24.21.0

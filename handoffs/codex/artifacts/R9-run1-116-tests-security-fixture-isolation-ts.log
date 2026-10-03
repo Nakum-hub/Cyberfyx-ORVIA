@@ -1,0 +1,14 @@
+PASS unknown production profile denied
+PASS wrong confirmation denied
+PASS business schema blocks bootstrap reset
+PASS reset denials preserve ledger workflows and target controls
+PASS foreign lane confirmation
+PASS unenrolled resource
+PASS arbitrary simulator operation
+PASS invalid fault operations preserve database state
+PASS test-owned workflow is actually running
+PASS running execution visible to reset guard
+PASS active workflow blocks reset before database mutation
+PASS active-job denial preserves database state
+PASS all frozen lane ports and namespaces differ
+Artifact: handoffs/codex/artifacts/DPDP-fixture-isolation-1790929069401-5518f936-258b-433e-b8b6-a88ddde056a1.json

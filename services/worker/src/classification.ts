@@ -1,3 +1,4 @@
+import { licenceCovers } from '../../../backend/domain/src/licensing/licensing.ts';
 import type pg from 'pg';
 import { machineAuthority, type MachineIdentity } from '../../../backend/auth/src/machine.ts';
 import { classifyPostgresRelation } from '../../../connectors/src/discovery/postgres-classify.ts';
@@ -14,6 +15,8 @@ export async function sweepClassification(
 ) {
   let processed = 0;
   for (const id of workerIds) await scoped(id, async c => {
+    // Rev 1.11: paused, not failed, while the licence in force does not cover it.
+    if (!(await licenceCovers(c, 'DISCOVERY_CLASSIFICATION'))) return;
     const scope = scopeValues(c.actor);
     const observer = observerIdentities.find(o => o.scope.tenant_id === scope[0] && o.scope.legal_entity_id === scope[1] && o.scope.environment_id === scope[2]);
     const runs = (await c.tx.query(`SELECT r.id, r.sample_limit, r.attempts, t.schema_name, t.relation_name, t.state AS target_state FROM app.classification_runs r

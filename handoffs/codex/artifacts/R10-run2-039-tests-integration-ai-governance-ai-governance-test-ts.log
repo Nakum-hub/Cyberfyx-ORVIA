@@ -1,0 +1,34 @@
+PASS input-to-activity relationship is created
+PASS activity-to-purpose relationship is created
+PASS cross-tenant purpose cannot enter inventory
+PASS client cannot nominate an arbitrary owner
+PASS inventory creation succeeds
+PASS owner is the authenticated creator
+PASS record remains declared and never calls a model
+PASS a durable monitoring check is due after registration
+PASS check job persisted in PostgreSQL
+PASS other tenant cannot read inventory
+PASS other tenant cannot add events
+PASS member without governance permission is denied
+PASS auditor can read governed inventory
+PASS auditor cannot write governed inventory
+PASS approval without prerequisites is refused
+PASS inventor cannot approve own AI use
+PASS assessment recorded
+PASS policy must exist and be published
+PASS published policy linked
+PASS control recorded
+PASS evidence record remains a record, not verification
+PASS separate reviewer can approve
+PASS read exposes linked approval and risk record
+PASS monitoring is missing until recorded
+PASS finding recorded
+PASS finding invalidates earlier approval
+PASS a later assertion cannot silently close finding
+PASS finding remains open after later assertion
+PASS approval blocked by open finding
+PASS report counts the unresolved finding
+PASS report explains declaration limit
+PASS append-only event cannot be rewritten
+Artifact: handoffs/codex/artifacts/DPDP-ai-governance-integration-1790954712157-08e11de8-3a34-412d-9c83-5879e0387820.json
+32 assertions, 0 failures.

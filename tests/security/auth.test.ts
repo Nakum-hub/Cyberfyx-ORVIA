@@ -1,4 +1,5 @@
 import assert from 'node:assert/strict';
+import { opaContainer } from '../../shared/testing/src/opa-container.ts';
 import { createHmac, randomUUID } from 'node:crypto';
 import { readFileSync } from 'node:fs';
 import { resolve } from 'node:path';
@@ -11,6 +12,7 @@ import { authorityFor, requireCapability, AccessError } from '../../backend/auth
 import { runtimePool, scopedTransaction } from '../../database/customer/src/runtime.ts';
 import { connectDatabase } from '../../database/customer/src/index.ts';
 import { loadProfile } from '../../shared/testing/src/config.ts';
+import { ensureFixtureLicences } from '../../shared/testing/src/development-licence.ts';
 import { writeEvidence, safeError } from '../../shared/testing/src/evidence.ts';
 import { Session, schemas } from '../../shared/contracts/src/index.ts';
 import type { AuthFixture, FixtureUser } from '../../scripts/auth-bootstrap.ts';
@@ -33,6 +35,8 @@ function check(name: string, actual: unknown, expected: unknown) {
   catch { assertions.push({ name,result:'FAIL',expected,actual }); throw new Error(`Assertion failed: ${name}`); }
 }
 async function start() {
+  // Rev 1.11: the labelled development licence for every fixture scope, as HttpFixture does.
+  await ensureFixtureLicences();
   child = spawn(process.execPath,command.args, {
     cwd:command.cwd,windowsHide:true,stdio:['ignore','pipe','pipe'],
     env:{...command.env,ORVIA_WORKSPACE_ROOT:root,NEXT_TELEMETRY_DISABLED:'1',DO_NOT_TRACK:'1',BETTER_AUTH_TELEMETRY:'0'},
@@ -191,13 +195,13 @@ try {
   check('protected tables force RLS and are not app-owned',tables.rows[0].count,0);
   await databaseDenial('tenant-aware foreign key rejects sibling parent',()=>admin.query('INSERT INTO app.environments VALUES ($1,$2,$3,$4)',[fixture.users.birch!.scope.tenant_id,fixture.users.owner!.scope.legal_entity_id,randomUUID(),'Invalid synthetic reference']),'23503');
   const faultInput=inputFor(fixture.users.owner!);
-  const stopped=spawnSync('docker',['stop',`${config.compose_project}-opa-1`],{encoding:'utf8',windowsHide:true});
+  const stopped=spawnSync('docker',['stop',opaContainer(config)],{encoding:'utf8',windowsHide:true});
   check('docker stop named profile OPA exit',stopped.status,0);
   try {
     check('administrative policy outage blocks mutation',(await owner.call('/api/v1/admin/principals',faultInput,{'idempotency-key':randomUUID()})).status,503);
     check('policy outage creates no principal',(await admin.query('SELECT id FROM app.principal_references WHERE email=$1',[faultInput.email])).rowCount,0);
   } finally {
-    const restarted=spawnSync('docker',['start',`${config.compose_project}-opa-1`],{encoding:'utf8',windowsHide:true});
+    const restarted=spawnSync('docker',['start',opaContainer(config)],{encoding:'utf8',windowsHide:true});
     check('docker start named profile OPA exit',restarted.status,0);
     let restored=false;
     for(let attempt=0;attempt<30;attempt++) {
@@ -218,7 +222,8 @@ try {
   writeEvidence('auth-security',{result:'PASS',test_ids:['T02','T03','T04','T05','T27'],profile:config.profile,origin:config.origin,fixture_id:fixture.fixture_id,build_id:readFileSync('frontend/.next/BUILD_ID','utf8').trim(),assertions,
     limitations:['This suite covers API/database authentication and authority; other suites cover consent, workflows, exports and runtime egress. Browser flows are not covered here.',config.profile==='rehearsal'?'Verified HTTPS rehearsal with per-process local CA trust; OS/browser trust is not installed.':'HTTP loopback development; TLS is not qualified in this profile.']});
 } catch(error) {
-  console.error(safeError(error));
+  const sites=error instanceof Error?error.stack?.split('\n').slice(1,6):[];
+  console.error({...safeError(error),sites});
   // No request/response bodies, cookies, passwords or TOTP material in evidence.
-  writeEvidence('auth-security',{result:'FAIL',profile:config.profile,assertions,error:safeError(error),server_output:serverOutput});process.exitCode=1;
+  writeEvidence('auth-security',{result:'FAIL',profile:config.profile,assertions,error:safeError(error),sites,server_output:serverOutput});process.exitCode=1;
 } finally {await stop();await Promise.all([staff.pool.end(),principal.pool.end(),app.end(),admin.end()]);}

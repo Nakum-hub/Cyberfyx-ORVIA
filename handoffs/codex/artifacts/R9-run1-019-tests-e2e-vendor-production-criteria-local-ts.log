@@ -1,0 +1,18 @@
+PASS a TEST_FIXTURE package is refused
+PASS the screen says it is not a production package
+PASS a package signed with another key is refused
+PASS the screen says the package is not signed with this vendor's release key
+PASS no criteria row appears for a refused package
+PASS the signed production package is recorded
+PASS the row shows Production and waits for a different approver
+PASS before approving, the reviewer sees the sources with their hashes and the signed package
+PASS the open verification items of the package are listed
+PASS approval stays disabled until a review reference is given and the items are acknowledged
+PASS a reference alone is not enough: the acknowledgement is required
+PASS the reviewer approves it on the same screen
+PASS the production-criteria gate is still not recorded (real engagements stay refused here)
+PASS no page errors on the practice screen
+PASS no request left the vendor origin
+Artifact: handoffs/codex/artifacts/DPDP-operations-vendor-production-criteria-browser-1790923560156-7164e5f7-b9a8-4811-adb7-ad88872109d3.json
+
+15 assertions, 0 failures.

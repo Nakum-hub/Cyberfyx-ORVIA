@@ -3308,6 +3308,37 @@
       }
     },
     {
+      "operation_id": "plan",
+      "method": "GET",
+      "path": "/api/v1/admin/plan",
+      "headers": {},
+      "request": null,
+      "response_status": 200,
+      "response": {
+        "as_of": "2026-09-16T10:00:00.000Z",
+        "licensed": true,
+        "edition": "CONTROL",
+        "term": "ANNUAL",
+        "trial": false,
+        "lifecycle": "ACTIVE",
+        "valid_to": "2027-09-16T10:00:00.000Z",
+        "grace_until": "2027-10-16T10:00:00.000Z",
+        "falls_back_to": null,
+        "usable": [
+          "PRIVACY_GRAPH",
+          "REALTIME_ENFORCEMENT"
+        ],
+        "significant_data_fiduciary": false,
+        "limits": [
+          {
+            "name": "websites",
+            "licensed": 5,
+            "used": 2
+          }
+        ]
+      }
+    },
+    {
       "operation_id": "import_licence",
       "method": "POST",
       "path": "/api/v1/admin/licences",
@@ -3350,6 +3381,12 @@
           "environments": 3,
           "staff_members": 25
         },
+        "term": "ANNUAL",
+        "sequence": 2,
+        "trial": false,
+        "lifecycle": "ACTIVE",
+        "grace_until": "2027-10-16T10:00:00.000Z",
+        "falls_back_to": null,
         "imported_at": "2026-09-16T10:00:00.000Z",
         "imported_by": "00000000-0000-4000-8000-000000000062",
         "active": true,
@@ -10873,6 +10910,15 @@
         },
         "frameworks": [],
         "controls": [],
+        "completeness": {
+          "controls_total": -9007199254740991,
+          "controls_included": -9007199254740991,
+          "frameworks_total": -9007199254740991,
+          "frameworks_included": -9007199254740991,
+          "tests_total": -9007199254740991,
+          "tests_included": -9007199254740991,
+          "complete": false
+        },
         "limits": []
       }
     },
@@ -15789,6 +15835,164 @@
         "outcome": "ACCEPTED",
         "completed_at": "2026-10-16T10:00:00.000Z",
         "personal_data_review": "NONE_CONFIRMED"
+      }
+    },
+    {
+      "operation_id": "list_file_intake",
+      "method": "GET",
+      "path": "/api/v1/admin/file-intake",
+      "headers": {},
+      "request": null,
+      "response_status": 200,
+      "response": {
+        "items": [
+          {
+            "id": "00000000-0000-4000-8000-0000000002bc",
+            "source": "MANUAL_UPLOAD",
+            "original_name": "processor-agreement.pdf",
+            "content_type": "application/pdf",
+            "size_bytes": 48213,
+            "sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+            "detected_kind": "DOCUMENT",
+            "detail": "PDF document.",
+            "state": "STAGED",
+            "received_at": "2026-09-16T10:00:00.000Z",
+            "received_by": "00000000-0000-4000-8000-0000000002bd",
+            "decided_at": null,
+            "decided_by": null,
+            "decision_reason": null,
+            "routed_resource_id": null,
+            "subject_kind": null,
+            "subject_id": null,
+            "on_approval": "Kept as a document, optionally linked to a record.",
+            "approval_capability": "registry.write"
+          }
+        ],
+        "inbox": {
+          "configured": true,
+          "folder": "/var/lib/orvia/file-inbox/00000000-0000-4000-8000-0000000002be/incoming",
+          "accepted_extensions": [
+            "json",
+            "pdf"
+          ],
+          "max_bytes": 10485760
+        },
+        "limits": [
+          "Nothing in a file is applied until a staff member approves it."
+        ]
+      }
+    },
+    {
+      "operation_id": "upload_file",
+      "method": "POST",
+      "path": "/api/v1/admin/file-intake",
+      "headers": {
+        "Idempotency-Key": "synthetic_example_key_0001"
+      },
+      "request": {
+        "file_name": "processor-agreement.pdf",
+        "content_base64": "JVBERi0xLjQK"
+      },
+      "response_status": 201,
+      "response": {
+        "id": "00000000-0000-4000-8000-0000000002bc",
+        "source": "MANUAL_UPLOAD",
+        "original_name": "processor-agreement.pdf",
+        "content_type": "application/pdf",
+        "size_bytes": 48213,
+        "sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "detected_kind": "DOCUMENT",
+        "detail": "PDF document.",
+        "state": "STAGED",
+        "received_at": "2026-09-16T10:00:00.000Z",
+        "received_by": "00000000-0000-4000-8000-0000000002bd",
+        "decided_at": null,
+        "decided_by": null,
+        "decision_reason": null,
+        "routed_resource_id": null,
+        "subject_kind": null,
+        "subject_id": null,
+        "on_approval": "Kept as a document, optionally linked to a record.",
+        "approval_capability": "registry.write"
+      }
+    },
+    {
+      "operation_id": "file_intake_item",
+      "method": "GET",
+      "path": "/api/v1/admin/file-intake/{id}",
+      "headers": {},
+      "request": null,
+      "response_status": 200,
+      "response": {
+        "id": "00000000-0000-4000-8000-0000000002bc",
+        "source": "MANUAL_UPLOAD",
+        "original_name": "processor-agreement.pdf",
+        "content_type": "application/pdf",
+        "size_bytes": 48213,
+        "sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "detected_kind": "DOCUMENT",
+        "detail": "PDF document.",
+        "state": "STAGED",
+        "received_at": "2026-09-16T10:00:00.000Z",
+        "received_by": "00000000-0000-4000-8000-0000000002bd",
+        "decided_at": null,
+        "decided_by": null,
+        "decision_reason": null,
+        "routed_resource_id": null,
+        "subject_kind": null,
+        "subject_id": null,
+        "on_approval": "Kept as a document, optionally linked to a record.",
+        "approval_capability": "registry.write"
+      }
+    },
+    {
+      "operation_id": "file_intake_content",
+      "method": "GET",
+      "path": "/api/v1/admin/file-intake/{id}/content",
+      "headers": {},
+      "request": null,
+      "response_status": 200,
+      "response": {
+        "id": "00000000-0000-4000-8000-0000000002bc",
+        "original_name": "processor-agreement.pdf",
+        "content_type": "application/pdf",
+        "content_base64": "JVBERi0xLjQK"
+      }
+    },
+    {
+      "operation_id": "decide_file_intake",
+      "method": "POST",
+      "path": "/api/v1/admin/file-intake/{id}/decision",
+      "headers": {
+        "Idempotency-Key": "synthetic_example_key_0001"
+      },
+      "request": {
+        "decision": "APPROVE",
+        "reason": "Signed agreement for the payroll processor.",
+        "subject_kind": "PROCESSOR",
+        "subject_id": "00000000-0000-4000-8000-0000000002bf"
+      },
+      "response_status": 200,
+      "response": {
+        "id": "00000000-0000-4000-8000-0000000002bc",
+        "source": "MANUAL_UPLOAD",
+        "original_name": "processor-agreement.pdf",
+        "content_type": "application/pdf",
+        "size_bytes": 48213,
+        "sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "detected_kind": "DOCUMENT",
+        "detail": "PDF document.",
+        "state": "STAGED",
+        "received_at": "2026-09-16T10:00:00.000Z",
+        "received_by": "00000000-0000-4000-8000-0000000002bd",
+        "decided_at": null,
+        "decided_by": null,
+        "decision_reason": null,
+        "routed_resource_id": null,
+        "subject_kind": null,
+        "subject_id": null,
+        "on_approval": "Kept as a document, optionally linked to a record.",
+        "approval_capability": "registry.write"
       }
     },
     {

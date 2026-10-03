@@ -1,0 +1,26 @@
+PASS leadership sees the practice overview from real records
+Authentication fixture idle window: 61s remaining; controls unchanged.
+Authentication fixture idle window: 31s remaining; controls unchanged.
+Authentication fixture idle window: 1s remaining; controls unchanged.
+PASS the client sees the audit address from its trust file
+PASS a second owner approves the mandate in the browser
+PASS this engagement has no accepted snapshot before its worker cycle
+PASS the worker checks in over HTTP and the signed snapshot is accepted
+PASS the client sees what ORVIA sent and that it was accepted
+PASS the lead sees the signed mandate and an intact chain
+PASS the lead reads the evidence entries signed by the client installation
+PASS the worker receives both requests; the document waits for a client approver
+PASS the owner sees the document request waiting for them
+PASS the lead sees the sample answered and the document declined with the client's reason
+PASS the sample answer is counts over the auditor's selection
+PASS the worker collects the signed findings file at check-in and only stages it
+PASS a person imports the staged findings file in the browser
+PASS the drafted response shows its redaction
+PASS the worker signs and sends the approved response and the client sees it accepted
+PASS the auditor sees the client's response on the finding, from the channel, without the contact detail
+PASS the client's vendor-visibility page lists every delivery ORVIA sent
+PASS closing the engagement ends the mandate, and the vendor sees it
+PASS no browser errors and no request left either installation
+Artifact: handoffs/codex/artifacts/DPDP-operations-audit-mandate-browser-1790921437482-251d34a4-0d9b-4ee4-94db-cf4a74a2630d.json
+
+20 assertions, 0 failures.

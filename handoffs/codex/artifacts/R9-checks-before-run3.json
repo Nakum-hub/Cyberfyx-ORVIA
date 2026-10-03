@@ -1,0 +1,108 @@
+[
+  {
+    "name": "inventory-write",
+    "command": [
+      "C:\\Cyberfyx-projects\\Cyberfyx_ORVIA\\.local\\tools\\node-v24.21.0-win-x64\\node.exe",
+      "--import",
+      "tsx",
+      "scripts/qualification-inventory.ts"
+    ],
+    "exit_code": 0,
+    "started_at": "2026-10-02T09:19:22.073Z",
+    "ended_at": "2026-10-02T09:19:23.691Z",
+    "log": "handoffs/codex/artifacts/R9-checks-before-run3-inventory-write.log"
+  },
+  {
+    "name": "test",
+    "command": [
+      "C:\\Cyberfyx-projects\\Cyberfyx_ORVIA\\.local\\tools\\node-v24.21.0-win-x64\\node.exe",
+      "C:\\Cyberfyx-projects\\Cyberfyx_ORVIA\\.worktrees\\round9\\.local\\tools\\package-manager\\node_modules\\pnpm\\bin\\pnpm.mjs",
+      "run",
+      "test"
+    ],
+    "exit_code": 0,
+    "started_at": "2026-10-02T09:19:23.691Z",
+    "ended_at": "2026-10-02T09:19:49.582Z",
+    "log": "handoffs/codex/artifacts/R9-checks-before-run3-test.log"
+  },
+  {
+    "name": "contracts-check",
+    "command": [
+      "C:\\Cyberfyx-projects\\Cyberfyx_ORVIA\\.local\\tools\\node-v24.21.0-win-x64\\node.exe",
+      "C:\\Cyberfyx-projects\\Cyberfyx_ORVIA\\.worktrees\\round9\\.local\\tools\\package-manager\\node_modules\\pnpm\\bin\\pnpm.mjs",
+      "run",
+      "contracts:check"
+    ],
+    "exit_code": 0,
+    "started_at": "2026-10-02T09:19:49.583Z",
+    "ended_at": "2026-10-02T09:19:58.240Z",
+    "log": "handoffs/codex/artifacts/R9-checks-before-run3-contracts-check.log"
+  },
+  {
+    "name": "typecheck",
+    "command": [
+      "C:\\Cyberfyx-projects\\Cyberfyx_ORVIA\\.local\\tools\\node-v24.21.0-win-x64\\node.exe",
+      "C:\\Cyberfyx-projects\\Cyberfyx_ORVIA\\.worktrees\\round9\\.local\\tools\\package-manager\\node_modules\\pnpm\\bin\\pnpm.mjs",
+      "run",
+      "typecheck"
+    ],
+    "exit_code": 0,
+    "started_at": "2026-10-02T09:19:58.240Z",
+    "ended_at": "2026-10-02T09:20:57.489Z",
+    "log": "handoffs/codex/artifacts/R9-checks-before-run3-typecheck.log"
+  },
+  {
+    "name": "lint",
+    "command": [
+      "C:\\Cyberfyx-projects\\Cyberfyx_ORVIA\\.local\\tools\\node-v24.21.0-win-x64\\node.exe",
+      "C:\\Cyberfyx-projects\\Cyberfyx_ORVIA\\.worktrees\\round9\\.local\\tools\\package-manager\\node_modules\\pnpm\\bin\\pnpm.mjs",
+      "run",
+      "lint"
+    ],
+    "exit_code": 0,
+    "started_at": "2026-10-02T09:20:57.496Z",
+    "ended_at": "2026-10-02T09:21:25.724Z",
+    "log": "handoffs/codex/artifacts/R9-checks-before-run3-lint.log"
+  },
+  {
+    "name": "tracking-check",
+    "command": [
+      "C:\\Cyberfyx-projects\\Cyberfyx_ORVIA\\.local\\tools\\node-v24.21.0-win-x64\\node.exe",
+      "C:\\Cyberfyx-projects\\Cyberfyx_ORVIA\\.worktrees\\round9\\.local\\tools\\package-manager\\node_modules\\pnpm\\bin\\pnpm.mjs",
+      "run",
+      "tracking:check"
+    ],
+    "exit_code": 0,
+    "started_at": "2026-10-02T09:21:25.725Z",
+    "ended_at": "2026-10-02T09:21:26.903Z",
+    "log": "handoffs/codex/artifacts/R9-checks-before-run3-tracking-check.log"
+  },
+  {
+    "name": "inventory-check",
+    "command": [
+      "C:\\Cyberfyx-projects\\Cyberfyx_ORVIA\\.local\\tools\\node-v24.21.0-win-x64\\node.exe",
+      "--import",
+      "tsx",
+      "scripts/qualification-inventory.ts",
+      "--check"
+    ],
+    "exit_code": 0,
+    "started_at": "2026-10-02T09:21:26.904Z",
+    "ended_at": "2026-10-02T09:21:27.242Z",
+    "log": "handoffs/codex/artifacts/R9-checks-before-run3-inventory-check.log"
+  },
+  {
+    "name": "source-inventory",
+    "command": [
+      "C:\\Cyberfyx-projects\\Cyberfyx_ORVIA\\.local\\tools\\node-v24.21.0-win-x64\\node.exe",
+      "--import",
+      "tsx",
+      "scripts/v1-source-inventory.ts",
+      "--check"
+    ],
+    "exit_code": 0,
+    "started_at": "2026-10-02T09:21:27.242Z",
+    "ended_at": "2026-10-02T09:21:27.588Z",
+    "log": "handoffs/codex/artifacts/R9-checks-before-run3-source-inventory.log"
+  }
+]

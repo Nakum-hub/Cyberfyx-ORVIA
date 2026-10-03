@@ -1,0 +1,167 @@
+{
+  "task_id": "DPDP",
+  "fixture_kind": "CUSTOMER_LOCAL_SYNTHETIC",
+  "recorded_at": "2026-10-02T09:12:23.880Z",
+  "suite": "licence-tiers",
+  "assertions": [
+    {
+      "name": "the FOUNDATION licence is in force",
+      "result": "PASS",
+      "expected": [
+        "FOUNDATION",
+        "ACTIVE"
+      ],
+      "actual": [
+        "FOUNDATION",
+        "ACTIVE"
+      ]
+    },
+    {
+      "name": "a FOUNDATION installation is refused every Control and Enterprise write",
+      "result": "PASS",
+      "expected": [],
+      "actual": []
+    },
+    {
+      "name": "a FOUNDATION installation keeps every legal-floor write",
+      "result": "PASS",
+      "expected": [],
+      "actual": []
+    },
+    {
+      "name": "the walk covered the higher-tier writes (capability refusals are not counted as tier refusals)",
+      "result": "PASS",
+      "expected": true,
+      "actual": true
+    },
+    {
+      "name": "a refusal names the entitlement and the tier that includes it",
+      "result": "PASS",
+      "expected": [
+        "entitlement_required",
+        "realtime_enforcement",
+        "control"
+      ],
+      "actual": [
+        "entitlement_required",
+        "realtime_enforcement",
+        "control"
+      ]
+    },
+    {
+      "name": "the plan reports usage against the licensed limits",
+      "result": "PASS",
+      "expected": [
+        true,
+        true
+      ],
+      "actual": [
+        true,
+        true
+      ]
+    },
+    {
+      "name": "a website beyond the plan is refused, naming the limit",
+      "result": "PASS",
+      "expected": {
+        "status": 409,
+        "codes": [
+          "plan_limit_reached",
+          "websites",
+          "0"
+        ]
+      },
+      "actual": {
+        "status": 409,
+        "codes": [
+          "plan_limit_reached",
+          "websites",
+          "0"
+        ]
+      }
+    },
+    {
+      "name": "connected systems are a Control feature, not part of Foundation",
+      "result": "PASS",
+      "expected": [
+        "entitlement_required",
+        "workflow_automation"
+      ],
+      "actual": [
+        "entitlement_required",
+        "workflow_automation"
+      ]
+    },
+    {
+      "name": "an upgrade takes effect at once",
+      "result": "PASS",
+      "expected": "CONTROL",
+      "actual": "CONTROL"
+    },
+    {
+      "name": "a connected system beyond the plan is refused, naming the limit",
+      "result": "PASS",
+      "expected": [
+        "plan_limit_reached",
+        "connected_systems"
+      ],
+      "actual": [
+        "plan_limit_reached",
+        "connected_systems"
+      ]
+    },
+    {
+      "name": "an immediate downgrade takes effect at once",
+      "result": "PASS",
+      "expected": "FOUNDATION",
+      "actual": "FOUNDATION"
+    },
+    {
+      "name": "a rights request is never refused for a plan limit",
+      "result": "PASS",
+      "expected": false,
+      "actual": false
+    },
+    {
+      "name": "a FOUNDATION licence naming a Control feature is refused at import",
+      "result": "PASS",
+      "expected": [
+        "entitlement_exceeds_edition"
+      ],
+      "actual": [
+        "entitlement_exceeds_edition"
+      ]
+    },
+    {
+      "name": "a licence with an old sequence is refused (no re-importing a bigger plan after a downgrade)",
+      "result": "PASS",
+      "expected": [
+        "stale_sequence"
+      ],
+      "actual": [
+        "stale_sequence"
+      ]
+    },
+    {
+      "name": "an unsequenced licence is refused once a sequenced one exists",
+      "result": "PASS",
+      "expected": [
+        "stale_sequence"
+      ],
+      "actual": [
+        "stale_sequence"
+      ]
+    },
+    {
+      "name": "unexpected failure in trial",
+      "result": "FAIL",
+      "expected": "no error",
+      "actual": "Unexpected 400: {\"error\":{\"code\":\"VALIDATION_ERROR\",\"message\":\"Request could not be completed.\",\"retry\":\"NEVER\",\"field_errors\":[{\"field\":\"licence\",\"code\":\"trial_already_used\"}]},\"request_id\":\"acf75549-970d-43b2-86e9-7267cebcb390\"}"
+    }
+  ],
+  "passed": 15,
+  "failures": 1,
+  "profile": "codex-a00",
+  "test_adapter_only": true,
+  "limitation": "Connector effects are exercised against the synthetic records test adapter; no live customer system was contacted."
+}

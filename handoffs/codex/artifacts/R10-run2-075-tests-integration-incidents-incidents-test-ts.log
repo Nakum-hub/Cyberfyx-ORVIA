@@ -1,0 +1,47 @@
+Authentication fixture idle window: 60s remaining; controls unchanged.
+Authentication fixture idle window: 30s remaining; controls unchanged.
+PASS recording an obligation rule requires approval authority
+PASS a rule names its own source and the clock it runs from
+PASS a second rule can run from a different clock entirely
+PASS occurrence, detection and awareness are three separate fields
+PASS an unknown awareness time is kept as unknown, not filled in from detection
+PASS an incident cannot be detected before it occurred
+PASS awareness cannot precede detection
+PASS exactly one obligation exists for each rule this run activated
+PASS every obligation names the recipient and regime its rule came from
+PASS a duty whose clock has not started has no deadline
+PASS a duty with no deadline is not overdue
+PASS a rule that does not apply while scope is uncertain says so explicitly
+PASS the assessment states that ORVIA ships no notification periods
+PASS the assessment states severity is configured policy, not a legal determination
+PASS a correction is recorded with its previous value
+PASS a correction names its reviewer and reason
+PASS establishing awareness starts the clock that runs from it
+PASS the deadline is the rule hours after its own clock
+PASS the correction names the deadline it moved
+PASS a correction that would break the orderings is refused
+PASS corrections cannot be rewritten
+PASS a detection time is never rewritten in place
+PASS a scope correction is appended alongside the first
+PASS a notification cannot jump straight to dispatched
+PASS dispatch without evidence is refused
+PASS a dispatch names its evidence
+PASS a dispatched notification cannot be walked back
+PASS the database refuses to withdraw a dispatched notification
+PASS an unknown occurrence time is recorded as unknown
+PASS a duty past its deadline is reported overdue
+PASS a certain scope activates the rule that requires it
+PASS a manual package must say why no supported channel exists
+PASS a manual package records why
+PASS containment is recorded before closure
+PASS closing an incident needs approval authority
+PASS an incident cannot be closed while a notification is still owed
+PASS a closed incident records when and why
+PASS a closed incident cannot be corrected
+PASS the database refuses to reopen a closed incident
+PASS an auditor may read incidents
+PASS an auditor cannot record an incident
+PASS a member without the incident capability is refused
+Artifact: handoffs/codex/artifacts/DPDP-incidents-integration-1790957391477-0a869f72-84ed-49dc-9acd-6672ed180ab9.json
+
+42 assertions, 0 failures.

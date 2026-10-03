@@ -21,7 +21,9 @@ import { renderPdf, type PdfLine } from './pdf.ts';
  */
 export type Actor = { actor_id: string; actor_domain: 'VENDOR_STAFF' | 'CLIENT_ACCOUNT' | 'CLIENT_INSTALLATION'; role: string; organisation_id: string | null };
 export type Ctx = { tx: pg.PoolClient; actor: Actor; requestId: string };
-export type Keys = { vault: Buffer; audit: () => AuditKey; licence: () => VendorKey; release: () => { key_id: string; public: string } };
+export type Keys = { vault: Buffer; audit: () => AuditKey; licence: () => VendorKey; release: () => { key_id: string; public: string };
+  /** Revision 1.13: the vendor service licence's trusted public key and this installation's id. */
+  serviceLicenceTrust?: () => { key_id: string; public: string } | null; installationId?: string };
 export const iso = (v: unknown) => v === null || v === undefined ? null : (v as Date).toISOString();
 export const day = (v: unknown) => v === null || v === undefined ? null : typeof v === 'string' ? v.slice(0, 10) : new Date((v as Date).getTime() - (v as Date).getTimezoneOffset() * 60000).toISOString().slice(0, 10);
 export const refuse = (status: number, field: string, code: string): never => { throw new AccessError(status, status === 404 ? 'NOT_FOUND' : status === 403 ? 'FORBIDDEN' : 'VALIDATION_ERROR', [{ field, code }]); };
@@ -49,16 +51,52 @@ export const engagementCodeDigest = (code: string) => createHash('sha256').updat
 
 // Vendor team
 export async function team(c: Ctx) {
-  return guarded(async () => V.VendorTeam.parse({ members: (await c.tx.query('SELECT * FROM vendor.team()')).rows.map(r => ({ ...r, created_at: iso(r.created_at) })) }));
+  return guarded(async () => {
+    const state = new Map((await c.tx.query('SELECT * FROM vendor.team_password_state()')).rows.map(r => [r.user_id as string, r]));
+    return V.VendorTeam.parse({ members: (await c.tx.query('SELECT * FROM vendor.team()')).rows.map(r => ({ ...r, created_at: iso(r.created_at),
+      password_set: state.get(r.user_id)?.password_set === true, setup_code_expires_at: iso(state.get(r.user_id)?.setup_code_expires_at ?? null) })) });
+  });
+}
+/** Revision 1.13 setup code: 20 characters from an unambiguous alphabet, shown once; only its digest is stored. */
+export const setupCodeDigestOf = (code: string) => createHash('sha256').update(code.toUpperCase().replace(/[^A-Z0-9]/g, ''), 'utf8').digest('hex');
+async function issueCode(c: Ctx, userId: string, hours: number) {
+  const code = newEngagementCode();
+  const expires = (await c.tx.query('SELECT vendor.issue_setup_code($1,$2,$3,$4) AS e', [c.actor.actor_id, userId, setupCodeDigestOf(code), hours])).rows[0].e as Date;
+  return { code, expires_at: expires.toISOString() };
 }
 export async function createMember(c: Ctx, input: unknown) {
-  const v = V.VendorMemberCreate.parse(input); const id = randomUUID(); const password = randomBytes(24).toString('base64url');
-  const hash = await hashPassword(password);
+  const v = V.VendorMemberCreate.parse(input); const id = randomUUID();
   return guarded(async () => {
-    await c.tx.query('SELECT vendor.create_member($1,$2,$3,$4,$5,$6)', [c.actor.actor_id, id, v.name, v.email, v.role, hash]);
+    let oneTime: string | null = null; let setup: { code: string; expires_at: string } | null = null;
+    if (v.password_mode === 'SETUP_CODE') {
+      await c.tx.query('SELECT vendor.create_member_pending($1,$2,$3,$4,$5)', [c.actor.actor_id, id, v.name, v.email, v.role]);
+      setup = await issueCode(c, id, 72);
+    } else {
+      oneTime = v.password_mode === 'ONE_TIME_PASSWORD' ? randomBytes(24).toString('base64url') : null;
+      await c.tx.query('SELECT vendor.create_member($1,$2,$3,$4,$5,$6)', [c.actor.actor_id, id, v.name, v.email, v.role, await hashPassword(oneTime ?? v.password!)]);
+      // An administrator-set password is final: the member is not forced to change it.
+      if (v.password_mode === 'ADMIN_SET') await c.tx.query('SELECT vendor.set_member_password($1,$2,$3)', [c.actor.actor_id, id, await hashPassword(v.password!)]);
+    }
     await audit(c, 'vendor.team.member-created', id);
     const member = (await team(c)).members.find(m => m.user_id === id)!;
-    return V.VendorMemberCreated.parse({ member, one_time_password: password });
+    return V.VendorMemberCreated.parse({ member, one_time_password: oneTime, setup_code: setup?.code ?? null, setup_code_expires_at: setup?.expires_at ?? null });
+  });
+}
+export async function issueSetupCode(c: Ctx, id: string, input: unknown) {
+  const v = V.VendorSetupCodeIssue.parse(input ?? {});
+  return guarded(async () => {
+    const issued = await issueCode(c, id, v.valid_hours);
+    await audit(c, 'vendor.team.setup-code-issued', id);
+    return V.VendorSetupCodeIssued.parse({ user_id: id, setup_code: issued.code, expires_at: issued.expires_at,
+      note: 'Shown once. Give it to the member privately; they enter it with their work email to set their password. If they already have one, it is replaced when they use the code.' });
+  });
+}
+export async function setMemberPassword(c: Ctx, id: string, input: unknown) {
+  const v = V.VendorSetPassword.parse(input);
+  return guarded(async () => {
+    await c.tx.query('SELECT vendor.set_member_password($1,$2,$3)', [c.actor.actor_id, id, await hashPassword(v.password)]);
+    await audit(c, 'vendor.team.password-set', id);
+    return (await team(c)).members.find(m => m.user_id === id)!;
   });
 }
 export async function setMemberActive(c: Ctx, id: string, active: boolean) {
@@ -102,15 +140,18 @@ export async function createClientAccount(c: Ctx, id: string, input: unknown) {
 export async function issueOrganisationLicence(c: Ctx, input: unknown, keys: Keys) {
   const v = V.LicenceIssueRequest.parse(input);
   if (!(await c.tx.query('SELECT 1 FROM vendor.organisations WHERE id=$1', [v.organisation_id])).rowCount) refuse(404, 'organisation_id', 'not_found');
+  // Anti-rollback (revision 1.11): one increasing sequence per installation, serialised so two issues cannot share a number.
+  await c.tx.query('SELECT pg_advisory_xact_lock(hashtext($1))', [`vendor.licence.sequence.${v.installation_id}`]);
+  const sequence = Number((await c.tx.query('SELECT coalesce(max(sequence),0)+1 AS next FROM vendor.licence_issues WHERE installation_id=$1', [v.installation_id])).rows[0].next);
   let issued: ReturnType<typeof issueLicence>;
-  try { issued = issueLicence({ installation_id: v.installation_id, option: v.option, entitlements: v.entitlements, environments: v.environments, valid_from: v.valid_from, valid_to: v.valid_to }, keys.licence()); }
-  catch (error) { refuse(400, 'option', error instanceof Error && /option/i.test(error.message) ? 'unknown_option' : 'licence_invalid'); throw error; }
+  try { issued = issueLicence({ installation_id: v.installation_id, option: v.option, entitlements: v.entitlements, environments: v.environments, valid_from: v.valid_from, valid_to: v.valid_to, term: v.term, sequence }, keys.licence()); }
+  catch (error) { refuse(400, error instanceof Error && /edition/i.test(error.message) ? 'entitlements' : 'option', error instanceof Error && /option/i.test(error.message) ? 'unknown_option' : error instanceof Error && /edition/i.test(error.message) ? 'entitlement_exceeds_edition' : 'licence_invalid'); throw error; }
   return guarded(async () => {
-    await c.tx.query(`INSERT INTO vendor.licence_issues (id, organisation_id, installation_id, licence_id, plan_option, member_seats, valid_from, valid_to, licence, issued_by) VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10)`,
-      [randomUUID(), v.organisation_id, v.installation_id, issued.licence.claims.licence_id, issued.plan.option, issued.plan.member_seats, v.valid_from, v.valid_to, JSON.stringify(issued.licence), c.actor.actor_id]);
+    await c.tx.query(`INSERT INTO vendor.licence_issues (id, organisation_id, installation_id, licence_id, plan_option, member_seats, valid_from, valid_to, licence, issued_by, term, sequence) VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12)`,
+      [randomUUID(), v.organisation_id, v.installation_id, issued.licence.claims.licence_id, issued.plan.option, issued.plan.member_seats, v.valid_from, v.valid_to, JSON.stringify(issued.licence), c.actor.actor_id, v.term, sequence]);
     await c.tx.query("UPDATE vendor.organisations SET licence_state='ACTIVE' WHERE id=$1", [v.organisation_id]);
     await audit(c, 'vendor.licence.issued', issued.licence.claims.licence_id);
-    return V.LicenceIssued.parse(issued);
+    return V.LicenceIssued.parse({ ...issued, sequence, term: v.term });
   });
 }
 

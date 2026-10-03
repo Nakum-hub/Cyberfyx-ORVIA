@@ -60,3 +60,18 @@ This installation still accepts **synthetic people only** as Privacy Centre and 
 - Workspace screen: `frontend/src/components/screens/privacy-operations/organisation-intake.tsx` (Website & app intake).
 - Developer guide: `docs/integration/ORGANISATION_INTAKE.md`.
 - Test: `tests/integration/operations/organisation-intake.test.ts`.
+
+## Owner decision 2026-10-03: the Privacy Centre is a Workspace module
+
+The owner decided that the Privacy Centre is reached and managed inside the existing interface, like every other ORVIA
+module, not from a separate entry path:
+
+- **Workspace module.** `Privacy controls → Privacy Centre` (`/workspace/privacy-centre`) holds the on/off switch (super
+  administrator only), the address customers use, the pages customers see and where their work arrives (Consent records,
+  Privacy requests, Data Principals). The switch moved here from Website & app intake, which now points to it.
+- **Plans.** It belongs to `INTAKE_AND_PORTAL` (Foundation), so every plan includes it.
+- **Entry page.** The installation's entry page is staff-only; it no longer offers a Privacy Centre card or a Data Principal
+  sign-in link, and the not-found page no longer links staff and customer areas side by side.
+- **What does not change (security).** Customers never sign in to the staff Workspace. The customer pages (`/privacy/...`)
+  remain the Privacy Centre's public face, in their own authentication domain, served only while the switch is on, and
+  reached from the link the organisation publishes on its own website or app (Rule 14(1)).

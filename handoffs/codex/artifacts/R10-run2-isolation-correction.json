@@ -1,0 +1,14 @@
+{
+  "classification": "REVIEW_HARNESS_DEFECT",
+  "original_head": "0aa04b592986629cac16e8996a8a18efd8a537d4",
+  "correction_head": "88b7b46558b9e4ec714c22643b6af657f0746609",
+  "cutoff_observed_at": "2026-10-02T15:44:32Z",
+  "in_progress_suite": "tests/integration/enforcement/withdrawal-timing.test.ts",
+  "affected_completed_suite": "tests/integration/enforcement/send.test.ts",
+  "root_cause": "HttpFixture uses runtimeConfig, which retained the canonical Compose name even when loadProfile accepted the owned Round 10 project override. The send outage test therefore stopped a different OPA process from the one it queried.",
+  "shared_container": "orvia-codex-a00-opa-1",
+  "observed_shared_container_started_at": "2026-10-02T15:40:31.880599191Z",
+  "restoration": "docker stop orvia-codex-a00-opa-1 exited 0; original stopped state restored. No shared database was reset or changed by this correction.",
+  "source_recording_limit": "The already-running runner captured its original HEAD once. Its raw ledger remains unchanged. Suites after this correction use the corrected fixture source at correction_head; the in-progress withdrawal timing suite spans the source change and must be included in Run 3. The existing web build remains from original_head; only fixture container selection changed. The old runtime image cannot qualify the changed source tree and must be rebuilt in Run 3.",
+  "required_retest": ["tests/integration/enforcement/send.test.ts", "tests/integration/enforcement/withdrawal-timing.test.ts", "tests/integration/opa/cold-start.test.ts", "tests/security/network-core.ts"]
+}

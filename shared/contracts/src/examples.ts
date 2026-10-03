@@ -48,6 +48,12 @@ export function example(name:SchemaName):unknown {
   if(operations!==undefined)return operations;
   const expansion=expansionExample(name);
   if(expansion!==undefined)return (schemas[name] as { parse(v: unknown): unknown }).parse(expansion);
+  const fileItem={id:uuid(700),source:'MANUAL_UPLOAD' as const,original_name:'processor-agreement.pdf',content_type:'application/pdf',size_bytes:48213,sha256:'a'.repeat(64),detected_kind:'DOCUMENT' as const,detail:'PDF document.',state:'STAGED' as const,received_at:sampleTime,received_by:uuid(701),decided_at:null,decided_by:null,decision_reason:null,routed_resource_id:null,subject_kind:null,subject_id:null,on_approval:'Kept as a document, optionally linked to a record.',approval_capability:'registry.write'};
+  if(name==='FileIntakeUpload')return {file_name:'processor-agreement.pdf',content_base64:'JVBERi0xLjQK'};
+  if(name==='FileIntakeItem')return fileItem;
+  if(name==='FileIntakeList')return {items:[fileItem],inbox:{configured:true,folder:'/var/lib/orvia/file-inbox/'+uuid(702)+'/incoming',accepted_extensions:['json','pdf'],max_bytes:10485760},limits:['Nothing in a file is applied until a staff member approves it.']};
+  if(name==='FileIntakeDecision')return {decision:'APPROVE' as const,reason:'Signed agreement for the payroll processor.',subject_kind:'PROCESSOR' as const,subject_id:uuid(703)};
+  if(name==='FileIntakeContent')return {id:uuid(700),original_name:'processor-agreement.pdf',content_type:'application/pdf',content_base64:'JVBERi0xLjQK'};
   const audit=dpdpaAuditExample(name);
   if(audit!==undefined)return (schemas[name] as { parse(v: unknown): unknown }).parse(audit);
   if(name==='GrcAuditResponse'||name==='GrcAuditResponseHistoryRecord'){const evidence=example('GrcEvidence') as {id:string};return {...sample(z.toJSONSchema(schemas[name]) as JsonSchema) as Record<string,unknown>,evidence_id:evidence.id,evidence_snapshot:evidence};}
@@ -85,8 +91,9 @@ export function example(name:SchemaName):unknown {
   if(name==='LicenceClaims')return licenceClaims;
   if(name==='SignedLicence')return {algorithm:'Ed25519' as const,claims:licenceClaims,signing_key_id:uuid(97),signature:'A'.repeat(86)};
   if(name==='LicenceImport')return {licence:{algorithm:'Ed25519' as const,claims:licenceClaims,signing_key_id:uuid(97),signature:'A'.repeat(86)}};
-  if(name==='LicenceState')return {licence_id:uuid(95),edition:'CONTROL' as const,entitlements:['PRIVACY_GRAPH' as const],installation_id:uuid(96),valid_from:sampleTime,valid_to:'2027-09-16T10:00:00.000Z',licensed_limits:{environments:3,staff_members:25},imported_at:sampleTime,imported_by:uuid(98),active:true,expired:false,continuity_note:'Expiry restricts new work and never removes recorded evidence or the ability to read and export it.'};
-  if(name==='FeatureAvailability')return {feature:'PRIVACY_GRAPH' as const,usable:false,gates:[
+  if(name==='PlanSummary')return {as_of:sampleTime,licensed:true,edition:'CONTROL' as const,term:'ANNUAL' as const,trial:false,lifecycle:'ACTIVE' as const,valid_to:'2027-09-16T10:00:00.000Z',grace_until:'2027-10-16T10:00:00.000Z',falls_back_to:null,usable:['PRIVACY_GRAPH' as const,'REALTIME_ENFORCEMENT' as const],significant_data_fiduciary:false,limits:[{name:'websites' as const,licensed:5,used:2}]};
+  if(name==='LicenceState')return {licence_id:uuid(95),edition:'CONTROL' as const,entitlements:['PRIVACY_GRAPH' as const],installation_id:uuid(96),valid_from:sampleTime,valid_to:'2027-09-16T10:00:00.000Z',licensed_limits:{environments:3,staff_members:25},term:'ANNUAL' as const,sequence:2,trial:false,lifecycle:'ACTIVE' as const,grace_until:'2027-10-16T10:00:00.000Z',falls_back_to:null,imported_at:sampleTime,imported_by:uuid(98),active:true,expired:false,continuity_note:'Expiry restricts new work and never removes recorded evidence or the ability to read and export it.'};
+  if(name==='FeatureAvailability')return {feature:'PRIVACY_GRAPH' as const,usable:false,tier:'FOUNDATION' as const,label:'Systems and processing register',value:'Record your systems, purposes and data, and export your record of processing.',gates:[
     {gate:'RELEASE_AVAILABILITY' as const,satisfied:true,reason:'Shipped in this release.'},
     {gate:'DEPLOYMENT_SUPPORT' as const,satisfied:true,reason:'Supported on this deployment profile.'},
     {gate:'CONTROLLED_ROLLOUT' as const,satisfied:true,reason:'Not held back by a rollout control.'},

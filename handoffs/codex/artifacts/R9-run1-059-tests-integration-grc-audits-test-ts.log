@@ -1,0 +1,42 @@
+PASS unknown control denied
+PASS past deadline denied
+PASS new audit remains open
+PASS audit author cannot close
+PASS audit without requests cannot close
+PASS out-of-scope control request denied
+PASS request beyond audit deadline denied
+PASS request starts open
+PASS unknown evidence cannot respond
+PASS unreviewed evidence cannot respond
+PASS response snapshots exact evidence
+PASS response requires separate audit review
+PASS self response approval denied
+PASS reviewed response accepted
+PASS duplicate response review denied
+PASS superseded evidence makes response stale
+PASS stale response blocks closure
+PASS replacement response does not inherit review
+PASS old response cannot be reapproved
+PASS foreign tenant audit detail denied
+PASS foreign tenant request detail denied
+PASS foreign tenant list empty
+PASS auditor cannot write
+PASS auditor can read accepted response
+PASS unrelated request cursor rejected
+PASS concurrent closure commits exactly once
+PASS closure binds current accepted response
+PASS closure never asserts certification
+PASS closed audit rejects new requests
+PASS closed audit rejects response replacement
+PASS database history cannot be updated
+PASS database history cannot be deleted
+PASS old response retained
+PASS response history starts with replacement
+PASS response history has continuation
+PASS historical response keeps review
+PASS foreign response history denied
+PASS unrelated response cursor denied
+PASS control author cannot approve audit response
+PASS control author cannot close audit
+PASS independent reviewer can close control-author case
+Artifact: handoffs/codex/artifacts/V1-EXPANSION-04-grc-ed700dc4-ca2e-4c6a-8c8d-8f8008cd36c8.json

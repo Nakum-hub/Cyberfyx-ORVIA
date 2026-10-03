@@ -1,0 +1,57 @@
+{
+  "task_id": "A00",
+  "fixture_kind": "SYNTHETIC_BOOTSTRAP_ONLY",
+  "recorded_at": "2026-10-02T17:55:52.504Z",
+  "profile": "codex-a00",
+  "rows": [
+    {
+      "rolname": "orvia_agent_control",
+      "may_execute": true
+    },
+    {
+      "rolname": "orvia_app",
+      "may_execute": true
+    },
+    {
+      "rolname": "orvia_machine_auth",
+      "may_execute": true
+    },
+    {
+      "rolname": "orvia_migrator",
+      "may_execute": true
+    },
+    {
+      "rolname": "orvia_principal_auth",
+      "may_execute": false
+    },
+    {
+      "rolname": "orvia_sender",
+      "may_execute": true
+    },
+    {
+      "rolname": "orvia_staff_auth",
+      "may_execute": false
+    },
+    {
+      "rolname": "orvia_target_agent",
+      "may_execute": false
+    },
+    {
+      "rolname": "orvia_target_observer",
+      "may_execute": false
+    },
+    {
+      "rolname": "orvia_vendor_app",
+      "may_execute": false
+    },
+    {
+      "rolname": "orvia_vendor_auth",
+      "may_execute": false
+    },
+    {
+      "rolname": "orvia_worker",
+      "may_execute": true
+    }
+  ],
+  "note": "Read-only installed ACL inspection. Function authority checks remain required independently of EXECUTE privileges."
+}

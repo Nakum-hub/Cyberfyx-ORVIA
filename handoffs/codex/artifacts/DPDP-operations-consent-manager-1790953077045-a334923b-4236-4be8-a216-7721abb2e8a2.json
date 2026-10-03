@@ -1,0 +1,113 @@
+{
+  "task_id": "DPDP",
+  "fixture_kind": "CUSTOMER_LOCAL_SYNTHETIC",
+  "recorded_at": "2026-10-02T14:57:57.045Z",
+  "suite": "consent-manager",
+  "assertions": [
+    {
+      "name": "a read-only role cannot register a Consent Manager",
+      "result": "PASS",
+      "expected": 403,
+      "actual": 403
+    },
+    {
+      "name": "the Consent Manager is registered active with its Board registration",
+      "result": "PASS",
+      "expected": [
+        "ACTIVE",
+        "DPB-CM-f4c0e881",
+        0
+      ],
+      "actual": [
+        "ACTIVE",
+        "DPB-CM-f4c0e881",
+        0
+      ]
+    },
+    {
+      "name": "the same Board registration cannot be registered twice",
+      "result": "PASS",
+      "expected": 409,
+      "actual": 409
+    },
+    {
+      "name": "the consent record shows the Consent Manager and artefact",
+      "result": "PASS",
+      "expected": [
+        "DPB-CM-f4c0e881",
+        "ART-f4c0e881-1"
+      ],
+      "actual": [
+        "DPB-CM-f4c0e881",
+        "ART-f4c0e881-1"
+      ]
+    },
+    {
+      "name": "a record is linked to one Consent Manager only",
+      "result": "PASS",
+      "expected": 409,
+      "actual": 409
+    },
+    {
+      "name": "a relay naming another artefact is refused",
+      "result": "PASS",
+      "expected": 409,
+      "actual": 409
+    },
+    {
+      "name": "a relayed withdrawal withdraws the consent and starts propagation",
+      "result": "PASS",
+      "expected": [
+        "WITHDRAWN",
+        "CONSENT_MANAGER",
+        true
+      ],
+      "actual": [
+        "WITHDRAWN",
+        "CONSENT_MANAGER",
+        true
+      ]
+    },
+    {
+      "name": "the Consent Manager is suspended with its reason",
+      "result": "PASS",
+      "expected": [
+        "SUSPENDED",
+        2
+      ],
+      "actual": [
+        "SUSPENDED",
+        2
+      ]
+    },
+    {
+      "name": "no new consent can be linked to a suspended Consent Manager",
+      "result": "PASS",
+      "expected": 409,
+      "actual": 409
+    },
+    {
+      "name": "a withdrawal relayed after suspension is still honoured",
+      "result": "PASS",
+      "expected": "WITHDRAWN",
+      "actual": "WITHDRAWN"
+    },
+    {
+      "name": "a cancelled Consent Manager cannot change status again",
+      "result": "PASS",
+      "expected": 409,
+      "actual": 409
+    },
+    {
+      "name": "the register lists it as cancelled",
+      "result": "PASS",
+      "expected": "CANCELLED",
+      "actual": "CANCELLED"
+    }
+  ],
+  "passed": 12,
+  "failures": 0,
+  "profile": "codex-a00",
+  "test_adapter_only": true,
+  "limitation": "Connector effects are exercised against the synthetic records test adapter; no live customer system was contacted."
+}

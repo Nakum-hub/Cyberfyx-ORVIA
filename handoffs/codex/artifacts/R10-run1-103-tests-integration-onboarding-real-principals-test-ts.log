@@ -1,0 +1,9 @@
+C:\Cyberfyx-projects\Cyberfyx_ORVIA\.worktrees\round10\shared\testing\src\postgres-container.ts:5
+  if (profile.profile !== 'codex-a00' || override !== 'orvia-qualification-20260930-postgres') throw new Error('Unapproved synthetic PostgreSQL container override');
+                                                                                                     ^
+
+Error: Unapproved synthetic PostgreSQL container override
+    at postgresContainer (C:\Cyberfyx-projects\Cyberfyx_ORVIA\.worktrees\round10\shared\testing\src\postgres-container.ts:5:102)
+    at <anonymous> (C:\Cyberfyx-projects\Cyberfyx_ORVIA\.worktrees\round10\tests\integration\onboarding\real-principals.test.ts:33:19)
+
+Node.js v24.21.0

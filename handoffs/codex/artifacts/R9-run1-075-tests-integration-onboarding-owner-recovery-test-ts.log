@@ -1,0 +1,29 @@
+PASS no code is issued for the administrator
+PASS no code is issued for an unknown email
+PASS a code is issued for the owner (email in any case), in the expected form
+PASS only its digest is stored, valid for 30 minutes
+PASS issuing is recorded in the audit trail
+PASS the application role cannot read the codes
+PASS the application role cannot issue a code
+PASS the administrator's email with the owner's code is refused without a counted attempt
+PASS wrong code 1 is refused
+PASS wrong code 2 is refused
+PASS wrong code 3 is refused
+PASS wrong code 4 is refused
+PASS the fifth wrong code locks it, and then even the right code is refused
+PASS an expired code is refused
+PASS the right code recovers the owner login (code accepted in lower case with spaces)
+PASS the password is replaced, the authenticator removed and every session ended
+PASS exactly one owner remains, the same login
+PASS the administrator is untouched
+PASS the recovery is recorded in the audit trail
+PASS a used code cannot be used again
+PASS the scratch database was removed
+PASS HTTP: wrong details get one undifferentiated refusal
+PASS HTTP: the owner's real email with no valid code gets the same refusal (no email probing)
+PASS HTTP: a request carrying cookies is refused
+PASS HTTP: a foreign origin is refused
+PASS HTTP: a short password is refused before anything is checked
+Artifact: handoffs/codex/artifacts/DPDP-owner-recovery-1790926861578-aae1dcb8-7708-4fb6-bf33-481d36ce559b.json
+
+26 assertions, 0 failures.

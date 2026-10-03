@@ -1,0 +1,16 @@
+Authentication fixture idle window: 61s remaining; controls unchanged.
+Authentication fixture idle window: 31s remaining; controls unchanged.
+Authentication fixture idle window: 1s remaining; controls unchanged.
+PASS the first read records the three columns and a digest, without values
+PASS an unchanged re-read keeps the digest and opens no gap
+PASS the next read records the new column and a new digest
+PASS one HIGH schema-change gap tells staff to review the mapping
+PASS the gap is visible to staff in the coverage list
+PASS a further unchanged read does not duplicate the gap
+PASS an observer that can write is refused: no observation is recorded and the job retries
+PASS a dropped table is reported MISSING, not unchanged
+PASS an expired observer authority is refused before any read
+PASS another tenant cannot see the target or its observations
+Artifact: handoffs/codex/artifacts/DPDP-operations-schema-drift-1790924522255-b2c4f33c-a6ca-4a45-9e35-d15feff161a2.json
+
+10 assertions, 0 failures.

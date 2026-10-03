@@ -1,0 +1,26 @@
+Authentication fixture idle window: 61s remaining; controls unchanged.
+Authentication fixture idle window: 31s remaining; controls unchanged.
+Authentication fixture idle window: 1s remaining; controls unchanged.
+PASS with one scope everywhere, nothing is out of step; the latest original (Hindi) is the reference
+PASS the twenty languages without a notice are listed, for information
+PASS no attention while the languages agree
+PASS publishing a new scope while other languages are current is refused and names them
+PASS saying no is the same as not saying
+PASS Tamil and Hindi now state a different scope from the English reference
+PASS the report names the purpose Tamil is missing
+PASS Operations attention names the notice and both languages
+PASS what each language currently states is kept as published (what Data Principals see is unchanged by the report)
+PASS catching Tamil up needs no acknowledgement although Hindi is still behind
+PASS attention now counts one language
+PASS an English rewording with the same scope needs no acknowledgement and leaves the Tamil translation behind its source
+PASS a translation published after the original does not make the original look stale
+PASS every language states the same scope again and attention clears
+PASS a translation of a draft is refused
+PASS a translation into the same language is refused
+PASS a translation of another notice is refused
+PASS the database refuses a translation into its own source language
+PASS a read-only role reads the report
+PASS another tenant sees none of this notice
+Artifact: handoffs/codex/artifacts/DPDP-operations-notice-language-drift-1790927465626-d3b65566-f7b8-45c3-a1be-a1306a5c8ea9.json
+
+20 assertions, 0 failures.

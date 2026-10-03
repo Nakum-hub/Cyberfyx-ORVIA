@@ -1,0 +1,157 @@
+{
+  "recorded_at": "2026-10-03T07:07:44.548Z",
+  "seconds": 43,
+  "customer_readyz": 200,
+  "vendor_readyz": 200,
+  "visits": [
+    {
+      "installation": "customer",
+      "path": "/workspace",
+      "ok": true,
+      "heading": "Privacy control status",
+      "problems": []
+    },
+    {
+      "installation": "customer",
+      "path": "/workspace/plan",
+      "ok": true,
+      "heading": "Your plan",
+      "problems": []
+    },
+    {
+      "installation": "customer",
+      "path": "/workspace/files",
+      "ok": true,
+      "heading": "Files",
+      "problems": []
+    },
+    {
+      "installation": "customer",
+      "path": "/workspace/team",
+      "ok": true,
+      "heading": "Team",
+      "problems": []
+    },
+    {
+      "installation": "customer",
+      "path": "/workspace/rights",
+      "ok": true,
+      "heading": "Privacy requests",
+      "problems": []
+    },
+    {
+      "installation": "customer",
+      "path": "/workspace/consent-records",
+      "ok": true,
+      "heading": "Consent records",
+      "problems": []
+    },
+    {
+      "installation": "customer",
+      "path": "/workspace/personal-data-breaches",
+      "ok": true,
+      "heading": "Personal-data breaches",
+      "problems": []
+    },
+    {
+      "installation": "customer",
+      "path": "/workspace/organisation-intake",
+      "ok": true,
+      "heading": "Website & app intake",
+      "problems": []
+    },
+    {
+      "installation": "customer",
+      "path": "/workspace/privacy-centre",
+      "ok": true,
+      "heading": "Privacy Centre",
+      "problems": []
+    },
+    {
+      "installation": "customer",
+      "path": "/workspace/registry-notices",
+      "ok": true,
+      "heading": "Notices",
+      "problems": []
+    },
+    {
+      "installation": "customer",
+      "path": "/workspace/processors",
+      "ok": true,
+      "heading": "Processors",
+      "problems": []
+    },
+    {
+      "installation": "customer",
+      "path": "/workspace/regulatory",
+      "ok": true,
+      "heading": "Regulatory packages",
+      "problems": []
+    },
+    {
+      "installation": "customer",
+      "path": "/workspace/audit-trail",
+      "ok": true,
+      "heading": "Audit trail",
+      "problems": []
+    },
+    {
+      "installation": "customer",
+      "path": "navigation and entry page",
+      "ok": true,
+      "heading": "",
+      "problems": []
+    },
+    {
+      "installation": "vendor",
+      "path": "/vendor/sign-in",
+      "ok": true,
+      "heading": "Vendor / auditor sign in",
+      "problems": []
+    },
+    {
+      "installation": "vendor",
+      "path": "/vendor/account-setup",
+      "ok": true,
+      "heading": "Set your password",
+      "problems": []
+    },
+    {
+      "installation": "vendor",
+      "path": "/vendor/team",
+      "ok": true,
+      "heading": "Vendor team",
+      "problems": []
+    },
+    {
+      "installation": "vendor",
+      "path": "/vendor/organisations",
+      "ok": true,
+      "heading": "Organisations",
+      "problems": []
+    },
+    {
+      "installation": "vendor",
+      "path": "/vendor/engagements",
+      "ok": true,
+      "heading": "DPDPA audit engagements",
+      "problems": []
+    },
+    {
+      "installation": "vendor",
+      "path": "/vendor/licences",
+      "ok": true,
+      "heading": "Licences",
+      "problems": []
+    },
+    {
+      "installation": "vendor",
+      "path": "/vendor/practice",
+      "ok": true,
+      "heading": "Audit practice",
+      "problems": []
+    }
+  ],
+  "external_requests": [],
+  "result": "PASS"
+}

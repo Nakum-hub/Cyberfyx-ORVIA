@@ -1,8 +1,8 @@
 'use client';
 import { usePathname } from 'next/navigation';
 import { useEffect, useState, type ReactNode } from 'react';
-import { PROFILES, PROFILE } from '@orvia/contracts';
-import { CONTRACT_REVIEW_STATUS, CONTRACT_VERSION } from './api.ts';
+import { PROFILES, PROFILE, ENTITLEMENTS, type EntitlementCodeValue } from '@orvia/contracts';
+import { CONTRACT_REVIEW_STATUS, CONTRACT_VERSION, useQuery } from './api.ts';
 import { useSession } from './session-context.tsx';
 import { ROLE_LABELS, formatTime, shortId } from './state-labels.ts';
 
@@ -11,7 +11,11 @@ import { ROLE_LABELS, formatTime, shortId } from './state-labels.ts';
  * in this area's actor domain, so an authenticated operator is not offered
  * "Staff sign in" beside their own actor summary and Sign out control.
  */
-export type NavItem = { href: string; label: string; whenSignedOut?: boolean };
+export type NavItem = { href: string; label: string; whenSignedOut?: boolean;
+  /** Rev 1.11: the entitlement new work on this screen needs. The screen stays reachable (reading is never gated); when the
+   *  plan in force does not cover it, the item names the plan that does. */
+  entitlement?: EntitlementCodeValue };
+const PLAN_NAME: Record<string, string> = { FOUNDATION: 'Foundation', CONTROL: 'Control', ENTERPRISE: 'Enterprise' };
 export type NavGroup = { group: string; items: NavItem[] };
 
 /**
@@ -103,7 +107,7 @@ function ScopeDetails() {
   );
 }
 
-function Nav({ groups }: { groups: NavGroup[] }) {
+function Nav({ groups, usable }: { groups: NavGroup[]; usable: ReadonlySet<string> | null }) {
   const pathname = usePathname();
   const [expanded, setExpanded] = useState<Record<string, boolean>>({});
   const isActive = (href: string) => pathname === href
@@ -112,7 +116,7 @@ function Nav({ groups }: { groups: NavGroup[] }) {
     <nav className="shell-nav" aria-label="Primary">
       {groups.map((group, index) => {
         const current = group.items.some(item => isActive(item.href));
-        const open = current || expanded[group.group] === true;
+        const open = current || (index === 0 && pathname.endsWith('/sign-in')) || expanded[group.group] === true;
         return (
         <div className="nav-group" key={group.group}>
           <button type="button" className="group-label" aria-expanded={open}
@@ -125,7 +129,10 @@ function Nav({ groups }: { groups: NavGroup[] }) {
               const active = isActive(item.href);
               return (
                 <li key={item.href}>
-                  <a href={item.href} aria-current={active ? 'page' : undefined}>{item.label}</a>
+                  <a href={item.href} aria-current={active ? 'page' : undefined}>{item.label}
+                    {item.entitlement && usable && !usable.has(item.entitlement)
+                      ? <span className="nav-plan" title={`${ENTITLEMENTS[item.entitlement].value} New work here needs the ${PLAN_NAME[ENTITLEMENTS[item.entitlement].tier]} plan; what is already recorded stays readable.`}> · {PLAN_NAME[ENTITLEMENTS[item.entitlement].tier]}</span>
+                      : null}</a>
                 </li>
               );
             })}
@@ -147,6 +154,8 @@ function Shell({ area, lane, groups, domain, detailedActor, children }: {
   const visible = groups
     .map(group => ({ ...group, items: group.items.filter(item => !item.whenSignedOut || !signedIn) }))
     .filter(group => group.items.length > 0);
+  const plan = useQuery('plan', { enabled: signedIn && domain === 'STAFF' });
+  const usable = plan.data ? new Set<string>(plan.data.usable) : null;
   return (
     <div className="shell">
       <a className="skip-link" href="#main">Skip to main content</a>
@@ -159,8 +168,9 @@ function Shell({ area, lane, groups, domain, detailedActor, children }: {
         </div>
         <ActorSummary detailed={detailedActor} />
       </header>
+      {plan.data ? <PlanBanner plan={plan.data} /> : null}
       <div className="shell-body">
-        <Nav groups={visible} />
+        <Nav groups={visible} usable={usable} />
         <main className="shell-main" id="main" tabIndex={-1}>
           {children}
         </main>
@@ -172,47 +182,63 @@ function Shell({ area, lane, groups, domain, detailedActor, children }: {
   );
 }
 
+type PlanData = NonNullable<ReturnType<typeof useQuery<'plan'>>['data']>;
+/** One line, only when something about the plan needs attention. No pop-ups and no countdowns. */
+function PlanBanner({ plan }: { plan: PlanData }) {
+  const until = (value: string | null) => value ? formatTime(value) : '';
+  const message = !plan.licensed ? 'No licence imported: reading, exports and the protective controls work; other new work needs a licence.'
+    : plan.lifecycle === 'EXPIRED' ? 'Plan expired: paid features are read-only. Legal duties, reading and exports continue.'
+    : plan.lifecycle === 'GRACE' ? `Plan ended ${until(plan.valid_to)}; everything keeps working until ${until(plan.grace_until)}.`
+    : plan.trial ? `Trial of ${PLAN_NAME[plan.edition!] ?? plan.edition} until ${until(plan.valid_to)}${plan.falls_back_to ? `, then back to ${PLAN_NAME[plan.falls_back_to] ?? plan.falls_back_to}` : ''}.`
+    : null;
+  if (!message) return null;
+  return <div className="plan-banner" role="status">{message} <a href="/workspace/plan">Your plan</a></div>;
+}
+
 export const WORKSPACE_NAV: NavGroup[] = [
   { group: 'Overview', items: [
+    { href: '/workspace/sign-in', label: 'Staff sign in', whenSignedOut: true },
     { href: '/workspace', label: 'Overview' },
     { href: '/workspace/failures', label: 'Attention' },
-    { href: '/workspace/coverage', label: 'Coverage' },
-    { href: '/workspace/gaps', label: 'Gaps' },
+    { href: '/workspace/coverage', label: 'Coverage', entitlement: 'COVERAGE_REPORTING' },
+    { href: '/workspace/gaps', label: 'Gaps', entitlement: 'COVERAGE_REPORTING' },
   ] },
   { group: 'Privacy controls', items: [
     { href: '/workspace/configuration', label: 'Purposes & policies' },
     { href: '/workspace/website-consent', label: 'Website consent' },
+    { href: '/workspace/privacy-centre', label: 'Privacy Centre', entitlement: 'INTAKE_AND_PORTAL' },
     { href: '/workspace/contact-preferences', label: 'Contact preferences' },
     { href: '/workspace/principals', label: 'People & targets' },
-    { href: '/workspace/control-map', label: 'Control map' },
+    { href: '/workspace/control-map', label: 'Control map', entitlement: 'REALTIME_ENFORCEMENT' },
     { href: '/workspace/inventory', label: 'Data inventory' },
     { href: '/workspace/records-of-processing', label: 'Records of processing' },
-    { href: '/workspace/catalog-discovery', label: 'Catalog observations' },
+    { href: '/workspace/catalog-discovery', label: 'Catalog observations', entitlement: 'DISCOVERY_CLASSIFICATION' },
     { href: '/workspace/inventory/search', label: 'Search inventory' },
     { href: '/workspace/imports', label: 'Local imports' },
     { href: '/workspace/retention', label: 'Retention' },
     { href: '/workspace/retention/holds', label: 'Legal holds' },
     { href: '/workspace/retention/outcomes', label: 'Retention outcomes' },
     { href: '/workspace/processors', label: 'Processors' },
-    { href: '/workspace/ai-governance', label: 'AI governance' },
-    { href: '/workspace/grc', label: 'Frameworks & controls' },
-    { href: '/workspace/dpdpa-audit', label: 'DPDPA external audit' },
-    { href: '/workspace/compliance', label: 'Continuous compliance' },
-    { href: '/workspace/assessments', label: 'Processor assessments' },
-    { href: '/workspace/impact-assessments', label: 'Impact assessments' },
-    { href: '/workspace/third-parties', label: 'Third parties' },
+    { href: '/workspace/ai-governance', label: 'AI governance', entitlement: 'SECURITY_AI_GOVERNANCE' },
+    { href: '/workspace/grc', label: 'Frameworks & controls', entitlement: 'GRC_AUDIT' },
+    { href: '/workspace/dpdpa-audit', label: 'DPDPA external audit', entitlement: 'AUDIT_EXCHANGE' },
+    { href: '/workspace/compliance', label: 'Continuous compliance', entitlement: 'CONTINUOUS_COMPLIANCE' },
+    { href: '/workspace/assessments', label: 'Processor assessments', entitlement: 'ASSESSMENTS' },
+    { href: '/workspace/impact-assessments', label: 'Impact assessments', entitlement: 'ASSESSMENTS' },
+    { href: '/workspace/third-parties', label: 'Third parties', entitlement: 'THIRD_PARTY_LIFECYCLE' },
     { href: '/workspace/findings', label: 'Findings' },
     { href: '/workspace/incidents', label: 'Incidents' },
     { href: '/workspace/notification-rules', label: 'Notification rules' },
     { href: '/workspace/notifications', label: 'Notifications' },
     { href: '/workspace/message-templates', label: 'Message templates' },
-    { href: '/workspace/delivery', label: 'Delivery' },
-    { href: '/workspace/policy-preview', label: 'Decision preview' },
+    { href: '/workspace/delivery', label: 'Delivery', entitlement: 'DELIVERY_TRANSPORTS' },
+    { href: '/workspace/policy-preview', label: 'Decision preview', entitlement: 'REALTIME_ENFORCEMENT' },
   ] },
   { group: 'Operations', items: [
+    { href: '/workspace/files', label: 'Files' },
     { href: '/workspace/rights', label: 'Privacy requests' },
     { href: '/workspace/representation', label: 'Representation' },
-    { href: '/workspace/workflows', label: 'Workflows' },
+    { href: '/workspace/workflows', label: 'Workflows', entitlement: 'WORKFLOW_AUTOMATION' },
     { href: '/workspace/evidence', label: 'Evidence' },
     { href: '/workspace/reports', label: 'Reports' },
   ] },
@@ -238,7 +264,7 @@ export const WORKSPACE_NAV: NavGroup[] = [
     { href: '/workspace/regulatory/impacts', label: 'Package change impact' },
   ] },
   { group: 'Assurance', items: [
-    { href: '/workspace/test-lab', label: 'Test Lab' },
+    { href: '/workspace/test-lab', label: 'Test Lab', entitlement: 'PRIVACY_TEST_ENGINE' },
     { href: '/workspace/support-cases', label: 'Support cases' },
     { href: '/workspace/support-canaries', label: 'Forbidden content' },
     { href: '/workspace/audit-trail', label: 'Audit trail' },
@@ -246,10 +272,11 @@ export const WORKSPACE_NAV: NavGroup[] = [
     { href: '/workspace/audit-retention', label: 'Audit retention' },
   ] },
   { group: 'Installation', items: [
+    { href: '/workspace/plan', label: 'Your plan' },
     { href: '/workspace/team', label: 'Team' },
     { href: '/workspace/my-login', label: 'My login' },
     { href: '/workspace/preflight', label: 'Before go-live' },
-    { href: '/workspace/connections', label: 'Guided connections' },
+    { href: '/workspace/connections', label: 'Guided connections', entitlement: 'WORKFLOW_AUTOMATION' },
     { href: '/workspace/readiness', label: 'Operational readiness' },
     { href: '/workspace/restores', label: 'Backups and restores' },
     { href: '/workspace/vendor-visibility', label: 'What the vendor can see' },

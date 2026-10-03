@@ -1,0 +1,17 @@
+PASS Pending retirement: fixture is synthetic
+PASS created canary has no activation history
+PASS administrator without sensitive access cannot retire a canary
+PASS read-only auditor cannot retire a canary
+PASS foreign tenant cannot retire this canary
+PASS pending canary retirement succeeds at the HTTP boundary
+PASS pending retirement preserves absent activation and records retirement
+PASS same idempotency key replays the exact retired record
+PASS a new retirement request is refused after retirement
+PASS retirement cannot be undone by later activation
+PASS Activated retirement: fixture is synthetic
+PASS creator cannot activate the control canary
+PASS distinct reviewer activation creates paired actor and time
+PASS activated retirement retains the exact activation history
+Artifact: handoffs/codex/artifacts/DPDP-operations-canary-retirement-1790955140405-660ce21d-4ec1-4e17-9a1c-a43f2fec8929.json
+
+14 assertions, 0 failures.

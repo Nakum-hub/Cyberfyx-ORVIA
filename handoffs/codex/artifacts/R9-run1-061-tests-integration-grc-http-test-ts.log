@@ -1,0 +1,58 @@
+PASS privileged session without MFA denied
+PASS anonymous request denied
+PASS principal denied staff GRC
+PASS auditor can read controls
+PASS auditor cannot create framework
+PASS missing idempotency key denied
+PASS wrong origin denied
+PASS unexpected authority fields rejected
+PASS framework creation succeeds
+PASS identical retry replays original immutable response
+PASS changed payload with same key denied
+PASS mapped control creation succeeds
+PASS cross-tenant detail denied
+PASS cross-tenant mapping denied
+PASS unknown query field denied
+PASS malformed cursor denied
+PASS full Unicode framework fits declared body limit
+PASS evidence submission succeeds
+PASS writer cannot impersonate reviewer through header
+PASS independent reviewer accepts evidence
+PASS accepted evidence remains manual
+PASS manual review never verifies effect
+PASS old evidence cannot be approved after replacement
+PASS replacement is pending review
+PASS evidence history starts with replacement
+PASS history exposes a continuation
+PASS older evidence retains its independent review
+PASS cross-tenant history denied
+PASS unrelated history cursor denied
+PASS risk creation succeeds
+PASS risk treatment proposal succeeds
+PASS risk author cannot approve own plan
+PASS independent risk approval succeeds
+PASS risk acceptance visible
+PASS risk treatment does not claim mitigation effect
+PASS risk history preserves reviewed treatment
+PASS audit plan creation succeeds
+PASS auditor reads audit list
+PASS auditor cannot create audit
+PASS foreign tenant audit denied
+PASS audit evidence request creation succeeds
+PASS audit requests list scoped
+PASS audit response submission succeeds
+PASS audit response replay immutable
+PASS audit closure blocks pending review
+PASS writer cannot approve own audit response
+PASS audit response independent review succeeds
+PASS audit response detail accepted
+PASS audit response history preserves review
+PASS foreign tenant audit history denied
+PASS audit closure succeeds
+PASS audit closure never claims certification
+PASS closed audit rejects late request
+PASS revoked authority cannot replay prior success
+PASS transport denials audited
+PASS successful changes audited
+PASS unavailable transport audit fails closed
+Artifact: handoffs/codex/artifacts/V1-EXPANSION-04-http-75551438-2a5c-474a-86d1-dee75c1c55ba.json

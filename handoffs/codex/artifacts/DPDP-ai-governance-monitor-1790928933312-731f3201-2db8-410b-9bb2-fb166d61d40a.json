@@ -1,0 +1,34 @@
+{
+  "task_id": "DPDP",
+  "fixture_kind": "CUSTOMER_LOCAL_SYNTHETIC",
+  "recorded_at": "2026-10-02T08:15:33.312Z",
+  "profile": "codex-a00",
+  "phase": "durable sweep",
+  "assertions": [
+    {
+      "name": "asset/activity mapped",
+      "expected": 201,
+      "actual": 201,
+      "result": "PASS"
+    },
+    {
+      "name": "activity/purpose mapped",
+      "expected": 201,
+      "actual": 201,
+      "result": "PASS"
+    },
+    {
+      "name": "no monitoring outcome invented at registration",
+      "expected": null,
+      "actual": null,
+      "result": "PASS"
+    }
+  ],
+  "result": "FAIL",
+  "error": {
+    "name": "Error",
+    "code": "MACHINE_ENROLLMENT_EXPIRED",
+    "operator_guidance": "Machine enrollment expired; renew through protected local setup (machine:init confirm:<profile>) before starting the application."
+  },
+  "detail": "Machine enrollment expired; renew through protected local setup"
+}

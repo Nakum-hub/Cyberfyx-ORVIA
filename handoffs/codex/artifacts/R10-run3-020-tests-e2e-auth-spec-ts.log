@@ -1,0 +1,3 @@
+FAILED B01 real staff MFA, refresh, actor separation and logout
+PASSED B01 rejected login and read-only authority
+PASSED B01 expired browser session is rechecked and protected content disappears

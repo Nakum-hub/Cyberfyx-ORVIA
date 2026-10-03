@@ -1,0 +1,21 @@
+PASS runtime image matches current source
+PASS service network is internal
+PASS postgres belongs to named profile
+PASS opa belongs to named profile
+PASS temporal belongs to named profile
+PASS controlled canary is reachable in positive control
+PASS runtime has only the internal service network
+PASS runtime publishes no host ports
+Authentication fixture idle window: 22s remaining; controls unchanged.
+{
+  name: 'Error',
+  code: 'UNCLASSIFIED',
+  sites: [
+    '    at <anonymous> (/app/tests/security/network-core.ts:18:169)',
+    '    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)'
+  ]
+}
+
+Artifact: handoffs/codex/artifacts/A07-network-core-1790968733753-a87fb40e-c895-4fed-9052-bca5e1d6969a.json
+{ name: 'Error', code: 'UNCLASSIFIED' }
+Artifact: handoffs/codex/artifacts/A07-network-qualification-1790968736723-d312efd1-b518-4e40-9400-ff8748fd68eb.json

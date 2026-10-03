@@ -1,0 +1,4 @@
+PASS database rejects new observed asset without source
+PASS database rejects JSON and column provenance disagreement
+Artifact: handoffs/codex/artifacts/DPDP-graph-source-binding-1790929072871-74a610f7-8967-4011-a85e-219ef5e03598.json
+2 assertions, 0 failures.

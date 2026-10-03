@@ -1,0 +1,41 @@
+PASS duplicate framework version rejected
+PASS unknown requirement rejected
+PASS no evidence reports unknown
+PASS submission is pending
+PASS writer cannot review
+PASS author with approval capability cannot self-review
+PASS independent review explicitly manual
+PASS manual review never claims observed effect
+PASS second contradictory decision rejected
+PASS replacement evidence removes old acceptance
+PASS superseded evidence cannot be approved
+PASS replacement rejection visible
+PASS future evidence rejected
+PASS review waits for concurrent replacement transaction
+PASS review rechecks committed replacement
+PASS new replacement remains pending
+PASS cross-tenant control invisible
+PASS cross-tenant framework cannot be mapped
+PASS auditor cannot submit evidence
+PASS RLS denies rows directly across tenant
+PASS RLS denies principal even with fabricated GRC capability
+PASS database rejects read-only direct insertion
+PASS runtime role cannot update history
+PASS immutable history rejects owner mutation
+PASS failed decisions did not append reviews
+PASS successful mutations have audit events
+PASS risk cannot reference another tenant control
+PASS risk starts open
+PASS past risk acceptance rejected
+PASS risk author cannot self-approve
+PASS independent temporary acceptance visible
+PASS review cannot be overwritten
+PASS replacement removes previous risk acceptance
+PASS old treatment cannot receive new approval
+PASS reviewed plan is not closure
+PASS risk review is not verification
+PASS cross-tenant risk invisible
+PASS auditor cannot propose risk treatment
+PASS RLS directly hides risk history across tenant
+PASS risk mutations audited
+Artifact: handoffs/codex/artifacts/V1-EXPANSION-02-grc-fbb7062d-4922-48aa-9b1d-fb90a7dc3afb.json

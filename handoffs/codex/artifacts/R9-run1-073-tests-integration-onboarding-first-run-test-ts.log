@@ -1,0 +1,12 @@
+PASS the scratch database was removed
+C:\Cyberfyx-projects\Cyberfyx_ORVIA\.worktrees\round9\tests\integration\onboarding\first-run.test.ts:23
+const exec = (args: string[], input?: Buffer) => { const r = spawnSync('docker', ['exec', '-i', '-e', `PGPASSWORD=${profile.password}`, container, ...args], { input, maxBuffer: 256 * 1024 * 1024 }); if (r.status !== 0) throw new Error(`${args[0]} failed: ${String(r.stderr).slice(0, 200)}`); return r.stdout as Buffer; };
+                                                                                                                                                                                                                                 ^
+
+Error: pg_dump failed: pg_dump: error: connection to server at "127.0.0.1", port 5432 failed: FATAL:  password authentication failed for user "orvia_migrator"
+
+    at exec (C:\Cyberfyx-projects\Cyberfyx_ORVIA\.worktrees\round9\tests\integration\onboarding\first-run.test.ts:23:226)
+    at <anonymous> (C:\Cyberfyx-projects\Cyberfyx_ORVIA\.worktrees\round9\tests\integration\onboarding\first-run.test.ts:27:115)
+    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+
+Node.js v24.21.0

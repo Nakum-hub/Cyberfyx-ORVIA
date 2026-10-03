@@ -11,6 +11,9 @@ import type { AuthFixture } from '../../../scripts/auth-bootstrap.ts';
 import { writePrivateJson } from '../../../scripts/local-private.ts';
 import { guardAuthWindow } from './auth-window.ts';
 import { failedAuthResponse } from '../../../backend/auth/src/errors.ts';
+import { connectDatabase } from '../../../database/customer/src/index.ts';
+import { loadProfile } from './config.ts';
+import { ensureDevelopmentLicence } from './development-licence.ts';
 
 export function authenticatorCode(uri: string) {
   const secret=new URL(uri).searchParams.get('secret')!;const alphabet='ABCDEFGHIJKLMNOPQRSTUVWXYZ234567';
@@ -25,7 +28,14 @@ export class HttpFixture {
   readonly users=(JSON.parse(readFileSync(this.journal,'utf8')) as AuthFixture).users;
   child: ChildProcess|undefined;
   diagnostics='';
+  /** Rev 1.11: give every fixture scope a labelled development licence before starting (development-licence.ts). A suite
+   *  that must see exactly the licences it imported itself sets this to false. */
+  developmentLicence=true;
   async start() {
+    if(this.developmentLicence) {
+      const {pool}=connectDatabase(loadProfile());
+      try {await ensureDevelopmentLicence(pool,Object.values(this.users).map(user=>user.scope));} finally {await pool.end();}
+    }
     const command=webProcess(this.config);
     this.child=spawn(process.execPath,command.args,{cwd:command.cwd,windowsHide:true,stdio:['ignore','ignore','pipe'],env:{...command.env,NEXT_TELEMETRY_DISABLED:'1',DO_NOT_TRACK:'1',BETTER_AUTH_TELEMETRY:'0'}});
     this.child.stderr?.on('data',chunk=>{this.diagnostics+=chunk.toString();});

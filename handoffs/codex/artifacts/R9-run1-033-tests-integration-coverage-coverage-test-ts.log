@@ -1,0 +1,60 @@
+Authentication fixture idle window: 15s remaining; controls unchanged.
+PASS catalog source approved by separate owner
+PASS real catalog reader processed the source
+PASS observed copy binds the independent read
+PASS every dimension is reported
+PASS INVENTORY_REVIEWED states exactly what its denominator counts
+PASS INVENTORY_REVIEWED numerator never exceeds its denominator
+PASS INVENTORY_OBSERVED states exactly what its denominator counts
+PASS INVENTORY_OBSERVED numerator never exceeds its denominator
+PASS RETENTION_BASIS states exactly what its denominator counts
+PASS RETENTION_BASIS numerator never exceeds its denominator
+PASS CONTROL_OBSERVATION states exactly what its denominator counts
+PASS CONTROL_OBSERVATION numerator never exceeds its denominator
+PASS RIGHTS_EXECUTION states exactly what its denominator counts
+PASS RIGHTS_EXECUTION numerator never exceeds its denominator
+PASS both new copies are inside the inventory denominator
+PASS coverage says it is not a measure of the estate
+PASS coverage says it is computed at read time, not stored
+PASS every attention state is reported
+PASS the report warns that these counts must not be added
+PASS states that can co-occur name what they overlap with
+PASS no state claims to overlap with itself
+PASS a declared but unobserved copy counts as unverified
+PASS derivation examined real records
+PASS derivation opened gaps for them
+PASS derivation says an absent gap is not evidence of correctness
+PASS a copy with no retention basis raises that exact gap
+PASS a declared copy that was never read raises that exact gap
+PASS a missing retention basis is treated as a high-severity gap
+PASS a freshly observed copy raises no never-observed gap
+PASS an independently seen dataset without an activity raises a mapping gap
+PASS re-deriving refreshes instead of duplicating
+PASS re-deriving refreshed the findings it saw again
+PASS a long-standing gap keeps its original detection date
+PASS no duplicate gap was created for the same finding
+PASS assignment records severity, owner and deadline
+PASS an assigned gap is in progress
+PASS guidance declares itself advisory only
+PASS guidance matched a runbook rule for this source
+PASS guidance says it does not establish a cause
+PASS guidance says it does not close the gap
+PASS reading guidance changed nothing about the gap
+PASS resolving without evidence is refused
+PASS a resolved gap names the evidence that resolved it
+PASS a closed gap cannot be closed again
+PASS a closed gap cannot be reassigned
+PASS the database refuses to reopen a closed gap
+PASS an open gap exists to test the detection-date rule against
+PASS the database refuses to change a detection date
+PASS a finding that recurs after closure opens a new gap
+PASS the closed gap and its recurrence are separate records
+PASS accepting a risk with no assigned owner is refused
+PASS accepted risk records an owner and a reason
+PASS an auditor may read coverage
+PASS an auditor may read gaps
+PASS an auditor cannot derive gaps
+PASS a member without the coverage capability is refused
+Artifact: handoffs/codex/artifacts/DPDP-coverage-integration-1790924369708-24e1f2b9-5abb-4abe-a408-fc9c20a92ced.json
+
+56 assertions, 0 failures.

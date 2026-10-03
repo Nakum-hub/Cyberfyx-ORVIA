@@ -1,0 +1,42 @@
+PASS the development profile refuses the command
+PASS the development profile still records synthetic people only
+PASS before admission the installation reports synthetic people only
+PASS a real email is refused with SQLSTATE 23514 and an email constraint (what organisation intake explains as NEEDS_STAFF)
+PASS a synthetic address is accepted and labelled synthetic
+PASS a synthetic address cannot be labelled real
+PASS the application role can read the state
+PASS the application role cannot admit real people
+PASS the application role cannot write the admission table
+PASS a qualification reference shorter than 8 characters is refused
+PASS nothing was admitted by the refused attempts
+PASS the command admits real people and records the reference and its time
+PASS who ran it is recorded
+PASS the admission is in the audit trail of every environment, attributed to the installation
+PASS a real email is now accepted and labelled real
+PASS a real email cannot be labelled synthetic
+PASS a synthetic address is still labelled synthetic
+PASS a malformed email is still refused
+PASS a real person cannot be relabelled synthetic afterwards
+PASS a repeat is refused and changes nothing
+PASS the admission cannot be rewritten
+PASS the admission cannot be removed
+PASS the real decoy is labelled real and the synthetic decoy synthetic
+PASS a real person can be designated and activated as a decoy
+PASS the runner never claims the message to the real decoy (matched case-insensitively)
+PASS the message to the real decoy is WITHHELD with no attempt
+PASS the message to the synthetic decoy is claimed as before
+PASS the database refuses any delivery attempt to a real decoy, whatever code path claims it
+PASS after the real decoy is retired, the person is ordinary again and a message may be attempted
+PASS a message to a real person who is not yet a decoy is claimed for sending
+PASS designated after the claim, the message is withheld by the re-check just before transmission
+PASS it is WITHHELD and no delivery attempt is recorded
+PASS the re-check leaves an ordinary claimed message alone
+PASS only the delivery runner can withhold, and no runtime role can ask who the real decoys are
+PASS the scratch database was removed
+Authentication fixture idle window: 42s remaining; controls unchanged.
+Authentication fixture idle window: 12s remaining; controls unchanged.
+PASS HTTP: the admin API refuses a real email before admission, saying why
+PASS HTTP: a synthetic address is created and labelled synthetic by the database
+Artifact: handoffs/codex/artifacts/DPDP-real-principals-1790959903645-2b2e2c53-414d-4929-9323-af95ad86ddba.json
+
+37 assertions, 0 failures.

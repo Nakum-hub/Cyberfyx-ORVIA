@@ -1,6 +1,6 @@
 # ORVIA V1 verification matrix
 
-Generated from executed battery summaries (battery 19, post-merge passes 1-5, battery 20, battery 21 after the Codex round 8 merge, and post-merge pass 6 for the revision 1.10 decisions; a later result for a suite replaces an earlier one) on the codex-a00 development profile (synthetic data only), source `1b0d744`. A suite with no execution in these batteries is shown NOT_RUN. PASS means the suite exited 0 with every assertion passing on this host; it is not release qualification, production qualification or acceptance by Codex.
+Round 9 verification on the synthetic codex-a00 and vendor-a00 development stores, integrated base `a14470c8`. Runtime rows below use the latest executed Round 9 result (discovery `106c5599`, fixes `7217f2b8`; exact later sources and commands are in `handoffs/codex/artifacts/R9-summary.json`). PASS is component evidence on this host, not release qualification, production qualification or owner acceptance. Family acceptance states are unchanged. The policy gate remains explicitly historical evidence.
 
 
 ## The presentation claims, scenario by scenario
@@ -160,47 +160,47 @@ At runtime, the publish refusal and the website-policy change review apply the s
 |---|---|
 | Regulatory package import and review | `integration-operations-regulatory` PASS (32 assertions, 0 failures) |
 | Applicability evaluation, including unknown results | `integration-operations-applicability` PASS (18 assertions, 0 failures) |
-| Principal and representative registry | `integration-operations-registry` PASS (47 assertions, 0 failures)<br>`integration-rights-rights` PASS (64 assertions, 0 failures) |
-| Processing activity registry | `integration-operations-registry` PASS (47 assertions, 0 failures)<br>`integration-expansion-ropa-exports` PASS (58 assertions, 0 failures) |
+| Principal and representative registry | `integration-operations-registry` PASS (53 assertions, 0 failures)<br>`integration-rights-rights` PASS (64 assertions, 0 failures) |
+| Processing activity registry | `integration-operations-registry` PASS (53 assertions, 0 failures)<br>`integration-expansion-ropa-exports` PASS (58 assertions, 0 failures) |
 | Dry run and execution approval | `integration-operations-rights` PASS (26 assertions, 0 failures)<br>`integration-operations-correction` PASS (12 assertions, 0 failures)<br>`integration-operations-retention-scale` PASS (16 assertions, 0 failures)<br>`integration-operations-runner` PASS (10 assertions, 0 failures) |
-| Current-at-effect checks | `integration-operations-runner` PASS (10 assertions, 0 failures)<br>`integration-processors-assessment-race` PASS<br>`integration-consent-expiry` PASS<br>`integration-updates-updates` PASS (54 assertions, 0 failures) |
-| Replay and idempotency protection | `integration-consent-consent` PASS<br>`integration-enforcement-send` PASS<br>`security-auth` PASS |
-| Unknown-effect reconciliation | `integration-operations-consent-withdrawal` PASS (38 assertions, 0 failures)<br>`integration-workflows-workflow` PASS |
+| Current-at-effect checks | `integration-operations-runner` PASS (10 assertions, 0 failures)<br>`integration-processors-assessment-race` PASS (6 assertions, 0 failures)<br>`integration-consent-expiry` PASS (87 assertions, 0 failures)<br>`integration-updates-updates` PASS (54 assertions, 0 failures) |
+| Replay and idempotency protection | `integration-consent-consent` PASS (50 assertions, 0 failures)<br>`integration-enforcement-send` PASS (47 assertions, 0 failures)<br>`security-auth` PASS (88 assertions, 0 failures) |
+| Unknown-effect reconciliation | `integration-operations-consent-withdrawal` PASS (38 assertions, 0 failures)<br>`integration-workflows-workflow` PASS (32 assertions, 0 failures) |
 | Redaction and response review | `integration-expansion-response-packages` PASS (52 assertions, 0 failures)<br>`integration-rights-rights` PASS (64 assertions, 0 failures) |
 | Secure response delivery (expiry, revocation) | `integration-expansion-response-packages` PASS (52 assertions, 0 failures) |
 | Source freshness and drift | `integration-discovery-schema-drift` PASS (10 assertions, 0 failures)<br>`integration-discovery-catalog-flow` PASS (58 assertions, 0 failures)<br>`integration-expansion-policy-discovery` PASS (30 assertions, 0 failures) |
 | Classification quality measurement | `integration-expansion-classification` PASS (29 assertions, 0 failures) |
 | Access-exposure findings | `integration-expansion-classification` PASS (29 assertions, 0 failures) |
-| Risk treatment and issue lifecycle | `integration-expansion-grc-lifecycle` PASS (75 assertions, 0 failures)<br>`integration-grc-grc` PASS |
-| Evidence freshness and scope checks | `integration-vendor-audit-practice` PASS (128/128 passed)<br>`integration-expansion-grc-lifecycle` PASS (75 assertions, 0 failures)<br>`integration-grc-audits` PASS |
-| Audit sampling with an auditor-provided seed | `integration-vendor-audit-practice` PASS (128/128 passed) |
+| Risk treatment and issue lifecycle | `integration-expansion-grc-lifecycle` PASS (75 assertions, 0 failures)<br>`integration-grc-grc` PASS (40 assertions, 0 failures) |
+| Evidence freshness and scope checks | `integration-vendor-audit-practice` PASS (128 assertions, 0 failures)<br>`integration-expansion-grc-lifecycle` PASS (75 assertions, 0 failures)<br>`integration-grc-audits` PASS (41 assertions, 0 failures) |
+| Audit sampling with an auditor-provided seed | `integration-vendor-audit-practice` PASS (128 assertions, 0 failures) |
 | Signed audit delivery chain | `integration-expansion-audit-mandate` PASS (102 assertions, 0 failures) |
 | Mandate suspension, expiry and revocation | `integration-expansion-audit-mandate` PASS (102 assertions, 0 failures) |
-| Vendor visibility history | `integration-monitoring-vendor-visibility` PASS (18 assertions, 0 failures)<br>`integration-expansion-audit-mandate` PASS (102 assertions, 0 failures) |
+| Vendor visibility history | `integration-monitoring-vendor-visibility` PASS (20 assertions, 0 failures)<br>`integration-expansion-audit-mandate` PASS (102 assertions, 0 failures) |
 | Continuous assurance mandate | `integration-expansion-audit-mandate` PASS (102 assertions, 0 failures) |
-| Verified payment events (duplicates, out of order) | `integration-commerce-commerce` PASS |
-| Reviewed licence issuance | `integration-commerce-commerce` PASS<br>`integration-licensing-licensing` PASS (33 assertions, 0 failures) |
+| Verified payment events (duplicates, out of order) | `integration-commerce-commerce` PASS (116 assertions, 0 failures) |
+| Reviewed licence issuance | `integration-commerce-commerce` PASS (116 assertions, 0 failures)<br>`integration-licensing-licensing` PASS (33 assertions, 0 failures) |
 
 ## Modules (master register)
 
 | Module | Name | Product | Tracked status | Suites executed (latest result) |
 |---|---|---|---|---|
-| M01 | Identity and Access Management | V1 | IMPLEMENTED_SANDBOX_SUBSET | `security-auth` PASS<br>`integration-expansion-staff-members` PASS (37 assertions, 0 failures)<br>`integration-expansion-staff-delete` PASS (27 assertions, 0 failures)<br>`e2e-sign-in-hydration` PASS (20 assertions, 0 failures)<br>`e2e-team` PASS (8 assertions, 0 failures)<br>`e2e-delete-login` PASS (14 assertions, 0 failures) |
-| M02 | Tenant Management | V1 | IMPLEMENTED_SANDBOX_SUBSET | `security-auth` PASS<br>`security-fixture-isolation` PASS<br>`integration-consent-consent` PASS |
+| M01 | Identity and Access Management | V1 | IMPLEMENTED_SANDBOX_SUBSET | `security-auth` PASS (88 assertions, 0 failures)<br>`integration-expansion-staff-members` PASS (37 assertions, 0 failures)<br>`integration-expansion-staff-delete` PASS (27 assertions, 0 failures)<br>`e2e-sign-in-hydration` PASS (20 assertions, 0 failures)<br>`e2e-team` PASS (8 assertions, 0 failures)<br>`e2e-delete-login` PASS (14 assertions, 0 failures) |
+| M02 | Tenant Management | V1 | IMPLEMENTED_SANDBOX_SUBSET | `security-auth` PASS (88 assertions, 0 failures)<br>`security-fixture-isolation` PASS<br>`integration-consent-consent` PASS (50 assertions, 0 failures) |
 | M03 | Privacy Control Graph | V1 | IMPLEMENTED_SANDBOX_SUBSET | `integration-graph-graph` PASS (46 assertions, 0 failures)<br>`security-graph-source-binding` PASS (2 assertions, 0 failures)<br>`integration-evidence-reports` PASS (24 assertions, 0 failures)<br>`integration-discovery-catalog-flow` PASS (58 assertions, 0 failures)<br>`integration-discovery-schema-drift` PASS (10 assertions, 0 failures) |
-| M04 | Policy Engine | V1 | IMPLEMENTED_SANDBOX_SUBSET | `integration-enforcement-send` PASS<br>`integration-enforcement-withdrawal-timing` PASS (12 assertions, 0 failures)<br>`integration-opa-cold-start` PASS (8 assertions, 0 failures)<br>`integration-consent-consent` PASS |
-| M05 | Workflow Engine | V1 | IMPLEMENTED_SANDBOX_SUBSET | `integration-workflows-workflow` PASS<br>`integration-operations-runner` PASS (10 assertions, 0 failures) |
-| M06 | Connector Framework | V1 | IMPLEMENTED_SANDBOX_SUBSET | `integration-workflows-workflow` PASS<br>`integration-onboarding-connection` PASS (33 assertions, 0 failures)<br>`integration-discovery-postgres-catalog` PASS (13 assertions, 0 failures) |
-| M07 | Verification Engine | V1 | IMPLEMENTED_SANDBOX_SUBSET | `integration-evidence-evidence` PASS<br>`integration-operations-consent-withdrawal` PASS (38 assertions, 0 failures)<br>`integration-workflows-workflow` PASS |
-| M08 | Evidence Engine | V1 | IMPLEMENTED_SANDBOX_SUBSET | `integration-evidence-evidence` PASS<br>`integration-evidence-reports` PASS (24 assertions, 0 failures) |
-| M09 | Privacy Test Engine | V1 | IMPLEMENTED_SANDBOX_SUBSET | `integration-regression-regression` PASS |
+| M04 | Policy Engine | V1 | IMPLEMENTED_SANDBOX_SUBSET | `integration-enforcement-send` PASS (47 assertions, 0 failures)<br>`integration-enforcement-withdrawal-timing` PASS (12 assertions, 0 failures)<br>`integration-opa-cold-start` PASS (8 assertions, 0 failures)<br>`integration-consent-consent` PASS (50 assertions, 0 failures) |
+| M05 | Workflow Engine | V1 | IMPLEMENTED_SANDBOX_SUBSET | `integration-workflows-workflow` PASS (32 assertions, 0 failures)<br>`integration-operations-runner` PASS (10 assertions, 0 failures) |
+| M06 | Connector Framework | V1 | IMPLEMENTED_SANDBOX_SUBSET | `integration-workflows-workflow` PASS (32 assertions, 0 failures)<br>`integration-onboarding-connection` PASS (33 assertions, 0 failures)<br>`integration-discovery-postgres-catalog` PASS (13 assertions, 0 failures) |
+| M07 | Verification Engine | V1 | IMPLEMENTED_SANDBOX_SUBSET | `integration-evidence-evidence` PASS (69 assertions, 0 failures)<br>`integration-operations-consent-withdrawal` PASS (38 assertions, 0 failures)<br>`integration-workflows-workflow` PASS (32 assertions, 0 failures) |
+| M08 | Evidence Engine | V1 | IMPLEMENTED_SANDBOX_SUBSET | `integration-evidence-evidence` PASS (69 assertions, 0 failures)<br>`integration-evidence-reports` PASS (24 assertions, 0 failures) |
+| M09 | Privacy Test Engine | V1 | IMPLEMENTED_SANDBOX_SUBSET | `integration-regression-regression` PASS (90 assertions, 0 failures) |
 | M10 | Notification Engine | V1 | IMPLEMENTED_SANDBOX_SUBSET | `integration-notifications-notifications` PASS (31 assertions, 0 failures)<br>`integration-expansion-delivery` PASS (41 assertions, 0 failures) |
-| M11 | Consent Management | V1 | IMPLEMENTED_SANDBOX_SUBSET | `integration-consent-consent` PASS<br>`integration-consent-expiry` PASS<br>`integration-consent-canaries` PASS (24 assertions, 0 failures)<br>`integration-operations-consent-manager` PASS (12 assertions, 0 failures)<br>`integration-operations-consent-withdrawal` PASS (38 assertions, 0 failures)<br>`integration-expansion-preferences` PASS (45 assertions, 0 failures)<br>`integration-expansion-cmp` PASS (45 assertions, 0 failures) |
-| M12 | Notice Management | V1 | IMPLEMENTED_SANDBOX_SUBSET | `integration-notices-languages` PASS (19 assertions, 0 failures)<br>`integration-operations-notices` PASS (15 assertions, 0 failures)<br>`integration-operations-notice-language-drift` PASS (20 assertions, 0 failures)<br>`integration-expansion-policy-discovery` PASS (30 assertions, 0 failures) |
+| M11 | Consent Management | V1 | IMPLEMENTED_SANDBOX_SUBSET | `integration-consent-consent` PASS (50 assertions, 0 failures)<br>`integration-consent-expiry` PASS (87 assertions, 0 failures)<br>`integration-consent-canaries` PASS (24 assertions, 0 failures)<br>`integration-operations-consent-manager` PASS (12 assertions, 0 failures)<br>`integration-operations-consent-withdrawal` PASS (38 assertions, 0 failures)<br>`integration-expansion-preferences` PASS (45 assertions, 0 failures)<br>`integration-expansion-cmp` PASS (45 assertions, 0 failures) |
+| M12 | Notice Management | V1 | IMPLEMENTED_SANDBOX_SUBSET | `integration-notices-languages` PASS (19 assertions, 0 failures)<br>`integration-operations-notices` PASS (16 assertions, 0 failures)<br>`integration-operations-notice-language-drift` PASS (20 assertions, 0 failures)<br>`integration-expansion-policy-discovery` PASS (30 assertions, 0 failures) |
 | M13 | Data Principal Portal | V1 | IMPLEMENTED_SANDBOX_SUBSET | `integration-rights-portal` PASS (19 assertions, 0 failures)<br>`integration-operations-organisation-intake` PASS (44 assertions, 0 failures)<br>`e2e-preferences` PASS (10 assertions, 0 failures) |
 | M14 | Rights Management | V1 | IMPLEMENTED_SANDBOX_SUBSET | `integration-rights-rights` PASS (64 assertions, 0 failures)<br>`integration-rights-portal` PASS (19 assertions, 0 failures)<br>`integration-operations-rights` PASS (26 assertions, 0 failures)<br>`integration-operations-correction` PASS (12 assertions, 0 failures)<br>`integration-operations-erasure-intimation` PASS (15 assertions, 0 failures)<br>`integration-expansion-response-packages` PASS (52 assertions, 0 failures) |
-| M15 | Retention Management | V1 | IMPLEMENTED_SANDBOX_SUBSET | `integration-retention-retention` PASS (45 assertions, 0 failures)<br>`integration-operations-retention-scale` PASS (16 assertions, 0 failures)<br>`integration-operations-backup-obligations` PASS (39 assertions, 0 failures) |
-| M16 | Processor/Vendor Management | V1 | IMPLEMENTED_SANDBOX_SUBSET | `integration-processors-processors` PASS (35 assertions, 0 failures)<br>`integration-processors-assessment-race` PASS<br>`integration-operations-processors` PASS (14 assertions, 0 failures)<br>`integration-expansion-third-party` PASS (43 assertions, 0 failures) |
+| M15 | Retention Management | V1 | IMPLEMENTED_SANDBOX_SUBSET | `integration-retention-retention` PASS (45 assertions, 0 failures)<br>`integration-operations-retention-scale` PASS (16 assertions, 0 failures)<br>`integration-operations-backup-obligations` PASS (44 assertions, 0 failures) |
+| M16 | Processor/Vendor Management | V1 | IMPLEMENTED_SANDBOX_SUBSET | `integration-processors-processors` PASS (35 assertions, 0 failures)<br>`integration-processors-assessment-race` PASS (6 assertions, 0 failures)<br>`integration-operations-processors` PASS (15 assertions, 0 failures)<br>`integration-expansion-third-party` PASS (43 assertions, 0 failures) |
 | M17 | Privacy Incident Explorer | V1 | IMPLEMENTED_SANDBOX_SUBSET | `integration-incidents-incidents` PASS (42 assertions, 0 failures)<br>`integration-operations-breach` PASS (19 assertions, 0 failures) |
 | M18 | Coverage and Failure Center | V1 | IMPLEMENTED_SANDBOX_SUBSET | `integration-coverage-coverage` PASS (56 assertions, 0 failures) |
 | M19 | AI Privacy Copilot | V2 (deferred) | DEFERRED_V2 | Not built in V1 by rule: no shipped model, hosted model or training |
@@ -213,10 +213,10 @@ At runtime, the publish refusal and the website-policy change review apply the s
 | M26 | Billing | V1 | NOT_IMPLEMENTED | Not built in the customer runtime by design: billing, metering and invoicing belong to the ORVIA Account on the vendor website (master §658, §3796; enforced by tests/unit/deployment-boundary.test.ts). Vendor commerce is verified under EX13. |
 | M27 | Licensing | V1 | IMPLEMENTED_SANDBOX_SUBSET | `integration-licensing-licensing` PASS (33 assertions, 0 failures) |
 | M28 | Entitlements | V1 | IMPLEMENTED_SANDBOX_SUBSET | `integration-licensing-licensing` PASS (33 assertions, 0 failures) |
-| M29 | Customer Onboarding | V1 | IMPLEMENTED_SANDBOX_SUBSET | `integration-onboarding-first-run` PASS (23 assertions, 0 failures)<br>`integration-onboarding-first-run-http` PASS (7 assertions, 0 failures)<br>`integration-onboarding-connection` PASS (33 assertions, 0 failures)<br>`integration-onboarding-preflight` PASS (20 assertions, 0 failures)<br>`integration-onboarding-imports` PASS (31 assertions, 0 failures)<br>`integration-operations-estate-import` PASS (18 assertions, 0 failures)<br>`integration-onboarding-owner-recovery` PASS (26 assertions, 0 failures)<br>`integration-onboarding-real-principals` PASS (33 assertions, 0 failures) |
+| M29 | Customer Onboarding | V1 | IMPLEMENTED_SANDBOX_SUBSET | `integration-onboarding-first-run` PASS (23 assertions, 0 failures)<br>`integration-onboarding-first-run-http` PASS (7 assertions, 0 failures)<br>`integration-onboarding-connection` PASS (33 assertions, 0 failures)<br>`integration-onboarding-preflight` PASS (20 assertions, 0 failures)<br>`integration-onboarding-imports` PASS (31 assertions, 0 failures)<br>`integration-operations-estate-import` PASS (18 assertions, 0 failures)<br>`integration-onboarding-owner-recovery` PASS (26 assertions, 0 failures)<br>`integration-onboarding-real-principals` PASS (37 assertions, 0 failures) |
 | M30 | Support Bundle System | V1 | IMPLEMENTED_SANDBOX_SUBSET | `integration-support-support` PASS (57 assertions, 0 failures) |
 | M31 | Updates | V1 | IMPLEMENTED_SANDBOX_SUBSET | `integration-updates-updates` PASS (54 assertions, 0 failures)<br>`integration-migration-upgrade` PASS (10 assertions, 0 failures) |
-| M32 | Monitoring | V1 | PARTIAL_SANDBOX | `integration-monitoring-monitoring` PASS (31 assertions, 0 failures)<br>`integration-monitoring-restore` PASS (33 assertions, 0 failures)<br>`integration-monitoring-backup-drill` PASS (5 assertions, 0 failures)<br>`integration-monitoring-vendor-visibility` PASS (18 assertions, 0 failures)<br>`e2e-backups-and-recovery` PASS (12 assertions, 0 failures) |
+| M32 | Monitoring | V1 | PARTIAL_SANDBOX | `integration-monitoring-monitoring` PASS (31 assertions, 0 failures)<br>`integration-monitoring-restore` PASS (33 assertions, 0 failures)<br>`integration-monitoring-backup-drill` PASS (5 assertions, 0 failures)<br>`integration-monitoring-vendor-visibility` PASS (20 assertions, 0 failures)<br>`e2e-backups-and-recovery` PASS (12 assertions, 0 failures) |
 | M33 | Audit Administration | V1 | PARTIAL_SANDBOX | `integration-audit-audit` PASS (51 assertions, 0 failures)<br>`integration-audit-retention` PASS (24 assertions, 0 failures) |
 
 ## Expansion families
@@ -229,33 +229,60 @@ At runtime, the publish refusal and the website-policy change review apply the s
 | EX04 | Discovery classification and source/code flows | BUILT_PENDING_REVIEW | `integration-expansion-classification` PASS (29 assertions, 0 failures)<br>`integration-discovery-catalog-flow` PASS (58 assertions, 0 failures)<br>`integration-discovery-schema-drift` PASS (10 assertions, 0 failures)<br>`e2e-catalog-discovery` PASS |
 | EX05 | Data mapping and RoPA | BUILT_PENDING_REVIEW | `integration-expansion-ropa-exports` PASS (58 assertions, 0 failures) |
 | EX06 | General impact assessments and remediation | BUILT_PENDING_REVIEW | `integration-expansion-impact` PASS (41 assertions, 0 failures) |
-| EX07 | Retention holds deletion and backup obligations | BUILT_PENDING_REVIEW | `integration-operations-backup-obligations` PASS (39 assertions, 0 failures)<br>`integration-operations-retention-scale` PASS (16 assertions, 0 failures)<br>`e2e-backups-and-recovery` PASS (12 assertions, 0 failures) |
+| EX07 | Retention holds deletion and backup obligations | BUILT_PENDING_REVIEW | `integration-operations-backup-obligations` PASS (44 assertions, 0 failures)<br>`integration-operations-retention-scale` PASS (16 assertions, 0 failures)<br>`e2e-backups-and-recovery` PASS (12 assertions, 0 failures) |
 | EX08 | Third-party lifecycle | BUILT_PENDING_REVIEW | `integration-expansion-third-party` PASS (43 assertions, 0 failures) |
 | EX09 | Incidents and reviewed notification | BUILT_PENDING_REVIEW | `integration-expansion-delivery` PASS (41 assertions, 0 failures)<br>`integration-operations-breach` PASS (19 assertions, 0 failures) |
-| EX10 | Enterprise GRC and audit | BUILT_PENDING_REVIEW | `integration-expansion-grc-lifecycle` PASS (75 assertions, 0 failures)<br>`integration-grc-grc` PASS<br>`integration-grc-audits` PASS<br>`integration-grc-http` PASS |
-| EX11 | Continuous compliance and control tests | BUILT_PENDING_REVIEW | `integration-expansion-grc-lifecycle` PASS (75 assertions, 0 failures)<br>`integration-regression-regression` PASS<br>`policy-gate` PASS |
+| EX10 | Enterprise GRC and audit | BUILT_PENDING_REVIEW | `integration-expansion-grc-lifecycle` PASS (75 assertions, 0 failures)<br>`integration-grc-grc` PASS (40 assertions, 0 failures)<br>`integration-grc-audits` PASS (41 assertions, 0 failures)<br>`integration-grc-http` PASS (57 assertions, 0 failures) |
+| EX11 | Continuous compliance and control tests | BUILT_PENDING_REVIEW | `integration-expansion-grc-lifecycle` PASS (75 assertions, 0 failures)<br>`integration-regression-regression` PASS (90 assertions, 0 failures)<br>`policy-gate` HISTORICAL PASS (not rerun in Round 9) |
 | EX12 | Data security posture and AI governance | BUILT_PENDING_REVIEW | `integration-ai-governance-ai-governance` PASS (32 assertions, 0 failures)<br>`integration-ai-governance-monitor` PASS (9 assertions, 0 failures)<br>`integration-ai-governance-model-versions` PASS (21 assertions, 0 failures)<br>`e2e-ai-governance` PASS |
-| EX13 | Vendor commerce UPI and cards | IN_PROGRESS | `integration-commerce-commerce` PASS<br>`integration-commerce-migration-ledger` PASS |
-| EX14 | Enterprise delivery and release qualification | IN_PROGRESS | `integration-opa-cold-start` PASS (8 assertions, 0 failures)<br>`integration-migration-upgrade` PASS (10 assertions, 0 failures)<br>`integration-monitoring-backup-drill` PASS (5 assertions, 0 failures)<br>`security-tls` NOT_RUN: runs only on the rehearsal (customer) profile, whose single first-run owner forbids seeding the fixture users it needs<br>`security-network-core` NOT_RUN: needs the packaged runtime image orvia-local:prototype from the Windows packaging path (Codex lane); not built in this container<br>`e2e-interface-crawl` PASS (1 assertions, 0 failures) |
-| EX15 | Installation kinds | BUILT_PENDING_REVIEW | `integration-web` PASS<br>`integration-vendor-schema-equivalence` PASS (7/7 passed) |
-| EX16 | Vendor area in the same application | BUILT_PENDING_REVIEW | `integration-vendor-vendor-audit` PASS (74/74 passed)<br>`e2e-vendor-production-criteria` PASS (15 assertions, 0 failures) |
-| EX17 | DPDPA audit exchange | BUILT_PENDING_REVIEW | `integration-expansion-dpdpa-audit` PASS (56 assertions, 0 failures)<br>`integration-expansion-audit-indicator-counts` PASS (21/21 passed)<br>`e2e-dpdpa-audit` PASS (23 assertions, 0 failures) |
+| EX13 | Vendor commerce UPI and cards | IN_PROGRESS | `integration-commerce-commerce` PASS (116 assertions, 0 failures)<br>`integration-commerce-migration-ledger` PASS |
+| EX14 | Enterprise delivery and release qualification | IN_PROGRESS | `integration-opa-cold-start` PASS (8 assertions, 0 failures)<br>`integration-migration-upgrade` PASS (10 assertions, 0 failures)<br>`integration-monitoring-backup-drill` PASS (5 assertions, 0 failures)<br>`security-tls` NOT_RUN: Rehearsal-only TLS suite requires fixture users incompatible with the clean single-owner installation; existing NOT_RUN retained.<br>`security-network-core` NOT_RUN: Requires separately qualified packaged runtime image and controlled canary; existing NOT_RUN retained.<br>`e2e-interface-crawl` PASS (1 assertions, 0 failures) |
+| EX15 | Installation kinds | BUILT_PENDING_REVIEW | `integration-web` PASS (3 assertions, 0 failures)<br>`integration-vendor-schema-equivalence` PASS (7 assertions, 0 failures) |
+| EX16 | Vendor area in the same application | BUILT_PENDING_REVIEW | `integration-vendor-vendor-audit` PASS (74 assertions, 0 failures)<br>`e2e-vendor-production-criteria` PASS (15 assertions, 0 failures) |
+| EX17 | DPDPA audit exchange | BUILT_PENDING_REVIEW | `integration-expansion-dpdpa-audit` PASS (56 assertions, 0 failures)<br>`integration-expansion-audit-indicator-counts` PASS (21 assertions, 0 failures)<br>`e2e-dpdpa-audit` PASS (24 assertions, 0 failures) |
 | EX18 | Audit mandate and outbound channel | BUILT_PENDING_REVIEW | `integration-expansion-audit-mandate` PASS (102 assertions, 0 failures)<br>`e2e-audit-mandate` PASS (20 assertions, 0 failures) |
-| EX19 | DPDPA audit practice | BUILT_PENDING_REVIEW | `integration-vendor-audit-practice` PASS (128/128 passed) |
+| EX19 | DPDPA audit practice | BUILT_PENDING_REVIEW | `integration-vendor-audit-practice` PASS (128 assertions, 0 failures) |
 
 ## Other suites executed
 
-- `e2e-backups-and-recovery-2` PASS 12 assertions, 0 failures.
-- `e2e-expansion-screens` PASS 69 assertions, 0 failures.
-- `e2e-operations-screens` PASS 30 assertions, 0 failures.
-- `e2e-registry-forms` PASS 16 assertions, 0 failures.
-- `integration-bootstrap` PASS 
-- `integration-consent-canary-grant-admission` PASS 36 assertions, 0 failures.
-- `integration-consent-canary-retirement` PASS 14 assertions, 0 failures.
-- `integration-operations-runner-progress` PASS 31 assertions, 0 failures.
-- `integration-operations-sdf` PASS 22 assertions, 0 failures.
-- `integration-operations-withdrawal-single-pass` PASS 9 assertions, 0 failures.
+- `e2e-backups-and-recovery-2` HISTORICAL PASS (older alias; Round 9 evidence is `e2e-backups-and-recovery` above).
+- `e2e-expansion-screens` PASS (69 assertions, 0 failures)
+- `e2e-operations-screens` PASS (30 assertions, 0 failures)
+- `e2e-registry-forms` PASS (16 assertions, 0 failures)
+- `integration-bootstrap` PASS (4 assertions, 0 failures)
+- `integration-consent-canary-grant-admission` PASS (36 assertions, 0 failures)
+- `integration-consent-canary-retirement` PASS (14 assertions, 0 failures)
+- `integration-operations-runner-progress` PASS (31 assertions, 0 failures)
+- `integration-operations-sdf` PASS (22 assertions, 0 failures)
+- `integration-operations-withdrawal-single-pass` PASS (9 assertions, 0 failures)
 
 ## Failures in the latest results
 
 None.
+
+<!-- ROUND9 EVIDENCE START -->
+## Round 9 execution boundary
+
+Latest runtime-suite results: **108 PASS, 0 FAILED, 11 NOT_RUN**. Discovery and each targeted attempt remain separately recorded; a later result does not erase its earlier failure. See [the Round 9 handoff](../../handoffs/codex/2026-10-02-round9.md) for causes, fix commits, commands and limitations.
+
+| Additional observed control | Latest result |
+|---|---|
+| Installed function ACL after protected initialization: six functions, five runtime roles and PUBLIC | `security-function-acl` PASS (46 assertions, 0 failures; includes installation identity and RLS checks) |
+| Customer app tables with enabled and forced RLS | 222 inspected by the same ACL suite; no missing table protection in its passing evidence |
+
+The following suites remain NOT_RUN; they are not skipped assertions or substituted local acceptance:
+
+- `tests/e2e/auth.spec.ts`: Canonical rehearsal browser acceptance requires exclusive seeded rehearsal and frozen candidate; single-owner installation preserved; NOT_RUN.
+- `tests/e2e/candidate.spec.ts`: Canonical rehearsal browser acceptance requires exclusive seeded rehearsal and frozen candidate; single-owner installation preserved; NOT_RUN.
+- `tests/e2e/configuration.spec.ts`: Canonical rehearsal browser acceptance requires exclusive seeded rehearsal and frozen candidate; single-owner installation preserved; NOT_RUN.
+- `tests/e2e/consent.spec.ts`: Canonical rehearsal browser acceptance requires exclusive seeded rehearsal and frozen candidate; single-owner installation preserved; NOT_RUN.
+- `tests/e2e/test-lab.spec.ts`: Canonical rehearsal browser acceptance requires exclusive seeded rehearsal and frozen candidate; single-owner installation preserved; NOT_RUN.
+- `tests/e2e/tls.spec.ts`: Canonical rehearsal browser acceptance requires exclusive seeded rehearsal and frozen candidate; single-owner installation preserved; NOT_RUN.
+- `tests/e2e/transport-preflight.ts`: Rehearsal-only HTTPS transport requires the seeded multi-user rehearsal fixture; NOT_RUN, not a local-browser substitute.
+- `tests/e2e/workflow.spec.ts`: Canonical rehearsal browser acceptance requires exclusive seeded rehearsal and frozen candidate; single-owner installation preserved; NOT_RUN.
+- `tests/integration/lifecycle.test.ts`: Existing rehearsal-only lifecycle remains NOT_RUN: requires seeded business fixtures and exclusive rehearsal supervisor, outside this codex-a00 run.
+- `tests/security/network-core.ts`: Requires separately qualified packaged runtime image and controlled canary; existing NOT_RUN retained.
+- `tests/security/tls.test.ts`: Rehearsal-only TLS suite requires fixture users incompatible with the clean single-owner installation; existing NOT_RUN retained.
+
+The 1,000-item regulatory-impact boundary was not directly asserted by the existing regulatory suite. Erasure-ledger retention is decided (owner, 2026-10-02): 30 days after backups age out, on every plan; recorded in the revision 1.10 addendum.
+<!-- ROUND9 EVIDENCE END -->

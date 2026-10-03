@@ -1,0 +1,16 @@
+{
+  "task_id": "DPDP",
+  "fixture_kind": "CUSTOMER_LOCAL_SYNTHETIC",
+  "recorded_at": "2026-10-02T08:16:21.960Z",
+  "profile": "codex-a00",
+  "result": "PASS",
+  "assertions": [
+    "liveness 200 with exact body",
+    "landing page 200, nosniff, and labelled synthetic",
+    "business endpoint without a session refuses with 401 UNAUTHENTICATED rather than answering"
+  ],
+  "limitations": [
+    "HTTP bootstrap smoke only, with no profile environment; not UI browser acceptance and not an authenticated API test."
+  ],
+  "run_id": "df82d80f-fe6d-42e0-9885-6affbd339236"
+}

@@ -1,0 +1,3200 @@
+{
+  "suites": [
+    {
+      "suite": "tests/e2e/ai-governance-local.ts",
+      "runs": {
+        "1": {
+          "status": "FAILED",
+          "exit_code": 1,
+          "run_id": "da02afb4-4ebf-474c-aa4c-a0e299d6502f",
+          "head": "3037887b40acf52d7ab2460aed6ab1125de19b67",
+          "log": "handoffs/codex/artifacts/R10-run1-011-tests-e2e-ai-governance-local-ts.log"
+        },
+        "2": {
+          "status": "PASS",
+          "exit_code": 0,
+          "run_id": "0fd1b851-5ff3-4f14-ac71-a1bcb4cbfe11",
+          "head": "0aa04b592986629cac16e8996a8a18efd8a537d4",
+          "log": "handoffs/codex/artifacts/R10-run2-010-tests-e2e-ai-governance-local-ts.log"
+        },
+        "3": {
+          "status": "NOT_SELECTED",
+          "reason": "No command executed in this targeted run; earlier evidence retained."
+        }
+      },
+      "latest": "PASS"
+    },
+    {
+      "suite": "tests/e2e/audit-mandate-local.ts",
+      "runs": {
+        "1": {
+          "status": "FAILED",
+          "exit_code": 1,
+          "run_id": "0b6d13eb-2003-4979-8c58-5570842f3665",
+          "head": "3037887b40acf52d7ab2460aed6ab1125de19b67",
+          "log": "handoffs/codex/artifacts/R10-run1-012-tests-e2e-audit-mandate-local-ts.log"
+        },
+        "2": {
+          "status": "FAILED",
+          "exit_code": 1,
+          "run_id": "f6931179-4e6a-43b0-97a1-f27e91045c41",
+          "head": "0aa04b592986629cac16e8996a8a18efd8a537d4",
+          "log": "handoffs/codex/artifacts/R10-run2-011-tests-e2e-audit-mandate-local-ts.log"
+        },
+        "3": {
+          "status": "FAILED",
+          "exit_code": 1,
+          "run_id": "a2bae7d1-8463-4c3f-8e69-092ac185129f",
+          "head": "93dcd202d431776718ec9e3845d0389bcbb6b625",
+          "log": "handoffs/codex/artifacts/R10-run3-018-tests-e2e-audit-mandate-local-ts.log"
+        }
+      },
+      "latest": "FAILED"
+    },
+    {
+      "suite": "tests/e2e/auth.spec.ts",
+      "runs": {
+        "1": {
+          "status": "FAILED",
+          "exit_code": 1,
+          "run_id": "e72c8b2b-78a1-4f7f-82a7-2bdee24758fe",
+          "head": "3037887b40acf52d7ab2460aed6ab1125de19b67",
+          "log": "handoffs/codex/artifacts/R10-run1-014-tests-e2e-auth-spec-ts.log"
+        },
+        "2": {
+          "status": "PASS",
+          "exit_code": 0,
+          "run_id": "54f95bf0-2c4e-4be4-8861-4e1bad8922e8",
+          "head": "0aa04b592986629cac16e8996a8a18efd8a537d4",
+          "log": "handoffs/codex/artifacts/R10-run2-013-tests-e2e-auth-spec-ts.log"
+        },
+        "3": {
+          "status": "FAILED",
+          "exit_code": 1,
+          "run_id": "2cd3be54-9e98-4e56-b1df-377f1f7237d2",
+          "head": "93dcd202d431776718ec9e3845d0389bcbb6b625",
+          "log": "handoffs/codex/artifacts/R10-run3-020-tests-e2e-auth-spec-ts.log"
+        }
+      },
+      "latest": "FAILED"
+    },
+    {
+      "suite": "tests/e2e/backups-and-recovery-local.ts",
+      "runs": {
+        "1": {
+          "status": "FAILED",
+          "exit_code": 1,
+          "run_id": "42219e80-518a-4502-aa26-df79d56f1aa5",
+          "head": "3037887b40acf52d7ab2460aed6ab1125de19b67",
+          "log": "handoffs/codex/artifacts/R10-run1-015-tests-e2e-backups-and-recovery-local-ts.log"
+        },
+        "2": {
+          "status": "FAILED",
+          "exit_code": 1,
+          "run_id": "dad07fe0-c27d-47a5-b57f-56e7fa735bbf",
+          "head": "0aa04b592986629cac16e8996a8a18efd8a537d4",
+          "log": "handoffs/codex/artifacts/R10-run2-014-tests-e2e-backups-and-recovery-local-ts.log"
+        },
+        "3": {
+          "status": "PASS",
+          "exit_code": 0,
+          "run_id": "42dcba5f-7df4-4418-b03e-1787c902b1c7",
+          "head": "93dcd202d431776718ec9e3845d0389bcbb6b625",
+          "log": "handoffs/codex/artifacts/R10-run3-022-tests-e2e-backups-and-recovery-local-ts.log"
+        }
+      },
+      "latest": "PASS"
+    },
+    {
+      "suite": "tests/e2e/candidate.spec.ts",
+      "runs": {
+        "1": {
+          "status": "FAILED",
+          "exit_code": 1,
+          "run_id": "834e04db-9b31-47fd-a4c8-b4a2840e56e2",
+          "head": "3037887b40acf52d7ab2460aed6ab1125de19b67",
+          "log": "handoffs/codex/artifacts/R10-run1-017-tests-e2e-candidate-spec-ts.log"
+        },
+        "2": {
+          "status": "FAILED",
+          "exit_code": 1,
+          "run_id": "8225f64c-74f3-4ec9-8216-e5f71d595358",
+          "head": "0aa04b592986629cac16e8996a8a18efd8a537d4",
+          "log": "handoffs/codex/artifacts/R10-run2-016-tests-e2e-candidate-spec-ts.log"
+        },
+        "3": {
+          "status": "PASS",
+          "exit_code": 0,
+          "run_id": "4dc4aed7-d690-4af4-ba12-6f214b7bbc59",
+          "head": "93dcd202d431776718ec9e3845d0389bcbb6b625",
+          "log": "handoffs/codex/artifacts/R10-run3-024-tests-e2e-candidate-spec-ts.log"
+        }
+      },
+      "latest": "PASS"
+    },
+    {
+      "suite": "tests/e2e/catalog-discovery-local.ts",
+      "runs": {
+        "1": {
+          "status": "FAILED",
+          "exit_code": 1,
+          "run_id": "a3ea90d5-06b7-4515-b7e0-dd851697dbb1",
+          "head": "3037887b40acf52d7ab2460aed6ab1125de19b67",
+          "log": "handoffs/codex/artifacts/R10-run1-018-tests-e2e-catalog-discovery-local-ts.log"
+        },
+        "2": {
+          "status": "PASS",
+          "exit_code": 0,
+          "run_id": "9ccfadf1-12b2-4567-9d26-601c21b5ad0e",
+          "head": "0aa04b592986629cac16e8996a8a18efd8a537d4",
+          "log": "handoffs/codex/artifacts/R10-run2-017-tests-e2e-catalog-discovery-local-ts.log"
+        },
+        "3": {
+          "status": "NOT_SELECTED",
+          "reason": "No command executed in this targeted run; earlier evidence retained."
+        }
+      },
+      "latest": "PASS"
+    },
+    {
+      "suite": "tests/e2e/configuration.spec.ts",
+      "runs": {
+        "1": {
+          "status": "FAILED",
+          "exit_code": 1,
+          "run_id": "6f284951-9d6c-42bf-aa8f-3a1841b2ee51",
+          "head": "3037887b40acf52d7ab2460aed6ab1125de19b67",
+          "log": "handoffs/codex/artifacts/R10-run1-020-tests-e2e-configuration-spec-ts.log"
+        },
+        "2": {
+          "status": "FAILED",
+          "exit_code": 1,
+          "run_id": "d208db22-9cc2-4074-a928-17cc08b800f8",
+          "head": "0aa04b592986629cac16e8996a8a18efd8a537d4",
+          "log": "handoffs/codex/artifacts/R10-run2-019-tests-e2e-configuration-spec-ts.log"
+        },
+        "3": {
+          "status": "FAILED",
+          "exit_code": 1,
+          "run_id": "4602ff65-375d-465b-9570-6c3ee5e97d8f",
+          "head": "93dcd202d431776718ec9e3845d0389bcbb6b625",
+          "log": "handoffs/codex/artifacts/R10-run3-026-tests-e2e-configuration-spec-ts.log"
+        }
+      },
+      "latest": "FAILED"
+    },
+    {
+      "suite": "tests/e2e/consent.spec.ts",
+      "runs": {
+        "1": {
+          "status": "FAILED",
+          "exit_code": 1,
+          "run_id": "b6b8dbf1-f402-4861-a2f5-97f9c329d98c",
+          "head": "3037887b40acf52d7ab2460aed6ab1125de19b67",
+          "log": "handoffs/codex/artifacts/R10-run1-022-tests-e2e-consent-spec-ts.log"
+        },
+        "2": {
+          "status": "PASS",
+          "exit_code": 0,
+          "run_id": "ad32c88c-9bb6-468f-9584-e81ef7e230b7",
+          "head": "0aa04b592986629cac16e8996a8a18efd8a537d4",
+          "log": "handoffs/codex/artifacts/R10-run2-021-tests-e2e-consent-spec-ts.log"
+        },
+        "3": {
+          "status": "FAILED",
+          "exit_code": 1,
+          "run_id": "a86c8358-b581-4ef1-8c00-9434e532200f",
+          "head": "93dcd202d431776718ec9e3845d0389bcbb6b625",
+          "log": "handoffs/codex/artifacts/R10-run3-028-tests-e2e-consent-spec-ts.log"
+        }
+      },
+      "latest": "FAILED"
+    },
+    {
+      "suite": "tests/e2e/delete-login-local.ts",
+      "runs": {
+        "1": {
+          "status": "FAILED",
+          "exit_code": 1,
+          "run_id": "34968a72-8f8c-4ba3-b090-1756548f7591",
+          "head": "3037887b40acf52d7ab2460aed6ab1125de19b67",
+          "log": "handoffs/codex/artifacts/R10-run1-023-tests-e2e-delete-login-local-ts.log"
+        },
+        "2": {
+          "status": "PASS",
+          "exit_code": 0,
+          "run_id": "82d48537-30f2-4cf4-b5f2-ec236aa60604",
+          "head": "0aa04b592986629cac16e8996a8a18efd8a537d4",
+          "log": "handoffs/codex/artifacts/R10-run2-022-tests-e2e-delete-login-local-ts.log"
+        },
+        "3": {
+          "status": "NOT_SELECTED",
+          "reason": "No command executed in this targeted run; earlier evidence retained."
+        }
+      },
+      "latest": "PASS"
+    },
+    {
+      "suite": "tests/e2e/dpdpa-audit-local.ts",
+      "runs": {
+        "1": {
+          "status": "FAILED",
+          "exit_code": 1,
+          "run_id": "137862d3-9cc5-42bd-a212-53a9aa2d7b93",
+          "head": "3037887b40acf52d7ab2460aed6ab1125de19b67",
+          "log": "handoffs/codex/artifacts/R10-run1-024-tests-e2e-dpdpa-audit-local-ts.log"
+        },
+        "2": {
+          "status": "FAILED",
+          "exit_code": 1,
+          "run_id": "9cadd48f-2959-4253-8563-930ea98d522d",
+          "head": "0aa04b592986629cac16e8996a8a18efd8a537d4",
+          "log": "handoffs/codex/artifacts/R10-run2-009-tests-e2e-dpdpa-audit-local-ts.log"
+        },
+        "3": {
+          "status": "FAILED",
+          "exit_code": 1,
+          "run_id": "dd3ef58b-f9e9-4e88-9934-f3ed95cb46d4",
+          "head": "93dcd202d431776718ec9e3845d0389bcbb6b625",
+          "log": "handoffs/codex/artifacts/R10-run3-016-tests-e2e-dpdpa-audit-local-ts.log"
+        }
+      },
+      "latest": "FAILED"
+    },
+    {
+      "suite": "tests/e2e/expansion-screens-local.ts",
+      "runs": {
+        "1": {
+          "status": "FAILED",
+          "exit_code": 1,
+          "run_id": "5db6465f-5c3e-4871-9b2d-827e8c1763a9",
+          "head": "3037887b40acf52d7ab2460aed6ab1125de19b67",
+          "log": "handoffs/codex/artifacts/R10-run1-025-tests-e2e-expansion-screens-local-ts.log"
+        },
+        "2": {
+          "status": "FAILED",
+          "exit_code": 1,
+          "run_id": "dacd3ea2-d273-4aa1-bb7a-5535abf81df1",
+          "head": "0aa04b592986629cac16e8996a8a18efd8a537d4",
+          "log": "handoffs/codex/artifacts/R10-run2-023-tests-e2e-expansion-screens-local-ts.log"
+        },
+        "3": {
+          "status": "PASS",
+          "exit_code": 0,
+          "run_id": "99e8cdae-68ca-4ab1-ac49-6841ce49ffab",
+          "head": "93dcd202d431776718ec9e3845d0389bcbb6b625",
+          "log": "handoffs/codex/artifacts/R10-run3-030-tests-e2e-expansion-screens-local-ts.log"
+        }
+      },
+      "latest": "PASS"
+    },
+    {
+      "suite": "tests/e2e/interface-crawl-local.ts",
+      "runs": {
+        "1": {
+          "status": "FAILED",
+          "exit_code": 1,
+          "run_id": "f7f3262e-a90c-4f78-8417-9935584a8f0a",
+          "head": "3037887b40acf52d7ab2460aed6ab1125de19b67",
+          "log": "handoffs/codex/artifacts/R10-run1-026-tests-e2e-interface-crawl-local-ts.log"
+        },
+        "2": {
+          "status": "FAILED",
+          "exit_code": 1,
+          "run_id": "6092449f-d6f2-4f0e-ad2d-18ff9e7e81fa",
+          "head": "0aa04b592986629cac16e8996a8a18efd8a537d4",
+          "log": "handoffs/codex/artifacts/R10-run2-024-tests-e2e-interface-crawl-local-ts.log"
+        },
+        "3": {
+          "status": "FAILED",
+          "exit_code": 1,
+          "run_id": "817ae96b-1329-4c79-adf9-e0ef1fae7dbd",
+          "head": "93dcd202d431776718ec9e3845d0389bcbb6b625",
+          "log": "handoffs/codex/artifacts/R10-run3-032-tests-e2e-interface-crawl-local-ts.log"
+        }
+      },
+      "latest": "FAILED"
+    },
+    {
+      "suite": "tests/e2e/operations-screens-local.ts",
+      "runs": {
+        "1": {
+          "status": "FAILED",
+          "exit_code": 1,
+          "run_id": "b04b1142-68dd-48e0-b70f-beb24afd7cf6",
+          "head": "3037887b40acf52d7ab2460aed6ab1125de19b67",
+          "log": "handoffs/codex/artifacts/R10-run1-027-tests-e2e-operations-screens-local-ts.log"
+        },
+        "2": {
+          "status": "FAILED",
+          "exit_code": 1,
+          "run_id": "5da69fde-1682-418e-b213-36972bdd39b4",
+          "head": "0aa04b592986629cac16e8996a8a18efd8a537d4",
+          "log": "handoffs/codex/artifacts/R10-run2-025-tests-e2e-operations-screens-local-ts.log"
+        },
+        "3": {
+          "status": "PASS",
+          "exit_code": 0,
+          "run_id": "d82663f8-66be-4c31-8ad9-a89e3ea79f0a",
+          "head": "93dcd202d431776718ec9e3845d0389bcbb6b625",
+          "log": "handoffs/codex/artifacts/R10-run3-034-tests-e2e-operations-screens-local-ts.log"
+        }
+      },
+      "latest": "PASS"
+    },
+    {
+      "suite": "tests/e2e/preferences-local.ts",
+      "runs": {
+        "1": {
+          "status": "FAILED",
+          "exit_code": 1,
+          "run_id": "07311c94-252e-43b2-be8e-ce6a3ce64491",
+          "head": "3037887b40acf52d7ab2460aed6ab1125de19b67",
+          "log": "handoffs/codex/artifacts/R10-run1-028-tests-e2e-preferences-local-ts.log"
+        },
+        "2": {
+          "status": "PASS",
+          "exit_code": 0,
+          "run_id": "40b744f1-0bac-49cc-8d72-8e167f744763",
+          "head": "0aa04b592986629cac16e8996a8a18efd8a537d4",
+          "log": "handoffs/codex/artifacts/R10-run2-026-tests-e2e-preferences-local-ts.log"
+        },
+        "3": {
+          "status": "NOT_SELECTED",
+          "reason": "No command executed in this targeted run; earlier evidence retained."
+        }
+      },
+      "latest": "PASS"
+    },
+    {
+      "suite": "tests/e2e/registry-forms-local.ts",
+      "runs": {
+        "1": {
+          "status": "FAILED",
+          "exit_code": 1,
+          "run_id": "68ff2f4f-9a33-4735-b686-0187b5f4c440",
+          "head": "3037887b40acf52d7ab2460aed6ab1125de19b67",
+          "log": "handoffs/codex/artifacts/R10-run1-029-tests-e2e-registry-forms-local-ts.log"
+        },
+        "2": {
+          "status": "PASS",
+          "exit_code": 0,
+          "run_id": "3a227be7-cace-4672-9061-d6d48cc22c3f",
+          "head": "0aa04b592986629cac16e8996a8a18efd8a537d4",
+          "log": "handoffs/codex/artifacts/R10-run2-027-tests-e2e-registry-forms-local-ts.log"
+        },
+        "3": {
+          "status": "NOT_SELECTED",
+          "reason": "No command executed in this targeted run; earlier evidence retained."
+        }
+      },
+      "latest": "PASS"
+    },
+    {
+      "suite": "tests/e2e/sign-in-hydration-local.ts",
+      "runs": {
+        "1": {
+          "status": "FAILED",
+          "exit_code": 1,
+          "run_id": "0d3ef4fd-39eb-4089-b693-a349ceb74e25",
+          "head": "3037887b40acf52d7ab2460aed6ab1125de19b67",
+          "log": "handoffs/codex/artifacts/R10-run1-030-tests-e2e-sign-in-hydration-local-ts.log"
+        },
+        "2": {
+          "status": "PASS",
+          "exit_code": 0,
+          "run_id": "f0ee76ed-0c14-4fd5-8afd-97fce53e7c6d",
+          "head": "0aa04b592986629cac16e8996a8a18efd8a537d4",
+          "log": "handoffs/codex/artifacts/R10-run2-028-tests-e2e-sign-in-hydration-local-ts.log"
+        },
+        "3": {
+          "status": "NOT_SELECTED",
+          "reason": "No command executed in this targeted run; earlier evidence retained."
+        }
+      },
+      "latest": "PASS"
+    },
+    {
+      "suite": "tests/e2e/start-smoke-local.ts",
+      "runs": {
+        "1": {
+          "status": "FAILED",
+          "exit_code": 1,
+          "run_id": "8f67dd19-9216-4d0e-b3bf-e01c6e6203d6",
+          "head": "3037887b40acf52d7ab2460aed6ab1125de19b67",
+          "log": "handoffs/codex/artifacts/R10-run1-031-tests-e2e-start-smoke-local-ts.log"
+        },
+        "2": {
+          "status": "FAILED",
+          "exit_code": 1,
+          "run_id": "436dd41d-7dd8-4483-b26b-27740869020a",
+          "head": "0aa04b592986629cac16e8996a8a18efd8a537d4",
+          "log": "handoffs/codex/artifacts/R10-run2-029-tests-e2e-start-smoke-local-ts.log"
+        },
+        "3": {
+          "status": "PASS",
+          "exit_code": 0,
+          "run_id": "700aa94d-d023-4881-9a5e-e9e9c1624f9f",
+          "head": "93dcd202d431776718ec9e3845d0389bcbb6b625",
+          "log": "handoffs/codex/artifacts/R10-run3-036-tests-e2e-start-smoke-local-ts.log"
+        }
+      },
+      "latest": "PASS"
+    },
+    {
+      "suite": "tests/e2e/team-local.ts",
+      "runs": {
+        "1": {
+          "status": "FAILED",
+          "exit_code": 1,
+          "run_id": "adee0207-cf37-486d-a13d-c35e34a9a24d",
+          "head": "3037887b40acf52d7ab2460aed6ab1125de19b67",
+          "log": "handoffs/codex/artifacts/R10-run1-032-tests-e2e-team-local-ts.log"
+        },
+        "2": {
+          "status": "PASS",
+          "exit_code": 0,
+          "run_id": "00de460e-936e-4645-83ac-137c5e0da67c",
+          "head": "0aa04b592986629cac16e8996a8a18efd8a537d4",
+          "log": "handoffs/codex/artifacts/R10-run2-030-tests-e2e-team-local-ts.log"
+        },
+        "3": {
+          "status": "NOT_SELECTED",
+          "reason": "No command executed in this targeted run; earlier evidence retained."
+        }
+      },
+      "latest": "PASS"
+    },
+    {
+      "suite": "tests/e2e/test-lab.spec.ts",
+      "runs": {
+        "1": {
+          "status": "FAILED",
+          "exit_code": 1,
+          "run_id": "ba58bfd3-b7bd-4393-bc3a-cadaa7c24f3e",
+          "head": "3037887b40acf52d7ab2460aed6ab1125de19b67",
+          "log": "handoffs/codex/artifacts/R10-run1-034-tests-e2e-test-lab-spec-ts.log"
+        },
+        "2": {
+          "status": "PASS",
+          "exit_code": 0,
+          "run_id": "a32acfcc-d09d-4b47-9485-695eea0ccf16",
+          "head": "0aa04b592986629cac16e8996a8a18efd8a537d4",
+          "log": "handoffs/codex/artifacts/R10-run2-032-tests-e2e-test-lab-spec-ts.log"
+        },
+        "3": {
+          "status": "PASS",
+          "exit_code": 0,
+          "run_id": "189a0527-c183-4224-89ec-48d32f59c9ce",
+          "head": "93dcd202d431776718ec9e3845d0389bcbb6b625",
+          "log": "handoffs/codex/artifacts/R10-run3-038-tests-e2e-test-lab-spec-ts.log"
+        }
+      },
+      "latest": "PASS"
+    },
+    {
+      "suite": "tests/e2e/tls.spec.ts",
+      "runs": {
+        "1": {
+          "status": "FAILED",
+          "exit_code": 1,
+          "run_id": "93cc65f0-39f4-407a-8748-02455510b3b3",
+          "head": "3037887b40acf52d7ab2460aed6ab1125de19b67",
+          "log": "handoffs/codex/artifacts/R10-run1-036-tests-e2e-tls-spec-ts.log"
+        },
+        "2": {
+          "status": "PASS",
+          "exit_code": 0,
+          "run_id": "5c8bdfb3-55c1-4f7f-94f8-61730a64e42c",
+          "head": "0aa04b592986629cac16e8996a8a18efd8a537d4",
+          "log": "handoffs/codex/artifacts/R10-run2-034-tests-e2e-tls-spec-ts.log"
+        },
+        "3": {
+          "status": "PASS",
+          "exit_code": 0,
+          "run_id": "2b1870ea-86f9-4f8e-ab48-02a76fa79530",
+          "head": "93dcd202d431776718ec9e3845d0389bcbb6b625",
+          "log": "handoffs/codex/artifacts/R10-run3-040-tests-e2e-tls-spec-ts.log"
+        }
+      },
+      "latest": "PASS"
+    },
+    {
+      "suite": "tests/e2e/transport-preflight.ts",
+      "runs": {
+        "1": {
+          "status": "FAILED",
+          "exit_code": 1,
+          "run_id": "e5679d7b-9fff-417a-bb79-a7fadcb364e7",
+          "head": "3037887b40acf52d7ab2460aed6ab1125de19b67",
+          "log": "handoffs/codex/artifacts/R10-run1-037-tests-e2e-transport-preflight-ts.log"
+        },
+        "2": {
+          "status": "PASS",
+          "exit_code": 0,
+          "run_id": "d46075e7-9c42-4ea0-bf31-4fdec2b3f967",
+          "head": "0aa04b592986629cac16e8996a8a18efd8a537d4",
+          "log": "handoffs/codex/artifacts/R10-run2-035-tests-e2e-transport-preflight-ts.log"
+        },
+        "3": {
+          "status": "PASS",
+          "exit_code": 0,
+          "run_id": "8b58fa87-50c3-4f01-8628-fea84073f68c",
+          "head": "93dcd202d431776718ec9e3845d0389bcbb6b625",
+          "log": "handoffs/codex/artifacts/R10-run3-042-tests-e2e-transport-preflight-ts.log"
+        }
+      },
+      "latest": "PASS"
+    },
+    {
+      "suite": "tests/e2e/vendor-production-criteria-local.ts",
+      "runs": {
+        "1": {
+          "status": "FAILED",
+          "exit_code": 1,
+          "run_id": "d6bd9fe6-3417-41ee-9d63-a9a9cf03c857",
+          "head": "3037887b40acf52d7ab2460aed6ab1125de19b67",
+          "log": "handoffs/codex/artifacts/R10-run1-038-tests-e2e-vendor-production-criteria-local-ts.log"
+        },
+        "2": {
+          "status": "FAILED",
+          "exit_code": 1,
+          "run_id": "d2e2dc05-7118-4370-82df-c910ac0a3345",
+          "head": "0aa04b592986629cac16e8996a8a18efd8a537d4",
+          "log": "handoffs/codex/artifacts/R10-run2-036-tests-e2e-vendor-production-criteria-local-ts.log"
+        },
+        "3": {
+          "status": "FAILED",
+          "exit_code": 1,
+          "run_id": "c59db8b6-e2d9-4621-9e98-8b3af202f918",
+          "head": "93dcd202d431776718ec9e3845d0389bcbb6b625",
+          "log": "handoffs/codex/artifacts/R10-run3-044-tests-e2e-vendor-production-criteria-local-ts.log"
+        }
+      },
+      "latest": "FAILED"
+    },
+    {
+      "suite": "tests/e2e/workflow.spec.ts",
+      "runs": {
+        "1": {
+          "status": "FAILED",
+          "exit_code": 1,
+          "run_id": "a4e9e15e-a523-40df-9e7c-1143640b4e24",
+          "head": "3037887b40acf52d7ab2460aed6ab1125de19b67",
+          "log": "handoffs/codex/artifacts/R10-run1-040-tests-e2e-workflow-spec-ts.log"
+        },
+        "2": {
+          "status": "PASS",
+          "exit_code": 0,
+          "run_id": "2696dfbc-87d8-46af-857d-efb43ccccb0a",
+          "head": "0aa04b592986629cac16e8996a8a18efd8a537d4",
+          "log": "handoffs/codex/artifacts/R10-run2-038-tests-e2e-workflow-spec-ts.log"
+        },
+        "3": {
+          "status": "PASS",
+          "exit_code": 0,
+          "run_id": "fc44a687-6c2d-4e69-8cde-086a6639bc42",
+          "head": "93dcd202d431776718ec9e3845d0389bcbb6b625",
+          "log": "handoffs/codex/artifacts/R10-run3-046-tests-e2e-workflow-spec-ts.log"
+        }
+      },
+      "latest": "PASS"
+    },
+    {
+      "suite": "tests/integration/ai-governance/ai-governance.test.ts",
+      "runs": {
+        "1": {
+          "status": "FAILED",
+          "exit_code": 1,
+          "run_id": "2946b9c3-47b3-4b34-ab50-78b551bb25d8",
+          "head": "3037887b40acf52d7ab2460aed6ab1125de19b67",
+          "log": "handoffs/codex/artifacts/R10-run1-041-tests-integration-ai-governance-ai-governance-test-ts.log"
+        },
+        "2": {
+          "status": "PASS",
+          "exit_code": 0,
+          "run_id": "cdad9acb-84d1-4943-84a8-1c74ba7b968a",
+          "head": "0aa04b592986629cac16e8996a8a18efd8a537d4",
+          "log": "handoffs/codex/artifacts/R10-run2-039-tests-integration-ai-governance-ai-governance-test-ts.log"
+        },
+        "3": {
+          "status": "NOT_SELECTED",
+          "reason": "No command executed in this targeted run; earlier evidence retained."
+        }
+      },
+      "latest": "PASS"
+    },
+    {
+      "suite": "tests/integration/ai-governance/model-versions.test.ts",
+      "runs": {
+        "1": {
+          "status": "FAILED",
+          "exit_code": 1,
+          "run_id": "71e00bbc-4e83-4376-8856-b394256988cc",
+          "head": "3037887b40acf52d7ab2460aed6ab1125de19b67",
+          "log": "handoffs/codex/artifacts/R10-run1-042-tests-integration-ai-governance-model-versions-test-ts.log"
+        },
+        "2": {
+          "status": "PASS",
+          "exit_code": 0,
+          "run_id": "50661de0-3112-4762-868b-1016e1bfabd0",
+          "head": "0aa04b592986629cac16e8996a8a18efd8a537d4",
+          "log": "handoffs/codex/artifacts/R10-run2-040-tests-integration-ai-governance-model-versions-test-ts.log"
+        },
+        "3": {
+          "status": "NOT_SELECTED",
+          "reason": "No command executed in this targeted run; earlier evidence retained."
+        }
+      },
+      "latest": "PASS"
+    },
+    {
+      "suite": "tests/integration/ai-governance/monitor.test.ts",
+      "runs": {
+        "1": {
+          "status": "FAILED",
+          "exit_code": 1,
+          "run_id": "4b03836f-f6e8-4fa2-ab29-acf0833240db",
+          "head": "3037887b40acf52d7ab2460aed6ab1125de19b67",
+          "log": "handoffs/codex/artifacts/R10-run1-043-tests-integration-ai-governance-monitor-test-ts.log"
+        },
+        "2": {
+          "status": "PASS",
+          "exit_code": 0,
+          "run_id": "ee776488-f8aa-463a-84d1-4d51899d389b",
+          "head": "0aa04b592986629cac16e8996a8a18efd8a537d4",
+          "log": "handoffs/codex/artifacts/R10-run2-041-tests-integration-ai-governance-monitor-test-ts.log"
+        },
+        "3": {
+          "status": "NOT_SELECTED",
+          "reason": "No command executed in this targeted run; earlier evidence retained."
+        }
+      },
+      "latest": "PASS"
+    },
+    {
+      "suite": "tests/integration/audit/audit.test.ts",
+      "runs": {
+        "1": {
+          "status": "FAILED",
+          "exit_code": 1,
+          "run_id": "8532e54d-02d9-4e97-981f-624396c4e408",
+          "head": "3037887b40acf52d7ab2460aed6ab1125de19b67",
+          "log": "handoffs/codex/artifacts/R10-run1-044-tests-integration-audit-audit-test-ts.log"
+        },
+        "2": {
+          "status": "PASS",
+          "exit_code": 0,
+          "run_id": "3bd84eac-d89b-44ba-99ce-3728c5ccc338",
+          "head": "0aa04b592986629cac16e8996a8a18efd8a537d4",
+          "log": "handoffs/codex/artifacts/R10-run2-042-tests-integration-audit-audit-test-ts.log"
+        },
+        "3": {
+          "status": "NOT_SELECTED",
+          "reason": "No command executed in this targeted run; earlier evidence retained."
+        }
+      },
+      "latest": "PASS"
+    },
+    {
+      "suite": "tests/integration/audit/retention.test.ts",
+      "runs": {
+        "1": {
+          "status": "FAILED",
+          "exit_code": 1,
+          "run_id": "a5de87eb-4339-4959-8943-816f0dbad393",
+          "head": "3037887b40acf52d7ab2460aed6ab1125de19b67",
+          "log": "handoffs/codex/artifacts/R10-run1-045-tests-integration-audit-retention-test-ts.log"
+        },
+        "2": {
+          "status": "PASS",
+          "exit_code": 0,
+          "run_id": "b2eab01b-074f-4586-b5c3-71a608c4a0ce",
+          "head": "0aa04b592986629cac16e8996a8a18efd8a537d4",
+          "log": "handoffs/codex/artifacts/R10-run2-043-tests-integration-audit-retention-test-ts.log"
+        },
+        "3": {
+          "status": "NOT_SELECTED",
+          "reason": "No command executed in this targeted run; earlier evidence retained."
+        }
+      },
+      "latest": "PASS"
+    },
+    {
+      "suite": "tests/integration/bootstrap.test.ts",
+      "runs": {
+        "1": {
+          "status": "FAILED",
+          "exit_code": 1,
+          "run_id": "032a7048-1c8d-42c1-b2b0-025ded405a46",
+          "head": "3037887b40acf52d7ab2460aed6ab1125de19b67",
+          "log": "handoffs/codex/artifacts/R10-run1-046-tests-integration-bootstrap-test-ts.log"
+        },
+        "2": {
+          "status": "PASS",
+          "exit_code": 0,
+          "run_id": "aa8bfca7-f755-438e-a2d3-a0cd7ffceb6c",
+          "head": "0aa04b592986629cac16e8996a8a18efd8a537d4",
+          "log": "handoffs/codex/artifacts/R10-run2-044-tests-integration-bootstrap-test-ts.log"
+        },
+        "3": {
+          "status": "NOT_SELECTED",
+          "reason": "No command executed in this targeted run; earlier evidence retained."
+        }
+      },
+      "latest": "PASS"
+    },
+    {
+      "suite": "tests/integration/commerce/commerce.test.ts",
+      "runs": {
+        "1": {
+          "status": "PASS",
+          "exit_code": 0,
+          "run_id": "b5b9fece-ac27-4dbf-8c8d-05089f7e706b",
+          "head": "3037887b40acf52d7ab2460aed6ab1125de19b67",
+          "log": "handoffs/codex/artifacts/R10-run1-047-tests-integration-commerce-commerce-test-ts.log"
+        },
+        "2": {
+          "status": "NOT_SELECTED",
+          "reason": "No command executed in this targeted run; earlier evidence retained."
+        },
+        "3": {
+          "status": "NOT_SELECTED",
+          "reason": "No command executed in this targeted run; earlier evidence retained."
+        }
+      },
+      "latest": "PASS"
+    },
+    {
+      "suite": "tests/integration/commerce/migration-ledger.test.ts",
+      "runs": {
+        "1": {
+          "status": "PASS",
+          "exit_code": 0,
+          "run_id": "176c6eb1-2fa6-4705-965e-4ac09229d1a1",
+          "head": "3037887b40acf52d7ab2460aed6ab1125de19b67",
+          "log": "handoffs/codex/artifacts/R10-run1-048-tests-integration-commerce-migration-ledger-test-ts.log"
+        },
+        "2": {
+          "status": "NOT_SELECTED",
+          "reason": "No command executed in this targeted run; earlier evidence retained."
+        },
+        "3": {
+          "status": "NOT_SELECTED",
+          "reason": "No command executed in this targeted run; earlier evidence retained."
+        }
+      },
+      "latest": "PASS"
+    },
+    {
+      "suite": "tests/integration/consent/canaries.test.ts",
+      "runs": {
+        "1": {
+          "status": "FAILED",
+          "exit_code": 1,
+          "run_id": "79dc87cd-52df-4e69-82e1-2e291d87f3d3",
+          "head": "3037887b40acf52d7ab2460aed6ab1125de19b67",
+          "log": "handoffs/codex/artifacts/R10-run1-049-tests-integration-consent-canaries-test-ts.log"
+        },
+        "2": {
+          "status": "PASS",
+          "exit_code": 0,
+          "run_id": "6a1d7a85-50f9-4ad5-8bdf-3a9d8cee844c",
+          "head": "0aa04b592986629cac16e8996a8a18efd8a537d4",
+          "log": "handoffs/codex/artifacts/R10-run2-045-tests-integration-consent-canaries-test-ts.log"
+        },
+        "3": {
+          "status": "NOT_SELECTED",
+          "reason": "No command executed in this targeted run; earlier evidence retained."
+        }
+      },
+      "latest": "PASS"
+    },
+    {
+      "suite": "tests/integration/consent/canary-grant-admission.test.ts",
+      "runs": {
+        "1": {
+          "status": "FAILED",
+          "exit_code": 1,
+          "run_id": "537ccf08-1a35-480e-b365-c64924358b1a",
+          "head": "3037887b40acf52d7ab2460aed6ab1125de19b67",
+          "log": "handoffs/codex/artifacts/R10-run1-050-tests-integration-consent-canary-grant-admission-test-ts.log"
+        },
+        "2": {
+          "status": "PASS",
+          "exit_code": 0,
+          "run_id": "5579e426-0291-43f4-b52c-4d5f377dd7a9",
+          "head": "0aa04b592986629cac16e8996a8a18efd8a537d4",
+          "log": "handoffs/codex/artifacts/R10-run2-046-tests-integration-consent-canary-grant-admission-test-ts.log"
+        },
+        "3": {
+          "status": "NOT_SELECTED",
+          "reason": "No command executed in this targeted run; earlier evidence retained."
+        }
+      },
+      "latest": "PASS"
+    },
+    {
+      "suite": "tests/integration/consent/canary-retirement.test.ts",
+      "runs": {
+        "1": {
+          "status": "FAILED",
+          "exit_code": 1,
+          "run_id": "1d82e758-cf08-45e0-8428-53b43da8815a",
+          "head": "3037887b40acf52d7ab2460aed6ab1125de19b67",
+          "log": "handoffs/codex/artifacts/R10-run1-051-tests-integration-consent-canary-retirement-test-ts.log"
+        },
+        "2": {
+          "status": "PASS",
+          "exit_code": 0,
+          "run_id": "64e7f566-6f41-40c5-adf4-bdc67889d834",
+          "head": "0aa04b592986629cac16e8996a8a18efd8a537d4",
+          "log": "handoffs/codex/artifacts/R10-run2-047-tests-integration-consent-canary-retirement-test-ts.log"
+        },
+        "3": {
+          "status": "NOT_SELECTED",
+          "reason": "No command executed in this targeted run; earlier evidence retained."
+        }
+      },
+      "latest": "PASS"
+    },
+    {
+      "suite": "tests/integration/consent/consent.test.ts",
+      "runs": {
+        "1": {
+          "status": "FAILED",
+          "exit_code": 1,
+          "run_id": "de7620ea-9c4b-4f7f-b291-4e84d5518f2e",
+          "head": "3037887b40acf52d7ab2460aed6ab1125de19b67",
+          "log": "handoffs/codex/artifacts/R10-run1-052-tests-integration-consent-consent-test-ts.log"
+        },
+        "2": {
+          "status": "PASS",
+          "exit_code": 0,
+          "run_id": "a969dea4-a4dd-4840-a6ec-3f3a4563f188",
+          "head": "0aa04b592986629cac16e8996a8a18efd8a537d4",
+          "log": "handoffs/codex/artifacts/R10-run2-048-tests-integration-consent-consent-test-ts.log"
+        },
+        "3": {
+          "status": "NOT_SELECTED",
+          "reason": "No command executed in this targeted run; earlier evidence retained."
+        }
+      },
+      "latest": "PASS"
+    },
+    {
+      "suite": "tests/integration/consent/expiry.test.ts",
+      "runs": {
+        "1": {
+          "status": "FAILED",
+          "exit_code": 1,
+          "run_id": "0cf693fd-c7d9-4609-96b5-5fc87abdea7d",
+          "head": "3037887b40acf52d7ab2460aed6ab1125de19b67",
+          "log": "handoffs/codex/artifacts/R10-run1-053-tests-integration-consent-expiry-test-ts.log"
+        },
+        "2": {
+          "status": "PASS",
+          "exit_code": 0,
+          "run_id": "6c497516-caf6-41b6-9a81-232e8a3b02b9",
+          "head": "0aa04b592986629cac16e8996a8a18efd8a537d4",
+          "log": "handoffs/codex/artifacts/R10-run2-049-tests-integration-consent-expiry-test-ts.log"
+        },
+        "3": {
+          "status": "NOT_SELECTED",
+          "reason": "No command executed in this targeted run; earlier evidence retained."
+        }
+      },
+      "latest": "PASS"
+    },
+    {
+      "suite": "tests/integration/coverage/coverage.test.ts",
+      "runs": {
+        "1": {
+          "status": "FAILED",
+          "exit_code": 1,
+          "run_id": "6ed47047-1485-44d5-8f08-c7d2f9ee5090",
+          "head": "3037887b40acf52d7ab2460aed6ab1125de19b67",
+          "log": "handoffs/codex/artifacts/R10-run1-054-tests-integration-coverage-coverage-test-ts.log"
+        },
+        "2": {
+          "status": "PASS",
+          "exit_code": 0,
+          "run_id": "7550fb5b-038c-4885-9803-0bd3e89ff5bd",
+          "head": "0aa04b592986629cac16e8996a8a18efd8a537d4",
+          "log": "handoffs/codex/artifacts/R10-run2-050-tests-integration-coverage-coverage-test-ts.log"
+        },
+        "3": {
+          "status": "NOT_SELECTED",
+          "reason": "No command executed in this targeted run; earlier evidence retained."
+        }
+      },
+      "latest": "PASS"
+    },
+    {
+      "suite": "tests/integration/discovery/catalog-flow.test.ts",
+      "runs": {
+        "1": {
+          "status": "FAILED",
+          "exit_code": 1,
+          "run_id": "138cb254-ae60-447b-a3cd-7d07be5293bc",
+          "head": "3037887b40acf52d7ab2460aed6ab1125de19b67",
+          "log": "handoffs/codex/artifacts/R10-run1-055-tests-integration-discovery-catalog-flow-test-ts.log"
+        },
+        "2": {
+          "status": "PASS",
+          "exit_code": 0,
+          "run_id": "8b11a888-1757-4bb4-bb98-d2326ae908cb",
+          "head": "0aa04b592986629cac16e8996a8a18efd8a537d4",
+          "log": "handoffs/codex/artifacts/R10-run2-051-tests-integration-discovery-catalog-flow-test-ts.log"
+        },
+        "3": {
+          "status": "NOT_SELECTED",
+          "reason": "No command executed in this targeted run; earlier evidence retained."
+        }
+      },
+      "latest": "PASS"
+    },
+    {
+      "suite": "tests/integration/discovery/postgres-catalog.test.ts",
+      "runs": {
+        "1": {
+          "status": "PASS",
+          "exit_code": 0,
+          "run_id": "f7126f14-2e87-4151-be9f-8663ed7faa46",
+          "head": "3037887b40acf52d7ab2460aed6ab1125de19b67",
+          "log": "handoffs/codex/artifacts/R10-run1-056-tests-integration-discovery-postgres-catalog-test-ts.log"
+        },
+        "2": {
+          "status": "NOT_SELECTED",
+          "reason": "No command executed in this targeted run; earlier evidence retained."
+        },
+        "3": {
+          "status": "NOT_SELECTED",
+          "reason": "No command executed in this targeted run; earlier evidence retained."
+        }
+      },
+      "latest": "PASS"
+    },
+    {
+      "suite": "tests/integration/discovery/schema-drift.test.ts",
+      "runs": {
+        "1": {
+          "status": "FAILED",
+          "exit_code": 1,
+          "run_id": "881853a7-8c5c-447d-b3df-4b8d3a969440",
+          "head": "3037887b40acf52d7ab2460aed6ab1125de19b67",
+          "log": "handoffs/codex/artifacts/R10-run1-057-tests-integration-discovery-schema-drift-test-ts.log"
+        },
+        "2": {
+          "status": "PASS",
+          "exit_code": 0,
+          "run_id": "2fdc254f-449e-46b3-a59e-b2b7cde7c3b0",
+          "head": "0aa04b592986629cac16e8996a8a18efd8a537d4",
+          "log": "handoffs/codex/artifacts/R10-run2-052-tests-integration-discovery-schema-drift-test-ts.log"
+        },
+        "3": {
+          "status": "NOT_SELECTED",
+          "reason": "No command executed in this targeted run; earlier evidence retained."
+        }
+      },
+      "latest": "PASS"
+    },
+    {
+      "suite": "tests/integration/enforcement/send.test.ts",
+      "runs": {
+        "1": {
+          "status": "FAILED",
+          "exit_code": 1,
+          "run_id": "84746b82-f3dc-45fb-9a75-d8d86ba22a7c",
+          "head": "3037887b40acf52d7ab2460aed6ab1125de19b67",
+          "log": "handoffs/codex/artifacts/R10-run1-058-tests-integration-enforcement-send-test-ts.log"
+        },
+        "2": {
+          "status": "FAILED",
+          "exit_code": 1,
+          "run_id": "6e01bc0f-f008-4173-8c5b-87920dffc85e",
+          "head": "0aa04b592986629cac16e8996a8a18efd8a537d4",
+          "log": "handoffs/codex/artifacts/R10-run2-053-tests-integration-enforcement-send-test-ts.log"
+        },
+        "3": {
+          "status": "PASS",
+          "exit_code": 0,
+          "run_id": "89f63a79-9312-46a8-b8ad-2b0c9e675840",
+          "head": "93dcd202d431776718ec9e3845d0389bcbb6b625",
+          "log": "handoffs/codex/artifacts/R10-run3-048-tests-integration-enforcement-send-test-ts.log"
+        }
+      },
+      "latest": "PASS"
+    },
+    {
+      "suite": "tests/integration/enforcement/withdrawal-timing.test.ts",
+      "runs": {
+        "1": {
+          "status": "FAILED",
+          "exit_code": 1,
+          "run_id": "814f05d6-75b7-4e51-ba95-677de147e3c3",
+          "head": "3037887b40acf52d7ab2460aed6ab1125de19b67",
+          "log": "handoffs/codex/artifacts/R10-run1-060-tests-integration-enforcement-withdrawal-timing-test-ts.log"
+        },
+        "2": {
+          "status": "PASS",
+          "exit_code": 0,
+          "run_id": "dcec6c40-478c-49fe-b13c-b4d8897de945",
+          "head": "0aa04b592986629cac16e8996a8a18efd8a537d4",
+          "log": "handoffs/codex/artifacts/R10-run2-055-tests-integration-enforcement-withdrawal-timing-test-ts.log"
+        },
+        "3": {
+          "status": "PASS",
+          "exit_code": 0,
+          "run_id": "314d6023-239e-498b-a2cf-a7788c3b8587",
+          "head": "93dcd202d431776718ec9e3845d0389bcbb6b625",
+          "log": "handoffs/codex/artifacts/R10-run3-050-tests-integration-enforcement-withdrawal-timing-test-ts.log"
+        }
+      },
+      "latest": "PASS"
+    },
+    {
+      "suite": "tests/integration/evidence/evidence.test.ts",
+      "runs": {
+        "1": {
+          "status": "FAILED",
+          "exit_code": 1,
+          "run_id": "0a1678af-a4d1-4dd5-90e9-22810d8fc2cc",
+          "head": "3037887b40acf52d7ab2460aed6ab1125de19b67",
+          "log": "handoffs/codex/artifacts/R10-run1-062-tests-integration-evidence-evidence-test-ts.log"
+        },
+        "2": {
+          "status": "PASS",
+          "exit_code": 0,
+          "run_id": "ec6d43a4-9548-449f-a7a8-eed6a17dbf44",
+          "head": "0aa04b592986629cac16e8996a8a18efd8a537d4",
+          "log": "handoffs/codex/artifacts/R10-run2-057-tests-integration-evidence-evidence-test-ts.log"
+        },
+        "3": {
+          "status": "NOT_SELECTED",
+          "reason": "No command executed in this targeted run; earlier evidence retained."
+        }
+      },
+      "latest": "PASS"
+    },
+    {
+      "suite": "tests/integration/evidence/reports.test.ts",
+      "runs": {
+        "1": {
+          "status": "FAILED",
+          "exit_code": 1,
+          "run_id": "e80f65c5-6ed3-4a94-be75-9e5b610782d4",
+          "head": "3037887b40acf52d7ab2460aed6ab1125de19b67",
+          "log": "handoffs/codex/artifacts/R10-run1-063-tests-integration-evidence-reports-test-ts.log"
+        },
+        "2": {
+          "status": "PASS",
+          "exit_code": 0,
+          "run_id": "69a5b4d0-a623-49ab-82a6-e4a940fd4461",
+          "head": "0aa04b592986629cac16e8996a8a18efd8a537d4",
+          "log": "handoffs/codex/artifacts/R10-run2-058-tests-integration-evidence-reports-test-ts.log"
+        },
+        "3": {
+          "status": "NOT_SELECTED",
+          "reason": "No command executed in this targeted run; earlier evidence retained."
+        }
+      },
+      "latest": "PASS"
+    },
+    {
+      "suite": "tests/integration/expansion/audit-indicator-counts.test.ts",
+      "runs": {
+        "1": {
+          "status": "PASS",
+          "exit_code": 0,
+          "run_id": "7eb347fb-86ff-4349-ba62-c2d408da4bb4",
+          "head": "3037887b40acf52d7ab2460aed6ab1125de19b67",
+          "log": "handoffs/codex/artifacts/R10-run1-064-tests-integration-expansion-audit-indicator-counts-test-ts.log"
+        },
+        "2": {
+          "status": "NOT_SELECTED",
+          "reason": "No command executed in this targeted run; earlier evidence retained."
+        },
+        "3": {
+          "status": "NOT_SELECTED",
+          "reason": "No command executed in this targeted run; earlier evidence retained."
+        }
+      },
+      "latest": "PASS"
+    },
+    {
+      "suite": "tests/integration/expansion/audit-mandate.test.ts",
+      "runs": {
+        "1": {
+          "status": "FAILED",
+          "exit_code": 1,
+          "run_id": "6df985c9-e5ce-4384-a5f2-751b5f36e7e5",
+          "head": "3037887b40acf52d7ab2460aed6ab1125de19b67",
+          "log": "handoffs/codex/artifacts/R10-run1-065-tests-integration-expansion-audit-mandate-test-ts.log"
+        },
+        "2": {
+          "status": "PASS",
+          "exit_code": 0,
+          "run_id": "0107e020-78ef-4223-9e7e-485c6ac2bc32",
+          "head": "0aa04b592986629cac16e8996a8a18efd8a537d4",
+          "log": "handoffs/codex/artifacts/R10-run2-059-tests-integration-expansion-audit-mandate-test-ts.log"
+        },
+        "3": {
+          "status": "NOT_SELECTED",
+          "reason": "No command executed in this targeted run; earlier evidence retained."
+        }
+      },
+      "latest": "PASS"
+    },
+    {
+      "suite": "tests/integration/expansion/classification.test.ts",
+      "runs": {
+        "1": {
+          "status": "FAILED",
+          "exit_code": 1,
+          "run_id": "ebb9878c-a9e6-4cf1-ba5f-b1f94ddbaf52",
+          "head": "3037887b40acf52d7ab2460aed6ab1125de19b67",
+          "log": "handoffs/codex/artifacts/R10-run1-066-tests-integration-expansion-classification-test-ts.log"
+        },
+        "2": {
+          "status": "PASS",
+          "exit_code": 0,
+          "run_id": "b8b790c4-8516-4650-8ec1-00eff6273c5f",
+          "head": "0aa04b592986629cac16e8996a8a18efd8a537d4",
+          "log": "handoffs/codex/artifacts/R10-run2-060-tests-integration-expansion-classification-test-ts.log"
+        },
+        "3": {
+          "status": "NOT_SELECTED",
+          "reason": "No command executed in this targeted run; earlier evidence retained."
+        }
+      },
+      "latest": "PASS"
+    },
+    {
+      "suite": "tests/integration/expansion/cmp.test.ts",
+      "runs": {
+        "1": {
+          "status": "FAILED",
+          "exit_code": 1,
+          "run_id": "dd920ee6-759f-42cd-8839-a1ba77f97a13",
+          "head": "3037887b40acf52d7ab2460aed6ab1125de19b67",
+          "log": "handoffs/codex/artifacts/R10-run1-067-tests-integration-expansion-cmp-test-ts.log"
+        },
+        "2": {
+          "status": "PASS",
+          "exit_code": 0,
+          "run_id": "a00884f7-157e-4c2f-9165-8453c4f5de8f",
+          "head": "0aa04b592986629cac16e8996a8a18efd8a537d4",
+          "log": "handoffs/codex/artifacts/R10-run2-061-tests-integration-expansion-cmp-test-ts.log"
+        },
+        "3": {
+          "status": "NOT_SELECTED",
+          "reason": "No command executed in this targeted run; earlier evidence retained."
+        }
+      },
+      "latest": "PASS"
+    },
+    {
+      "suite": "tests/integration/expansion/delivery.test.ts",
+      "runs": {
+        "1": {
+          "status": "FAILED",
+          "exit_code": 1,
+          "run_id": "36b3bb98-66f9-495d-9643-76fc11c888ef",
+          "head": "3037887b40acf52d7ab2460aed6ab1125de19b67",
+          "log": "handoffs/codex/artifacts/R10-run1-068-tests-integration-expansion-delivery-test-ts.log"
+        },
+        "2": {
+          "status": "PASS",
+          "exit_code": 0,
+          "run_id": "25bec59d-e40c-4a32-8668-3c047955d84b",
+          "head": "0aa04b592986629cac16e8996a8a18efd8a537d4",
+          "log": "handoffs/codex/artifacts/R10-run2-062-tests-integration-expansion-delivery-test-ts.log"
+        },
+        "3": {
+          "status": "NOT_SELECTED",
+          "reason": "No command executed in this targeted run; earlier evidence retained."
+        }
+      },
+      "latest": "PASS"
+    },
+    {
+      "suite": "tests/integration/expansion/dpdpa-audit.test.ts",
+      "runs": {
+        "1": {
+          "status": "FAILED",
+          "exit_code": 1,
+          "run_id": "b6664e04-13f1-49da-9843-42b62308c043",
+          "head": "3037887b40acf52d7ab2460aed6ab1125de19b67",
+          "log": "handoffs/codex/artifacts/R10-run1-069-tests-integration-expansion-dpdpa-audit-test-ts.log"
+        },
+        "2": {
+          "status": "PASS",
+          "exit_code": 0,
+          "run_id": "c64ddc5e-38a7-4419-bd15-3a822b6575f7",
+          "head": "0aa04b592986629cac16e8996a8a18efd8a537d4",
+          "log": "handoffs/codex/artifacts/R10-run2-063-tests-integration-expansion-dpdpa-audit-test-ts.log"
+        },
+        "3": {
+          "status": "NOT_SELECTED",
+          "reason": "No command executed in this targeted run; earlier evidence retained."
+        }
+      },
+      "latest": "PASS"
+    },
+    {
+      "suite": "tests/integration/expansion/grc-lifecycle.test.ts",
+      "runs": {
+        "1": {
+          "status": "FAILED",
+          "exit_code": 1,
+          "run_id": "2d0a543f-e698-4f65-aef5-d212349a291a",
+          "head": "3037887b40acf52d7ab2460aed6ab1125de19b67",
+          "log": "handoffs/codex/artifacts/R10-run1-070-tests-integration-expansion-grc-lifecycle-test-ts.log"
+        },
+        "2": {
+          "status": "PASS",
+          "exit_code": 0,
+          "run_id": "dcdae23e-bef1-40fe-8be4-4e389168dd22",
+          "head": "0aa04b592986629cac16e8996a8a18efd8a537d4",
+          "log": "handoffs/codex/artifacts/R10-run2-064-tests-integration-expansion-grc-lifecycle-test-ts.log"
+        },
+        "3": {
+          "status": "NOT_SELECTED",
+          "reason": "No command executed in this targeted run; earlier evidence retained."
+        }
+      },
+      "latest": "PASS"
+    },
+    {
+      "suite": "tests/integration/expansion/impact.test.ts",
+      "runs": {
+        "1": {
+          "status": "FAILED",
+          "exit_code": 1,
+          "run_id": "019d71ed-48c0-454f-be51-32c2893c8185",
+          "head": "3037887b40acf52d7ab2460aed6ab1125de19b67",
+          "log": "handoffs/codex/artifacts/R10-run1-071-tests-integration-expansion-impact-test-ts.log"
+        },
+        "2": {
+          "status": "PASS",
+          "exit_code": 0,
+          "run_id": "2c10a60d-f2d0-4b03-b825-2e53fce6e49d",
+          "head": "0aa04b592986629cac16e8996a8a18efd8a537d4",
+          "log": "handoffs/codex/artifacts/R10-run2-065-tests-integration-expansion-impact-test-ts.log"
+        },
+        "3": {
+          "status": "NOT_SELECTED",
+          "reason": "No command executed in this targeted run; earlier evidence retained."
+        }
+      },
+      "latest": "PASS"
+    },
+    {
+      "suite": "tests/integration/expansion/policy-discovery.test.ts",
+      "runs": {
+        "1": {
+          "status": "FAILED",
+          "exit_code": 1,
+          "run_id": "469b9484-321a-4a24-9b25-14c803a969ba",
+          "head": "3037887b40acf52d7ab2460aed6ab1125de19b67",
+          "log": "handoffs/codex/artifacts/R10-run1-072-tests-integration-expansion-policy-discovery-test-ts.log"
+        },
+        "2": {
+          "status": "PASS",
+          "exit_code": 0,
+          "run_id": "ca62c071-fbb6-4203-94df-74ce5b4103ee",
+          "head": "0aa04b592986629cac16e8996a8a18efd8a537d4",
+          "log": "handoffs/codex/artifacts/R10-run2-066-tests-integration-expansion-policy-discovery-test-ts.log"
+        },
+        "3": {
+          "status": "NOT_SELECTED",
+          "reason": "No command executed in this targeted run; earlier evidence retained."
+        }
+      },
+      "latest": "PASS"
+    },
+    {
+      "suite": "tests/integration/expansion/preferences.test.ts",
+      "runs": {
+        "1": {
+          "status": "FAILED",
+          "exit_code": 1,
+          "run_id": "46c1b6d5-3d4a-47cf-8e63-b6df509ea3b5",
+          "head": "3037887b40acf52d7ab2460aed6ab1125de19b67",
+          "log": "handoffs/codex/artifacts/R10-run1-073-tests-integration-expansion-preferences-test-ts.log"
+        },
+        "2": {
+          "status": "PASS",
+          "exit_code": 0,
+          "run_id": "2bc901bc-98b1-417e-8012-cbadabcb89e3",
+          "head": "0aa04b592986629cac16e8996a8a18efd8a537d4",
+          "log": "handoffs/codex/artifacts/R10-run2-067-tests-integration-expansion-preferences-test-ts.log"
+        },
+        "3": {
+          "status": "NOT_SELECTED",
+          "reason": "No command executed in this targeted run; earlier evidence retained."
+        }
+      },
+      "latest": "PASS"
+    },
+    {
+      "suite": "tests/integration/expansion/response-packages.test.ts",
+      "runs": {
+        "1": {
+          "status": "FAILED",
+          "exit_code": 1,
+          "run_id": "7789e011-6bdd-447e-969e-5574dd0417cb",
+          "head": "3037887b40acf52d7ab2460aed6ab1125de19b67",
+          "log": "handoffs/codex/artifacts/R10-run1-074-tests-integration-expansion-response-packages-test-ts.log"
+        },
+        "2": {
+          "status": "PASS",
+          "exit_code": 0,
+          "run_id": "77751c81-9058-43c6-b5bd-4472a5dd37b5",
+          "head": "0aa04b592986629cac16e8996a8a18efd8a537d4",
+          "log": "handoffs/codex/artifacts/R10-run2-068-tests-integration-expansion-response-packages-test-ts.log"
+        },
+        "3": {
+          "status": "NOT_SELECTED",
+          "reason": "No command executed in this targeted run; earlier evidence retained."
+        }
+      },
+      "latest": "PASS"
+    },
+    {
+      "suite": "tests/integration/expansion/ropa-exports.test.ts",
+      "runs": {
+        "1": {
+          "status": "FAILED",
+          "exit_code": 1,
+          "run_id": "966710c6-4bda-4828-932b-4a8a606ba8f7",
+          "head": "3037887b40acf52d7ab2460aed6ab1125de19b67",
+          "log": "handoffs/codex/artifacts/R10-run1-075-tests-integration-expansion-ropa-exports-test-ts.log"
+        },
+        "2": {
+          "status": "PASS",
+          "exit_code": 0,
+          "run_id": "788f4e85-37c5-4967-9833-a0713325f22e",
+          "head": "0aa04b592986629cac16e8996a8a18efd8a537d4",
+          "log": "handoffs/codex/artifacts/R10-run2-069-tests-integration-expansion-ropa-exports-test-ts.log"
+        },
+        "3": {
+          "status": "NOT_SELECTED",
+          "reason": "No command executed in this targeted run; earlier evidence retained."
+        }
+      },
+      "latest": "PASS"
+    },
+    {
+      "suite": "tests/integration/expansion/staff-delete.test.ts",
+      "runs": {
+        "1": {
+          "status": "FAILED",
+          "exit_code": 1,
+          "run_id": "0cefe9ec-e8bc-42a9-bd18-737cd83da80f",
+          "head": "3037887b40acf52d7ab2460aed6ab1125de19b67",
+          "log": "handoffs/codex/artifacts/R10-run1-076-tests-integration-expansion-staff-delete-test-ts.log"
+        },
+        "2": {
+          "status": "PASS",
+          "exit_code": 0,
+          "run_id": "9fd17aa5-e16d-4443-8c0d-c972405eebd1",
+          "head": "0aa04b592986629cac16e8996a8a18efd8a537d4",
+          "log": "handoffs/codex/artifacts/R10-run2-070-tests-integration-expansion-staff-delete-test-ts.log"
+        },
+        "3": {
+          "status": "PASS",
+          "exit_code": 0,
+          "run_id": "dda6b5c8-f9f9-4c8e-9cb1-ddac42cfa111",
+          "head": "93dcd202d431776718ec9e3845d0389bcbb6b625",
+          "log": "handoffs/codex/artifacts/R10-run3-052-tests-integration-expansion-staff-delete-test-ts.log"
+        }
+      },
+      "latest": "PASS"
+    },
+    {
+      "suite": "tests/integration/expansion/staff-members.test.ts",
+      "runs": {
+        "1": {
+          "status": "FAILED",
+          "exit_code": 1,
+          "run_id": "6ed49a41-d56a-4727-b9ba-445920fa661e",
+          "head": "3037887b40acf52d7ab2460aed6ab1125de19b67",
+          "log": "handoffs/codex/artifacts/R10-run1-077-tests-integration-expansion-staff-members-test-ts.log"
+        },
+        "2": {
+          "status": "PASS",
+          "exit_code": 0,
+          "run_id": "fd76d139-007a-4783-90c9-9a2dd3fe7d15",
+          "head": "0aa04b592986629cac16e8996a8a18efd8a537d4",
+          "log": "handoffs/codex/artifacts/R10-run2-071-tests-integration-expansion-staff-members-test-ts.log"
+        },
+        "3": {
+          "status": "PASS",
+          "exit_code": 0,
+          "run_id": "b7ca842b-deff-4374-af70-4d8fcf059914",
+          "head": "93dcd202d431776718ec9e3845d0389bcbb6b625",
+          "log": "handoffs/codex/artifacts/R10-run3-054-tests-integration-expansion-staff-members-test-ts.log"
+        }
+      },
+      "latest": "PASS"
+    },
+    {
+      "suite": "tests/integration/expansion/third-party.test.ts",
+      "runs": {
+        "1": {
+          "status": "FAILED",
+          "exit_code": 1,
+          "run_id": "03d58f63-2aeb-47df-80a6-aeedd2a60716",
+          "head": "3037887b40acf52d7ab2460aed6ab1125de19b67",
+          "log": "handoffs/codex/artifacts/R10-run1-078-tests-integration-expansion-third-party-test-ts.log"
+        },
+        "2": {
+          "status": "PASS",
+          "exit_code": 0,
+          "run_id": "ba8ab8b9-8cb2-4708-ae64-598cff86cd05",
+          "head": "0aa04b592986629cac16e8996a8a18efd8a537d4",
+          "log": "handoffs/codex/artifacts/R10-run2-072-tests-integration-expansion-third-party-test-ts.log"
+        },
+        "3": {
+          "status": "NOT_SELECTED",
+          "reason": "No command executed in this targeted run; earlier evidence retained."
+        }
+      },
+      "latest": "PASS"
+    },
+    {
+      "suite": "tests/integration/graph/graph.test.ts",
+      "runs": {
+        "1": {
+          "status": "FAILED",
+          "exit_code": 1,
+          "run_id": "63b4b8fe-6b79-4c4c-aeab-47ee870dbeba",
+          "head": "3037887b40acf52d7ab2460aed6ab1125de19b67",
+          "log": "handoffs/codex/artifacts/R10-run1-079-tests-integration-graph-graph-test-ts.log"
+        },
+        "2": {
+          "status": "PASS",
+          "exit_code": 0,
+          "run_id": "dfd82b8c-bf2c-494e-b1ce-78cc777df2a5",
+          "head": "0aa04b592986629cac16e8996a8a18efd8a537d4",
+          "log": "handoffs/codex/artifacts/R10-run2-073-tests-integration-graph-graph-test-ts.log"
+        },
+        "3": {
+          "status": "NOT_SELECTED",
+          "reason": "No command executed in this targeted run; earlier evidence retained."
+        }
+      },
+      "latest": "PASS"
+    },
+    {
+      "suite": "tests/integration/grc/audits.test.ts",
+      "runs": {
+        "1": {
+          "status": "PASS",
+          "exit_code": 0,
+          "run_id": "d9002193-80e2-4d92-901c-1fb3affbfd54",
+          "head": "3037887b40acf52d7ab2460aed6ab1125de19b67",
+          "log": "handoffs/codex/artifacts/R10-run1-080-tests-integration-grc-audits-test-ts.log"
+        },
+        "2": {
+          "status": "NOT_SELECTED",
+          "reason": "No command executed in this targeted run; earlier evidence retained."
+        },
+        "3": {
+          "status": "NOT_SELECTED",
+          "reason": "No command executed in this targeted run; earlier evidence retained."
+        }
+      },
+      "latest": "PASS"
+    },
+    {
+      "suite": "tests/integration/grc/grc.test.ts",
+      "runs": {
+        "1": {
+          "status": "PASS",
+          "exit_code": 0,
+          "run_id": "9acee8a7-04c4-4379-b575-5449c0c31831",
+          "head": "3037887b40acf52d7ab2460aed6ab1125de19b67",
+          "log": "handoffs/codex/artifacts/R10-run1-081-tests-integration-grc-grc-test-ts.log"
+        },
+        "2": {
+          "status": "NOT_SELECTED",
+          "reason": "No command executed in this targeted run; earlier evidence retained."
+        },
+        "3": {
+          "status": "NOT_SELECTED",
+          "reason": "No command executed in this targeted run; earlier evidence retained."
+        }
+      },
+      "latest": "PASS"
+    },
+    {
+      "suite": "tests/integration/grc/http.test.ts",
+      "runs": {
+        "1": {
+          "status": "FAILED",
+          "exit_code": 1,
+          "run_id": "a86bebb5-e5da-4540-9de7-082ce19765f7",
+          "head": "3037887b40acf52d7ab2460aed6ab1125de19b67",
+          "log": "handoffs/codex/artifacts/R10-run1-082-tests-integration-grc-http-test-ts.log"
+        },
+        "2": {
+          "status": "FAILED",
+          "exit_code": 1,
+          "run_id": "73ecc6ac-db1c-48e0-8c48-e772d752ecad",
+          "head": "0aa04b592986629cac16e8996a8a18efd8a537d4",
+          "log": "handoffs/codex/artifacts/R10-run2-074-tests-integration-grc-http-test-ts.log"
+        },
+        "3": {
+          "status": "PASS",
+          "exit_code": 0,
+          "run_id": "8cc19844-6888-4e45-93ec-012e8d0d0d06",
+          "head": "93dcd202d431776718ec9e3845d0389bcbb6b625",
+          "log": "handoffs/codex/artifacts/R10-run3-056-tests-integration-grc-http-test-ts.log"
+        }
+      },
+      "latest": "PASS"
+    },
+    {
+      "suite": "tests/integration/incidents/incidents.test.ts",
+      "runs": {
+        "1": {
+          "status": "FAILED",
+          "exit_code": 1,
+          "run_id": "5c9c9d3e-d4cf-42e3-9b1a-4fa7f4ac6411",
+          "head": "3037887b40acf52d7ab2460aed6ab1125de19b67",
+          "log": "handoffs/codex/artifacts/R10-run1-083-tests-integration-incidents-incidents-test-ts.log"
+        },
+        "2": {
+          "status": "PASS",
+          "exit_code": 0,
+          "run_id": "ae8f89fc-26e3-4561-8322-8dbd5250786d",
+          "head": "0aa04b592986629cac16e8996a8a18efd8a537d4",
+          "log": "handoffs/codex/artifacts/R10-run2-075-tests-integration-incidents-incidents-test-ts.log"
+        },
+        "3": {
+          "status": "NOT_SELECTED",
+          "reason": "No command executed in this targeted run; earlier evidence retained."
+        }
+      },
+      "latest": "PASS"
+    },
+    {
+      "suite": "tests/integration/licensing/import-races.test.ts",
+      "runs": {
+        "1": {
+          "status": "FAILED",
+          "exit_code": 1,
+          "run_id": "8841258d-fe89-448c-9fd6-437f65da92d7",
+          "head": "3037887b40acf52d7ab2460aed6ab1125de19b67",
+          "log": "handoffs/codex/artifacts/R10-run1-084-tests-integration-licensing-import-races-test-ts.log"
+        },
+        "2": {
+          "status": "PASS",
+          "exit_code": 0,
+          "run_id": "4efb4950-ad60-47de-8392-1bfca31e9440",
+          "head": "0aa04b592986629cac16e8996a8a18efd8a537d4",
+          "log": "handoffs/codex/artifacts/R10-run2-076-tests-integration-licensing-import-races-test-ts.log"
+        },
+        "3": {
+          "status": "PASS",
+          "exit_code": 0,
+          "run_id": "cad38fa9-71da-457d-bf8b-ca982b4964d8",
+          "head": "93dcd202d431776718ec9e3845d0389bcbb6b625",
+          "log": "handoffs/codex/artifacts/R10-run3-058-tests-integration-licensing-import-races-test-ts.log"
+        }
+      },
+      "latest": "PASS"
+    },
+    {
+      "suite": "tests/integration/licensing/licensing.test.ts",
+      "runs": {
+        "1": {
+          "status": "FAILED",
+          "exit_code": 1,
+          "run_id": "c0d0474f-83fd-4a42-b7e7-30f63ff07855",
+          "head": "3037887b40acf52d7ab2460aed6ab1125de19b67",
+          "log": "handoffs/codex/artifacts/R10-run1-085-tests-integration-licensing-licensing-test-ts.log"
+        },
+        "2": {
+          "status": "FAILED",
+          "exit_code": 1,
+          "run_id": "94ded393-a817-4247-adbc-17a4cf685bba",
+          "head": "0aa04b592986629cac16e8996a8a18efd8a537d4",
+          "log": "handoffs/codex/artifacts/R10-run2-077-tests-integration-licensing-licensing-test-ts.log"
+        },
+        "3": {
+          "status": "PASS",
+          "exit_code": 0,
+          "run_id": "d18a3d46-f940-48cd-a70d-abbb49a63eae",
+          "head": "93dcd202d431776718ec9e3845d0389bcbb6b625",
+          "log": "handoffs/codex/artifacts/R10-run3-060-tests-integration-licensing-licensing-test-ts.log"
+        }
+      },
+      "latest": "PASS"
+    },
+    {
+      "suite": "tests/integration/licensing/quota-race.test.ts",
+      "runs": {
+        "1": {
+          "status": "NOT_SELECTED",
+          "reason": "No command executed in this targeted run; earlier evidence retained."
+        },
+        "2": {
+          "status": "FAILED",
+          "exit_code": 1,
+          "run_id": "c89dc332-cfc2-412c-8100-0ad209ab8ccb",
+          "head": "0aa04b592986629cac16e8996a8a18efd8a537d4",
+          "log": "handoffs/codex/artifacts/R10-run2-078-tests-integration-licensing-quota-race-test-ts.log"
+        },
+        "3": {
+          "status": "PASS",
+          "exit_code": 0,
+          "run_id": "24376748-ee1f-4daf-b5dc-d14f77434b0d",
+          "head": "93dcd202d431776718ec9e3845d0389bcbb6b625",
+          "log": "handoffs/codex/artifacts/R10-run3-062-tests-integration-licensing-quota-race-test-ts.log"
+        }
+      },
+      "latest": "PASS"
+    },
+    {
+      "suite": "tests/integration/licensing/tiers.test.ts",
+      "runs": {
+        "1": {
+          "status": "FAILED",
+          "exit_code": 1,
+          "run_id": "229dee35-8ecf-4643-af9f-508da6f83c1f",
+          "head": "3037887b40acf52d7ab2460aed6ab1125de19b67",
+          "log": "handoffs/codex/artifacts/R10-run1-086-tests-integration-licensing-tiers-test-ts.log"
+        },
+        "2": {
+          "status": "FAILED",
+          "exit_code": 1,
+          "run_id": "7be08cd5-184a-4b87-863b-21a7dbbad8e0",
+          "head": "0aa04b592986629cac16e8996a8a18efd8a537d4",
+          "log": "handoffs/codex/artifacts/R10-run2-079-tests-integration-licensing-tiers-test-ts.log"
+        },
+        "3": {
+          "status": "FAILED",
+          "exit_code": 1,
+          "run_id": "ef606a01-500b-4388-8dfe-16fe8a74e4c2",
+          "head": "93dcd202d431776718ec9e3845d0389bcbb6b625",
+          "log": "handoffs/codex/artifacts/R10-run3-064-tests-integration-licensing-tiers-test-ts.log"
+        }
+      },
+      "latest": "FAILED"
+    },
+    {
+      "suite": "tests/integration/lifecycle.test.ts",
+      "runs": {
+        "1": {
+          "status": "FAILED",
+          "exit_code": 1,
+          "run_id": "8aba9a4a-bfb8-4737-83d8-4186e54ba5fd",
+          "head": "3037887b40acf52d7ab2460aed6ab1125de19b67",
+          "log": "handoffs/codex/artifacts/R10-run1-087-tests-integration-lifecycle-test-ts.log"
+        },
+        "2": {
+          "status": "PASS",
+          "exit_code": 0,
+          "run_id": "4ce9f9f9-d3c7-4039-9b30-d0a6b47e4cad",
+          "head": "0aa04b592986629cac16e8996a8a18efd8a537d4",
+          "log": "handoffs/codex/artifacts/R10-run2-080-tests-integration-lifecycle-test-ts.log"
+        },
+        "3": {
+          "status": "PASS",
+          "exit_code": 0,
+          "run_id": "23241393-8405-47b4-b270-afca4294dcac",
+          "head": "93dcd202d431776718ec9e3845d0389bcbb6b625",
+          "log": "handoffs/codex/artifacts/R10-run3-066-tests-integration-lifecycle-test-ts.log"
+        }
+      },
+      "latest": "PASS"
+    },
+    {
+      "suite": "tests/integration/migration/upgrade.test.ts",
+      "runs": {
+        "1": {
+          "status": "PASS",
+          "exit_code": 0,
+          "run_id": "d0e575de-90f9-4b59-bed4-52837746ec21",
+          "head": "3037887b40acf52d7ab2460aed6ab1125de19b67",
+          "log": "handoffs/codex/artifacts/R10-run1-088-tests-integration-migration-upgrade-test-ts.log"
+        },
+        "2": {
+          "status": "NOT_SELECTED",
+          "reason": "No command executed in this targeted run; earlier evidence retained."
+        },
+        "3": {
+          "status": "NOT_SELECTED",
+          "reason": "No command executed in this targeted run; earlier evidence retained."
+        }
+      },
+      "latest": "PASS"
+    },
+    {
+      "suite": "tests/integration/monitoring/backup-drill.test.ts",
+      "runs": {
+        "1": {
+          "status": "FAILED",
+          "exit_code": 1,
+          "run_id": "43db7428-a893-4d35-b223-c55c5c2e63da",
+          "head": "3037887b40acf52d7ab2460aed6ab1125de19b67",
+          "log": "handoffs/codex/artifacts/R10-run1-089-tests-integration-monitoring-backup-drill-test-ts.log"
+        },
+        "2": {
+          "status": "PASS",
+          "exit_code": 0,
+          "run_id": "088ea8c7-0480-47f0-bfba-624216759d64",
+          "head": "0aa04b592986629cac16e8996a8a18efd8a537d4",
+          "log": "handoffs/codex/artifacts/R10-run2-081-tests-integration-monitoring-backup-drill-test-ts.log"
+        },
+        "3": {
+          "status": "NOT_SELECTED",
+          "reason": "No command executed in this targeted run; earlier evidence retained."
+        }
+      },
+      "latest": "PASS"
+    },
+    {
+      "suite": "tests/integration/monitoring/monitoring.test.ts",
+      "runs": {
+        "1": {
+          "status": "FAILED",
+          "exit_code": 1,
+          "run_id": "9250db3a-64fb-445e-8d68-59879edd6047",
+          "head": "3037887b40acf52d7ab2460aed6ab1125de19b67",
+          "log": "handoffs/codex/artifacts/R10-run1-090-tests-integration-monitoring-monitoring-test-ts.log"
+        },
+        "2": {
+          "status": "PASS",
+          "exit_code": 0,
+          "run_id": "ad09c4e8-12a2-40ce-b538-a9e556ffdb42",
+          "head": "0aa04b592986629cac16e8996a8a18efd8a537d4",
+          "log": "handoffs/codex/artifacts/R10-run2-082-tests-integration-monitoring-monitoring-test-ts.log"
+        },
+        "3": {
+          "status": "NOT_SELECTED",
+          "reason": "No command executed in this targeted run; earlier evidence retained."
+        }
+      },
+      "latest": "PASS"
+    },
+    {
+      "suite": "tests/integration/monitoring/restore.test.ts",
+      "runs": {
+        "1": {
+          "status": "FAILED",
+          "exit_code": 1,
+          "run_id": "85f879a7-d25f-4160-9fd0-90d92d61c8a0",
+          "head": "3037887b40acf52d7ab2460aed6ab1125de19b67",
+          "log": "handoffs/codex/artifacts/R10-run1-091-tests-integration-monitoring-restore-test-ts.log"
+        },
+        "2": {
+          "status": "PASS",
+          "exit_code": 0,
+          "run_id": "95fbd3fe-c3af-4064-9d81-21204baee172",
+          "head": "0aa04b592986629cac16e8996a8a18efd8a537d4",
+          "log": "handoffs/codex/artifacts/R10-run2-083-tests-integration-monitoring-restore-test-ts.log"
+        },
+        "3": {
+          "status": "NOT_SELECTED",
+          "reason": "No command executed in this targeted run; earlier evidence retained."
+        }
+      },
+      "latest": "PASS"
+    },
+    {
+      "suite": "tests/integration/monitoring/vendor-visibility.test.ts",
+      "runs": {
+        "1": {
+          "status": "FAILED",
+          "exit_code": 1,
+          "run_id": "e46a4e57-4489-4135-ad34-a7624d4dbce2",
+          "head": "3037887b40acf52d7ab2460aed6ab1125de19b67",
+          "log": "handoffs/codex/artifacts/R10-run1-092-tests-integration-monitoring-vendor-visibility-test-ts.log"
+        },
+        "2": {
+          "status": "PASS",
+          "exit_code": 0,
+          "run_id": "4d67b80b-7026-4a18-92d8-eefde08ec16c",
+          "head": "0aa04b592986629cac16e8996a8a18efd8a537d4",
+          "log": "handoffs/codex/artifacts/R10-run2-084-tests-integration-monitoring-vendor-visibility-test-ts.log"
+        },
+        "3": {
+          "status": "NOT_SELECTED",
+          "reason": "No command executed in this targeted run; earlier evidence retained."
+        }
+      },
+      "latest": "PASS"
+    },
+    {
+      "suite": "tests/integration/notices/languages.test.ts",
+      "runs": {
+        "1": {
+          "status": "FAILED",
+          "exit_code": 1,
+          "run_id": "1e99a5cd-e609-4e75-9a60-ac3cc562098c",
+          "head": "3037887b40acf52d7ab2460aed6ab1125de19b67",
+          "log": "handoffs/codex/artifacts/R10-run1-093-tests-integration-notices-languages-test-ts.log"
+        },
+        "2": {
+          "status": "PASS",
+          "exit_code": 0,
+          "run_id": "f27bc070-e74d-4e05-b646-fc04ee5a77c0",
+          "head": "0aa04b592986629cac16e8996a8a18efd8a537d4",
+          "log": "handoffs/codex/artifacts/R10-run2-085-tests-integration-notices-languages-test-ts.log"
+        },
+        "3": {
+          "status": "NOT_SELECTED",
+          "reason": "No command executed in this targeted run; earlier evidence retained."
+        }
+      },
+      "latest": "PASS"
+    },
+    {
+      "suite": "tests/integration/notifications/notifications.test.ts",
+      "runs": {
+        "1": {
+          "status": "FAILED",
+          "exit_code": 1,
+          "run_id": "289ee152-7bec-4808-8b8d-b1146bcbff26",
+          "head": "3037887b40acf52d7ab2460aed6ab1125de19b67",
+          "log": "handoffs/codex/artifacts/R10-run1-094-tests-integration-notifications-notifications-test-ts.log"
+        },
+        "2": {
+          "status": "PASS",
+          "exit_code": 0,
+          "run_id": "39118d0b-632f-42a6-a03c-66d79719afcb",
+          "head": "0aa04b592986629cac16e8996a8a18efd8a537d4",
+          "log": "handoffs/codex/artifacts/R10-run2-086-tests-integration-notifications-notifications-test-ts.log"
+        },
+        "3": {
+          "status": "NOT_SELECTED",
+          "reason": "No command executed in this targeted run; earlier evidence retained."
+        }
+      },
+      "latest": "PASS"
+    },
+    {
+      "suite": "tests/integration/onboarding/connection.test.ts",
+      "runs": {
+        "1": {
+          "status": "FAILED",
+          "exit_code": 1,
+          "run_id": "9feff22f-afe0-491d-9417-99e15ff78ed3",
+          "head": "3037887b40acf52d7ab2460aed6ab1125de19b67",
+          "log": "handoffs/codex/artifacts/R10-run1-095-tests-integration-onboarding-connection-test-ts.log"
+        },
+        "2": {
+          "status": "PASS",
+          "exit_code": 0,
+          "run_id": "8633780d-2f34-43ec-bd87-b9984572db41",
+          "head": "0aa04b592986629cac16e8996a8a18efd8a537d4",
+          "log": "handoffs/codex/artifacts/R10-run2-087-tests-integration-onboarding-connection-test-ts.log"
+        },
+        "3": {
+          "status": "NOT_SELECTED",
+          "reason": "No command executed in this targeted run; earlier evidence retained."
+        }
+      },
+      "latest": "PASS"
+    },
+    {
+      "suite": "tests/integration/onboarding/file-intake-adversarial.test.ts",
+      "runs": {
+        "1": {
+          "status": "FAILED",
+          "exit_code": 1,
+          "run_id": "41939c57-2082-4d23-b0db-948c3c8b2fd1",
+          "head": "3037887b40acf52d7ab2460aed6ab1125de19b67",
+          "log": "handoffs/codex/artifacts/R10-run1-096-tests-integration-onboarding-file-intake-adversarial-test-ts.log"
+        },
+        "2": {
+          "status": "FAILED",
+          "exit_code": null,
+          "run_id": null,
+          "head": "88b7b46558b9e4ec714c22643b6af657f0746609",
+          "log": "handoffs/codex/artifacts/R10-run2-089-tests-integration-onboarding-file-intake-adversarial-test-ts.log"
+        },
+        "3": {
+          "status": "PASS",
+          "exit_code": 0,
+          "run_id": "77928e84-920c-4b70-a0ed-522bb346aa9d",
+          "head": "93dcd202d431776718ec9e3845d0389bcbb6b625",
+          "log": "handoffs/codex/artifacts/R10-run3-068-tests-integration-onboarding-file-intake-adversarial-test-ts.log"
+        }
+      },
+      "latest": "PASS"
+    },
+    {
+      "suite": "tests/integration/onboarding/file-intake.test.ts",
+      "runs": {
+        "1": {
+          "status": "FAILED",
+          "exit_code": 1,
+          "run_id": "4264bfe2-9b38-472d-a34d-03ab5d8ea6c7",
+          "head": "3037887b40acf52d7ab2460aed6ab1125de19b67",
+          "log": "handoffs/codex/artifacts/R10-run1-097-tests-integration-onboarding-file-intake-test-ts.log"
+        },
+        "2": {
+          "status": "FAILED",
+          "exit_code": 1,
+          "run_id": "0f4b4e4e-c6eb-415d-bcbd-04678046d74a",
+          "head": "0aa04b592986629cac16e8996a8a18efd8a537d4",
+          "log": "handoffs/codex/artifacts/R10-run2-088-tests-integration-onboarding-file-intake-test-ts.log"
+        },
+        "3": {
+          "status": "PASS",
+          "exit_code": 0,
+          "run_id": "6b53bf33-d35a-4b36-bdaa-ee073e23f5f2",
+          "head": "93dcd202d431776718ec9e3845d0389bcbb6b625",
+          "log": "handoffs/codex/artifacts/R10-run3-070-tests-integration-onboarding-file-intake-test-ts.log"
+        }
+      },
+      "latest": "PASS"
+    },
+    {
+      "suite": "tests/integration/onboarding/first-run-http.test.ts",
+      "runs": {
+        "1": {
+          "status": "FAILED",
+          "exit_code": 1,
+          "run_id": "53fb5bf7-aed1-4622-8b15-e125627eedb7",
+          "head": "3037887b40acf52d7ab2460aed6ab1125de19b67",
+          "log": "handoffs/codex/artifacts/R10-run1-098-tests-integration-onboarding-first-run-http-test-ts.log"
+        },
+        "2": {
+          "status": "PASS",
+          "exit_code": 0,
+          "run_id": "11636fb3-bb4d-4e19-a199-fa4d4a76d5ec",
+          "head": "88b7b46558b9e4ec714c22643b6af657f0746609",
+          "log": "handoffs/codex/artifacts/R10-run2-091-tests-integration-onboarding-first-run-http-test-ts.log"
+        },
+        "3": {
+          "status": "NOT_SELECTED",
+          "reason": "No command executed in this targeted run; earlier evidence retained."
+        }
+      },
+      "latest": "PASS"
+    },
+    {
+      "suite": "tests/integration/onboarding/first-run.test.ts",
+      "runs": {
+        "1": {
+          "status": "FAILED",
+          "exit_code": 1,
+          "run_id": "d25d5d96-69ae-4aae-8240-e37ff4a58915",
+          "head": "3037887b40acf52d7ab2460aed6ab1125de19b67",
+          "log": "handoffs/codex/artifacts/R10-run1-099-tests-integration-onboarding-first-run-test-ts.log"
+        },
+        "2": {
+          "status": "PASS",
+          "exit_code": 0,
+          "run_id": "7899d615-35d5-4d5b-ac80-2681439aa5e2",
+          "head": "88b7b46558b9e4ec714c22643b6af657f0746609",
+          "log": "handoffs/codex/artifacts/R10-run2-090-tests-integration-onboarding-first-run-test-ts.log"
+        },
+        "3": {
+          "status": "NOT_SELECTED",
+          "reason": "No command executed in this targeted run; earlier evidence retained."
+        }
+      },
+      "latest": "PASS"
+    },
+    {
+      "suite": "tests/integration/onboarding/imports.test.ts",
+      "runs": {
+        "1": {
+          "status": "FAILED",
+          "exit_code": 1,
+          "run_id": "73e45015-714b-4f68-901b-9d4b07f87fef",
+          "head": "3037887b40acf52d7ab2460aed6ab1125de19b67",
+          "log": "handoffs/codex/artifacts/R10-run1-100-tests-integration-onboarding-imports-test-ts.log"
+        },
+        "2": {
+          "status": "PASS",
+          "exit_code": 0,
+          "run_id": "22e55f96-3e1a-4a39-85b1-929522ad34f2",
+          "head": "88b7b46558b9e4ec714c22643b6af657f0746609",
+          "log": "handoffs/codex/artifacts/R10-run2-092-tests-integration-onboarding-imports-test-ts.log"
+        },
+        "3": {
+          "status": "NOT_SELECTED",
+          "reason": "No command executed in this targeted run; earlier evidence retained."
+        }
+      },
+      "latest": "PASS"
+    },
+    {
+      "suite": "tests/integration/onboarding/owner-recovery.test.ts",
+      "runs": {
+        "1": {
+          "status": "FAILED",
+          "exit_code": 1,
+          "run_id": "e172db9d-0d2f-445e-a7ec-ddd8354494f3",
+          "head": "3037887b40acf52d7ab2460aed6ab1125de19b67",
+          "log": "handoffs/codex/artifacts/R10-run1-101-tests-integration-onboarding-owner-recovery-test-ts.log"
+        },
+        "2": {
+          "status": "PASS",
+          "exit_code": 0,
+          "run_id": "9325832c-27c8-4085-9c2b-9f6ffca73659",
+          "head": "88b7b46558b9e4ec714c22643b6af657f0746609",
+          "log": "handoffs/codex/artifacts/R10-run2-093-tests-integration-onboarding-owner-recovery-test-ts.log"
+        },
+        "3": {
+          "status": "NOT_SELECTED",
+          "reason": "No command executed in this targeted run; earlier evidence retained."
+        }
+      },
+      "latest": "PASS"
+    },
+    {
+      "suite": "tests/integration/onboarding/preflight.test.ts",
+      "runs": {
+        "1": {
+          "status": "FAILED",
+          "exit_code": 1,
+          "run_id": "20b4f246-4347-4476-ba40-afd4cfef246b",
+          "head": "3037887b40acf52d7ab2460aed6ab1125de19b67",
+          "log": "handoffs/codex/artifacts/R10-run1-102-tests-integration-onboarding-preflight-test-ts.log"
+        },
+        "2": {
+          "status": "PASS",
+          "exit_code": 0,
+          "run_id": "5da6561e-936d-4fdf-a040-c903e155a428",
+          "head": "88b7b46558b9e4ec714c22643b6af657f0746609",
+          "log": "handoffs/codex/artifacts/R10-run2-094-tests-integration-onboarding-preflight-test-ts.log"
+        },
+        "3": {
+          "status": "NOT_SELECTED",
+          "reason": "No command executed in this targeted run; earlier evidence retained."
+        }
+      },
+      "latest": "PASS"
+    },
+    {
+      "suite": "tests/integration/onboarding/real-principals.test.ts",
+      "runs": {
+        "1": {
+          "status": "FAILED",
+          "exit_code": 1,
+          "run_id": "0e489c08-d7a3-4f48-aba5-8eb7dcdfb764",
+          "head": "3037887b40acf52d7ab2460aed6ab1125de19b67",
+          "log": "handoffs/codex/artifacts/R10-run1-103-tests-integration-onboarding-real-principals-test-ts.log"
+        },
+        "2": {
+          "status": "PASS",
+          "exit_code": 0,
+          "run_id": "a7fcefeb-675f-4f62-b782-33cae6cd62d4",
+          "head": "88b7b46558b9e4ec714c22643b6af657f0746609",
+          "log": "handoffs/codex/artifacts/R10-run2-095-tests-integration-onboarding-real-principals-test-ts.log"
+        },
+        "3": {
+          "status": "NOT_SELECTED",
+          "reason": "No command executed in this targeted run; earlier evidence retained."
+        }
+      },
+      "latest": "PASS"
+    },
+    {
+      "suite": "tests/integration/opa/cold-start.test.ts",
+      "runs": {
+        "1": {
+          "status": "FAILED",
+          "exit_code": 1,
+          "run_id": "f7a1bf40-f4eb-46fe-9c4b-f3b5a17cc388",
+          "head": "3037887b40acf52d7ab2460aed6ab1125de19b67",
+          "log": "handoffs/codex/artifacts/R10-run1-104-tests-integration-opa-cold-start-test-ts.log"
+        },
+        "2": {
+          "status": "PASS",
+          "exit_code": 0,
+          "run_id": "ddcfd809-2074-425f-aae9-67639e7f65f7",
+          "head": "88b7b46558b9e4ec714c22643b6af657f0746609",
+          "log": "handoffs/codex/artifacts/R10-run2-096-tests-integration-opa-cold-start-test-ts.log"
+        },
+        "3": {
+          "status": "PASS",
+          "exit_code": 0,
+          "run_id": "7b1259e2-801a-4b55-9886-c8c2ed0d060c",
+          "head": "93dcd202d431776718ec9e3845d0389bcbb6b625",
+          "log": "handoffs/codex/artifacts/R10-run3-072-tests-integration-opa-cold-start-test-ts.log"
+        }
+      },
+      "latest": "PASS"
+    },
+    {
+      "suite": "tests/integration/operations/applicability.test.ts",
+      "runs": {
+        "1": {
+          "status": "FAILED",
+          "exit_code": 1,
+          "run_id": "e22683cc-7578-44b3-8ca1-61c1f7c291d3",
+          "head": "3037887b40acf52d7ab2460aed6ab1125de19b67",
+          "log": "handoffs/codex/artifacts/R10-run1-105-tests-integration-operations-applicability-test-ts.log"
+        },
+        "2": {
+          "status": "PASS",
+          "exit_code": 0,
+          "run_id": "fbca4e4b-7204-4512-8b07-e6a00b6eb5dc",
+          "head": "88b7b46558b9e4ec714c22643b6af657f0746609",
+          "log": "handoffs/codex/artifacts/R10-run2-097-tests-integration-operations-applicability-test-ts.log"
+        },
+        "3": {
+          "status": "NOT_SELECTED",
+          "reason": "No command executed in this targeted run; earlier evidence retained."
+        }
+      },
+      "latest": "PASS"
+    },
+    {
+      "suite": "tests/integration/operations/backup-obligations.test.ts",
+      "runs": {
+        "1": {
+          "status": "FAILED",
+          "exit_code": 1,
+          "run_id": "55728bdf-d596-4bd0-a08e-00f23ab3bdeb",
+          "head": "3037887b40acf52d7ab2460aed6ab1125de19b67",
+          "log": "handoffs/codex/artifacts/R10-run1-106-tests-integration-operations-backup-obligations-test-ts.log"
+        },
+        "2": {
+          "status": "FAILED",
+          "exit_code": 1,
+          "run_id": "11f8f56f-3133-49d2-8884-f6deff3b4331",
+          "head": "88b7b46558b9e4ec714c22643b6af657f0746609",
+          "log": "handoffs/codex/artifacts/R10-run2-098-tests-integration-operations-backup-obligations-test-ts.log"
+        },
+        "3": {
+          "status": "PASS",
+          "exit_code": 0,
+          "run_id": "a3a3be82-bf23-496e-9b4b-39ae0eb5a73f",
+          "head": "93dcd202d431776718ec9e3845d0389bcbb6b625",
+          "log": "handoffs/codex/artifacts/R10-run3-074-tests-integration-operations-backup-obligations-test-ts.log"
+        }
+      },
+      "latest": "PASS"
+    },
+    {
+      "suite": "tests/integration/operations/breach.test.ts",
+      "runs": {
+        "1": {
+          "status": "FAILED",
+          "exit_code": 1,
+          "run_id": "3795820a-7964-4609-a06c-d662cb103e82",
+          "head": "3037887b40acf52d7ab2460aed6ab1125de19b67",
+          "log": "handoffs/codex/artifacts/R10-run1-107-tests-integration-operations-breach-test-ts.log"
+        },
+        "2": {
+          "status": "PASS",
+          "exit_code": 0,
+          "run_id": "20cd739c-582b-4eca-8278-a71d535667ff",
+          "head": "88b7b46558b9e4ec714c22643b6af657f0746609",
+          "log": "handoffs/codex/artifacts/R10-run2-099-tests-integration-operations-breach-test-ts.log"
+        },
+        "3": {
+          "status": "NOT_SELECTED",
+          "reason": "No command executed in this targeted run; earlier evidence retained."
+        }
+      },
+      "latest": "PASS"
+    },
+    {
+      "suite": "tests/integration/operations/consent-manager.test.ts",
+      "runs": {
+        "1": {
+          "status": "FAILED",
+          "exit_code": 1,
+          "run_id": "2eb399c3-a3e9-40dd-8839-11be9b4e92b1",
+          "head": "3037887b40acf52d7ab2460aed6ab1125de19b67",
+          "log": "handoffs/codex/artifacts/R10-run1-108-tests-integration-operations-consent-manager-test-ts.log"
+        },
+        "2": {
+          "status": "PASS",
+          "exit_code": 0,
+          "run_id": "120b227a-1243-46a9-ba9a-869ea9f8f1c6",
+          "head": "88b7b46558b9e4ec714c22643b6af657f0746609",
+          "log": "handoffs/codex/artifacts/R10-run2-100-tests-integration-operations-consent-manager-test-ts.log"
+        },
+        "3": {
+          "status": "NOT_SELECTED",
+          "reason": "No command executed in this targeted run; earlier evidence retained."
+        }
+      },
+      "latest": "PASS"
+    },
+    {
+      "suite": "tests/integration/operations/consent-withdrawal.test.ts",
+      "runs": {
+        "1": {
+          "status": "FAILED",
+          "exit_code": 1,
+          "run_id": "ab54420f-66b7-47e0-82d8-927d5a4332f6",
+          "head": "3037887b40acf52d7ab2460aed6ab1125de19b67",
+          "log": "handoffs/codex/artifacts/R10-run1-109-tests-integration-operations-consent-withdrawal-test-ts.log"
+        },
+        "2": {
+          "status": "FAILED",
+          "exit_code": 1,
+          "run_id": "493f21d7-e917-407d-8fa7-f9c52cbb4a0a",
+          "head": "88b7b46558b9e4ec714c22643b6af657f0746609",
+          "log": "handoffs/codex/artifacts/R10-run2-101-tests-integration-operations-consent-withdrawal-test-ts.log"
+        },
+        "3": {
+          "status": "PASS",
+          "exit_code": 0,
+          "run_id": "a059c407-b062-406a-858c-5730f982a80d",
+          "head": "93dcd202d431776718ec9e3845d0389bcbb6b625",
+          "log": "handoffs/codex/artifacts/R10-run3-076-tests-integration-operations-consent-withdrawal-test-ts.log"
+        }
+      },
+      "latest": "PASS"
+    },
+    {
+      "suite": "tests/integration/operations/correction.test.ts",
+      "runs": {
+        "1": {
+          "status": "FAILED",
+          "exit_code": 1,
+          "run_id": "c5f8b80c-cf00-4504-b7cd-5454b2dde230",
+          "head": "3037887b40acf52d7ab2460aed6ab1125de19b67",
+          "log": "handoffs/codex/artifacts/R10-run1-110-tests-integration-operations-correction-test-ts.log"
+        },
+        "2": {
+          "status": "PASS",
+          "exit_code": 0,
+          "run_id": "2a38481b-d991-48f3-a377-9262c207a1a8",
+          "head": "88b7b46558b9e4ec714c22643b6af657f0746609",
+          "log": "handoffs/codex/artifacts/R10-run2-102-tests-integration-operations-correction-test-ts.log"
+        },
+        "3": {
+          "status": "NOT_SELECTED",
+          "reason": "No command executed in this targeted run; earlier evidence retained."
+        }
+      },
+      "latest": "PASS"
+    },
+    {
+      "suite": "tests/integration/operations/erasure-intimation.test.ts",
+      "runs": {
+        "1": {
+          "status": "FAILED",
+          "exit_code": 1,
+          "run_id": "8b3f7b3b-1ade-4c22-bdfe-9c688339f7ff",
+          "head": "3037887b40acf52d7ab2460aed6ab1125de19b67",
+          "log": "handoffs/codex/artifacts/R10-run1-111-tests-integration-operations-erasure-intimation-test-ts.log"
+        },
+        "2": {
+          "status": "PASS",
+          "exit_code": 0,
+          "run_id": "d38612df-0b5d-48cd-b9d6-b47b9c30c82a",
+          "head": "88b7b46558b9e4ec714c22643b6af657f0746609",
+          "log": "handoffs/codex/artifacts/R10-run2-103-tests-integration-operations-erasure-intimation-test-ts.log"
+        },
+        "3": {
+          "status": "NOT_SELECTED",
+          "reason": "No command executed in this targeted run; earlier evidence retained."
+        }
+      },
+      "latest": "PASS"
+    },
+    {
+      "suite": "tests/integration/operations/estate-import.test.ts",
+      "runs": {
+        "1": {
+          "status": "FAILED",
+          "exit_code": 1,
+          "run_id": "ce4a5401-7af4-4b4d-8ff6-ef7f01cd8bd0",
+          "head": "3037887b40acf52d7ab2460aed6ab1125de19b67",
+          "log": "handoffs/codex/artifacts/R10-run1-112-tests-integration-operations-estate-import-test-ts.log"
+        },
+        "2": {
+          "status": "PASS",
+          "exit_code": 0,
+          "run_id": "1889a045-df13-405f-9bb1-e9010afd6d4f",
+          "head": "88b7b46558b9e4ec714c22643b6af657f0746609",
+          "log": "handoffs/codex/artifacts/R10-run2-104-tests-integration-operations-estate-import-test-ts.log"
+        },
+        "3": {
+          "status": "NOT_SELECTED",
+          "reason": "No command executed in this targeted run; earlier evidence retained."
+        }
+      },
+      "latest": "PASS"
+    },
+    {
+      "suite": "tests/integration/operations/notice-language-drift.test.ts",
+      "runs": {
+        "1": {
+          "status": "FAILED",
+          "exit_code": 1,
+          "run_id": "ac3139e0-5393-4ea5-ad4f-687d8948b8ad",
+          "head": "3037887b40acf52d7ab2460aed6ab1125de19b67",
+          "log": "handoffs/codex/artifacts/R10-run1-113-tests-integration-operations-notice-language-drift-test-ts.log"
+        },
+        "2": {
+          "status": "PASS",
+          "exit_code": 0,
+          "run_id": "e23068bc-d6c0-4323-ae59-73e8d7266456",
+          "head": "88b7b46558b9e4ec714c22643b6af657f0746609",
+          "log": "handoffs/codex/artifacts/R10-run2-105-tests-integration-operations-notice-language-drift-test-ts.log"
+        },
+        "3": {
+          "status": "NOT_SELECTED",
+          "reason": "No command executed in this targeted run; earlier evidence retained."
+        }
+      },
+      "latest": "PASS"
+    },
+    {
+      "suite": "tests/integration/operations/notices.test.ts",
+      "runs": {
+        "1": {
+          "status": "FAILED",
+          "exit_code": 1,
+          "run_id": "d454b944-6a02-495f-a532-9bb8b1d58e58",
+          "head": "3037887b40acf52d7ab2460aed6ab1125de19b67",
+          "log": "handoffs/codex/artifacts/R10-run1-114-tests-integration-operations-notices-test-ts.log"
+        },
+        "2": {
+          "status": "FAILED",
+          "exit_code": 1,
+          "run_id": "0ac3e6d5-4e60-4ae8-8e29-a0c5df0d7500",
+          "head": "88b7b46558b9e4ec714c22643b6af657f0746609",
+          "log": "handoffs/codex/artifacts/R10-run2-106-tests-integration-operations-notices-test-ts.log"
+        },
+        "3": {
+          "status": "PASS",
+          "exit_code": 0,
+          "run_id": "efa4242b-bd96-41a1-a75b-f37b8e18f7d5",
+          "head": "93dcd202d431776718ec9e3845d0389bcbb6b625",
+          "log": "handoffs/codex/artifacts/R10-run3-078-tests-integration-operations-notices-test-ts.log"
+        }
+      },
+      "latest": "PASS"
+    },
+    {
+      "suite": "tests/integration/operations/organisation-intake.test.ts",
+      "runs": {
+        "1": {
+          "status": "FAILED",
+          "exit_code": 1,
+          "run_id": "be986add-dcfc-4870-bd6c-ac57b7586d8f",
+          "head": "3037887b40acf52d7ab2460aed6ab1125de19b67",
+          "log": "handoffs/codex/artifacts/R10-run1-115-tests-integration-operations-organisation-intake-test-ts.log"
+        },
+        "2": {
+          "status": "FAILED",
+          "exit_code": 1,
+          "run_id": "af79b7fa-0627-4a81-8b51-8548ec393708",
+          "head": "88b7b46558b9e4ec714c22643b6af657f0746609",
+          "log": "handoffs/codex/artifacts/R10-run2-107-tests-integration-operations-organisation-intake-test-ts.log"
+        },
+        "3": {
+          "status": "PASS",
+          "exit_code": 0,
+          "run_id": "0bc24684-e0d1-40c4-9b49-5f4233aff5b0",
+          "head": "93dcd202d431776718ec9e3845d0389bcbb6b625",
+          "log": "handoffs/codex/artifacts/R10-run3-080-tests-integration-operations-organisation-intake-test-ts.log"
+        }
+      },
+      "latest": "PASS"
+    },
+    {
+      "suite": "tests/integration/operations/processors.test.ts",
+      "runs": {
+        "1": {
+          "status": "FAILED",
+          "exit_code": 1,
+          "run_id": "6a8d9aa3-be2c-40b3-8e07-adaa751f4aa2",
+          "head": "3037887b40acf52d7ab2460aed6ab1125de19b67",
+          "log": "handoffs/codex/artifacts/R10-run1-116-tests-integration-operations-processors-test-ts.log"
+        },
+        "2": {
+          "status": "PASS",
+          "exit_code": 0,
+          "run_id": "2ec627aa-66f6-4c25-bd59-116e35adc7f8",
+          "head": "88b7b46558b9e4ec714c22643b6af657f0746609",
+          "log": "handoffs/codex/artifacts/R10-run2-108-tests-integration-operations-processors-test-ts.log"
+        },
+        "3": {
+          "status": "NOT_SELECTED",
+          "reason": "No command executed in this targeted run; earlier evidence retained."
+        }
+      },
+      "latest": "PASS"
+    },
+    {
+      "suite": "tests/integration/operations/registry.test.ts",
+      "runs": {
+        "1": {
+          "status": "FAILED",
+          "exit_code": 1,
+          "run_id": "a7b950f0-13a0-4ab9-a12c-952f18fe752d",
+          "head": "3037887b40acf52d7ab2460aed6ab1125de19b67",
+          "log": "handoffs/codex/artifacts/R10-run1-117-tests-integration-operations-registry-test-ts.log"
+        },
+        "2": {
+          "status": "PASS",
+          "exit_code": 0,
+          "run_id": "0403aaae-f689-4e58-80cd-1dc887aa0737",
+          "head": "88b7b46558b9e4ec714c22643b6af657f0746609",
+          "log": "handoffs/codex/artifacts/R10-run2-109-tests-integration-operations-registry-test-ts.log"
+        },
+        "3": {
+          "status": "NOT_SELECTED",
+          "reason": "No command executed in this targeted run; earlier evidence retained."
+        }
+      },
+      "latest": "PASS"
+    },
+    {
+      "suite": "tests/integration/operations/regulatory.test.ts",
+      "runs": {
+        "1": {
+          "status": "FAILED",
+          "exit_code": 1,
+          "run_id": "d80dbccd-9e1e-4b9e-9c30-aab700ec1b83",
+          "head": "3037887b40acf52d7ab2460aed6ab1125de19b67",
+          "log": "handoffs/codex/artifacts/R10-run1-118-tests-integration-operations-regulatory-test-ts.log"
+        },
+        "2": {
+          "status": "PASS",
+          "exit_code": 0,
+          "run_id": "0a43378f-4c3c-4a4e-9428-a73fd976dbad",
+          "head": "88b7b46558b9e4ec714c22643b6af657f0746609",
+          "log": "handoffs/codex/artifacts/R10-run2-110-tests-integration-operations-regulatory-test-ts.log"
+        },
+        "3": {
+          "status": "NOT_SELECTED",
+          "reason": "No command executed in this targeted run; earlier evidence retained."
+        }
+      },
+      "latest": "PASS"
+    },
+    {
+      "suite": "tests/integration/operations/retention-scale.test.ts",
+      "runs": {
+        "1": {
+          "status": "FAILED",
+          "exit_code": 1,
+          "run_id": "85b2b4d2-fe88-464d-9841-8d94e3e2f494",
+          "head": "3037887b40acf52d7ab2460aed6ab1125de19b67",
+          "log": "handoffs/codex/artifacts/R10-run1-119-tests-integration-operations-retention-scale-test-ts.log"
+        },
+        "2": {
+          "status": "FAILED",
+          "exit_code": 1,
+          "run_id": "7d898381-8346-43ed-bce8-fc5b6cb16806",
+          "head": "88b7b46558b9e4ec714c22643b6af657f0746609",
+          "log": "handoffs/codex/artifacts/R10-run2-111-tests-integration-operations-retention-scale-test-ts.log"
+        },
+        "3": {
+          "status": "PASS",
+          "exit_code": 0,
+          "run_id": "0983a308-7f1d-401f-81f3-d95ee40687d9",
+          "head": "93dcd202d431776718ec9e3845d0389bcbb6b625",
+          "log": "handoffs/codex/artifacts/R10-run3-082-tests-integration-operations-retention-scale-test-ts.log"
+        }
+      },
+      "latest": "PASS"
+    },
+    {
+      "suite": "tests/integration/operations/rights.test.ts",
+      "runs": {
+        "1": {
+          "status": "FAILED",
+          "exit_code": 1,
+          "run_id": "c4a98b89-0ed5-495a-afcb-92cec6de2f2d",
+          "head": "3037887b40acf52d7ab2460aed6ab1125de19b67",
+          "log": "handoffs/codex/artifacts/R10-run1-120-tests-integration-operations-rights-test-ts.log"
+        },
+        "2": {
+          "status": "PASS",
+          "exit_code": 0,
+          "run_id": "f5371dcb-11d4-4718-acb2-820c91d35006",
+          "head": "88b7b46558b9e4ec714c22643b6af657f0746609",
+          "log": "handoffs/codex/artifacts/R10-run2-112-tests-integration-operations-rights-test-ts.log"
+        },
+        "3": {
+          "status": "NOT_SELECTED",
+          "reason": "No command executed in this targeted run; earlier evidence retained."
+        }
+      },
+      "latest": "PASS"
+    },
+    {
+      "suite": "tests/integration/operations/runner-progress.test.ts",
+      "runs": {
+        "1": {
+          "status": "FAILED",
+          "exit_code": 1,
+          "run_id": "4f30d5df-5a57-4e76-8d15-d343ac25d7bd",
+          "head": "3037887b40acf52d7ab2460aed6ab1125de19b67",
+          "log": "handoffs/codex/artifacts/R10-run1-121-tests-integration-operations-runner-progress-test-ts.log"
+        },
+        "2": {
+          "status": "PASS",
+          "exit_code": 0,
+          "run_id": "b19e34d9-8e60-4877-a302-0960cb8d3c74",
+          "head": "88b7b46558b9e4ec714c22643b6af657f0746609",
+          "log": "handoffs/codex/artifacts/R10-run2-114-tests-integration-operations-runner-progress-test-ts.log"
+        },
+        "3": {
+          "status": "NOT_SELECTED",
+          "reason": "No command executed in this targeted run; earlier evidence retained."
+        }
+      },
+      "latest": "PASS"
+    },
+    {
+      "suite": "tests/integration/operations/runner.test.ts",
+      "runs": {
+        "1": {
+          "status": "FAILED",
+          "exit_code": 1,
+          "run_id": "dc3f90db-13e0-45d8-ade1-04af81878077",
+          "head": "3037887b40acf52d7ab2460aed6ab1125de19b67",
+          "log": "handoffs/codex/artifacts/R10-run1-122-tests-integration-operations-runner-test-ts.log"
+        },
+        "2": {
+          "status": "FAILED",
+          "exit_code": 1,
+          "run_id": "71579cb9-bc48-4b76-a476-3d243179833c",
+          "head": "88b7b46558b9e4ec714c22643b6af657f0746609",
+          "log": "handoffs/codex/artifacts/R10-run2-113-tests-integration-operations-runner-test-ts.log"
+        },
+        "3": {
+          "status": "PASS",
+          "exit_code": 0,
+          "run_id": "c6935756-7f4c-4863-b5a5-33304ba756cd",
+          "head": "93dcd202d431776718ec9e3845d0389bcbb6b625",
+          "log": "handoffs/codex/artifacts/R10-run3-084-tests-integration-operations-runner-test-ts.log"
+        }
+      },
+      "latest": "PASS"
+    },
+    {
+      "suite": "tests/integration/operations/sdf.test.ts",
+      "runs": {
+        "1": {
+          "status": "FAILED",
+          "exit_code": 1,
+          "run_id": "81014234-96bc-4629-8fdd-d74d8e583de4",
+          "head": "3037887b40acf52d7ab2460aed6ab1125de19b67",
+          "log": "handoffs/codex/artifacts/R10-run1-123-tests-integration-operations-sdf-test-ts.log"
+        },
+        "2": {
+          "status": "PASS",
+          "exit_code": 0,
+          "run_id": "c68bc365-3492-401c-b6bc-ddf86c722963",
+          "head": "88b7b46558b9e4ec714c22643b6af657f0746609",
+          "log": "handoffs/codex/artifacts/R10-run2-115-tests-integration-operations-sdf-test-ts.log"
+        },
+        "3": {
+          "status": "NOT_SELECTED",
+          "reason": "No command executed in this targeted run; earlier evidence retained."
+        }
+      },
+      "latest": "PASS"
+    },
+    {
+      "suite": "tests/integration/operations/withdrawal-single-pass.test.ts",
+      "runs": {
+        "1": {
+          "status": "FAILED",
+          "exit_code": 1,
+          "run_id": "6618dee6-17f9-48ce-9fde-a3dc2f96adaf",
+          "head": "3037887b40acf52d7ab2460aed6ab1125de19b67",
+          "log": "handoffs/codex/artifacts/R10-run1-124-tests-integration-operations-withdrawal-single-pass-test-ts.log"
+        },
+        "2": {
+          "status": "PASS",
+          "exit_code": 0,
+          "run_id": "2987ae5b-be42-4dc3-ae5c-505ff00c95b1",
+          "head": "88b7b46558b9e4ec714c22643b6af657f0746609",
+          "log": "handoffs/codex/artifacts/R10-run2-116-tests-integration-operations-withdrawal-single-pass-test-ts.log"
+        },
+        "3": {
+          "status": "NOT_SELECTED",
+          "reason": "No command executed in this targeted run; earlier evidence retained."
+        }
+      },
+      "latest": "PASS"
+    },
+    {
+      "suite": "tests/integration/processors/assessment-race.test.ts",
+      "runs": {
+        "1": {
+          "status": "PASS",
+          "exit_code": 0,
+          "run_id": "cf52b84a-6955-489d-9bd2-fa46e66e6810",
+          "head": "3037887b40acf52d7ab2460aed6ab1125de19b67",
+          "log": "handoffs/codex/artifacts/R10-run1-125-tests-integration-processors-assessment-race-test-ts.log"
+        },
+        "2": {
+          "status": "NOT_SELECTED",
+          "reason": "No command executed in this targeted run; earlier evidence retained."
+        },
+        "3": {
+          "status": "NOT_SELECTED",
+          "reason": "No command executed in this targeted run; earlier evidence retained."
+        }
+      },
+      "latest": "PASS"
+    },
+    {
+      "suite": "tests/integration/processors/processors.test.ts",
+      "runs": {
+        "1": {
+          "status": "FAILED",
+          "exit_code": 1,
+          "run_id": "e7e52793-c0e8-4888-933e-e2c7e54e491b",
+          "head": "3037887b40acf52d7ab2460aed6ab1125de19b67",
+          "log": "handoffs/codex/artifacts/R10-run1-126-tests-integration-processors-processors-test-ts.log"
+        },
+        "2": {
+          "status": "PASS",
+          "exit_code": 0,
+          "run_id": "005f50d0-f0f2-49b6-98f2-81c6cac081d1",
+          "head": "88b7b46558b9e4ec714c22643b6af657f0746609",
+          "log": "handoffs/codex/artifacts/R10-run2-117-tests-integration-processors-processors-test-ts.log"
+        },
+        "3": {
+          "status": "NOT_SELECTED",
+          "reason": "No command executed in this targeted run; earlier evidence retained."
+        }
+      },
+      "latest": "PASS"
+    },
+    {
+      "suite": "tests/integration/regression/regression.test.ts",
+      "runs": {
+        "1": {
+          "status": "FAILED",
+          "exit_code": 1,
+          "run_id": "1a04a5ee-4a82-4634-b431-d6bedd2305d1",
+          "head": "3037887b40acf52d7ab2460aed6ab1125de19b67",
+          "log": "handoffs/codex/artifacts/R10-run1-128-tests-integration-regression-regression-test-ts.log"
+        },
+        "2": {
+          "status": "PASS",
+          "exit_code": 0,
+          "run_id": "4f0562d1-53d4-4008-858a-ddec6455b06f",
+          "head": "88b7b46558b9e4ec714c22643b6af657f0746609",
+          "log": "handoffs/codex/artifacts/R10-run2-119-tests-integration-regression-regression-test-ts.log"
+        },
+        "3": {
+          "status": "NOT_SELECTED",
+          "reason": "No command executed in this targeted run; earlier evidence retained."
+        }
+      },
+      "latest": "PASS"
+    },
+    {
+      "suite": "tests/integration/retention/retention.test.ts",
+      "runs": {
+        "1": {
+          "status": "FAILED",
+          "exit_code": 1,
+          "run_id": "a89fea93-3886-4eca-9dbf-f5d8601750ce",
+          "head": "3037887b40acf52d7ab2460aed6ab1125de19b67",
+          "log": "handoffs/codex/artifacts/R10-run1-129-tests-integration-retention-retention-test-ts.log"
+        },
+        "2": {
+          "status": "PASS",
+          "exit_code": 0,
+          "run_id": "86a4b5d8-2ae6-459d-913f-c93aa86af98e",
+          "head": "88b7b46558b9e4ec714c22643b6af657f0746609",
+          "log": "handoffs/codex/artifacts/R10-run2-120-tests-integration-retention-retention-test-ts.log"
+        },
+        "3": {
+          "status": "NOT_SELECTED",
+          "reason": "No command executed in this targeted run; earlier evidence retained."
+        }
+      },
+      "latest": "PASS"
+    },
+    {
+      "suite": "tests/integration/rights/portal.test.ts",
+      "runs": {
+        "1": {
+          "status": "FAILED",
+          "exit_code": 1,
+          "run_id": "781660c3-00c6-4f86-8566-478a3ee30833",
+          "head": "3037887b40acf52d7ab2460aed6ab1125de19b67",
+          "log": "handoffs/codex/artifacts/R10-run1-130-tests-integration-rights-portal-test-ts.log"
+        },
+        "2": {
+          "status": "PASS",
+          "exit_code": 0,
+          "run_id": "be946247-a602-4142-b3a6-1162613eb0d3",
+          "head": "88b7b46558b9e4ec714c22643b6af657f0746609",
+          "log": "handoffs/codex/artifacts/R10-run2-121-tests-integration-rights-portal-test-ts.log"
+        },
+        "3": {
+          "status": "NOT_SELECTED",
+          "reason": "No command executed in this targeted run; earlier evidence retained."
+        }
+      },
+      "latest": "PASS"
+    },
+    {
+      "suite": "tests/integration/rights/rights.test.ts",
+      "runs": {
+        "1": {
+          "status": "FAILED",
+          "exit_code": 1,
+          "run_id": "73d0f5cc-c0de-446e-a393-d3d3ab92a3a7",
+          "head": "3037887b40acf52d7ab2460aed6ab1125de19b67",
+          "log": "handoffs/codex/artifacts/R10-run1-131-tests-integration-rights-rights-test-ts.log"
+        },
+        "2": {
+          "status": "PASS",
+          "exit_code": 0,
+          "run_id": "d02239cc-547a-4e6b-89f5-83a5f9668830",
+          "head": "88b7b46558b9e4ec714c22643b6af657f0746609",
+          "log": "handoffs/codex/artifacts/R10-run2-122-tests-integration-rights-rights-test-ts.log"
+        },
+        "3": {
+          "status": "NOT_SELECTED",
+          "reason": "No command executed in this targeted run; earlier evidence retained."
+        }
+      },
+      "latest": "PASS"
+    },
+    {
+      "suite": "tests/integration/support/support.test.ts",
+      "runs": {
+        "1": {
+          "status": "FAILED",
+          "exit_code": 1,
+          "run_id": "05c83720-2c54-4513-b495-0ef0c44e2ba9",
+          "head": "3037887b40acf52d7ab2460aed6ab1125de19b67",
+          "log": "handoffs/codex/artifacts/R10-run1-132-tests-integration-support-support-test-ts.log"
+        },
+        "2": {
+          "status": "PASS",
+          "exit_code": 0,
+          "run_id": "be1b8798-edc6-4a99-a8df-036b03af0d83",
+          "head": "88b7b46558b9e4ec714c22643b6af657f0746609",
+          "log": "handoffs/codex/artifacts/R10-run2-123-tests-integration-support-support-test-ts.log"
+        },
+        "3": {
+          "status": "NOT_SELECTED",
+          "reason": "No command executed in this targeted run; earlier evidence retained."
+        }
+      },
+      "latest": "PASS"
+    },
+    {
+      "suite": "tests/integration/updates/updates.test.ts",
+      "runs": {
+        "1": {
+          "status": "FAILED",
+          "exit_code": 1,
+          "run_id": "e7ed9c99-8ee9-4fbe-a8b5-80c9d1273b47",
+          "head": "3037887b40acf52d7ab2460aed6ab1125de19b67",
+          "log": "handoffs/codex/artifacts/R10-run1-133-tests-integration-updates-updates-test-ts.log"
+        },
+        "2": {
+          "status": "PASS",
+          "exit_code": 0,
+          "run_id": "25038725-2fbe-4a39-8353-32e862ba4eec",
+          "head": "88b7b46558b9e4ec714c22643b6af657f0746609",
+          "log": "handoffs/codex/artifacts/R10-run2-124-tests-integration-updates-updates-test-ts.log"
+        },
+        "3": {
+          "status": "NOT_SELECTED",
+          "reason": "No command executed in this targeted run; earlier evidence retained."
+        }
+      },
+      "latest": "PASS"
+    },
+    {
+      "suite": "tests/integration/vendor/audit-practice.test.ts",
+      "runs": {
+        "1": {
+          "status": "FAILED",
+          "exit_code": 1,
+          "run_id": "17fd4492-a057-4dcf-9da0-fc88b6fe43d0",
+          "head": "3037887b40acf52d7ab2460aed6ab1125de19b67",
+          "log": "handoffs/codex/artifacts/R10-run1-134-tests-integration-vendor-audit-practice-test-ts.log"
+        },
+        "2": {
+          "status": "FAILED",
+          "exit_code": 1,
+          "run_id": "279ad7d5-f31c-4afe-9c1c-e1a6174c8775",
+          "head": "88b7b46558b9e4ec714c22643b6af657f0746609",
+          "log": "handoffs/codex/artifacts/R10-run2-125-tests-integration-vendor-audit-practice-test-ts.log"
+        },
+        "3": {
+          "status": "PASS",
+          "exit_code": 0,
+          "run_id": "3fb22684-db3a-44e1-b2bd-e6fe1d3e3570",
+          "head": "93dcd202d431776718ec9e3845d0389bcbb6b625",
+          "log": "handoffs/codex/artifacts/R10-run3-086-tests-integration-vendor-audit-practice-test-ts.log"
+        }
+      },
+      "latest": "PASS"
+    },
+    {
+      "suite": "tests/integration/vendor/member-onboarding.test.ts",
+      "runs": {
+        "1": {
+          "status": "FAILED",
+          "exit_code": 1,
+          "run_id": "dd9f2568-39c4-4615-bbee-dfe9e63d912d",
+          "head": "3037887b40acf52d7ab2460aed6ab1125de19b67",
+          "log": "handoffs/codex/artifacts/R10-run1-135-tests-integration-vendor-member-onboarding-test-ts.log"
+        },
+        "2": {
+          "status": "PASS",
+          "exit_code": 0,
+          "run_id": "94297c75-f8f3-4686-9f3e-40ae007aa6a8",
+          "head": "88b7b46558b9e4ec714c22643b6af657f0746609",
+          "log": "handoffs/codex/artifacts/R10-run2-126-tests-integration-vendor-member-onboarding-test-ts.log"
+        },
+        "3": {
+          "status": "PASS",
+          "exit_code": 0,
+          "run_id": "2e6de684-4cd6-49fe-ac40-e0008a41758a",
+          "head": "93dcd202d431776718ec9e3845d0389bcbb6b625",
+          "log": "handoffs/codex/artifacts/R10-run3-088-tests-integration-vendor-member-onboarding-test-ts.log"
+        }
+      },
+      "latest": "PASS"
+    },
+    {
+      "suite": "tests/integration/vendor/provisioning.test.ts",
+      "runs": {
+        "1": {
+          "status": "PASS",
+          "exit_code": 0,
+          "run_id": "e381c786-6d66-4d04-8176-c018ca617b32",
+          "head": "3037887b40acf52d7ab2460aed6ab1125de19b67",
+          "log": "handoffs/codex/artifacts/R10-run1-136-tests-integration-vendor-provisioning-test-ts.log"
+        },
+        "2": {
+          "status": "PASS",
+          "exit_code": 0,
+          "run_id": "b0b5a5a9-f75b-40d7-af71-bbcd1dbc12d4",
+          "head": "88b7b46558b9e4ec714c22643b6af657f0746609",
+          "log": "handoffs/codex/artifacts/R10-run2-127-tests-integration-vendor-provisioning-test-ts.log"
+        },
+        "3": {
+          "status": "PASS",
+          "exit_code": 0,
+          "run_id": "77eff19c-0eb2-4d55-bea4-fc3d080ac13b",
+          "head": "93dcd202d431776718ec9e3845d0389bcbb6b625",
+          "log": "handoffs/codex/artifacts/R10-run3-090-tests-integration-vendor-provisioning-test-ts.log"
+        }
+      },
+      "latest": "PASS"
+    },
+    {
+      "suite": "tests/integration/vendor/schema-equivalence.test.ts",
+      "runs": {
+        "1": {
+          "status": "PASS",
+          "exit_code": 0,
+          "run_id": "3a45d2b7-b376-42ef-8c25-d3ae865b175d",
+          "head": "3037887b40acf52d7ab2460aed6ab1125de19b67",
+          "log": "handoffs/codex/artifacts/R10-run1-137-tests-integration-vendor-schema-equivalence-test-ts.log"
+        },
+        "2": {
+          "status": "NOT_SELECTED",
+          "reason": "No command executed in this targeted run; earlier evidence retained."
+        },
+        "3": {
+          "status": "PASS",
+          "exit_code": 0,
+          "run_id": "173d5726-ad72-4655-8399-a8f63b2c3785",
+          "head": "93dcd202d431776718ec9e3845d0389bcbb6b625",
+          "log": "handoffs/codex/artifacts/R10-run3-092-tests-integration-vendor-schema-equivalence-test-ts.log"
+        }
+      },
+      "latest": "PASS"
+    },
+    {
+      "suite": "tests/integration/vendor/service-licence.test.ts",
+      "runs": {
+        "1": {
+          "status": "PASS",
+          "exit_code": 0,
+          "run_id": "72cb4a81-533f-4e4d-9b78-d3186bd36a3d",
+          "head": "3037887b40acf52d7ab2460aed6ab1125de19b67",
+          "log": "handoffs/codex/artifacts/R10-run1-138-tests-integration-vendor-service-licence-test-ts.log"
+        },
+        "2": {
+          "status": "NOT_SELECTED",
+          "reason": "No command executed in this targeted run; earlier evidence retained."
+        },
+        "3": {
+          "status": "PASS",
+          "exit_code": 0,
+          "run_id": "f20bea52-a153-494c-96f3-b7dd37dbe1e4",
+          "head": "93dcd202d431776718ec9e3845d0389bcbb6b625",
+          "log": "handoffs/codex/artifacts/R10-run3-094-tests-integration-vendor-service-licence-test-ts.log"
+        }
+      },
+      "latest": "PASS"
+    },
+    {
+      "suite": "tests/integration/vendor/vendor-audit.test.ts",
+      "runs": {
+        "1": {
+          "status": "FAILED",
+          "exit_code": 1,
+          "run_id": "d516f6b2-1f04-43a6-b04e-1a9a590fc69d",
+          "head": "3037887b40acf52d7ab2460aed6ab1125de19b67",
+          "log": "handoffs/codex/artifacts/R10-run1-139-tests-integration-vendor-vendor-audit-test-ts.log"
+        },
+        "2": {
+          "status": "PASS",
+          "exit_code": 0,
+          "run_id": "cd3f4064-f0c5-438a-beca-0f30d0e1411c",
+          "head": "88b7b46558b9e4ec714c22643b6af657f0746609",
+          "log": "handoffs/codex/artifacts/R10-run2-128-tests-integration-vendor-vendor-audit-test-ts.log"
+        },
+        "3": {
+          "status": "NOT_SELECTED",
+          "reason": "No command executed in this targeted run; earlier evidence retained."
+        }
+      },
+      "latest": "PASS"
+    },
+    {
+      "suite": "tests/integration/web.test.ts",
+      "runs": {
+        "1": {
+          "status": "PASS",
+          "exit_code": 0,
+          "run_id": "c9d4a4d6-eb70-435e-8ea4-d9f10c5cb54e",
+          "head": "3037887b40acf52d7ab2460aed6ab1125de19b67",
+          "log": "handoffs/codex/artifacts/R10-run1-140-tests-integration-web-test-ts.log"
+        },
+        "2": {
+          "status": "NOT_SELECTED",
+          "reason": "No command executed in this targeted run; earlier evidence retained."
+        },
+        "3": {
+          "status": "NOT_SELECTED",
+          "reason": "No command executed in this targeted run; earlier evidence retained."
+        }
+      },
+      "latest": "PASS"
+    },
+    {
+      "suite": "tests/integration/workflows/workflow.test.ts",
+      "runs": {
+        "1": {
+          "status": "FAILED",
+          "exit_code": 1,
+          "run_id": "d8544bf0-977c-4a14-991b-196e1b8c1598",
+          "head": "3037887b40acf52d7ab2460aed6ab1125de19b67",
+          "log": "handoffs/codex/artifacts/R10-run1-142-tests-integration-workflows-workflow-test-ts.log"
+        },
+        "2": {
+          "status": "PASS",
+          "exit_code": 0,
+          "run_id": "5e7a917e-cafd-457c-be01-9e41b33074a9",
+          "head": "88b7b46558b9e4ec714c22643b6af657f0746609",
+          "log": "handoffs/codex/artifacts/R10-run2-130-tests-integration-workflows-workflow-test-ts.log"
+        },
+        "3": {
+          "status": "FAILED",
+          "exit_code": 1,
+          "run_id": "ac7ebbd8-2bb4-4487-a2fc-0245869f72b6",
+          "head": "93dcd202d431776718ec9e3845d0389bcbb6b625",
+          "log": "handoffs/codex/artifacts/R10-run3-096-tests-integration-workflows-workflow-test-ts.log"
+        }
+      },
+      "latest": "FAILED"
+    },
+    {
+      "suite": "tests/security/auth.test.ts",
+      "runs": {
+        "1": {
+          "status": "FAILED",
+          "exit_code": 1,
+          "run_id": "3f078f82-7049-4b73-bcbc-24dd7dcafe8e",
+          "head": "3037887b40acf52d7ab2460aed6ab1125de19b67",
+          "log": "handoffs/codex/artifacts/R10-run1-143-tests-security-auth-test-ts.log"
+        },
+        "2": {
+          "status": "FAILED",
+          "exit_code": 1,
+          "run_id": "e941782a-43e2-4c12-bf3c-6ff4a77e03a0",
+          "head": "88b7b46558b9e4ec714c22643b6af657f0746609",
+          "log": "handoffs/codex/artifacts/R10-run2-131-tests-security-auth-test-ts.log"
+        },
+        "3": {
+          "status": "FAILED",
+          "exit_code": 1,
+          "run_id": "5428e04b-a025-4d8e-a105-8c3c3014fae8",
+          "head": "93dcd202d431776718ec9e3845d0389bcbb6b625",
+          "log": "handoffs/codex/artifacts/R10-run3-098-tests-security-auth-test-ts.log"
+        }
+      },
+      "latest": "FAILED"
+    },
+    {
+      "suite": "tests/security/fixture-isolation.ts",
+      "runs": {
+        "1": {
+          "status": "PASS",
+          "exit_code": 0,
+          "run_id": "1540243e-b6bb-40d2-9023-3704cc8d3171",
+          "head": "3037887b40acf52d7ab2460aed6ab1125de19b67",
+          "log": "handoffs/codex/artifacts/R10-run1-145-tests-security-fixture-isolation-ts.log"
+        },
+        "2": {
+          "status": "NOT_SELECTED",
+          "reason": "No command executed in this targeted run; earlier evidence retained."
+        },
+        "3": {
+          "status": "NOT_SELECTED",
+          "reason": "No command executed in this targeted run; earlier evidence retained."
+        }
+      },
+      "latest": "PASS"
+    },
+    {
+      "suite": "tests/security/function-acl.ts",
+      "runs": {
+        "1": {
+          "status": "PASS",
+          "exit_code": 0,
+          "run_id": "4d226266-92e0-4d64-a198-7a0b0730337f",
+          "head": "3037887b40acf52d7ab2460aed6ab1125de19b67",
+          "log": "handoffs/codex/artifacts/R10-run1-146-tests-security-function-acl-ts.log"
+        },
+        "2": {
+          "status": "PASS",
+          "exit_code": 0,
+          "run_id": "884ea388-f5b0-4aa9-a7b3-e6d224d08f42",
+          "head": "88b7b46558b9e4ec714c22643b6af657f0746609",
+          "log": "handoffs/codex/artifacts/R10-run2-132-tests-security-function-acl-ts.log"
+        },
+        "3": {
+          "status": "PASS",
+          "exit_code": 0,
+          "run_id": "973f71be-7aea-469d-a82e-e27e4b9ad5fa",
+          "head": "93dcd202d431776718ec9e3845d0389bcbb6b625",
+          "log": "handoffs/codex/artifacts/R10-run3-100-tests-security-function-acl-ts.log"
+        }
+      },
+      "latest": "PASS"
+    },
+    {
+      "suite": "tests/security/graph-source-binding.ts",
+      "runs": {
+        "1": {
+          "status": "FAILED",
+          "exit_code": 1,
+          "run_id": "1d052f25-ec0b-4cdf-a049-7933d5e97757",
+          "head": "3037887b40acf52d7ab2460aed6ab1125de19b67",
+          "log": "handoffs/codex/artifacts/R10-run1-147-tests-security-graph-source-binding-ts.log"
+        },
+        "2": {
+          "status": "PASS",
+          "exit_code": 0,
+          "run_id": "2a37a271-b018-45a0-b338-078ef7dbd1bb",
+          "head": "88b7b46558b9e4ec714c22643b6af657f0746609",
+          "log": "handoffs/codex/artifacts/R10-run2-133-tests-security-graph-source-binding-ts.log"
+        },
+        "3": {
+          "status": "NOT_SELECTED",
+          "reason": "No command executed in this targeted run; earlier evidence retained."
+        }
+      },
+      "latest": "PASS"
+    },
+    {
+      "suite": "tests/security/network-core.ts",
+      "runs": {
+        "1": {
+          "status": "NOT_RUN",
+          "exit_code": null,
+          "run_id": null,
+          "head": "3037887b40acf52d7ab2460aed6ab1125de19b67",
+          "log": null
+        },
+        "2": {
+          "status": "FAILED",
+          "exit_code": 1,
+          "run_id": "405fca23-4674-4d17-a47a-d77793f818f1",
+          "head": "88b7b46558b9e4ec714c22643b6af657f0746609",
+          "log": "handoffs/codex/artifacts/R10-run2-134-tests-security-network-core-ts.log"
+        },
+        "3": {
+          "status": "FAILED",
+          "exit_code": 1,
+          "run_id": "6c5450b4-42f9-454a-ad77-91a00fe59bba",
+          "head": "93dcd202d431776718ec9e3845d0389bcbb6b625",
+          "log": "handoffs/codex/artifacts/R10-run3-102-tests-security-network-core-ts.log"
+        }
+      },
+      "latest": "FAILED"
+    },
+    {
+      "suite": "tests/security/tls.test.ts",
+      "runs": {
+        "1": {
+          "status": "FAILED",
+          "exit_code": 1,
+          "run_id": "3001764e-7bfd-4423-80a4-c1d0e822a3b5",
+          "head": "3037887b40acf52d7ab2460aed6ab1125de19b67",
+          "log": "handoffs/codex/artifacts/R10-run1-148-tests-security-tls-test-ts.log"
+        },
+        "2": {
+          "status": "PASS",
+          "exit_code": 0,
+          "run_id": "a5d8fd25-e62c-4fdf-b2b7-7994e7cdca08",
+          "head": "88b7b46558b9e4ec714c22643b6af657f0746609",
+          "log": "handoffs/codex/artifacts/R10-run2-135-tests-security-tls-test-ts.log"
+        },
+        "3": {
+          "status": "PASS",
+          "exit_code": 0,
+          "run_id": "bd3b5c90-1c0a-4d3f-873e-7e0eb10b2a7b",
+          "head": "93dcd202d431776718ec9e3845d0389bcbb6b625",
+          "log": "handoffs/codex/artifacts/R10-run3-104-tests-security-tls-test-ts.log"
+        }
+      },
+      "latest": "PASS"
+    },
+    {
+      "suite": "tests/security/vendor-function-acl.ts",
+      "runs": {
+        "1": {
+          "status": "NOT_SELECTED",
+          "reason": "No command executed in this targeted run; earlier evidence retained."
+        },
+        "2": {
+          "status": "PASS",
+          "exit_code": 0,
+          "run_id": "d49ed6cd-f15e-4333-aa4b-8ab6f86bab57",
+          "head": "88b7b46558b9e4ec714c22643b6af657f0746609",
+          "log": "handoffs/codex/artifacts/R10-run2-136-tests-security-vendor-function-acl-ts.log"
+        },
+        "3": {
+          "status": "PASS",
+          "exit_code": 0,
+          "run_id": "6a28db9b-cf98-44a3-aeca-1952768a7a61",
+          "head": "93dcd202d431776718ec9e3845d0389bcbb6b625",
+          "log": "handoffs/codex/artifacts/R10-run3-106-tests-security-vendor-function-acl-ts.log"
+        }
+      },
+      "latest": "PASS"
+    }
+  ],
+  "latest_counts": {
+    "PASS": 118,
+    "FAILED": 11
+  }
+}

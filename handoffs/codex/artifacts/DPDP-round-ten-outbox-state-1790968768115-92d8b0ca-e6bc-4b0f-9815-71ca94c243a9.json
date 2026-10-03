@@ -1,0 +1,43 @@
+{
+  "task_id": "DPDP",
+  "fixture_kind": "CUSTOMER_LOCAL_SYNTHETIC",
+  "recorded_at": "2026-10-02T19:19:28.116Z",
+  "phase": "after-final-run",
+  "profile": "codex-a00",
+  "installation_id": "1852d1f1-8154-4720-bb79-5790c5f3dc76",
+  "outbox": [
+    {
+      "tenant_id": "72250b6f-ec8a-4d6d-997a-8f8670d683f0",
+      "legal_entity_id": "e893c9a2-277e-494e-9a8e-65a353479499",
+      "environment_id": "70e606f3-681e-4c63-8c6a-e18febc727e6",
+      "total": 68,
+      "pending": 0,
+      "oldest_pending": null
+    }
+  ],
+  "reconciliations": {
+    "total": 2,
+    "pending": 0
+  },
+  "workflows": [
+    {
+      "state": "ACCEPTED",
+      "total": 19
+    },
+    {
+      "state": "COMPLETED",
+      "total": 36
+    },
+    {
+      "state": "NEEDS_ATTENTION",
+      "total": 6
+    },
+    {
+      "state": "RUNNING",
+      "total": 7
+    }
+  ],
+  "dispatcher_batch": 20,
+  "note": "Read-only snapshot. No row, marker, event, restriction or history was reset.",
+  "run_id": "224e2958-7e8c-4ae1-b382-b1ef8c39ff6f"
+}

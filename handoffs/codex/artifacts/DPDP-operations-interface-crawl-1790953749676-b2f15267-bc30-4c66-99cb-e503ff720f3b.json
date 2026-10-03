@@ -1,0 +1,28 @@
+{
+  "task_id": "DPDP",
+  "fixture_kind": "CUSTOMER_LOCAL_SYNTHETIC",
+  "recorded_at": "2026-10-02T15:09:09.677Z",
+  "suite": "interface-crawl",
+  "assertions": [
+    {
+      "name": "the crawl found nothing wrong on any page, tab or link",
+      "result": "FAIL",
+      "expected": [],
+      "actual": [
+        "crawl execution completed"
+      ]
+    },
+    {
+      "name": "unexpected failure in customer workspace as member",
+      "result": "FAIL",
+      "expected": "no error",
+      "actual": "Assertion failed: the crawl found nothing wrong on any page, tab or link"
+    }
+  ],
+  "passed": 0,
+  "failures": 2,
+  "profile": "codex-a00",
+  "test_adapter_only": true,
+  "limitation": "Connector effects are exercised against the synthetic records test adapter; no live customer system was contacted.",
+  "run_id": "6092449f-d6f2-4f0e-ad2d-18ff9e7e81fa"
+}

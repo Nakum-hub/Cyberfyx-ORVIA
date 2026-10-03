@@ -1,0 +1,27 @@
+{
+  "task_id": "DPDP",
+  "fixture_kind": "CUSTOMER_LOCAL_SYNTHETIC",
+  "recorded_at": "2026-10-02T07:36:49.758Z",
+  "profile": "codex-a00",
+  "phase": "baseline",
+  "assertions": [
+    {
+      "name": "vendor service health is an absence with a reason, never a clean bill of health",
+      "result": "FAIL",
+      "expected": [
+        false,
+        true
+      ],
+      "actual": [
+        false,
+        false
+      ]
+    }
+  ],
+  "result": "FAIL",
+  "error": {
+    "name": "Error",
+    "code": "UNCLASSIFIED"
+  },
+  "run_id": "bcb6b9ac-f45d-4e6d-8635-7a42760446e5"
+}

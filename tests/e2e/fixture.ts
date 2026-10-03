@@ -9,6 +9,7 @@ import { HttpFixture, authenticatorCode } from '../../shared/testing/src/http-fi
 import { createMarketingScenario } from '../../shared/testing/src/scenario.ts';
 import { connectDatabase } from '../../database/customer/src/index.ts';
 import { loadProfile } from '../../shared/testing/src/config.ts';
+import { ensureFixtureLicences } from '../../shared/testing/src/development-licence.ts';
 import { waitForAuthWindow } from '../../shared/testing/src/auth-window.ts';
 import { webProcess } from '../../scripts/web-process.ts';
 import { writePrivateJson } from '../../scripts/local-private.ts';
@@ -30,6 +31,8 @@ export class BrowserHarness extends HttpFixture {
     if(identity?.installation_id!==this.profile.installation_id||identity?.profile!==this.profile.profile)throw new Error('Rehearsal database installation identity mismatch');
     const port=createServer();await new Promise<void>((done,fail)=>{port.once('error',fail);port.listen(this.config.app_port,'127.0.0.1',()=>port.close(()=>done()));});
     if((await this.db.query("SELECT 1 FROM pg_stat_activity WHERE datname=current_database() AND application_name IN ('orvia_worker','orvia_agent_control') LIMIT 1")).rowCount)throw new Error('Stop the existing profile owner before browser fixtures');
+    // Rev 1.11: every fixture scope gets the labelled development licence (shared/testing/src/development-licence.ts).
+    await ensureFixtureLicences();
     const command=webProcess(this.config);this.child=this.startProcess(command.args,command.cwd,command.env);
     await expect.poll(async()=>{try{return (await fetch(this.config.origin+'/healthz',{signal:AbortSignal.timeout(1000)})).status;}catch{return 0;}},{timeout:60000,intervals:[500]}).toBe(200);
     mkdirSync(this.publicDirectory,{recursive:true});

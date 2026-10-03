@@ -1,0 +1,30 @@
+{
+  "task_id": "DPDP",
+  "fixture_kind": "CUSTOMER_LOCAL_SYNTHETIC",
+  "recorded_at": "2026-10-02T14:17:09.030Z",
+  "profile": "codex-a00",
+  "assertions": [
+    {
+      "id": "drizzle-write-postgres-read",
+      "result": "PASS",
+      "actual": {
+        "id": "2b65c114-6aaa-4b15-8973-c411f982e425",
+        "marker": "syn_probe_983bd01e05266cf197109816fb574e44"
+      }
+    },
+    {
+      "id": "real-temporal-worker-execution",
+      "result": "PASS",
+      "actual": {
+        "workflow_id": "a00-probe-2b65c114-6aaa-4b15-8973-c411f982e425",
+        "run_id": "01a0fcf9-dc0c-7f3b-8e9c-62fd812791f2"
+      }
+    }
+  ],
+  "result": "FAIL",
+  "error": {
+    "name": "Error",
+    "code": "UNCLASSIFIED"
+  },
+  "run_id": "032a7048-1c8d-42c1-b2b0-025ded405a46"
+}

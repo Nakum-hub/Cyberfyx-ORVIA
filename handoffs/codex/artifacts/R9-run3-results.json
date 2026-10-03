@@ -1,0 +1,544 @@
+{
+  "head": "fcce3e115066f2bceb6aaa70011e318743f6102a",
+  "run": "3",
+  "results": [
+    {
+      "label": "auth-init",
+      "kind": "prerequisite",
+      "command": [
+        "C:\\Cyberfyx-projects\\Cyberfyx_ORVIA\\.local\\tools\\node-v24.21.0-win-x64\\node.exe",
+        "--import",
+        "tsx",
+        "scripts/auth-init.ts",
+        "confirm:codex-a00"
+      ],
+      "head": "fcce3e115066f2bceb6aaa70011e318743f6102a",
+      "run_id": "c03b24d1-8fa9-4bc3-af53-5966f3097615",
+      "started_at": "2026-10-02T09:22:11.940Z",
+      "ended_at": "2026-10-02T09:22:14.306Z",
+      "exit_code": 0,
+      "signal": null,
+      "status": "PASS",
+      "first_error": null,
+      "log": "handoffs/codex/artifacts/R9-run3-001-auth-init.log",
+      "summary": []
+    },
+    {
+      "label": "machine-init",
+      "kind": "prerequisite",
+      "command": [
+        "C:\\Cyberfyx-projects\\Cyberfyx_ORVIA\\.local\\tools\\node-v24.21.0-win-x64\\node.exe",
+        "--import",
+        "tsx",
+        "scripts/machine-init.ts",
+        "confirm:codex-a00"
+      ],
+      "head": "fcce3e115066f2bceb6aaa70011e318743f6102a",
+      "run_id": "26a6d86d-f4bd-4b58-b1c1-35b362f64f99",
+      "started_at": "2026-10-02T09:22:14.307Z",
+      "ended_at": "2026-10-02T09:22:17.591Z",
+      "exit_code": 0,
+      "signal": null,
+      "status": "PASS",
+      "first_error": null,
+      "log": "handoffs/codex/artifacts/R9-run3-002-machine-init.log",
+      "summary": []
+    },
+    {
+      "label": "build",
+      "kind": "prerequisite",
+      "command": [
+        "C:\\Cyberfyx-projects\\Cyberfyx_ORVIA\\.local\\tools\\node-v24.21.0-win-x64\\node.exe",
+        "--import",
+        "tsx",
+        "scripts/web.ts",
+        "build"
+      ],
+      "head": "fcce3e115066f2bceb6aaa70011e318743f6102a",
+      "run_id": "c07527c2-00d4-48f5-a018-bfbec6e0c0f8",
+      "started_at": "2026-10-02T09:22:17.591Z",
+      "ended_at": "2026-10-02T09:22:59.941Z",
+      "exit_code": 0,
+      "signal": null,
+      "status": "PASS",
+      "first_error": null,
+      "log": "handoffs/codex/artifacts/R9-run3-003-build.log",
+      "summary": []
+    },
+    {
+      "label": "tests/e2e/dpdpa-audit-local.ts",
+      "kind": "suite",
+      "command": [
+        "C:\\Cyberfyx-projects\\Cyberfyx_ORVIA\\.local\\tools\\node-v24.21.0-win-x64\\node.exe",
+        "--import",
+        "tsx",
+        "tests/e2e/dpdpa-audit-local.ts"
+      ],
+      "head": "fcce3e115066f2bceb6aaa70011e318743f6102a",
+      "run_id": "5e1521fc-45ce-40d3-9614-1d99e52d47b1",
+      "started_at": "2026-10-02T09:22:59.943Z",
+      "ended_at": "2026-10-02T09:24:52.585Z",
+      "exit_code": 0,
+      "signal": null,
+      "status": "PASS",
+      "first_error": null,
+      "log": "handoffs/codex/artifacts/R9-run3-004-tests-e2e-dpdpa-audit-local-ts.log",
+      "summary": [
+        "24 assertions, 0 failures."
+      ]
+    },
+    {
+      "label": "tests/e2e/expansion-screens-local.ts",
+      "kind": "suite",
+      "command": [
+        "C:\\Cyberfyx-projects\\Cyberfyx_ORVIA\\.local\\tools\\node-v24.21.0-win-x64\\node.exe",
+        "--import",
+        "tsx",
+        "tests/e2e/expansion-screens-local.ts"
+      ],
+      "head": "fcce3e115066f2bceb6aaa70011e318743f6102a",
+      "run_id": "6f4b1319-ffe9-4526-b276-f44d1f714da3",
+      "started_at": "2026-10-02T09:24:52.587Z",
+      "ended_at": "2026-10-02T09:26:42.195Z",
+      "exit_code": 0,
+      "signal": null,
+      "status": "PASS",
+      "first_error": null,
+      "log": "handoffs/codex/artifacts/R9-run3-005-tests-e2e-expansion-screens-local-ts.log",
+      "summary": [
+        "69 assertions, 0 failures."
+      ]
+    },
+    {
+      "label": "tests/e2e/interface-crawl-local.ts",
+      "kind": "suite",
+      "command": [
+        "C:\\Cyberfyx-projects\\Cyberfyx_ORVIA\\.local\\tools\\node-v24.21.0-win-x64\\node.exe",
+        "--import",
+        "tsx",
+        "tests/e2e/interface-crawl-local.ts"
+      ],
+      "head": "fcce3e115066f2bceb6aaa70011e318743f6102a",
+      "run_id": "ad8be73d-6d07-4dd0-b6c9-2189a32d920f",
+      "started_at": "2026-10-02T09:26:42.197Z",
+      "ended_at": "2026-10-02T09:41:50.263Z",
+      "exit_code": 0,
+      "signal": null,
+      "status": "PASS",
+      "first_error": null,
+      "log": "handoffs/codex/artifacts/R9-run3-006-tests-e2e-interface-crawl-local-ts.log",
+      "summary": [
+        "1 assertions, 0 failures."
+      ]
+    },
+    {
+      "label": "tests/e2e/operations-screens-local.ts",
+      "kind": "suite",
+      "command": [
+        "C:\\Cyberfyx-projects\\Cyberfyx_ORVIA\\.local\\tools\\node-v24.21.0-win-x64\\node.exe",
+        "--import",
+        "tsx",
+        "tests/e2e/operations-screens-local.ts"
+      ],
+      "head": "fcce3e115066f2bceb6aaa70011e318743f6102a",
+      "run_id": "84fc0568-a34a-4b9e-8b97-0f440fc01189",
+      "started_at": "2026-10-02T09:41:50.272Z",
+      "ended_at": "2026-10-02T09:43:40.972Z",
+      "exit_code": 0,
+      "signal": null,
+      "status": "PASS",
+      "first_error": null,
+      "log": "handoffs/codex/artifacts/R9-run3-007-tests-e2e-operations-screens-local-ts.log",
+      "summary": [
+        "30 assertions, 0 failures."
+      ]
+    },
+    {
+      "label": "tests/e2e/registry-forms-local.ts",
+      "kind": "suite",
+      "command": [
+        "C:\\Cyberfyx-projects\\Cyberfyx_ORVIA\\.local\\tools\\node-v24.21.0-win-x64\\node.exe",
+        "--import",
+        "tsx",
+        "tests/e2e/registry-forms-local.ts"
+      ],
+      "head": "fcce3e115066f2bceb6aaa70011e318743f6102a",
+      "run_id": "1e3975a6-43a2-4c44-b369-4b60e58ed310",
+      "started_at": "2026-10-02T09:43:40.973Z",
+      "ended_at": "2026-10-02T09:45:05.745Z",
+      "exit_code": 0,
+      "signal": null,
+      "status": "PASS",
+      "first_error": null,
+      "log": "handoffs/codex/artifacts/R9-run3-008-tests-e2e-registry-forms-local-ts.log",
+      "summary": [
+        "16 assertions, 0 failures."
+      ]
+    },
+    {
+      "label": "tests/integration/bootstrap.test.ts",
+      "kind": "suite",
+      "command": [
+        "C:\\Cyberfyx-projects\\Cyberfyx_ORVIA\\.local\\tools\\node-v24.21.0-win-x64\\node.exe",
+        "--import",
+        "tsx",
+        "tests/integration/bootstrap.test.ts"
+      ],
+      "head": "fcce3e115066f2bceb6aaa70011e318743f6102a",
+      "run_id": "865570bb-15c4-4ca0-bae5-d401b7bd730a",
+      "started_at": "2026-10-02T09:45:05.746Z",
+      "ended_at": "2026-10-02T09:45:25.377Z",
+      "exit_code": 0,
+      "signal": null,
+      "status": "PASS",
+      "first_error": null,
+      "log": "handoffs/codex/artifacts/R9-run3-009-tests-integration-bootstrap-test-ts.log",
+      "summary": []
+    },
+    {
+      "label": "tests/integration/consent/canaries.test.ts",
+      "kind": "suite",
+      "command": [
+        "C:\\Cyberfyx-projects\\Cyberfyx_ORVIA\\.local\\tools\\node-v24.21.0-win-x64\\node.exe",
+        "--import",
+        "tsx",
+        "tests/integration/consent/canaries.test.ts"
+      ],
+      "head": "fcce3e115066f2bceb6aaa70011e318743f6102a",
+      "run_id": "febb7612-dfa7-45e2-a6f0-1e889f6c2a2a",
+      "started_at": "2026-10-02T09:45:25.378Z",
+      "ended_at": "2026-10-02T09:46:40.301Z",
+      "exit_code": 0,
+      "signal": null,
+      "status": "PASS",
+      "first_error": null,
+      "log": "handoffs/codex/artifacts/R9-run3-010-tests-integration-consent-canaries-test-ts.log",
+      "summary": [
+        "24 assertions, 0 failures."
+      ]
+    },
+    {
+      "label": "tests/integration/enforcement/send.test.ts",
+      "kind": "suite",
+      "command": [
+        "C:\\Cyberfyx-projects\\Cyberfyx_ORVIA\\.local\\tools\\node-v24.21.0-win-x64\\node.exe",
+        "--import",
+        "tsx",
+        "tests/integration/enforcement/send.test.ts"
+      ],
+      "head": "fcce3e115066f2bceb6aaa70011e318743f6102a",
+      "run_id": "c08974b1-486c-4e3a-9022-2238fcfbf8b7",
+      "started_at": "2026-10-02T09:46:40.302Z",
+      "ended_at": "2026-10-02T09:48:00.128Z",
+      "exit_code": 0,
+      "signal": null,
+      "status": "PASS",
+      "first_error": null,
+      "log": "handoffs/codex/artifacts/R9-run3-011-tests-integration-enforcement-send-test-ts.log",
+      "summary": []
+    },
+    {
+      "label": "enrollment-11",
+      "kind": "prerequisite",
+      "command": [
+        "C:\\Cyberfyx-projects\\Cyberfyx_ORVIA\\.local\\tools\\node-v24.21.0-win-x64\\node.exe",
+        "--import",
+        "tsx",
+        "scripts/machine-init.ts",
+        "confirm:codex-a00"
+      ],
+      "head": "fcce3e115066f2bceb6aaa70011e318743f6102a",
+      "run_id": "ed6bf49f-e04b-45c0-84d9-1f12ac0aaa71",
+      "started_at": "2026-10-02T09:48:00.130Z",
+      "ended_at": "2026-10-02T09:48:04.166Z",
+      "exit_code": 0,
+      "signal": null,
+      "status": "PASS",
+      "first_error": null,
+      "log": "handoffs/codex/artifacts/R9-run3-012-enrollment-11.log",
+      "summary": []
+    },
+    {
+      "label": "tests/integration/evidence/evidence.test.ts",
+      "kind": "suite",
+      "command": [
+        "C:\\Cyberfyx-projects\\Cyberfyx_ORVIA\\.local\\tools\\node-v24.21.0-win-x64\\node.exe",
+        "--import",
+        "tsx",
+        "tests/integration/evidence/evidence.test.ts"
+      ],
+      "head": "fcce3e115066f2bceb6aaa70011e318743f6102a",
+      "run_id": "7ddabcaa-8022-43a1-9e60-343e74c97cc8",
+      "started_at": "2026-10-02T09:48:04.167Z",
+      "ended_at": "2026-10-02T09:50:35.528Z",
+      "exit_code": 0,
+      "signal": null,
+      "status": "PASS",
+      "first_error": null,
+      "log": "handoffs/codex/artifacts/R9-run3-013-tests-integration-evidence-evidence-test-ts.log",
+      "summary": []
+    },
+    {
+      "label": "tests/integration/expansion/audit-mandate.test.ts",
+      "kind": "suite",
+      "command": [
+        "C:\\Cyberfyx-projects\\Cyberfyx_ORVIA\\.local\\tools\\node-v24.21.0-win-x64\\node.exe",
+        "--import",
+        "tsx",
+        "tests/integration/expansion/audit-mandate.test.ts"
+      ],
+      "head": "fcce3e115066f2bceb6aaa70011e318743f6102a",
+      "run_id": "d20010a3-4839-4697-a491-df05a0044734",
+      "started_at": "2026-10-02T09:50:35.531Z",
+      "ended_at": "2026-10-02T09:52:20.087Z",
+      "exit_code": 0,
+      "signal": null,
+      "status": "PASS",
+      "first_error": null,
+      "log": "handoffs/codex/artifacts/R9-run3-014-tests-integration-expansion-audit-mandate-test-ts.log",
+      "summary": [
+        "102 assertions, 0 failures."
+      ]
+    },
+    {
+      "label": "tests/integration/expansion/dpdpa-audit.test.ts",
+      "kind": "suite",
+      "command": [
+        "C:\\Cyberfyx-projects\\Cyberfyx_ORVIA\\.local\\tools\\node-v24.21.0-win-x64\\node.exe",
+        "--import",
+        "tsx",
+        "tests/integration/expansion/dpdpa-audit.test.ts"
+      ],
+      "head": "fcce3e115066f2bceb6aaa70011e318743f6102a",
+      "run_id": "c238da83-278b-4619-b7bc-92b89c29873f",
+      "started_at": "2026-10-02T09:52:20.088Z",
+      "ended_at": "2026-10-02T09:52:40.372Z",
+      "exit_code": 0,
+      "signal": null,
+      "status": "PASS",
+      "first_error": null,
+      "log": "handoffs/codex/artifacts/R9-run3-015-tests-integration-expansion-dpdpa-audit-test-ts.log",
+      "summary": [
+        "56 assertions, 0 failures."
+      ]
+    },
+    {
+      "label": "tests/integration/monitoring/backup-drill.test.ts",
+      "kind": "suite",
+      "command": [
+        "C:\\Cyberfyx-projects\\Cyberfyx_ORVIA\\.local\\tools\\node-v24.21.0-win-x64\\node.exe",
+        "--import",
+        "tsx",
+        "tests/integration/monitoring/backup-drill.test.ts"
+      ],
+      "head": "fcce3e115066f2bceb6aaa70011e318743f6102a",
+      "run_id": "b89b423a-a871-47fa-8b47-6741c7a5d56a",
+      "started_at": "2026-10-02T09:52:40.374Z",
+      "ended_at": "2026-10-02T09:53:03.620Z",
+      "exit_code": 0,
+      "signal": null,
+      "status": "PASS",
+      "first_error": null,
+      "log": "handoffs/codex/artifacts/R9-run3-016-tests-integration-monitoring-backup-drill-test-ts.log",
+      "summary": [
+        "5 assertions, 0 failures."
+      ]
+    },
+    {
+      "label": "tests/integration/monitoring/vendor-visibility.test.ts",
+      "kind": "suite",
+      "command": [
+        "C:\\Cyberfyx-projects\\Cyberfyx_ORVIA\\.local\\tools\\node-v24.21.0-win-x64\\node.exe",
+        "--import",
+        "tsx",
+        "tests/integration/monitoring/vendor-visibility.test.ts"
+      ],
+      "head": "fcce3e115066f2bceb6aaa70011e318743f6102a",
+      "run_id": "369b4b28-5d5c-4e54-b7a5-3f123ef064af",
+      "started_at": "2026-10-02T09:53:03.621Z",
+      "ended_at": "2026-10-02T09:54:12.812Z",
+      "exit_code": 0,
+      "signal": null,
+      "status": "PASS",
+      "first_error": null,
+      "log": "handoffs/codex/artifacts/R9-run3-017-tests-integration-monitoring-vendor-visibility-test-ts.log",
+      "summary": [
+        "20 assertions, 0 failures."
+      ]
+    },
+    {
+      "label": "tests/integration/notifications/notifications.test.ts",
+      "kind": "suite",
+      "command": [
+        "C:\\Cyberfyx-projects\\Cyberfyx_ORVIA\\.local\\tools\\node-v24.21.0-win-x64\\node.exe",
+        "--import",
+        "tsx",
+        "tests/integration/notifications/notifications.test.ts"
+      ],
+      "head": "fcce3e115066f2bceb6aaa70011e318743f6102a",
+      "run_id": "9b570ebf-da0e-489c-b414-d696b939aa17",
+      "started_at": "2026-10-02T09:54:12.815Z",
+      "ended_at": "2026-10-02T09:55:27.778Z",
+      "exit_code": 0,
+      "signal": null,
+      "status": "PASS",
+      "first_error": null,
+      "log": "handoffs/codex/artifacts/R9-run3-018-tests-integration-notifications-notifications-test-ts.log",
+      "summary": [
+        "31 assertions, 0 failures."
+      ]
+    },
+    {
+      "label": "tests/integration/onboarding/first-run.test.ts",
+      "kind": "suite",
+      "command": [
+        "C:\\Cyberfyx-projects\\Cyberfyx_ORVIA\\.local\\tools\\node-v24.21.0-win-x64\\node.exe",
+        "--import",
+        "tsx",
+        "tests/integration/onboarding/first-run.test.ts"
+      ],
+      "head": "fcce3e115066f2bceb6aaa70011e318743f6102a",
+      "run_id": "b0511ad7-1ec5-445a-bb09-965a25632bd6",
+      "started_at": "2026-10-02T09:55:27.784Z",
+      "ended_at": "2026-10-02T09:55:37.083Z",
+      "exit_code": 0,
+      "signal": null,
+      "status": "PASS",
+      "first_error": null,
+      "log": "handoffs/codex/artifacts/R9-run3-019-tests-integration-onboarding-first-run-test-ts.log",
+      "summary": [
+        "23 assertions, 0 failures."
+      ]
+    },
+    {
+      "label": "tests/integration/opa/cold-start.test.ts",
+      "kind": "suite",
+      "command": [
+        "C:\\Cyberfyx-projects\\Cyberfyx_ORVIA\\.local\\tools\\node-v24.21.0-win-x64\\node.exe",
+        "--import",
+        "tsx",
+        "tests/integration/opa/cold-start.test.ts"
+      ],
+      "head": "fcce3e115066f2bceb6aaa70011e318743f6102a",
+      "run_id": "c27ac807-c8b8-4c65-84f8-1a1279c461b8",
+      "started_at": "2026-10-02T09:55:37.084Z",
+      "ended_at": "2026-10-02T09:55:44.633Z",
+      "exit_code": 0,
+      "signal": null,
+      "status": "PASS",
+      "first_error": null,
+      "log": "handoffs/codex/artifacts/R9-run3-020-tests-integration-opa-cold-start-test-ts.log",
+      "summary": [
+        "8 assertions, 0 failures."
+      ]
+    },
+    {
+      "label": "tests/integration/operations/notices.test.ts",
+      "kind": "suite",
+      "command": [
+        "C:\\Cyberfyx-projects\\Cyberfyx_ORVIA\\.local\\tools\\node-v24.21.0-win-x64\\node.exe",
+        "--import",
+        "tsx",
+        "tests/integration/operations/notices.test.ts"
+      ],
+      "head": "fcce3e115066f2bceb6aaa70011e318743f6102a",
+      "run_id": "2c0af4e6-528d-4773-986a-202e148e027b",
+      "started_at": "2026-10-02T09:55:44.634Z",
+      "ended_at": "2026-10-02T09:55:52.313Z",
+      "exit_code": 0,
+      "signal": null,
+      "status": "PASS",
+      "first_error": null,
+      "log": "handoffs/codex/artifacts/R9-run3-021-tests-integration-operations-notices-test-ts.log",
+      "summary": [
+        "16 assertions, 0 failures."
+      ]
+    },
+    {
+      "label": "tests/integration/operations/processors.test.ts",
+      "kind": "suite",
+      "command": [
+        "C:\\Cyberfyx-projects\\Cyberfyx_ORVIA\\.local\\tools\\node-v24.21.0-win-x64\\node.exe",
+        "--import",
+        "tsx",
+        "tests/integration/operations/processors.test.ts"
+      ],
+      "head": "fcce3e115066f2bceb6aaa70011e318743f6102a",
+      "run_id": "992b0d86-f550-4332-9b27-fb34c938fbd2",
+      "started_at": "2026-10-02T09:55:52.316Z",
+      "ended_at": "2026-10-02T09:57:02.801Z",
+      "exit_code": 0,
+      "signal": null,
+      "status": "PASS",
+      "first_error": null,
+      "log": "handoffs/codex/artifacts/R9-run3-022-tests-integration-operations-processors-test-ts.log",
+      "summary": [
+        "15 assertions, 0 failures."
+      ]
+    },
+    {
+      "label": "tests/integration/operations/registry.test.ts",
+      "kind": "suite",
+      "command": [
+        "C:\\Cyberfyx-projects\\Cyberfyx_ORVIA\\.local\\tools\\node-v24.21.0-win-x64\\node.exe",
+        "--import",
+        "tsx",
+        "tests/integration/operations/registry.test.ts"
+      ],
+      "head": "fcce3e115066f2bceb6aaa70011e318743f6102a",
+      "run_id": "3b18fa9f-da63-41f4-a7ef-79329094f491",
+      "started_at": "2026-10-02T09:57:02.802Z",
+      "ended_at": "2026-10-02T09:58:14.920Z",
+      "exit_code": 0,
+      "signal": null,
+      "status": "PASS",
+      "first_error": null,
+      "log": "handoffs/codex/artifacts/R9-run3-023-tests-integration-operations-registry-test-ts.log",
+      "summary": [
+        "53 assertions, 0 failures."
+      ]
+    },
+    {
+      "label": "tests/security/auth.test.ts",
+      "kind": "suite",
+      "command": [
+        "C:\\Cyberfyx-projects\\Cyberfyx_ORVIA\\.local\\tools\\node-v24.21.0-win-x64\\node.exe",
+        "--import",
+        "tsx",
+        "tests/security/auth.test.ts"
+      ],
+      "head": "fcce3e115066f2bceb6aaa70011e318743f6102a",
+      "run_id": "037c759d-ffa4-4c2f-8b42-736efc995ce7",
+      "started_at": "2026-10-02T09:58:14.921Z",
+      "ended_at": "2026-10-02T09:58:33.451Z",
+      "exit_code": 0,
+      "signal": null,
+      "status": "PASS",
+      "first_error": null,
+      "log": "handoffs/codex/artifacts/R9-run3-024-tests-security-auth-test-ts.log",
+      "summary": []
+    },
+    {
+      "label": "tests/security/function-acl.ts",
+      "kind": "suite",
+      "command": [
+        "C:\\Cyberfyx-projects\\Cyberfyx_ORVIA\\.local\\tools\\node-v24.21.0-win-x64\\node.exe",
+        "--import",
+        "tsx",
+        "tests/security/function-acl.ts"
+      ],
+      "head": "fcce3e115066f2bceb6aaa70011e318743f6102a",
+      "run_id": "6f54def2-b8d8-448f-b1eb-a7f1679ce401",
+      "started_at": "2026-10-02T09:58:33.452Z",
+      "ended_at": "2026-10-02T09:58:34.691Z",
+      "exit_code": 0,
+      "signal": null,
+      "status": "PASS",
+      "first_error": null,
+      "log": "handoffs/codex/artifacts/R9-run3-025-tests-security-function-acl-ts.log",
+      "summary": [
+        "46 assertions, 0 failures."
+      ]
+    }
+  ]
+}

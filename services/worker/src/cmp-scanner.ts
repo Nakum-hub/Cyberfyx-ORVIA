@@ -1,3 +1,4 @@
+import { licenceCovers } from '../../../backend/domain/src/licensing/licensing.ts';
 import type { BrowserContext } from '@playwright/test';
 import { launchLocalChromium } from './local-browser.ts';
 import { audit, predicate, scopeValues, type Context } from '../../../backend/domain/src/shared/transaction.ts';
@@ -41,6 +42,8 @@ async function visit(context: BrowserContext, url: string, action: 'NONE' | 'ACC
 export async function sweepCmpScans(scoped: <T>(id: string, work: (c: Context) => Promise<T>) => Promise<T>, workerIds: readonly string[]) {
   let processed = 0;
   for (const id of workerIds) {
+    // Rev 1.11: paused, not failed, while the licence in force does not cover it.
+    if (!(await scoped(id, c => licenceCovers(c, 'WEBSITE_CONSENT')))) continue;
     const due = await scoped(id, async c => (await c.tx.query(`SELECT s.id, s.url, s.attempts, t.origins, t.state AS site_state, cfg.version, cfg.document FROM app.cmp_scans s
       JOIN app.cmp_sites t ON t.tenant_id=s.tenant_id AND t.legal_entity_id=s.legal_entity_id AND t.environment_id=s.environment_id AND t.id=s.site_id
       LEFT JOIN app.cmp_configs cfg ON cfg.tenant_id=s.tenant_id AND cfg.legal_entity_id=s.legal_entity_id AND cfg.environment_id=s.environment_id AND cfg.site_id=s.site_id AND cfg.state='PUBLISHED'

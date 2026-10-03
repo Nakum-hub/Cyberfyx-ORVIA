@@ -1,0 +1,5 @@
+Artifact: handoffs/codex/artifacts/DPDP-catalog-discovery-browser-1790950490347-41f25114-1006-400a-9224-67c92ddef724.json
+{
+  phase: 'start',
+  detail: 'invalid input syntax for type uuid: "round10-licence-dev-1614d3e2-4a77-432a-b83b-ffac463d3409"'
+}

@@ -1,0 +1,30 @@
+PASS the vendor installation reports VENDOR_SERVICE and a verified kind
+PASS client workspace and staff sign-in are 404 on the vendor installation
+PASS the vendor area and vendor sign-in are 404 on a customer installation
+PASS the website link and the in-app sign-in share one session
+PASS the engagement code is shown once in the browser
+Authentication fixture idle window: 61s remaining; controls unchanged.
+Authentication fixture idle window: 31s remaining; controls unchanged.
+Authentication fixture idle window: 1s remaining; controls unchanged.
+PASS the client gap register lists DPDP requirements with gap statuses
+PASS a second person confirms the personal-data flag in the browser
+PASS the preparer sees the approve control but approval is refused for them
+PASS a different owner approves and downloads the sealed package file
+PASS the client uploads the file and the vendor verifies it
+locator.waitFor: Timeout 30000ms exceeded.
+Call log:
+[2m  - waiting for getByRole('status').filter({ hasText: 'Criteria approved.' }).first() to be visible[22m
+
+    at done (C:\Cyberfyx-projects\Cyberfyx_ORVIA\.worktrees\round9\tests\e2e\dpdpa-audit-local.ts:216:121)
+    at <anonymous> (C:\Cyberfyx-projects\Cyberfyx_ORVIA\.worktrees\round9\tests\e2e\dpdpa-audit-local.ts:223:184)
+    at async Object.run (C:\Cyberfyx-projects\Cyberfyx_ORVIA\.worktrees\round9\shared\testing\src\operations-fixture.ts:117:28)
+    at async <anonymous> (C:\Cyberfyx-projects\Cyberfyx_ORVIA\.worktrees\round9\tests\e2e\dpdpa-audit-local.ts:88:1) {
+  log: [
+    "  - waiting for getByRole('status').filter({ hasText: 'Criteria approved.' }).first() to be visible"
+  ],
+  name: 'TimeoutError'
+}
+Server diagnostics (safe codes only): 
+Artifact: handoffs/codex/artifacts/DPDP-operations-dpdpa-audit-browser-1790921767072-7a303997-7a0e-401d-bd5b-b4831d274403.json
+
+11 assertions, 1 failures.

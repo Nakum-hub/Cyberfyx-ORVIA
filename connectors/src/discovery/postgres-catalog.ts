@@ -1,6 +1,7 @@
 import { createHash } from 'node:crypto';
 import type pg from 'pg';
 import type { Authority } from '../../../database/customer/src/runtime.ts';
+import { requireCurrentObserver } from './observer-authority.ts';
 
 export type ApprovedRelation = Readonly<{schema:string;relation:string}>;
 export type CatalogColumn = Readonly<{name:string;data_type:string;nullable:boolean}>;
@@ -17,9 +18,9 @@ const MAX_COLUMNS=200;
 /** Reads only catalog metadata from an explicitly approved relation. It never
  * selects record values, infers a personal-data category or writes a target. */
 export async function observePostgresCatalog(pool:pg.Pool,actor:Authority,allowlist:readonly ApprovedRelation[]):Promise<CatalogResult[]> {
-  if(actor.actor_domain!=='MACHINE'||actor.role!=='OBSERVER'||!actor.capabilities.includes('target.observe')||
-    !Number.isFinite(Date.parse(actor.expires_at))||Date.parse(actor.expires_at)<=Date.now())
-    throw new Error('Current observer machine authority required');
+  actor=structuredClone(actor);
+  allowlist=structuredClone(allowlist);
+  requireCurrentObserver(actor);
   if(!allowlist.length||allowlist.length>MAX_RELATIONS)throw new Error('Invalid relation allowlist size');
   const keys=new Set<string>();
   for(const item of allowlist){
@@ -30,6 +31,7 @@ export async function observePostgresCatalog(pool:pg.Pool,actor:Authority,allowl
   }
   const tx=await pool.connect();
   try{
+    requireCurrentObserver(actor);
     await tx.query('BEGIN READ ONLY');
     await tx.query("SET LOCAL statement_timeout = '5000ms'");
     const role=(await tx.query('SELECT current_user name,rolsuper,rolbypassrls FROM pg_roles WHERE rolname=current_user')).rows[0];
@@ -38,6 +40,7 @@ export async function observePostgresCatalog(pool:pg.Pool,actor:Authority,allowl
       [actor.scope.tenant_id,actor.scope.legal_entity_id,actor.scope.environment_id,actor.actor_id]);
     const results:CatalogResult[]=[];
     for(const item of allowlist){
+      requireCurrentObserver(actor);
       const rows=await tx.query(`SELECT a.attname AS name,pg_catalog.format_type(a.atttypid,a.atttypmod) AS data_type,
         NOT a.attnotnull AS nullable,
         has_table_privilege(current_user,c.oid,'SELECT') AS can_read,
@@ -48,6 +51,7 @@ export async function observePostgresCatalog(pool:pg.Pool,actor:Authority,allowl
         WHERE n.nspname=$1 AND c.relname=$2 AND c.relkind IN ('r','p','v','m')
           AND a.attnum>0 AND NOT a.attisdropped ORDER BY a.attnum LIMIT $3`,
         [item.schema,item.relation,MAX_COLUMNS+1]);
+      requireCurrentObserver(actor);
       if(rows.rows.some(row=>!row.can_read||row.can_mutate))throw new Error('Observer target permission is not read-only');
       const truncated=rows.rows.length>MAX_COLUMNS;
       const columns=rows.rows.slice(0,MAX_COLUMNS).map(row=>({name:String(row.name),data_type:String(row.data_type),nullable:Boolean(row.nullable)}));
@@ -60,6 +64,7 @@ export async function observePostgresCatalog(pool:pg.Pool,actor:Authority,allowl
         ]});
     }
     await tx.query('COMMIT');
+    requireCurrentObserver(actor);
     return results;
-  }catch(error){await tx.query('ROLLBACK');throw error;}finally{tx.release();}
+  }catch(error){await tx.query('ROLLBACK').catch(()=>{});throw error;}finally{tx.release();}
 }

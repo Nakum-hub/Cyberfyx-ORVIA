@@ -129,9 +129,9 @@ export async function preflight(c: Context, config: RuntimeConfig): Promise<unkn
     `Set ${noisy.join(', ')} so no component of this installation reports to anybody.`);
 
   // --- licence and package ----------------------------------------------------------
+  // The licence in force (migration 0100); a licence in its grace days still counts as valid for preflight.
   const licence = await one(
-    `SELECT edition,valid_to FROM app.licences WHERE ${predicate} AND active AND valid_from<=now() AND valid_to>now()
-     ORDER BY valid_to DESC LIMIT 1`);
+    `SELECT edition,valid_to FROM app.effective_licence($1,$2,$3) WHERE lifecycle IN ('ACTIVE','GRACE')`);
   const licenceValidity = decide('LICENCE_VALIDITY', Boolean(licence),
     'Whether a signed licence has been imported for this installation and is currently within its validity window, read from the imported claims.',
     licence ? `${licence.edition} licence valid until ${(licence.valid_to as Date).toISOString()}.` : 'No active licence is within its validity window.',

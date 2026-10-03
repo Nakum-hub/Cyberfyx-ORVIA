@@ -131,9 +131,11 @@ test('importing is a write to the graph, and previewing is a read', () => {
     assert.equal(route.idempotency, true, `${id} is not idempotent`);
     assert.ok(schemas[route.response], `${id} has no registered response schema`);
   }
-  // Six routes and no seventh: there is no route that uploads a file, and none
-  // that writes inventory without passing through quarantine first.
+  // Six routes and no seventh: none writes inventory without passing through quarantine first.
   assert.deepEqual(routes.filter(r => /\/imports/.test(r.path)).map(r => r.id).sort(),
     ['apply_import', 'decide_import_row', 'import_batch', 'list_imports', 'purge_import', 'submit_import']);
-  assert.ok(!routes.some(r => ['upload', 'ingest_file', 'bulk_insert'].some(word => r.id.includes(word))));
+  // Revision 1.12 (owner decision 2026-10-02) adds exactly one file upload, into staging. An approved inventory file is
+  // routed through submit_import, so it reaches the same quarantine; there is still no bulk insert and no other upload.
+  assert.deepEqual(routes.filter(r => ['upload', 'ingest_file', 'bulk_insert'].some(word => r.id.includes(word))).map(r => r.id), ['upload_file']);
+  assert.equal(routes.find(r => r.id === 'upload_file')!.response, 'FileIntakeItem', 'an upload only stages a file');
 });

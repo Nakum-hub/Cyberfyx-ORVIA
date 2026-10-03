@@ -1,0 +1,39 @@
+Authentication fixture idle window: 61s remaining; controls unchanged.
+Authentication fixture idle window: 31s remaining; controls unchanged.
+Authentication fixture idle window: 1s remaining; controls unchanged.
+PASS a connection cannot be started asking for a right to change the connected system
+PASS a connection to a system that does not exist is refused rather than created
+PASS a new connection has done the two steps it could not exist without, and no more
+PASS it starts in observation, with nothing observed about the system yet
+PASS a second connection to the same system resumes rather than starting beside it
+PASS an endpoint whose certificate did not verify does not complete the step, and says why
+PASS a verified endpoint completes the step and moves the wizard on
+PASS the database refuses an endpoint recorded without a verification result
+PASS something that looks like a pasted secret does not fit in the reference field
+PASS a reference containing whitespace, which a copied credential block would, is refused
+PASS a reference to a customer-held secret completes the step
+PASS there is no column on a connection in which a secret could be written
+PASS the step is not done because the connection says so; it is not done because no check exists
+PASS the step reports exactly what the recorded check observed, not what was requested
+PASS what was asked for and what was observed stay separate facts
+PASS an asset existing on the system does not approve it for the connection
+PASS an asset on another system cannot be approved into this connection
+PASS an explicitly approved asset completes the step
+PASS withdrawing the approval makes the step undone again, because it was measured rather than stored
+PASS no mapping to this system means step 7 is outstanding
+PASS a mapping binding a principal and purpose to this system completes step 7
+PASS configuring a connection does not carry the authority to enable it
+PASS the ladder cannot be skipped
+PASS a connection with an unfinished step is not enabled, and the refusal names which step
+PASS the preview ran and acted on nothing
+PASS a preview evaluated against this system completes step 8 without acting on anything
+PASS coordination is a stage somebody chose, and it is still not permission to mutate
+PASS a connection is never quietly returned to observation
+PASS approved enforcement is reached only after every other step, and completes the ninth
+PASS the database refuses enforcement for a system no check found able to restrict
+PASS a connection record is kept rather than deleted, so what was connected stays answerable
+PASS an auditor may read a connection but may not start or change one
+PASS an actor holding neither capability cannot see the connections at all
+Artifact: handoffs/codex/artifacts/DPDP-onboarding-integration-1790926768437-e6217340-6331-4812-878c-57c915ae0cdc.json
+
+33 assertions, 0 failures.

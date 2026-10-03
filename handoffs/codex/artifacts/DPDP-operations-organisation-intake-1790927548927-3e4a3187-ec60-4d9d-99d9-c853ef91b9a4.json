@@ -1,0 +1,390 @@
+{
+  "task_id": "DPDP",
+  "fixture_kind": "CUSTOMER_LOCAL_SYNTHETIC",
+  "recorded_at": "2026-10-02T07:52:28.927Z",
+  "suite": "organisation-intake",
+  "assertions": [
+    {
+      "name": "the synthetic fixture organisation has the Privacy Centre on",
+      "result": "PASS",
+      "expected": true,
+      "actual": true
+    },
+    {
+      "name": "a Data Principal can use it while it is on",
+      "result": "PASS",
+      "expected": 200,
+      "actual": 200
+    },
+    {
+      "name": "an organisation admin cannot switch it",
+      "result": "PASS",
+      "expected": 403,
+      "actual": 403
+    },
+    {
+      "name": "the owner switches it off",
+      "result": "PASS",
+      "expected": false,
+      "actual": false
+    },
+    {
+      "name": "every Data Principal request is then refused, saying why",
+      "result": "PASS",
+      "expected": {
+        "status": 403,
+        "codes": [
+          "privacy_centre_not_offered"
+        ]
+      },
+      "actual": {
+        "status": 403,
+        "codes": [
+          "privacy_centre_not_offered"
+        ]
+      }
+    },
+    {
+      "name": "switching it off twice is refused",
+      "result": "PASS",
+      "expected": 409,
+      "actual": 409
+    },
+    {
+      "name": "switched back on, the same session works again",
+      "result": "PASS",
+      "expected": 200,
+      "actual": 200
+    },
+    {
+      "name": "an organisation admin cannot create an intake key",
+      "result": "PASS",
+      "expected": 403,
+      "actual": 403
+    },
+    {
+      "name": "the key is returned once, 64 hex characters",
+      "result": "PASS",
+      "expected": true,
+      "actual": true
+    },
+    {
+      "name": "the key list never carries the key",
+      "result": "PASS",
+      "expected": false,
+      "actual": false
+    },
+    {
+      "name": "the database keeps only its digest",
+      "result": "PASS",
+      "expected": 0,
+      "actual": 0
+    },
+    {
+      "name": "no key: refused",
+      "result": "PASS",
+      "expected": 401,
+      "actual": 401
+    },
+    {
+      "name": "a wrong key: refused",
+      "result": "PASS",
+      "expected": 401,
+      "actual": 401
+    },
+    {
+      "name": "a request from a browser page (Origin) is refused, so the key cannot live in a web page",
+      "result": "PASS",
+      "expected": 403,
+      "actual": 403
+    },
+    {
+      "name": "a request carrying cookies is refused",
+      "result": "PASS",
+      "expected": 401,
+      "actual": 401
+    },
+    {
+      "name": "a key limited to consent cannot send a rights request",
+      "result": "PASS",
+      "expected": 403,
+      "actual": 403
+    },
+    {
+      "name": "a submission is recorded as received, and a receipt is not completion",
+      "result": "PASS",
+      "expected": [
+        "RECEIVED",
+        true,
+        null
+      ],
+      "actual": [
+        "RECEIVED",
+        true,
+        null
+      ]
+    },
+    {
+      "name": "the same idempotency key returns the same submission",
+      "result": "PASS",
+      "expected": "d7ac7ae5-ffcc-45ba-b862-c67c518e3fc6",
+      "actual": "d7ac7ae5-ffcc-45ba-b862-c67c518e3fc6"
+    },
+    {
+      "name": "the same idempotency key with a different body is refused",
+      "result": "PASS",
+      "expected": 409,
+      "actual": 409
+    },
+    {
+      "name": "another key cannot read this key's submission",
+      "result": "PASS",
+      "expected": 404,
+      "actual": 404
+    },
+    {
+      "name": "staff in another organisation see none of these submissions",
+      "result": "PASS",
+      "expected": 0,
+      "actual": 0
+    },
+    {
+      "name": "the runner processed every submission of this run: four applied, two sent to staff",
+      "result": "PASS",
+      "expected": [
+        "APPLIED",
+        "APPLIED",
+        "NEEDS_STAFF",
+        "APPLIED",
+        "APPLIED",
+        "NEEDS_STAFF"
+      ],
+      "actual": [
+        "APPLIED",
+        "APPLIED",
+        "NEEDS_STAFF",
+        "APPLIED",
+        "APPLIED",
+        "NEEDS_STAFF"
+      ]
+    },
+    {
+      "name": "the runner reports what it did (earlier queued submissions included)",
+      "result": "PASS",
+      "expected": true,
+      "actual": true
+    },
+    {
+      "name": "the withdrawal is applied and the consent now reads withdrawn",
+      "result": "PASS",
+      "expected": [
+        "APPLIED",
+        "WITHDRAWN"
+      ],
+      "actual": [
+        "APPLIED",
+        "WITHDRAWN"
+      ]
+    },
+    {
+      "name": "both events are on the record, from the organisation's system, each naming its submission",
+      "result": "PASS",
+      "expected": [
+        [
+          "GRANTED",
+          "SOURCE_SYSTEM",
+          "4ff944ea-097d-4ddc-912b-ca333db8fa36"
+        ],
+        [
+          "WITHDRAWN",
+          "SOURCE_SYSTEM",
+          "d7ac7ae5-ffcc-45ba-b862-c67c518e3fc6"
+        ]
+      ],
+      "actual": [
+        [
+          "GRANTED",
+          "SOURCE_SYSTEM",
+          "4ff944ea-097d-4ddc-912b-ca333db8fa36"
+        ],
+        [
+          "WITHDRAWN",
+          "SOURCE_SYSTEM",
+          "d7ac7ae5-ffcc-45ba-b862-c67c518e3fc6"
+        ]
+      ]
+    },
+    {
+      "name": "the withdrawal has a propagation run, like any other withdrawal",
+      "result": "PASS",
+      "expected": 1,
+      "actual": 1
+    },
+    {
+      "name": "the consent record is the person's own",
+      "result": "PASS",
+      "expected": "af5732ed-8d16-42e1-a72d-8ef7823e478e",
+      "actual": "af5732ed-8d16-42e1-a72d-8ef7823e478e"
+    },
+    {
+      "name": "the rights request is in the Workspace, from the organisation's app, for this person, identity established",
+      "result": "PASS",
+      "expected": [
+        "ORGANISATION_APP",
+        "3ed28172-f7ae-46c2-94f8-0811b81d4493",
+        "ESTABLISHED",
+        "EXACT",
+        "RECEIVED"
+      ],
+      "actual": [
+        "ORGANISATION_APP",
+        "3ed28172-f7ae-46c2-94f8-0811b81d4493",
+        "ESTABLISHED",
+        "EXACT",
+        "RECEIVED"
+      ]
+    },
+    {
+      "name": "an identifier that matched nobody still becomes a request, with identity left for staff",
+      "result": "PASS",
+      "expected": [
+        "ORGANISATION_APP",
+        "NOT_ASSESSED",
+        null
+      ],
+      "actual": [
+        "ORGANISATION_APP",
+        "NOT_ASSESSED",
+        null
+      ]
+    },
+    {
+      "name": "a consent change for an unknown identifier waits for staff with the reason",
+      "result": "PASS",
+      "expected": [
+        "NEEDS_STAFF",
+        true
+      ],
+      "actual": [
+        "NEEDS_STAFF",
+        true
+      ]
+    },
+    {
+      "name": "a real person on this synthetic installation is not stored; it waits for staff and says why",
+      "result": "PASS",
+      "expected": [
+        "NEEDS_STAFF",
+        true,
+        null
+      ],
+      "actual": [
+        "NEEDS_STAFF",
+        true,
+        null
+      ]
+    },
+    {
+      "name": "no principal was recorded for the real address",
+      "result": "PASS",
+      "expected": 0,
+      "actual": 0
+    },
+    {
+      "name": "staff see both submissions waiting for them",
+      "result": "PASS",
+      "expected": 2,
+      "actual": 2
+    },
+    {
+      "name": "an auditor can read but not mark handled",
+      "result": "PASS",
+      "expected": [
+        200,
+        403
+      ],
+      "actual": [
+        200,
+        403
+      ]
+    },
+    {
+      "name": "staff mark it handled with a note",
+      "result": "PASS",
+      "expected": [
+        "HANDLED",
+        true
+      ],
+      "actual": [
+        "HANDLED",
+        true
+      ]
+    },
+    {
+      "name": "an applied submission cannot be marked handled",
+      "result": "PASS",
+      "expected": 409,
+      "actual": 409
+    },
+    {
+      "name": "a revoked key is refused at once",
+      "result": "PASS",
+      "expected": [
+        true,
+        401
+      ],
+      "actual": [
+        true,
+        401
+      ]
+    },
+    {
+      "name": "a key is revoked once",
+      "result": "PASS",
+      "expected": 409,
+      "actual": 409
+    },
+    {
+      "name": "what was received cannot be rewritten",
+      "result": "PASS",
+      "expected": "intake_submission_transition_refused",
+      "actual": "intake_submission_transition_refused"
+    },
+    {
+      "name": "an applied submission cannot be sent back to received",
+      "result": "PASS",
+      "expected": "intake_submission_transition_refused",
+      "actual": "intake_submission_transition_refused"
+    },
+    {
+      "name": "a submission cannot be deleted",
+      "result": "PASS",
+      "expected": "intake_submission_is_retained",
+      "actual": "intake_submission_is_retained"
+    },
+    {
+      "name": "a key cannot be re-pointed to another digest",
+      "result": "PASS",
+      "expected": "intake_client_is_immutable",
+      "actual": "intake_client_is_immutable"
+    },
+    {
+      "name": "a revocation cannot be undone",
+      "result": "PASS",
+      "expected": "intake_client_is_immutable",
+      "actual": "intake_client_is_immutable"
+    },
+    {
+      "name": "a Privacy Centre change cannot be rewritten",
+      "result": "PASS",
+      "expected": "privacy_centre_settings is append-only; record a new row that supersedes it",
+      "actual": "privacy_centre_settings is append-only; record a new row that supersedes it"
+    }
+  ],
+  "passed": 44,
+  "failures": 0,
+  "profile": "codex-a00",
+  "test_adapter_only": true,
+  "limitation": "Connector effects are exercised against the synthetic records test adapter; no live customer system was contacted.",
+  "run_id": "d14e28e7-bf90-491a-b85d-478b8ff8c309"
+}

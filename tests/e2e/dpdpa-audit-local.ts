@@ -134,12 +134,22 @@ await t.run(async () => {
         const f2 = vendorAdmin.getByRole('form', { name: 'Add vendor member' });
         await f2.getByLabel(label('Name')).fill(name); await f2.getByLabel(label('Email')).fill(`${role.toLowerCase()}-${suffix}@vendor.example`); await f2.getByLabel(label('Role')).selectOption(role);
         await f2.getByRole('button', { name: 'Create login' }).click();
-        const pw = (await vendorAdmin.locator('.notice-warn code').first().textContent())!;
-        const u = { email: `${role.toLowerCase()}-${suffix}@vendor.example`, password: pw };
-        if (role === 'LEAD_AUDITOR') journal.lead = u; else journal.reviewer = u; persist();
+        // Revision 1.13 default: the administrator hands over a one-time setup code and the member sets their own password.
+        const setupCode = (await vendorAdmin.locator('.notice-warn code').first().textContent())!.trim();
         await vendorAdmin.getByRole('button', { name: 'I have handed it over' }).click();
+        const email = `${role.toLowerCase()}-${suffix}@vendor.example`; const chosen = `Member-${randomUUID()}`;
+        const memberContext = await browser.newContext(); const member = await memberContext.newPage();
+        await member.goto(`${VENDOR}/vendor/account-setup`);
+        const sf = member.getByRole('form', { name: 'Set your vendor password' });
+        await sf.getByLabel(label('Work email')).fill(email); await sf.getByLabel(label('Setup code')).fill(setupCode);
+        await sf.getByLabel(label('New password (at least 12 characters)')).fill(chosen); await sf.getByLabel(label('Repeat the new password')).fill(chosen);
+        await sf.getByRole('button', { name: 'Set password' }).click();
+        await member.getByText(/Password set/).first().waitFor({ timeout: 15000 }).catch(async (error: unknown) => { throw new Error(`Account setup did not complete: ${(await member.locator('body').innerText()).replace(/\s+/g, ' ').slice(0, 400)}`, { cause: error }); });
+        await memberContext.close();
+        const u = { email, password: chosen };
+        if (role === 'LEAD_AUDITOR') journal.lead = u; else journal.reviewer = u; persist();
       }
-      check('vendor organisation, client account and audit team created in the browser', [!!journal.uploader, !!journal.lead, !!journal.reviewer], [true, true, true]);
+      check('vendor organisation, client account and audit team created in the browser; members set their own passwords with setup codes', [!!journal.uploader, !!journal.lead, !!journal.reviewer], [true, true, true]);
     }
 
     t.setPhase('vendor engagement');
@@ -220,7 +230,12 @@ await t.run(async () => {
     await lead.getByRole('form', { name: 'Record methodology' }).getByLabel(label('Methodology version label')).fill(`RM-${suffix}`);
     await lead.getByRole('form', { name: 'Record methodology' }).getByRole('button', { name: 'Record methodology' }).click(); await done(lead, 'Methodology recorded.');
     await rev.goto('/vendor/practice');
-    await rev.getByRole('table', { name: 'Criteria versions' }).getByRole('row').filter({ hasText: `DPDP-FIXTURE-${suffix}` }).getByRole('button', { name: 'Approve' }).click(); await done(rev, 'Criteria approved.');
+    await rev.getByRole('table', { name: 'Criteria versions' }).getByRole('row').filter({ hasText: `DPDP-FIXTURE-${suffix}` }).getByRole('button', { name: 'Approve' }).click();
+    const criteriaReview = rev.getByRole('form', { name: 'Review criteria evidence' });
+    check('fixture criteria still require an explicit evidence review', await criteriaReview.getByRole('button', { name: 'Approve criteria' }).isDisabled(), true);
+    await criteriaReview.getByLabel('Review reference').fill(`Synthetic review RV-${suffix}: fixture evidence and open items reviewed.`);
+    await criteriaReview.getByLabel('I have reviewed the evidence and the open verification items listed above').check();
+    await criteriaReview.getByRole('button', { name: 'Approve criteria' }).click(); await done(rev, 'Criteria approved.');
     await rev.getByRole('table', { name: 'Methodology versions' }).getByRole('row').filter({ hasText: `RM-${suffix}` }).getByRole('button', { name: 'Approve' }).click(); await done(rev, 'Methodology approved.');
     check('the practice page shows real use refused and the development key marked', [await rev.getByText('Refused until every gate below is recorded').isVisible(), await rev.getByText(/DEVELOPMENT key/).isVisible()], [true, true]);
     await rev.screenshot({ path: resolve(shots, 'practice-settings.png'), fullPage: true });

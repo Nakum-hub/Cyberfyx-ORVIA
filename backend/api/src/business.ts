@@ -11,6 +11,7 @@ import { routes, schemas, Pagination, Id, PolicyReauthenticate, queryKeys, type 
 import { authorityFor, requireCapability, AccessError } from '../../authorization/src/index.ts';
 import { limitedBody, authHandler } from '../../auth/src/server.ts';
 import { scopedTransaction } from '../../../database/customer/src/runtime.ts';
+import { requireEntitlement, requireLimit } from '../../domain/src/licensing/licensing.ts';
 import { audit, idempotent, type Page } from '@orvia/domain/transaction';
 import { configurationList, createConfiguration, createMapping, mappingList, controlMap, publishPolicy, recordPublicationProof, publicationCandidate, configurationKinds, type ConfigurationKind } from '../../domain/src/configuration/configuration.ts';
 import { ownChoices, changeConsent, ownReceipt, ownHistory } from '../../domain/src/consent/consent.ts';
@@ -30,7 +31,7 @@ const implemented=new Set(['grc_audit_response_history','list_grc_audits','creat
   'coverage','list_gaps','derive_gaps','assign_gap','close_gap','gap_guidance',
   'list_processors','create_processor','link_processor_system','processor_standing','record_coordination','list_assessments','create_assessment','complete_assessment','list_findings','create_finding','close_finding',
   'list_incidents','create_incident','incident_assessment','correct_incident','contain_incident','close_incident','transition_notification','list_obligation_rules','create_obligation_rule',
-  'list_templates','create_template','list_notification_tasks','create_notification_task','notification_task','record_delivery','escalation_sweep','entitlements','import_licence',
+  'list_templates','create_template','list_notification_tasks','create_notification_task','notification_task','record_delivery','escalation_sweep','entitlements','plan','list_file_intake','upload_file','file_intake_item','file_intake_content','decide_file_intake','import_licence',
   'list_support_cases','create_support_case','support_case','generate_diagnostic','record_resolution','approve_diagnostic','record_transfer','validate_submission','list_canaries','register_canary',
   'list_releases','import_release','update_eligibility','plan_update','update_plan','list_update_plans','record_update_step','installation_versions',
   'operational_readiness','list_audit_events','export_audit_events','audit_coverage','correct_audit_event',
@@ -119,6 +120,9 @@ export function createBusinessHandler(getRuntime:typeof runtime) { return (reque
     if(current.actor_id!==actor.actor_id||current.actor_domain!==actor.actor_domain||JSON.stringify(current.scope)!==JSON.stringify(actor.scope)||current.principal_id!==actor.principal_id)throw new AccessError(403,'FORBIDDEN');
     await requireCapability(r.config,current,domain,route.capability!);
     const c={tx,actor:current,requestId};
+    // Revision 1.11: the tier entitlement, decided by the server in the same transaction as the work.
+   await requireEntitlement(c,route,input);
+    await requireLimit(c,route,id,input);
     const execute=async()=>{
       if(route.id.startsWith('list_')&&configurationKinds.has(route.id.slice(5)))return configurationList(c,route.id.slice(5) as ConfigurationKind,page);
       if(route.id.startsWith('create_')&&configurationKinds.has(route.id.slice(7)))return createConfiguration(c,route.id.slice(7) as ConfigurationKind,input);

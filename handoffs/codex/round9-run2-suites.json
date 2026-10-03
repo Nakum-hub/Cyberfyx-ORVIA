@@ -1,0 +1,23 @@
+[
+  "tests/e2e/dpdpa-audit-local.ts",
+  "tests/e2e/expansion-screens-local.ts",
+  "tests/e2e/interface-crawl-local.ts",
+  "tests/e2e/operations-screens-local.ts",
+  "tests/e2e/registry-forms-local.ts",
+  "tests/integration/bootstrap.test.ts",
+  "tests/integration/consent/canaries.test.ts",
+  "tests/integration/enforcement/send.test.ts",
+  "tests/integration/evidence/evidence.test.ts",
+  "tests/integration/expansion/audit-mandate.test.ts",
+  "tests/integration/expansion/dpdpa-audit.test.ts",
+  "tests/integration/monitoring/backup-drill.test.ts",
+  "tests/integration/monitoring/vendor-visibility.test.ts",
+  "tests/integration/notifications/notifications.test.ts",
+  "tests/integration/onboarding/first-run.test.ts",
+  "tests/integration/opa/cold-start.test.ts",
+  "tests/integration/operations/notices.test.ts",
+  "tests/integration/operations/processors.test.ts",
+  "tests/integration/operations/registry.test.ts",
+  "tests/security/auth.test.ts",
+  "tests/security/function-acl.ts"
+]

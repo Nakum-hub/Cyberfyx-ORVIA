@@ -1,0 +1,148 @@
+{
+  "task_id": "DPDP",
+  "fixture_kind": "CUSTOMER_LOCAL_SYNTHETIC",
+  "recorded_at": "2026-10-02T11:51:23.050Z",
+  "result": "FAIL",
+  "profile": "codex-a00",
+  "assertions": [
+    {
+      "name": "unauthenticated session denied",
+      "result": "PASS",
+      "expected": 401,
+      "actual": 401
+    },
+    {
+      "name": "anonymous denial is persistently audited",
+      "result": "PASS",
+      "expected": {
+        "operation": "SESSION_READ",
+        "status": 401
+      },
+      "actual": {
+        "operation": "SESSION_READ",
+        "status": 401
+      }
+    },
+    {
+      "name": "public signup unavailable",
+      "result": "PASS",
+      "expected": 404,
+      "actual": 404
+    },
+    {
+      "name": "foreign origin denied",
+      "result": "PASS",
+      "expected": 403,
+      "actual": 403
+    },
+    {
+      "name": "role field cannot grant authority",
+      "result": "PASS",
+      "expected": 400,
+      "actual": 400
+    },
+    {
+      "name": "machine bearer cannot become human",
+      "result": "PASS",
+      "expected": 401,
+      "actual": 401
+    },
+    {
+      "name": "wrong password denied",
+      "result": "PASS",
+      "expected": 401,
+      "actual": 401
+    },
+    {
+      "name": "unknown identity has same denial",
+      "result": "PASS",
+      "expected": 401,
+      "actual": 401
+    },
+    {
+      "name": "login errors resist enumeration",
+      "result": "PASS",
+      "expected": "INVALID_EMAIL_OR_PASSWORD",
+      "actual": "INVALID_EMAIL_OR_PASSWORD"
+    },
+    {
+      "name": "owner: real password sign-in",
+      "result": "PASS",
+      "expected": 200,
+      "actual": 200
+    },
+    {
+      "name": "owner: HttpOnly and strict SameSite cookies",
+      "result": "PASS",
+      "expected": true,
+      "actual": true
+    },
+    {
+      "name": "owner: MFA challenge required",
+      "result": "PASS",
+      "expected": true,
+      "actual": true
+    },
+    {
+      "name": "wrong MFA code rejected",
+      "result": "PASS",
+      "expected": 401,
+      "actual": 401
+    },
+    {
+      "name": "failed MFA does not grant authority",
+      "result": "PASS",
+      "expected": 401,
+      "actual": 401
+    },
+    {
+      "name": "owner: real TOTP verification",
+      "result": "PASS",
+      "expected": 200,
+      "actual": 200
+    },
+    {
+      "name": "owner: password-only or pending cookie remains denied",
+      "result": "PASS",
+      "expected": 401,
+      "actual": 401
+    },
+    {
+      "name": "server-derived owner scope",
+      "result": "PASS",
+      "expected": {
+        "tenant_id": "83f5268d-33b5-485b-ac43-be5efdb5c4c4",
+        "legal_entity_id": "7089114a-d453-49df-a63b-c14ceabfc17d",
+        "environment_id": "46037b4f-440c-44f9-8d3b-3427103e6abe"
+      },
+      "actual": {
+        "tenant_id": "83f5268d-33b5-485b-ac43-be5efdb5c4c4",
+        "legal_entity_id": "7089114a-d453-49df-a63b-c14ceabfc17d",
+        "environment_id": "46037b4f-440c-44f9-8d3b-3427103e6abe"
+      }
+    },
+    {
+      "name": "owner MFA proof is session-specific",
+      "result": "PASS",
+      "expected": true,
+      "actual": true
+    },
+    {
+      "name": "staff cookie namespace",
+      "result": "PASS",
+      "expected": true,
+      "actual": true
+    },
+    {
+      "name": "authenticated persistent creation",
+      "result": "FAIL",
+      "expected": 201,
+      "actual": 403
+    }
+  ],
+  "error": {
+    "name": "Error",
+    "code": "UNCLASSIFIED"
+  },
+  "server_output": "▲ Next.js 16.3.5\n- Local:         http://127.0.0.1:4310\n- Network:       http://127.0.0.1:4310\n✓ Ready in 147ms\n✓ Running next.config.ts took 37ms\n"
+}

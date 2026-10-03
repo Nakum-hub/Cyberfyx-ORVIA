@@ -1,0 +1,68 @@
+{
+  "task_id": "DPDP",
+  "fixture_kind": "CUSTOMER_LOCAL_SYNTHETIC",
+  "recorded_at": "2026-10-02T06:45:39.641Z",
+  "suite": "team-browser",
+  "assertions": [
+    {
+      "name": "the screen shows one free seat",
+      "result": "PASS",
+      "expected": true,
+      "actual": true
+    },
+    {
+      "name": "the one-time password is shown once on screen and matches what was issued",
+      "result": "PASS",
+      "expected": "EsYznaEcpLhw8pp5FfcUO3bwjcq6gIOM",
+      "actual": "EsYznaEcpLhw8pp5FfcUO3bwjcq6gIOM"
+    },
+    {
+      "name": "with the seats full the add form is gone",
+      "result": "PASS",
+      "expected": 0,
+      "actual": 0
+    },
+    {
+      "name": "the new login waits for first sign-in",
+      "result": "PASS",
+      "expected": 1,
+      "actual": 1
+    },
+    {
+      "name": "the member has a workspace session with the member role",
+      "result": "PASS",
+      "expected": [
+        "MEMBER",
+        true
+      ],
+      "actual": [
+        "MEMBER",
+        true
+      ]
+    },
+    {
+      "name": "the administrator now sees the member as active with an authenticator",
+      "result": "PASS",
+      "expected": 1,
+      "actual": 1
+    },
+    {
+      "name": "no request left the local origin",
+      "result": "PASS",
+      "expected": [],
+      "actual": []
+    },
+    {
+      "name": "no page or console error occurred",
+      "result": "PASS",
+      "expected": [],
+      "actual": []
+    }
+  ],
+  "passed": 8,
+  "failures": 0,
+  "profile": "codex-a00",
+  "test_adapter_only": true,
+  "limitation": "Connector effects are exercised against the synthetic records test adapter; no live customer system was contacted.",
+  "run_id": "7252acb2-996c-4ae0-abb2-221781996da7"
+}

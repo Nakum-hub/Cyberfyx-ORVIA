@@ -1,0 +1,58 @@
+Authentication fixture idle window: 61s remaining; controls unchanged.
+Authentication fixture idle window: 31s remaining; controls unchanged.
+Authentication fixture idle window: 1s remaining; controls unchanged.
+PASS a request without established identity gets no package
+PASS an erasure produces no response package
+PASS an auditor cannot prepare one
+PASS the package is a draft with the principal's record read through the observer
+PASS another principal's record in the same system is not included
+PASS an unreadable source is recorded as unavailable, not as empty
+PASS a system without a connector is recorded as not supported
+PASS what ORVIA holds about the request is included
+PASS suggestions flag other people's data and field names that suggest another person
+PASS a suggestion never repeats the value it flags
+PASS the principal's own identifiers are not flagged
+PASS a second package is refused while one is in play
+PASS the principal cannot collect anything before release
+PASS an admin without release authority cannot review
+PASS the preparer cannot review their own package
+PASS every suggestion must be decided
+PASS an unreadable source must be acknowledged
+PASS a field not in the package cannot be redacted
+PASS redacted fields are replaced with the reason
+PASS a redacted value is removed wherever it appears, including kept fields
+PASS a kept field keeps the rest of its content
+PASS the reviewed copy has a digest and cannot be reviewed again
+PASS delivery cannot outlast thirty days
+PASS delivery cannot already have expired
+PASS the package is released for delivery
+PASS the V1 response is settled as released
+PASS content cannot be purged while its delivery is active
+PASS another principal cannot collect it
+PASS staff cannot collect through the portal route
+PASS the principal collects the reviewed copy with its digest
+PASS the delivered copy carries no redacted value
+PASS a revoked delivery is refused
+PASS each collection left a receipt
+PASS after revocation a new version can be prepared
+PASS the principal collects the newest version
+PASS a spent allowance is refused
+PASS a spent delivery does not block a new version, and an unreleased one can be withdrawn
+PASS an expired delivery is refused
+PASS staff see it as expired
+PASS an auditor reads packages but cannot review, release or revoke
+PASS another tenant sees nothing
+PASS every version is kept
+PASS what was read cannot be rewritten
+PASS the released content cannot be rewritten
+PASS a download count cannot be reset
+PASS a revocation cannot be undone
+PASS once delivery has ended the content can be purged, keeping digest and receipts
+PASS a purged package is final
+PASS a package cannot be deleted
+PASS a receipt cannot be altered
+PASS row security hides another principal's package
+PASS row security hides unreleased versions from the principal
+Artifact: handoffs/codex/artifacts/DPDP-operations-response-packages-1790956943333-47acfc69-bc68-4643-aa36-7390695011e3.json
+
+52 assertions, 0 failures.

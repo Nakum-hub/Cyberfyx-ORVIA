@@ -31,10 +31,19 @@ export const VendorFirstRunSetup = z.strictObject({ setup_code: z.string().min(8
 export const VendorSession = z.strictObject({ actor_domain: z.enum(['VENDOR_STAFF', 'CLIENT_ACCOUNT']), actor_id: Id, role: z.union([VendorRoleName, z.literal('CLIENT_ACCOUNT')]),
   capabilities: z.array(z.string().max(60)).max(40), organisation_id: Id.nullable(), name: z.string().max(100), email: z.string().max(254), expires_at: Time });
 
-export const VendorMember = z.strictObject({ user_id: Id, name: z.string().max(100), email: z.string().max(254), role: VendorRoleName, active: z.boolean(), deleted: z.boolean(), mfa_enrolled: z.boolean(), must_change_password: z.boolean(), created_at: Time });
+export const VendorMember = z.strictObject({ user_id: Id, name: z.string().max(100), email: z.string().max(254), role: VendorRoleName, active: z.boolean(), deleted: z.boolean(), mfa_enrolled: z.boolean(), must_change_password: z.boolean(), password_set: z.boolean(), setup_code_expires_at: Time.nullable(), created_at: Time });
 export const VendorTeam = z.strictObject({ members: z.array(VendorMember).max(1000) });
-export const VendorMemberCreate = z.strictObject({ name: Name, email: Email, role: z.enum(['VENDOR_ADMIN', 'LEAD_AUDITOR', 'AUDITOR', 'AUDIT_REVIEWER']) });
-export const VendorMemberCreated = z.strictObject({ member: VendorMember, one_time_password: z.string().min(24).max(64) });
+const NewPassword = z.string().min(12).max(128);
+export const VendorMemberCreate = z.strictObject({ name: Name, email: Email, role: z.enum(['VENDOR_ADMIN', 'LEAD_AUDITOR', 'AUDITOR', 'AUDIT_REVIEWER']),
+  /** ONE_TIME_PASSWORD: a generated password the member must change at first sign-in. ADMIN_SET: the administrator sets it now.
+   *  SETUP_CODE: no password yet; a one-time code lets the member set it once. */
+  password_mode: z.enum(['ONE_TIME_PASSWORD', 'ADMIN_SET', 'SETUP_CODE']).default('ONE_TIME_PASSWORD'), password: NewPassword.optional() })
+  .superRefine((v, c) => { if ((v.password_mode === 'ADMIN_SET') !== (v.password !== undefined)) c.addIssue({ code: 'custom', path: ['password'], message: 'A password is given exactly when the administrator sets it' }); });
+export const VendorMemberCreated = z.strictObject({ member: VendorMember, one_time_password: z.string().min(24).max(64).nullable(), setup_code: z.string().nullable(), setup_code_expires_at: Time.nullable() });
+export const VendorSetupCodeIssued = z.strictObject({ user_id: Id, setup_code: z.string(), expires_at: Time, note: z.string() });
+export const VendorSetupCodeIssue = z.strictObject({ valid_hours: z.number().int().min(1).max(168).default(72) });
+export const VendorSetPassword = z.strictObject({ password: NewPassword });
+export const VendorAccountSetup = z.strictObject({ email: Email, setup_code: z.string().min(8).max(40), new_password: NewPassword });
 export const DeleteConfirm = z.strictObject({ confirmation: z.literal('DELETE') });
 
 export const ContactDesignation = z.enum(['PRIMARY', 'BILLING', 'SECURITY', 'DPO', 'AUDIT_LIAISON']);
@@ -48,8 +57,9 @@ export const Organisation = z.strictObject({ id: Id, name: z.string(), registere
 export const OrganisationList = z.strictObject({ items: z.array(Organisation.omit({ contacts: true, accounts: true, licences: true })).max(1000) });
 export const ClientAccountCreated = z.strictObject({ user_id: Id, one_time_password: z.string().min(24).max(64) });
 
-export const LicenceIssueRequest = z.strictObject({ organisation_id: Id, installation_id: Id, option: z.string().min(1).max(40), entitlements: z.array(z.string().max(60)).max(40), environments: z.number().int().min(1).max(20), valid_from: Time, valid_to: Time });
-export const LicenceIssued = z.strictObject({ licence: z.unknown(), plan: z.strictObject({ tier: z.string(), option: z.string(), member_seats: z.number().int() }) });
+export const LicenceIssueRequest = z.strictObject({ organisation_id: Id, installation_id: Id, option: z.string().min(1).max(40), entitlements: z.array(z.string().max(60)).max(40), environments: z.number().int().min(1).max(20), valid_from: Time, valid_to: Time,
+  term: z.enum(['MONTHLY', 'QUARTERLY', 'ANNUAL', 'TRIAL', 'CONTRACT']).default('ANNUAL') });
+export const LicenceIssued = z.strictObject({ licence: z.unknown(), plan: z.strictObject({ tier: z.string(), option: z.string(), member_seats: z.number().int() }), sequence: z.number().int().min(1), term: z.string() });
 
 export const EngagementCreate = z.strictObject({ organisation_id: Id, reference: z.string().regex(/^[A-Za-z0-9][A-Za-z0-9/_.-]{0,79}$/),
   scope_requirement_ids: z.array(RequirementId).min(1).max(200), period_from: Day, period_to: Day, retention_days: z.number().int().min(1).max(3650).default(90) });

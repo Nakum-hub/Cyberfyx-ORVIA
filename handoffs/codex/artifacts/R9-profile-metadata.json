@@ -1,0 +1,63 @@
+{
+  "recorded_at": "2026-10-02T07:42:48.050Z",
+  "mode": "READ_ONLY_METADATA_NOT_A_TEST",
+  "counts": {
+    "systems": 481,
+    "registry_purposes": 155,
+    "registry_notices": 28,
+    "registry_activities": 145,
+    "processing_conditions": 147,
+    "principal_categories": null,
+    "personal_data_categories": 154,
+    "processor_engagements": 78,
+    "retention_rules": 19,
+    "security_safeguards": 16
+  },
+  "enabled_transports": [
+    {
+      "kind": "WEBHOOK",
+      "state": "ENABLED",
+      "created_at": "2026-09-30T18:37:22.893Z",
+      "loopback": null,
+      "port": null,
+      "canary_fixture_name": false,
+      "delivery_fixture_name": false
+    },
+    {
+      "kind": "SMTP",
+      "state": "ENABLED",
+      "created_at": "2026-10-01T11:43:19.811Z",
+      "loopback": true,
+      "port": 2525,
+      "canary_fixture_name": true,
+      "delivery_fixture_name": false
+    },
+    {
+      "kind": "SMTP",
+      "state": "ENABLED",
+      "created_at": "2026-10-01T15:00:30.466Z",
+      "loopback": true,
+      "port": 2525,
+      "canary_fixture_name": true,
+      "delivery_fixture_name": false
+    },
+    {
+      "kind": "SMTP",
+      "state": "ENABLED",
+      "created_at": "2026-10-01T16:48:24.645Z",
+      "loopback": true,
+      "port": 2525,
+      "canary_fixture_name": true,
+      "delivery_fixture_name": false
+    },
+    {
+      "kind": "SMTP",
+      "state": "ENABLED",
+      "created_at": "2026-10-02T03:14:43.869Z",
+      "loopback": true,
+      "port": 2525,
+      "canary_fixture_name": true,
+      "delivery_fixture_name": false
+    }
+  ]
+}

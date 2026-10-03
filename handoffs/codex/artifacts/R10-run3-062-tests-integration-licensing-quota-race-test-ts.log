@@ -1,0 +1,5 @@
+PASS two concurrent withdrawals spend only the final allowance
+PASS the other withdrawal retains its manual obligation
+Artifact: handoffs/codex/artifacts/DPDP-operations-automation-quota-race-1790967836497-43333701-59a1-44c4-820e-88d06466df19.json
+
+2 assertions, 0 failures.

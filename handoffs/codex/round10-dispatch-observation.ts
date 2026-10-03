@@ -1,0 +1,8 @@
+import {readFileSync,writeFileSync} from 'node:fs';
+import {connectDatabase} from '../../database/customer/src/index.ts';
+import {loadProfile} from '../../shared/testing/src/config.ts';
+const profile=loadProfile();if(profile.profile!=='codex-a00')throw new Error('Owned customer profile only');
+const rows=readFileSync('handoffs/codex/artifacts/R10-run3.jsonl','utf8').trim().split('\n').map(JSON.parse);
+const suite=rows.find(r=>r.label==='tests/integration/workflows/workflow.test.ts');if(!suite)throw new Error('Completed suite required');
+const db=connectDatabase(profile).pool;
+try{const batches=(await db.query(`SELECT dispatched_at,count(*)::int events,count(DISTINCT workflow_id)::int workflows,min(created_at) first_created,max(created_at) last_created FROM app.outbox_events WHERE dispatched_at>=$1 AND dispatched_at<=$2 GROUP BY dispatched_at ORDER BY dispatched_at`,[suite.started_at,suite.ended_at])).rows;const totals=(await db.query(`SELECT count(*)::int events,count(DISTINCT event_id)::int distinct_events,count(DISTINCT workflow_id)::int distinct_workflows FROM app.outbox_events WHERE dispatched_at>=$1 AND dispatched_at<=$2`,[suite.started_at,suite.ended_at])).rows[0];const report={head:suite.head,run_id:suite.run_id,started_at:suite.started_at,ended_at:suite.ended_at,batch_limit:20,batches,totals,observed_assertion:{expected:0,actual:5},limitation:'Read-only persisted marker reconstruction. Counts are global dispatcher batches, not an isolated fixture queue; no dispatcher call is repeated.'};writeFileSync('handoffs/codex/artifacts/R10-run3-workflow-dispatch-reconstruction.json',JSON.stringify(report,null,2));console.log(JSON.stringify(report));}finally{await db.end();}

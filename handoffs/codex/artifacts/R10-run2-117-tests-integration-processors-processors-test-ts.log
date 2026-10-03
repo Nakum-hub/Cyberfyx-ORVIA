@@ -1,0 +1,40 @@
+PASS a processor records its role and authorised scope
+PASS a processor must be authorised for a purpose that exists
+PASS a sub-processor cannot be permitted to sub-contract further without its own review
+PASS an acknowledgement cannot exist before anything was notified
+PASS notification records the message that was sent
+PASS notification cannot claim an independent check as its method
+PASS an acknowledgement is something the processor said
+PASS a processor statement can never be recorded as verification
+PASS a processor reply can never be recorded as verification
+PASS verification must name its own evidence
+PASS being told and replying is not being checked
+PASS standing states that only verification is evidence a control was checked
+PASS standing states nothing is collected from the processor automatically
+PASS only an independent check records verification
+PASS all three facts are now established and still reported separately
+PASS coordination history cannot be rewritten to upgrade a claim
+PASS a system serving an unauthorised purpose is surfaced
+PASS linking the same system twice is refused
+PASS an assessment records the reviewed reason it applies
+PASS an assessment starts open with no conclusion
+PASS a finding is linked to a real assessment and system
+PASS an open finding is counted against the processor
+PASS a finding past its deadline is counted as overdue
+PASS an assessment cannot be completed while its findings are open
+PASS remediation without evidence or a retest is refused
+PASS a remediated finding names its retest
+PASS a closed finding cannot be closed again
+PASS the database refuses to reopen a closed finding
+PASS a completed assessment records when it completed and what it concluded
+PASS a new finding cannot be added to a completed assessment
+PASS a conclusion too short to say anything is refused
+PASS a completed assessment cannot be completed again
+Authentication fixture idle window: 60s remaining; controls unchanged.
+Authentication fixture idle window: 30s remaining; controls unchanged.
+PASS an auditor may read processors
+PASS an auditor cannot record a processor
+PASS a member without the processor capability is refused
+Artifact: handoffs/codex/artifacts/DPDP-processors-integration-1790962244961-1da7ef29-4b88-4ee1-a7e5-2e12a4e376c9.json
+
+35 assertions, 0 failures.

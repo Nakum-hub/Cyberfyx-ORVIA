@@ -54,24 +54,24 @@ test('a licence states a positive validity window and no duplicate entitlements'
 });
 
 test('a feature is usable exactly when all five gates pass', () => {
-  assert.equal(FeatureAvailability.parse({ feature: 'PRIVACY_GRAPH', usable: true, gates: gates(), limits: [] }).usable, true);
+  assert.equal(FeatureAvailability.parse({ feature: 'PRIVACY_GRAPH', tier: 'FOUNDATION', label: 'Register', value: 'Record systems.', usable: true, gates: gates(), limits: [] }).usable, true);
   // Each gate alone is sufficient to block, and none alone is sufficient to open.
   for (const gate of ['RELEASE_AVAILABILITY', 'DEPLOYMENT_SUPPORT', 'CONTROLLED_ROLLOUT', 'LICENCE_ENTITLEMENT', 'ACTOR_AUTHORISATION']) {
     const blocked = gates({ [gate]: false });
-    assert.equal(FeatureAvailability.parse({ feature: 'PRIVACY_GRAPH', usable: false, gates: blocked, limits: [] }).usable, false);
+    assert.equal(FeatureAvailability.parse({ feature: 'PRIVACY_GRAPH', tier: 'FOUNDATION', label: 'Register', value: 'Record systems.', usable: false, gates: blocked, limits: [] }).usable, false);
     // Claiming usable while that gate fails is the exact lie this prevents.
-    assert.throws(() => FeatureAvailability.parse({ feature: 'PRIVACY_GRAPH', usable: true, gates: blocked, limits: [] }),
+    assert.throws(() => FeatureAvailability.parse({ feature: 'PRIVACY_GRAPH', tier: 'FOUNDATION', label: 'Register', value: 'Record systems.', usable: true, gates: blocked, limits: [] }),
       new RegExp('.'), `usable was accepted with ${gate} failing`);
   }
   // Nor can a feature be reported unusable when everything passes.
-  assert.throws(() => FeatureAvailability.parse({ feature: 'PRIVACY_GRAPH', usable: false, gates: gates(), limits: [] }));
+  assert.throws(() => FeatureAvailability.parse({ feature: 'PRIVACY_GRAPH', tier: 'FOUNDATION', label: 'Register', value: 'Record systems.', usable: false, gates: gates(), limits: [] }));
 });
 
 test('every gate must be reported exactly once', () => {
   const duplicated = [...gates().slice(0, 4), { gate: 'RELEASE_AVAILABILITY' as const, satisfied: true, reason: 'Again.' }];
-  assert.throws(() => FeatureAvailability.parse({ feature: 'PRIVACY_GRAPH', usable: true, gates: duplicated, limits: [] }));
+  assert.throws(() => FeatureAvailability.parse({ feature: 'PRIVACY_GRAPH', tier: 'FOUNDATION', label: 'Register', value: 'Record systems.', usable: true, gates: duplicated, limits: [] }));
   // Fewer than five gates is not a shorter answer, it is a missing check.
-  assert.throws(() => FeatureAvailability.parse({ feature: 'PRIVACY_GRAPH', usable: true, gates: gates().slice(0, 4), limits: [] }));
+  assert.throws(() => FeatureAvailability.parse({ feature: 'PRIVACY_GRAPH', tier: 'FOUNDATION', label: 'Register', value: 'Record systems.', usable: true, gates: gates().slice(0, 4), limits: [] }));
 });
 
 test('licence routes are staff-only and importing is separated from reading', () => {

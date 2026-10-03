@@ -16,6 +16,12 @@
 
 **2026-10-01 owner decisions (revision 1.10 addendum):** read `docs/engineering/V1_BASELINE_REV_1_10_CANARY_AND_CRITERIA_REVIEW.md`: an active withdrawal canary is never admitted for marketing; real-person decoys are allowed but nothing is ever delivered to them; production criteria evidence is shown and acknowledged before approval; a restore older than the erasure ledger is flagged for manual review, never reported as complete.
 
+**2026-10-02 owner decisions (revision 1.11 addendum):** read `docs/engineering/V1_BASELINE_REV_1_11_TIERS_AND_SUBSCRIPTIONS.md`: three tiers plus a reserved CUSTOM tier; every legal DPDP duty on Tier 1; protective controls never gated; monthly, quarterly and annual terms, trials, upgrades, downgrades and seat changes through signed superseding licences; server-side entitlement enforcement. Tier migrations use 0100–0119.
+
+**2026-10-02 owner decisions (revision 1.12 addendum):** read `docs/engineering/V1_BASELINE_REV_1_12_FILE_INTAKE.md`: every file ORVIA uses arrives automatically from a local inbox folder or by manual upload, on every plan, staged until a staff member approves; the vendor installation needs no plan; vendor member credential issuance awaits the owner's design.
+
+**2026-10-02 owner decisions (revision 1.13 addendum):** read `docs/engineering/V1_BASELINE_REV_1_13_VENDOR_IDENTITY_AND_DELIVERY.md`: one central vendor service holds vendor accounts and records; members use their own or company devices without client data stored on them; the company website manages accounts only through the signed, ORVIA-scoped provisioning API; first passwords by administrator or one-time setup code; a separate vendor service licence; source code in a private GitHub repository and installers delivered as signed releases, never pulled from GitHub; vendor hosting decided later.
+
 **No assumptions about how people reach a feature (added 2026-09-30).** Every feature meant for the organisation's customers (Data Principals) or staff must state which channel those people actually use to reach it, checked against the law (for Data Principals, Rule 14(1)) and against the kinds of organisation it is sold to. A question about user behaviour or product direction that the master, the addenda, the law or the owner has not settled goes to the owner as an open question before it is built. Record the answer in an addendum.
 
 Build ORVIA Version 1 as a customer-local, production-intended product. The earlier internal prototype is historical engineering evidence, not the delivery target. Read, in order:

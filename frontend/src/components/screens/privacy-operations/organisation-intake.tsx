@@ -1,7 +1,6 @@
 'use client';
 import { useState } from 'react';
-import { useCollection, useMutation, usePagedQuery, useQuery } from '../../shared/api.ts';
-import { hasCapability, useSession } from '../../shared/session-context.tsx';
+import { useCollection, useMutation, usePagedQuery } from '../../shared/api.ts';
 import { formatTime, shortId } from '../../shared/state-labels.ts';
 import { Badge, DataTable, FailureState, Freshness, NoticeBox, PageHead, Pagination, QueryBoundary, Section } from '../../shared/ui.tsx';
 import { Choice, Input, WriteForm, text } from './registry-forms.tsx';
@@ -26,42 +25,13 @@ export function OrganisationIntake() {
       <NoticeBox tone="info" title="Why it works this way">
         <p>Rule 14(1) of the DPDP Rules, 2025 asks you to publish the means of making a request on your own website or app. Customers do not need to visit a separate ORVIA site or keep a second password. Requests that arrive by email or phone are still recorded by staff on the Privacy requests and Consent records pages.</p>
       </NoticeBox>
-      <PrivacyCentreSwitch />
+      <NoticeBox tone="info" title="Optional Privacy Centre">
+        <p>If you also want a customer-facing Privacy Centre served from this installation, turn it on in the <a href="/workspace/privacy-centre">Privacy Centre</a> module.</p>
+      </NoticeBox>
       <IntakeKeys />
       <Submissions />
       <DeveloperGuide />
     </>
-  );
-}
-
-function PrivacyCentreSwitch() {
-  const { session } = useSession();
-  const setting = useQuery('privacy_centre_setting');
-  const change = useMutation('change_privacy_centre', true);
-  const [reason, setReason] = useState('');
-  return (
-    <Section title="Privacy Centre (optional)">
-      <p className="muted">A separate customer-facing site, served from this installation, where customers sign in with an account your staff created for them. Most organisations with their own website or app do not need it. Turn it on only if you publish its address to your customers and expose only that address, never the Workspace.</p>
-      <Freshness query={setting} />
-      <QueryBoundary query={setting} label="Privacy Centre setting">
-        {s => (
-          <div className="panel">
-            <p><Badge label={s.enabled ? 'On' : 'Off'} tone={s.enabled ? 'ok' : 'neutral'} /> {s.changed_at ? <>since {formatTime(s.changed_at)}: {s.reason}</> : 'Off since installation; it has never been turned on.'}</p>
-            <p className="muted">Customer accounts in this organisation: {s.customer_accounts}. {s.enabled ? '' : 'While it is off none of them can sign in.'}</p>
-            {hasCapability(session, 'connection.enable') ? (
-              <span className="row">
-                <input aria-label="Reason for the change" placeholder="Reason (at least 10 characters)" value={reason} maxLength={500} onChange={e => setReason(e.target.value)} />
-                <button type="button" disabled={reason.trim().length < 10 || change.status === 'pending'} onClick={async () => {
-                  change.newInteraction();
-                  if (await change.run({ enabled: !s.enabled, reason: reason.trim() })) { setReason(''); setting.refresh(); }
-                }}>{s.enabled ? 'Turn the Privacy Centre off' : 'Turn the Privacy Centre on'}</button>
-              </span>
-            ) : <p className="muted">Only an organisation super administrator can change this.</p>}
-            {change.failure && <FailureState failure={change.failure} />}
-          </div>
-        )}
-      </QueryBoundary>
-    </Section>
   );
 }
 

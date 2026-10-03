@@ -140,6 +140,7 @@ export interface EndpointMap {
   record_delivery: { request: import('zod').infer<typeof import('../src/index.ts').schemas.DeliveryRecord>; response: import('zod').infer<typeof import('../src/index.ts').schemas.NotificationTask> };
   escalation_sweep: { request: undefined; response: import('zod').infer<typeof import('../src/index.ts').schemas.EscalationSweep> };
   entitlements: { request: undefined; response: import('zod').infer<typeof import('../src/index.ts').schemas.EntitlementReport> };
+  plan: { request: undefined; response: import('zod').infer<typeof import('../src/index.ts').schemas.PlanSummary> };
   import_licence: { request: import('zod').infer<typeof import('../src/index.ts').schemas.LicenceImport>; response: import('zod').infer<typeof import('../src/index.ts').schemas.LicenceState> };
   list_support_cases: { request: undefined; response: import('zod').infer<typeof import('../src/index.ts').schemas.SupportCaseList> };
   create_support_case: { request: import('zod').infer<typeof import('../src/index.ts').schemas.SupportCaseCreate>; response: import('zod').infer<typeof import('../src/index.ts').schemas.SupportCase> };
@@ -481,4 +482,9 @@ export interface EndpointMap {
   create_audit_finding_response: { request: import('zod').infer<typeof import('../src/index.ts').schemas.FindingResponseCreate>; response: import('zod').infer<typeof import('../src/index.ts').schemas.FindingResponse> };
   approve_audit_finding_response: { request: import('zod').infer<typeof import('../src/index.ts').schemas.FindingResponseApproval>; response: import('zod').infer<typeof import('../src/index.ts').schemas.FindingResponse> };
   withdraw_audit_finding_response: { request: undefined; response: import('zod').infer<typeof import('../src/index.ts').schemas.FindingResponse> };
+  list_file_intake: { request: undefined; response: import('zod').infer<typeof import('../src/index.ts').schemas.FileIntakeList> };
+  upload_file: { request: import('zod').infer<typeof import('../src/index.ts').schemas.FileIntakeUpload>; response: import('zod').infer<typeof import('../src/index.ts').schemas.FileIntakeItem> };
+  file_intake_item: { request: undefined; response: import('zod').infer<typeof import('../src/index.ts').schemas.FileIntakeItem> };
+  file_intake_content: { request: undefined; response: import('zod').infer<typeof import('../src/index.ts').schemas.FileIntakeContent> };
+  decide_file_intake: { request: import('zod').infer<typeof import('../src/index.ts').schemas.FileIntakeDecision>; response: import('zod').infer<typeof import('../src/index.ts').schemas.FileIntakeItem> };
 }

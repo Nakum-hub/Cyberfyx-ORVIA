@@ -46,11 +46,11 @@ export function operationsSuite(kind: string) {
    * An approved TEST_FIXTURE package in effect now: reuses one if present,
    * otherwise imports one (owner) and approves it (a different super admin).
    */
-  async function ensurePackage() {
+  async function ensurePackage(asOf = new Date().toISOString()) {
     const owner = await h.login('owner'); const reviewer = await h.login('reviewer');
-    const active = await ok(owner.call('/api/v1/admin/regulatory/active-package'), S.schemas.ActivePackage);
+    const active = await ok(owner.call('/api/v1/admin/regulatory/active-package?as_of=' + encodeURIComponent(asOf)), S.schemas.ActivePackage);
     if (active.package && active.package.distribution === 'TEST_FIXTURE') return active.package;
-    const signed = signFixture(fixturePackage({ version: `1.${Date.now()}.0`, previous_version: null, effective_from: new Date(Date.now() - 60_000).toISOString(), requirement_effective_from: '2025-01-01' }),
+    const signed = signFixture(fixturePackage({ version: `1.${Date.now()}.0`, previous_version: null, effective_from: new Date(Date.parse(asOf) - 60_000).toISOString(), requirement_effective_from: '2025-01-01' }),
       process.env.ORVIA_RELEASE_KEY_ID!, process.env.ORVIA_RELEASE_PRIVATE_KEY!);
     const imported = await ok(owner.call('/api/v1/admin/regulatory/packages', signed, key()), S.schemas.RegulatoryPackage);
     return ok(reviewer.call(`/api/v1/admin/regulatory/packages/${imported.id}/decision`, { decision: 'APPROVED', note: 'Approving the synthetic fixture package for validation.', acknowledged_open_verification_items: false }, key()), S.schemas.RegulatoryPackage);

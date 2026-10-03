@@ -1,0 +1,50 @@
+PASS a copy with no recorded retention basis is not eligible for deletion
+PASS the reason names the missing basis rather than implying permission
+PASS the limits say absence of a rule is not permission
+PASS deleting a copy with no basis is refused
+PASS a constraint that bounds nothing is rejected
+PASS a minimum longer than the maximum is rejected
+PASS a copy inside its retention period is not eligible
+PASS the blocker says the minimum has not elapsed
+PASS the earliest permissible deletion date is stated
+PASS a copy past its maximum retention with nothing blocking is eligible
+PASS an eligible copy names the constraint that permits deletion
+PASS an eligible copy carries no blockers
+PASS a hold names the exact copies it covers
+PASS an active hold makes an otherwise eligible copy ineligible
+PASS the hold that blocks is named
+PASS a hold outranks an expired retention schedule
+PASS deleting a held copy is refused
+PASS a hold naming a copy that does not exist is refused
+PASS releasing a hold needs approval authority, not merely write access
+PASS a release records when and why
+PASS eligibility is re-evaluated after release
+PASS a released hold stays released on retry
+PASS the database refuses to reopen a released hold
+PASS constraints that disagree block deletion instead of picking the longest
+PASS the conflict is named as needing a reviewed decision
+PASS the reason says the longest duration is not applied automatically
+PASS both constraints are listed as applicable
+PASS recording the governing constraint needs approval authority
+PASS a decision cannot choose a constraint belonging to another copy
+PASS a reviewed decision resolves the conflict
+PASS the reviewed decision is the recorded governing constraint
+PASS a reviewed decision cannot create permission a constraint does not give
+PASS a backup copy is eligible in principle
+PASS a backup copy cannot be reported as deleted
+PASS a backup copy cannot be reported as suppressed either
+PASS a backup outcome is recorded as an unknown effect against its copy class
+PASS a completed action without evidence is refused
+PASS a live-store deletion records its copy class, method and evidence
+PASS a recorded retention outcome cannot be rewritten
+PASS the restored copy is eligible before the restore
+PASS a copy restored into quarantine is not eligible until reconciled
+PASS the blocker names the outstanding reconciliation
+Authentication fixture idle window: 56s remaining; controls unchanged.
+Authentication fixture idle window: 26s remaining; controls unchanged.
+PASS an auditor may read retention constraints
+PASS an auditor cannot record a constraint
+PASS a member without the retention capability is refused
+Artifact: handoffs/codex/artifacts/DPDP-retention-integration-1790962704989-15902f21-21d9-4074-8fd7-a9d795e37674.json
+
+45 assertions, 0 failures.

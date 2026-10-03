@@ -15,6 +15,8 @@
     "principals:admit-real": "tsx scripts/real-principals.ts",
     "vendor:init": "tsx scripts/vendor-init.ts",
     "vendor:setup-code": "tsx scripts/vendor-setup-code.ts",
+    "vendor:provisioning-client": "tsx scripts/vendor-provisioning-client.ts",
+    "vendor:service-licence": "tsx scripts/vendor-service-licence.ts",
     "start": "tsx scripts/start-orvia.ts",
     "stop": "tsx scripts/stop-orvia.ts",
     "status": "tsx scripts/orvia-status.ts",

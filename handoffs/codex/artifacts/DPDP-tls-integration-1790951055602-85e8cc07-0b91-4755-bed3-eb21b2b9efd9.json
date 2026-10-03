@@ -1,0 +1,17 @@
+{
+  "task_id": "DPDP",
+  "fixture_kind": "CUSTOMER_LOCAL_SYNTHETIC",
+  "recorded_at": "2026-10-02T14:24:15.602Z",
+  "test_ids": [
+    "T02",
+    "T05"
+  ],
+  "profile": "rehearsal",
+  "origin": "https://127.0.0.1:4330",
+  "assertions": [],
+  "result": "FAIL",
+  "limitations": [
+    "Real verified Node HTTPS clients. No OS/browser trust installation, browser UI qualification or human rehearsal is inferred. Other development profiles remain HTTP."
+  ],
+  "run_id": "3001764e-7bfd-4423-80a4-c1d0e822a3b5"
+}

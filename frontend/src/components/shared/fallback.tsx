@@ -26,7 +26,7 @@ export function RouteFallback({ title, kind, children, actions }: {
         <p className="muted mono">{kind}</p>
         {children}
         <p>
-          <a href="/">Return to the ORVIA entry page</a> · <a href="/workspace">Staff workspace</a> · <a href="/privacy">Privacy Centre</a>
+          <a href="/">Return to the start page</a>
         </p>
         {actions}
       </div>

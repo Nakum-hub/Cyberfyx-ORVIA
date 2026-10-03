@@ -1,0 +1,46 @@
+PASS a processor with no engagements and no tier reports only the missing tier
+PASS an active engagement without an agreement or due diligence is named
+PASS an agreement that expires before it starts is refused by the contract
+PASS the agreement is in force
+PASS processing outside the agreement is stated as facts: region, purpose, sub-processor, expiry
+PASS the purpose finding names the engagement and the sub-processor finding names the sub-engagement
+PASS a superseding agreement replaces the old one, which is kept
+PASS with the corrected agreement only the tier and due diligence remain
+PASS an agreement is superseded once
+PASS an agreement's terms cannot be rewritten at the database
+PASS a supplier link is only for vendor due diligence
+PASS a link cannot outlive thirty days
+PASS the token is returned once, in a fragment path, and only its digest is stored
+PASS a listed link never carries its token
+PASS no token is unauthenticated
+PASS a wrong token is unauthenticated
+PASS a request carrying a cookie is refused
+PASS a cross-origin write is refused
+PASS the supplier sees the questions of its one assessment
+PASS an answer outside the choices is refused
+PASS supplier answers are recorded
+PASS the supplier never sees staff answers
+PASS staff see supplier answers labelled as supplier attestations
+PASS the supplier actor sees exactly one assessment
+PASS the supplier actor sees no findings, agreements or other links
+PASS the supplier actor cannot answer another assessment
+PASS the supplier actor cannot write a staff-labelled answer
+PASS after submission the supplier can no longer answer
+PASS supplier attestations block approval
+PASS the blocker is stated
+PASS supplier attestations are not carried forward as confirmed
+PASS approved due diligence clears the gap and sets the reassessment date from the tier
+PASS a revoked link is refused
+PASS a link is revoked once
+PASS a fresh link works
+PASS an expired link is refused
+PASS a link's expiry cannot be extended at the database
+PASS a processor statement about deletion is reported as not verified
+PASS terminating the agreement leaves active processing without an agreement
+PASS an agreement is terminated once
+PASS the overview lists the processor with its gaps
+PASS another tenant cannot read the standing
+PASS an auditor can read standing but cannot record an agreement
+Artifact: handoffs/codex/artifacts/DPDP-operations-third-party-1790957252035-a993e68f-1949-4588-a170-e4a43e746216.json
+
+43 assertions, 0 failures.

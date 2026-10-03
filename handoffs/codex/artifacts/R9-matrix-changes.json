@@ -1,0 +1,194 @@
+{
+  "counts": {
+    "PASS": 108,
+    "FAILED": 0,
+    "NOT_RUN": 11
+  },
+  "changed_rows": [
+    {
+      "row": "Principal and representative registry",
+      "before": "| Principal and representative registry | `integration-operations-registry` PASS (47 assertions, 0 failures)<br>`integration-rights-rights` PASS (64 assertions, 0 failures) |",
+      "after": "| Principal and representative registry | `integration-operations-registry` PASS (53 assertions, 0 failures)<br>`integration-rights-rights` PASS (64 assertions, 0 failures) |"
+    },
+    {
+      "row": "Processing activity registry",
+      "before": "| Processing activity registry | `integration-operations-registry` PASS (47 assertions, 0 failures)<br>`integration-expansion-ropa-exports` PASS (58 assertions, 0 failures) |",
+      "after": "| Processing activity registry | `integration-operations-registry` PASS (53 assertions, 0 failures)<br>`integration-expansion-ropa-exports` PASS (58 assertions, 0 failures) |"
+    },
+    {
+      "row": "Current-at-effect checks",
+      "before": "| Current-at-effect checks | `integration-operations-runner` PASS (10 assertions, 0 failures)<br>`integration-processors-assessment-race` PASS<br>`integration-consent-expiry` PASS<br>`integration-updates-updates` PASS (54 assertions, 0 failures) |",
+      "after": "| Current-at-effect checks | `integration-operations-runner` PASS (10 assertions, 0 failures)<br>`integration-processors-assessment-race` PASS (6 assertions, 0 failures)<br>`integration-consent-expiry` PASS (87 assertions, 0 failures)<br>`integration-updates-updates` PASS (54 assertions, 0 failures) |"
+    },
+    {
+      "row": "Replay and idempotency protection",
+      "before": "| Replay and idempotency protection | `integration-consent-consent` PASS<br>`integration-enforcement-send` PASS<br>`security-auth` PASS |",
+      "after": "| Replay and idempotency protection | `integration-consent-consent` PASS (50 assertions, 0 failures)<br>`integration-enforcement-send` PASS (47 assertions, 0 failures)<br>`security-auth` PASS (88 assertions, 0 failures) |"
+    },
+    {
+      "row": "Unknown-effect reconciliation",
+      "before": "| Unknown-effect reconciliation | `integration-operations-consent-withdrawal` PASS (38 assertions, 0 failures)<br>`integration-workflows-workflow` PASS |",
+      "after": "| Unknown-effect reconciliation | `integration-operations-consent-withdrawal` PASS (38 assertions, 0 failures)<br>`integration-workflows-workflow` PASS (32 assertions, 0 failures) |"
+    },
+    {
+      "row": "Risk treatment and issue lifecycle",
+      "before": "| Risk treatment and issue lifecycle | `integration-expansion-grc-lifecycle` PASS (75 assertions, 0 failures)<br>`integration-grc-grc` PASS |",
+      "after": "| Risk treatment and issue lifecycle | `integration-expansion-grc-lifecycle` PASS (75 assertions, 0 failures)<br>`integration-grc-grc` PASS (40 assertions, 0 failures) |"
+    },
+    {
+      "row": "Evidence freshness and scope checks",
+      "before": "| Evidence freshness and scope checks | `integration-vendor-audit-practice` PASS (128/128 passed)<br>`integration-expansion-grc-lifecycle` PASS (75 assertions, 0 failures)<br>`integration-grc-audits` PASS |",
+      "after": "| Evidence freshness and scope checks | `integration-vendor-audit-practice` PASS (128 assertions, 0 failures)<br>`integration-expansion-grc-lifecycle` PASS (75 assertions, 0 failures)<br>`integration-grc-audits` PASS (41 assertions, 0 failures) |"
+    },
+    {
+      "row": "Audit sampling with an auditor-provided seed",
+      "before": "| Audit sampling with an auditor-provided seed | `integration-vendor-audit-practice` PASS (128/128 passed) |",
+      "after": "| Audit sampling with an auditor-provided seed | `integration-vendor-audit-practice` PASS (128 assertions, 0 failures) |"
+    },
+    {
+      "row": "Vendor visibility history",
+      "before": "| Vendor visibility history | `integration-monitoring-vendor-visibility` PASS (18 assertions, 0 failures)<br>`integration-expansion-audit-mandate` PASS (102 assertions, 0 failures) |",
+      "after": "| Vendor visibility history | `integration-monitoring-vendor-visibility` PASS (20 assertions, 0 failures)<br>`integration-expansion-audit-mandate` PASS (102 assertions, 0 failures) |"
+    },
+    {
+      "row": "Verified payment events (duplicates, out of order)",
+      "before": "| Verified payment events (duplicates, out of order) | `integration-commerce-commerce` PASS |",
+      "after": "| Verified payment events (duplicates, out of order) | `integration-commerce-commerce` PASS (116 assertions, 0 failures) |"
+    },
+    {
+      "row": "Reviewed licence issuance",
+      "before": "| Reviewed licence issuance | `integration-commerce-commerce` PASS<br>`integration-licensing-licensing` PASS (33 assertions, 0 failures) |",
+      "after": "| Reviewed licence issuance | `integration-commerce-commerce` PASS (116 assertions, 0 failures)<br>`integration-licensing-licensing` PASS (33 assertions, 0 failures) |"
+    },
+    {
+      "row": "M01",
+      "before": "| M01 | Identity and Access Management | V1 | IMPLEMENTED_SANDBOX_SUBSET | `security-auth` PASS<br>`integration-expansion-staff-members` PASS (37 assertions, 0 failures)<br>`integration-expansion-staff-delete` PASS (27 assertions, 0 failures)<br>`e2e-sign-in-hydration` PASS (20 assertions, 0 failures)<br>`e2e-team` PASS (8 assertions, 0 failures)<br>`e2e-delete-login` PASS (14 assertions, 0 failures) |",
+      "after": "| M01 | Identity and Access Management | V1 | IMPLEMENTED_SANDBOX_SUBSET | `security-auth` PASS (88 assertions, 0 failures)<br>`integration-expansion-staff-members` PASS (37 assertions, 0 failures)<br>`integration-expansion-staff-delete` PASS (27 assertions, 0 failures)<br>`e2e-sign-in-hydration` PASS (20 assertions, 0 failures)<br>`e2e-team` PASS (8 assertions, 0 failures)<br>`e2e-delete-login` PASS (14 assertions, 0 failures) |"
+    },
+    {
+      "row": "M02",
+      "before": "| M02 | Tenant Management | V1 | IMPLEMENTED_SANDBOX_SUBSET | `security-auth` PASS<br>`security-fixture-isolation` PASS<br>`integration-consent-consent` PASS |",
+      "after": "| M02 | Tenant Management | V1 | IMPLEMENTED_SANDBOX_SUBSET | `security-auth` PASS (88 assertions, 0 failures)<br>`security-fixture-isolation` PASS<br>`integration-consent-consent` PASS (50 assertions, 0 failures) |"
+    },
+    {
+      "row": "M04",
+      "before": "| M04 | Policy Engine | V1 | IMPLEMENTED_SANDBOX_SUBSET | `integration-enforcement-send` PASS<br>`integration-enforcement-withdrawal-timing` PASS (12 assertions, 0 failures)<br>`integration-opa-cold-start` PASS (8 assertions, 0 failures)<br>`integration-consent-consent` PASS |",
+      "after": "| M04 | Policy Engine | V1 | IMPLEMENTED_SANDBOX_SUBSET | `integration-enforcement-send` PASS (47 assertions, 0 failures)<br>`integration-enforcement-withdrawal-timing` PASS (12 assertions, 0 failures)<br>`integration-opa-cold-start` PASS (8 assertions, 0 failures)<br>`integration-consent-consent` PASS (50 assertions, 0 failures) |"
+    },
+    {
+      "row": "M05",
+      "before": "| M05 | Workflow Engine | V1 | IMPLEMENTED_SANDBOX_SUBSET | `integration-workflows-workflow` PASS<br>`integration-operations-runner` PASS (10 assertions, 0 failures) |",
+      "after": "| M05 | Workflow Engine | V1 | IMPLEMENTED_SANDBOX_SUBSET | `integration-workflows-workflow` PASS (32 assertions, 0 failures)<br>`integration-operations-runner` PASS (10 assertions, 0 failures) |"
+    },
+    {
+      "row": "M06",
+      "before": "| M06 | Connector Framework | V1 | IMPLEMENTED_SANDBOX_SUBSET | `integration-workflows-workflow` PASS<br>`integration-onboarding-connection` PASS (33 assertions, 0 failures)<br>`integration-discovery-postgres-catalog` PASS (13 assertions, 0 failures) |",
+      "after": "| M06 | Connector Framework | V1 | IMPLEMENTED_SANDBOX_SUBSET | `integration-workflows-workflow` PASS (32 assertions, 0 failures)<br>`integration-onboarding-connection` PASS (33 assertions, 0 failures)<br>`integration-discovery-postgres-catalog` PASS (13 assertions, 0 failures) |"
+    },
+    {
+      "row": "M07",
+      "before": "| M07 | Verification Engine | V1 | IMPLEMENTED_SANDBOX_SUBSET | `integration-evidence-evidence` PASS<br>`integration-operations-consent-withdrawal` PASS (38 assertions, 0 failures)<br>`integration-workflows-workflow` PASS |",
+      "after": "| M07 | Verification Engine | V1 | IMPLEMENTED_SANDBOX_SUBSET | `integration-evidence-evidence` PASS (69 assertions, 0 failures)<br>`integration-operations-consent-withdrawal` PASS (38 assertions, 0 failures)<br>`integration-workflows-workflow` PASS (32 assertions, 0 failures) |"
+    },
+    {
+      "row": "M08",
+      "before": "| M08 | Evidence Engine | V1 | IMPLEMENTED_SANDBOX_SUBSET | `integration-evidence-evidence` PASS<br>`integration-evidence-reports` PASS (24 assertions, 0 failures) |",
+      "after": "| M08 | Evidence Engine | V1 | IMPLEMENTED_SANDBOX_SUBSET | `integration-evidence-evidence` PASS (69 assertions, 0 failures)<br>`integration-evidence-reports` PASS (24 assertions, 0 failures) |"
+    },
+    {
+      "row": "M09",
+      "before": "| M09 | Privacy Test Engine | V1 | IMPLEMENTED_SANDBOX_SUBSET | `integration-regression-regression` PASS |",
+      "after": "| M09 | Privacy Test Engine | V1 | IMPLEMENTED_SANDBOX_SUBSET | `integration-regression-regression` PASS (90 assertions, 0 failures) |"
+    },
+    {
+      "row": "M11",
+      "before": "| M11 | Consent Management | V1 | IMPLEMENTED_SANDBOX_SUBSET | `integration-consent-consent` PASS<br>`integration-consent-expiry` PASS<br>`integration-consent-canaries` PASS (24 assertions, 0 failures)<br>`integration-operations-consent-manager` PASS (12 assertions, 0 failures)<br>`integration-operations-consent-withdrawal` PASS (38 assertions, 0 failures)<br>`integration-expansion-preferences` PASS (45 assertions, 0 failures)<br>`integration-expansion-cmp` PASS (45 assertions, 0 failures) |",
+      "after": "| M11 | Consent Management | V1 | IMPLEMENTED_SANDBOX_SUBSET | `integration-consent-consent` PASS (50 assertions, 0 failures)<br>`integration-consent-expiry` PASS (87 assertions, 0 failures)<br>`integration-consent-canaries` PASS (24 assertions, 0 failures)<br>`integration-operations-consent-manager` PASS (12 assertions, 0 failures)<br>`integration-operations-consent-withdrawal` PASS (38 assertions, 0 failures)<br>`integration-expansion-preferences` PASS (45 assertions, 0 failures)<br>`integration-expansion-cmp` PASS (45 assertions, 0 failures) |"
+    },
+    {
+      "row": "M12",
+      "before": "| M12 | Notice Management | V1 | IMPLEMENTED_SANDBOX_SUBSET | `integration-notices-languages` PASS (19 assertions, 0 failures)<br>`integration-operations-notices` PASS (15 assertions, 0 failures)<br>`integration-operations-notice-language-drift` PASS (20 assertions, 0 failures)<br>`integration-expansion-policy-discovery` PASS (30 assertions, 0 failures) |",
+      "after": "| M12 | Notice Management | V1 | IMPLEMENTED_SANDBOX_SUBSET | `integration-notices-languages` PASS (19 assertions, 0 failures)<br>`integration-operations-notices` PASS (16 assertions, 0 failures)<br>`integration-operations-notice-language-drift` PASS (20 assertions, 0 failures)<br>`integration-expansion-policy-discovery` PASS (30 assertions, 0 failures) |"
+    },
+    {
+      "row": "M15",
+      "before": "| M15 | Retention Management | V1 | IMPLEMENTED_SANDBOX_SUBSET | `integration-retention-retention` PASS (45 assertions, 0 failures)<br>`integration-operations-retention-scale` PASS (16 assertions, 0 failures)<br>`integration-operations-backup-obligations` PASS (39 assertions, 0 failures) |",
+      "after": "| M15 | Retention Management | V1 | IMPLEMENTED_SANDBOX_SUBSET | `integration-retention-retention` PASS (45 assertions, 0 failures)<br>`integration-operations-retention-scale` PASS (16 assertions, 0 failures)<br>`integration-operations-backup-obligations` PASS (44 assertions, 0 failures) |"
+    },
+    {
+      "row": "M16",
+      "before": "| M16 | Processor/Vendor Management | V1 | IMPLEMENTED_SANDBOX_SUBSET | `integration-processors-processors` PASS (35 assertions, 0 failures)<br>`integration-processors-assessment-race` PASS<br>`integration-operations-processors` PASS (14 assertions, 0 failures)<br>`integration-expansion-third-party` PASS (43 assertions, 0 failures) |",
+      "after": "| M16 | Processor/Vendor Management | V1 | IMPLEMENTED_SANDBOX_SUBSET | `integration-processors-processors` PASS (35 assertions, 0 failures)<br>`integration-processors-assessment-race` PASS (6 assertions, 0 failures)<br>`integration-operations-processors` PASS (15 assertions, 0 failures)<br>`integration-expansion-third-party` PASS (43 assertions, 0 failures) |"
+    },
+    {
+      "row": "M29",
+      "before": "| M29 | Customer Onboarding | V1 | IMPLEMENTED_SANDBOX_SUBSET | `integration-onboarding-first-run` PASS (23 assertions, 0 failures)<br>`integration-onboarding-first-run-http` PASS (7 assertions, 0 failures)<br>`integration-onboarding-connection` PASS (33 assertions, 0 failures)<br>`integration-onboarding-preflight` PASS (20 assertions, 0 failures)<br>`integration-onboarding-imports` PASS (31 assertions, 0 failures)<br>`integration-operations-estate-import` PASS (18 assertions, 0 failures)<br>`integration-onboarding-owner-recovery` PASS (26 assertions, 0 failures)<br>`integration-onboarding-real-principals` PASS (33 assertions, 0 failures) |",
+      "after": "| M29 | Customer Onboarding | V1 | IMPLEMENTED_SANDBOX_SUBSET | `integration-onboarding-first-run` PASS (23 assertions, 0 failures)<br>`integration-onboarding-first-run-http` PASS (7 assertions, 0 failures)<br>`integration-onboarding-connection` PASS (33 assertions, 0 failures)<br>`integration-onboarding-preflight` PASS (20 assertions, 0 failures)<br>`integration-onboarding-imports` PASS (31 assertions, 0 failures)<br>`integration-operations-estate-import` PASS (18 assertions, 0 failures)<br>`integration-onboarding-owner-recovery` PASS (26 assertions, 0 failures)<br>`integration-onboarding-real-principals` PASS (37 assertions, 0 failures) |"
+    },
+    {
+      "row": "M32",
+      "before": "| M32 | Monitoring | V1 | PARTIAL_SANDBOX | `integration-monitoring-monitoring` PASS (31 assertions, 0 failures)<br>`integration-monitoring-restore` PASS (33 assertions, 0 failures)<br>`integration-monitoring-backup-drill` PASS (5 assertions, 0 failures)<br>`integration-monitoring-vendor-visibility` PASS (18 assertions, 0 failures)<br>`e2e-backups-and-recovery` PASS (12 assertions, 0 failures) |",
+      "after": "| M32 | Monitoring | V1 | PARTIAL_SANDBOX | `integration-monitoring-monitoring` PASS (31 assertions, 0 failures)<br>`integration-monitoring-restore` PASS (33 assertions, 0 failures)<br>`integration-monitoring-backup-drill` PASS (5 assertions, 0 failures)<br>`integration-monitoring-vendor-visibility` PASS (20 assertions, 0 failures)<br>`e2e-backups-and-recovery` PASS (12 assertions, 0 failures) |"
+    },
+    {
+      "row": "EX07",
+      "before": "| EX07 | Retention holds deletion and backup obligations | BUILT_PENDING_REVIEW | `integration-operations-backup-obligations` PASS (39 assertions, 0 failures)<br>`integration-operations-retention-scale` PASS (16 assertions, 0 failures)<br>`e2e-backups-and-recovery` PASS (12 assertions, 0 failures) |",
+      "after": "| EX07 | Retention holds deletion and backup obligations | BUILT_PENDING_REVIEW | `integration-operations-backup-obligations` PASS (44 assertions, 0 failures)<br>`integration-operations-retention-scale` PASS (16 assertions, 0 failures)<br>`e2e-backups-and-recovery` PASS (12 assertions, 0 failures) |"
+    },
+    {
+      "row": "EX10",
+      "before": "| EX10 | Enterprise GRC and audit | BUILT_PENDING_REVIEW | `integration-expansion-grc-lifecycle` PASS (75 assertions, 0 failures)<br>`integration-grc-grc` PASS<br>`integration-grc-audits` PASS<br>`integration-grc-http` PASS |",
+      "after": "| EX10 | Enterprise GRC and audit | BUILT_PENDING_REVIEW | `integration-expansion-grc-lifecycle` PASS (75 assertions, 0 failures)<br>`integration-grc-grc` PASS (40 assertions, 0 failures)<br>`integration-grc-audits` PASS (41 assertions, 0 failures)<br>`integration-grc-http` PASS (57 assertions, 0 failures) |"
+    },
+    {
+      "row": "EX11",
+      "before": "| EX11 | Continuous compliance and control tests | BUILT_PENDING_REVIEW | `integration-expansion-grc-lifecycle` PASS (75 assertions, 0 failures)<br>`integration-regression-regression` PASS<br>`policy-gate` PASS |",
+      "after": "| EX11 | Continuous compliance and control tests | BUILT_PENDING_REVIEW | `integration-expansion-grc-lifecycle` PASS (75 assertions, 0 failures)<br>`integration-regression-regression` PASS (90 assertions, 0 failures)<br>`policy-gate` HISTORICAL PASS (not rerun in Round 9) |"
+    },
+    {
+      "row": "EX13",
+      "before": "| EX13 | Vendor commerce UPI and cards | IN_PROGRESS | `integration-commerce-commerce` PASS<br>`integration-commerce-migration-ledger` PASS |",
+      "after": "| EX13 | Vendor commerce UPI and cards | IN_PROGRESS | `integration-commerce-commerce` PASS (116 assertions, 0 failures)<br>`integration-commerce-migration-ledger` PASS |"
+    },
+    {
+      "row": "EX14",
+      "before": "| EX14 | Enterprise delivery and release qualification | IN_PROGRESS | `integration-opa-cold-start` PASS (8 assertions, 0 failures)<br>`integration-migration-upgrade` PASS (10 assertions, 0 failures)<br>`integration-monitoring-backup-drill` PASS (5 assertions, 0 failures)<br>`security-tls` NOT_RUN: runs only on the rehearsal (customer) profile, whose single first-run owner forbids seeding the fixture users it needs<br>`security-network-core` NOT_RUN: needs the packaged runtime image orvia-local:prototype from the Windows packaging path (Codex lane); not built in this container<br>`e2e-interface-crawl` PASS (1 assertions, 0 failures) |",
+      "after": "| EX14 | Enterprise delivery and release qualification | IN_PROGRESS | `integration-opa-cold-start` PASS (8 assertions, 0 failures)<br>`integration-migration-upgrade` PASS (10 assertions, 0 failures)<br>`integration-monitoring-backup-drill` PASS (5 assertions, 0 failures)<br>`security-tls` NOT_RUN: Rehearsal-only TLS suite requires fixture users incompatible with the clean single-owner installation; existing NOT_RUN retained.<br>`security-network-core` NOT_RUN: Requires separately qualified packaged runtime image and controlled canary; existing NOT_RUN retained.<br>`e2e-interface-crawl` PASS (1 assertions, 0 failures) |"
+    },
+    {
+      "row": "EX15",
+      "before": "| EX15 | Installation kinds | BUILT_PENDING_REVIEW | `integration-web` PASS<br>`integration-vendor-schema-equivalence` PASS (7/7 passed) |",
+      "after": "| EX15 | Installation kinds | BUILT_PENDING_REVIEW | `integration-web` PASS (3 assertions, 0 failures)<br>`integration-vendor-schema-equivalence` PASS (7 assertions, 0 failures) |"
+    },
+    {
+      "row": "EX16",
+      "before": "| EX16 | Vendor area in the same application | BUILT_PENDING_REVIEW | `integration-vendor-vendor-audit` PASS (74/74 passed)<br>`e2e-vendor-production-criteria` PASS (15 assertions, 0 failures) |",
+      "after": "| EX16 | Vendor area in the same application | BUILT_PENDING_REVIEW | `integration-vendor-vendor-audit` PASS (74 assertions, 0 failures)<br>`e2e-vendor-production-criteria` PASS (15 assertions, 0 failures) |"
+    },
+    {
+      "row": "EX17",
+      "before": "| EX17 | DPDPA audit exchange | BUILT_PENDING_REVIEW | `integration-expansion-dpdpa-audit` PASS (56 assertions, 0 failures)<br>`integration-expansion-audit-indicator-counts` PASS (21/21 passed)<br>`e2e-dpdpa-audit` PASS (23 assertions, 0 failures) |",
+      "after": "| EX17 | DPDPA audit exchange | BUILT_PENDING_REVIEW | `integration-expansion-dpdpa-audit` PASS (56 assertions, 0 failures)<br>`integration-expansion-audit-indicator-counts` PASS (21 assertions, 0 failures)<br>`e2e-dpdpa-audit` PASS (24 assertions, 0 failures) |"
+    },
+    {
+      "row": "EX19",
+      "before": "| EX19 | DPDPA audit practice | BUILT_PENDING_REVIEW | `integration-vendor-audit-practice` PASS (128/128 passed) |",
+      "after": "| EX19 | DPDPA audit practice | BUILT_PENDING_REVIEW | `integration-vendor-audit-practice` PASS (128 assertions, 0 failures) |"
+    },
+    {
+      "row": "Additional observed control",
+      "before": null,
+      "after": "| Additional observed control | Latest result |"
+    },
+    {
+      "row": "Installed function ACL after protected initialization: six functions, five runtime roles and PUBLIC",
+      "before": null,
+      "after": "| Installed function ACL after protected initialization: six functions, five runtime roles and PUBLIC | `security-function-acl` PASS (46 assertions, 0 failures; includes installation identity and RLS checks) |"
+    },
+    {
+      "row": "Customer app tables with enabled and forced RLS",
+      "before": null,
+      "after": "| Customer app tables with enabled and forced RLS | 222 inspected by the same ACL suite; no missing table protection in its passing evidence |"
+    }
+  ]
+}

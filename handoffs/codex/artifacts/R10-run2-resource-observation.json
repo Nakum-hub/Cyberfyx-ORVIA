@@ -1,0 +1,12 @@
+{
+  "observed_at": "2026-10-02T16:53:00Z",
+  "host_memory_kib": {
+    "free_physical": 442352,
+    "total_physical": 8106040,
+    "free_virtual": 6624772,
+    "total_virtual": 33269548
+  },
+  "observed_failure": "error:078C0100:common libcrypto routines::malloc failure",
+  "scope": "Current post-interruption snapshot; not a historical OOM diagnosis.",
+  "runner": "Absent in Win32_Process inventory; unrelated tools were left untouched."
+}

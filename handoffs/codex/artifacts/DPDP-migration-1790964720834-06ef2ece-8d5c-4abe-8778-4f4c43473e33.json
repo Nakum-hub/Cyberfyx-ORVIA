@@ -1,0 +1,12 @@
+{
+  "task_id": "DPDP",
+  "fixture_kind": "CUSTOMER_LOCAL_SYNTHETIC",
+  "recorded_at": "2026-10-02T18:12:00.834Z",
+  "profile": "codex-a00",
+  "migrations": [
+    "0093_member_seat_reader_acl"
+  ],
+  "result": "APPLIED",
+  "transaction": "single PostgreSQL transaction; advisory lock serializes this runner",
+  "run_id": "5dfc153b-74cc-458e-bbe0-9cfee27f0b97"
+}

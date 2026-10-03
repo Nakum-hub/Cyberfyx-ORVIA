@@ -1,0 +1,159 @@
+{
+  "command": [
+    "docker",
+    "logs",
+    "--since",
+    "2026-10-02T06:18:21Z",
+    "--until",
+    "2026-10-02T06:39:59Z",
+    "orvia-round9-opa"
+  ],
+  "exit_code": 0,
+  "received": 2984,
+  "sent": 2984,
+  "non_200": 1,
+  "slowest": [
+    {
+      "time": "2026-10-02T06:35:16Z",
+      "request": 3988,
+      "path": "/v1/data/orvia/admin/authorize",
+      "duration_ms": 674.122137,
+      "status": 500
+    },
+    {
+      "time": "2026-10-02T06:36:01Z",
+      "request": 4058,
+      "path": "/v1/data/orvia/admin/authorize",
+      "duration_ms": 518.237449,
+      "status": 200
+    },
+    {
+      "time": "2026-10-02T06:34:56Z",
+      "request": 3979,
+      "path": "/v1/data/orvia/admin/authorize",
+      "duration_ms": 476.262455,
+      "status": 200
+    },
+    {
+      "time": "2026-10-02T06:35:25Z",
+      "request": 3991,
+      "path": "/v1/data/orvia/admin/authorize",
+      "duration_ms": 463.144598,
+      "status": 200
+    },
+    {
+      "time": "2026-10-02T06:28:46Z",
+      "request": 3199,
+      "path": "/v1/data/orvia/admin/authorize",
+      "duration_ms": 459.215343,
+      "status": 200
+    },
+    {
+      "time": "2026-10-02T06:32:38Z",
+      "request": 3652,
+      "path": "/v1/data/orvia/admin/authorize",
+      "duration_ms": 422.488544,
+      "status": 200
+    },
+    {
+      "time": "2026-10-02T06:36:56Z",
+      "request": 4173,
+      "path": "/v1/data/orvia/admin/authorize",
+      "duration_ms": 389.067245,
+      "status": 200
+    },
+    {
+      "time": "2026-10-02T06:36:54Z",
+      "request": 4172,
+      "path": "/v1/data/orvia/admin/authorize",
+      "duration_ms": 296.114032,
+      "status": 200
+    },
+    {
+      "time": "2026-10-02T06:36:18Z",
+      "request": 4071,
+      "path": "/v1/data/orvia/admin/authorize",
+      "duration_ms": 293.737914,
+      "status": 200
+    },
+    {
+      "time": "2026-10-02T06:27:08Z",
+      "request": 2968,
+      "path": "/v1/data/orvia/admin/authorize",
+      "duration_ms": 274.918073,
+      "status": 200
+    },
+    {
+      "time": "2026-10-02T06:35:25Z",
+      "request": 3992,
+      "path": "/v1/data/orvia/admin/authorize",
+      "duration_ms": 258.808827,
+      "status": 200
+    },
+    {
+      "time": "2026-10-02T06:36:54Z",
+      "request": 4171,
+      "path": "/v1/data/orvia/admin/authorize",
+      "duration_ms": 219.167633,
+      "status": 200
+    },
+    {
+      "time": "2026-10-02T06:19:40Z",
+      "request": 1571,
+      "path": "/v1/data/orvia/admin/authorize",
+      "duration_ms": 192.537128,
+      "status": 200
+    },
+    {
+      "time": "2026-10-02T06:34:59Z",
+      "request": 3985,
+      "path": "/v1/data/orvia/admin/authorize",
+      "duration_ms": 178.624221,
+      "status": 200
+    },
+    {
+      "time": "2026-10-02T06:36:31Z",
+      "request": 4102,
+      "path": "/v1/data/orvia/admin/authorize",
+      "duration_ms": 172.708901,
+      "status": 200
+    },
+    {
+      "time": "2026-10-02T06:25:29Z",
+      "request": 2559,
+      "path": "/v1/data/orvia/admin/authorize",
+      "duration_ms": 161.181304,
+      "status": 200
+    },
+    {
+      "time": "2026-10-02T06:32:42Z",
+      "request": 3659,
+      "path": "/v1/data/orvia/admin/authorize",
+      "duration_ms": 152.479011,
+      "status": 200
+    },
+    {
+      "time": "2026-10-02T06:34:27Z",
+      "request": 3918,
+      "path": "/v1/data/orvia/admin/authorize",
+      "duration_ms": 150.235138,
+      "status": 200
+    },
+    {
+      "time": "2026-10-02T06:34:43Z",
+      "request": 3956,
+      "path": "/v1/data/orvia/admin/authorize",
+      "duration_ms": 144.628263,
+      "status": 200
+    },
+    {
+      "time": "2026-10-02T06:36:30Z",
+      "request": 4101,
+      "path": "/v1/data/orvia/admin/authorize",
+      "duration_ms": 136.248737,
+      "status": 200
+    }
+  ],
+  "missing_responses_in_interval": [],
+  "limitation": "Container HTTP timing only. It cannot measure time before a request reached the service, or the Windows browser/app event loop."
+}

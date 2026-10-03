@@ -8,6 +8,8 @@ import { operationsRoutes } from './operations-routes.ts';
 import { expansionSchemas } from './expansion.ts';
 import { expansionRoutes } from './expansion-routes.ts';
 import { dpdpaAuditSchemas, dpdpaAuditRoutes } from './dpdpa-audit.ts';
+import { fileIntakeSchemas, fileIntakeRoutes } from './file-intake.ts';
+export * from './file-intake.ts';
 const dpdpaAuditNames = Object.keys(dpdpaAuditSchemas);
 // A schema name means one thing: the expansion module may add names, never replace them.
 const expansionNames = Object.keys(expansionSchemas);
@@ -61,8 +63,19 @@ const expansionNames = Object.keys(expansionSchemas);
  *  RECIPIENT_MARKETING_HOLD (an active withdrawal canary is never admitted for marketing), and OutboundDeliveryState gains
  *  WITHHELD (a message to a real-person decoy is never transmitted). SystemRestore gains ledger_coverage, ledger_purged_through
  *  and coverage_review, with list_system_restores and review_restore_coverage, so a restore older than the erasure ledger is
- *  never reported as complete (migration 0090). Otherwise additive. */
-export const CONTRACT_VERSION = '0.55.0' as const;
+ *  never reported as complete (migration 0090). Otherwise additive.
+ *  0.57.0 (owner decisions 2026-10-02, revision 1.11; 0.56.0 is reserved for the base lane): tiers and subscriptions. Edition
+ *  gains CUSTOM; EntitlementCode becomes the 27-code tier vocabulary in tiers.ts; LicenceClaims gains term, sequence and trial,
+ *  and LicensedLimits gains legal entities, websites, connected systems and automated actions. LicenceRejection gains
+ *  ENTITLEMENT_EXCEEDS_EDITION, STALE_SEQUENCE and TRIAL_ALREADY_USED. LicenceState gains term, sequence, trial, lifecycle,
+ *  grace_until and falls_back_to; FeatureAvailability gains tier, label and value. Every non-read route is classified
+ *  (route-entitlements.ts) and an unlicensed gated write is refused with 403 FORBIDDEN naming the entitlement and tier
+ *  (migration 0100).
+ *  0.58.0 (owner decisions 2026-10-02, revision 1.12): file intake. Files arrive from a local inbox folder on the
+ *  installation server or by manual upload, are staged, and are applied only on a staff decision: list_file_intake,
+ *  upload_file, file_intake_item, file_intake_content, decide_file_intake (migration 0103). ComplianceReport lists up to 1000
+ *  controls and frameworks and states its completeness (it silently stopped at 100 before). Otherwise additive. */
+export const CONTRACT_VERSION = '0.58.0' as const;
 /** The version this build declares of itself. It is what a diagnostic report and
  *  a release manifest are compared against, so it must match package.json; a unit
  *  test asserts that rather than trusting it. */
@@ -986,29 +999,40 @@ export const EscalationSweep = z.strictObject({
 // must all be satisfied before a feature is usable, so no single flag can open
 // anything on its own.
 // ---------------------------------------------------------------------------
-export const Edition = z.enum(['FOUNDATION', 'CONTROL', 'ENTERPRISE']);
-/** Features that can be licensed. One closed vocabulary, shared by every gate. */
-export const EntitlementCode = z.enum([
-  'PRIVACY_GRAPH', 'RIGHTS_MANAGEMENT', 'RETENTION_MANAGEMENT', 'PROCESSOR_MANAGEMENT',
-  'INCIDENT_MANAGEMENT', 'COVERAGE_REPORTING', 'NOTIFICATIONS', 'PRIVACY_TEST_ENGINE',
-]);
+// Revision 1.11: the tier model (editions, entitlements, terms, ceilings) lives in tiers.ts, the single source.
+export type { EntitlementCodeValue, EditionValue, LicenceTermValue } from './tiers.ts';
+export { Edition, EntitlementCode, LicenceTerm, GRACE_DAYS, MAX_TRIAL_DAYS, TIER_ORDER, ENTITLEMENTS, editionCeiling, editionEntitlements, tierFor } from './tiers.ts';
+import { Edition, EntitlementCode, LicenceTerm } from './tiers.ts';
+export { classifyRoute, routeSegment, ROUTE_CLASS_INPUTS, type RouteClass } from './route-entitlements.ts';
 /**
  * Capabilities no edition and no licence may ever enable. These are not priced
  * features being withheld: they are commitments about what this product does not
  * do, and a licence naming one is rejected rather than ignored.
  */
 export const NEVER_LICENSABLE: readonly string[] = ['AI_COPILOT', 'AI_DISCOVERY', 'AI_POLICY_BUILDER', 'VENDOR_REMOTE_ACCESS', 'STAFF_DIRECTORY_SYNC', 'PROACTIVE_DIAGNOSTICS', 'CUSTOMER_RUNTIME_REPLICATION'];
+const LicensedLimits = z.strictObject({ environments: z.number().int().min(1).max(100), staff_members: z.number().int().min(1).max(10000),
+    member_seats: z.number().int().min(0).max(10000).optional().describe('Member logins (MEMBER and AUDITOR) that may be active at once. Owner and administrator logins are not counted. Enforced when a member is created or reactivated; a licence without it allows no member logins.'),
+    // Revision 1.11 limits. Absent means the licence sets none (legacy licences); enforcement reads them when present.
+    legal_entities: z.number().int().min(1).max(1000).optional(), websites: z.number().int().min(0).max(1000).optional(),
+    connected_systems: z.number().int().min(0).max(10000).optional(),
+    automated_actions_per_month: z.number().int().min(0).max(100000000).optional().describe('Automated downstream actions a month. Past it, actions become manual tasks; nothing is dropped.') });
 export const LicenceClaims = z.strictObject({
   licence_id: Id, edition: Edition,
-  entitlements: z.array(EntitlementCode).min(1).max(16),
+  entitlements: z.array(EntitlementCode).min(1).max(40),
+  // Revision 1.11 lifecycle. Optional so licences issued before it still verify: they read as term CONTRACT, sequence 1, not a trial.
+  term: LicenceTerm.optional(),
+  sequence: z.number().int().min(1).max(1000000).optional().describe('Increases with every licence issued to this installation. A licence with a lower sequence than the active one is refused (anti-rollback).'),
+  trial: z.boolean().optional().describe('A trial overlays the paid licence and falls back to it at expiry.'),
   installation_id: Id.describe('The installation this licence is bound to. A licence is not transferable by copying it.'),
   audience: z.literal('ORVIA_CUSTOMER_INSTALLATION'),
   valid_from: Time, valid_to: Time,
-  licensed_limits: z.strictObject({ environments: z.number().int().min(1).max(100), staff_members: z.number().int().min(1).max(10000),
-    member_seats: z.number().int().min(0).max(10000).optional().describe('Member logins (MEMBER and AUDITOR) that may be active at once. Owner and administrator logins are not counted. Enforced when a member is created or reactivated; a licence without it allows no member logins.') }),
+  licensed_limits: LicensedLimits,
 }).superRefine((l, c) => {
   if (Date.parse(l.valid_to) <= Date.parse(l.valid_from)) c.addIssue({ code: 'custom', message: 'A licence validity window must be positive' });
   if (new Set(l.entitlements).size !== l.entitlements.length) c.addIssue({ code: 'custom', message: 'A licence cannot name the same entitlement twice' });
+  if ((l.trial === true) !== (l.term === 'TRIAL')) c.addIssue({ code: 'custom', message: 'A trial licence has term TRIAL, and only a trial does' });
+  if (l.trial && Date.parse(l.valid_to) - Date.parse(l.valid_from) > 30 * 86400000) c.addIssue({ code: 'custom', message: 'A trial lasts at most 30 days' });
+  if (l.trial && l.edition === 'FOUNDATION') c.addIssue({ code: 'custom', message: 'Trials are for the higher tiers' });
 });
 export const SignedLicence = z.strictObject({
   algorithm: z.literal('Ed25519'), claims: LicenceClaims,
@@ -1018,12 +1042,19 @@ export const LicenceImport = z.strictObject({ licence: SignedLicence });
 export const LicenceRejection = z.enum([
   'UNTRUSTED_SIGNER', 'INVALID_SIGNATURE', 'WRONG_AUDIENCE', 'WRONG_INSTALLATION',
   'NOT_YET_VALID', 'EXPIRED', 'MALFORMED', 'FORBIDDEN_CAPABILITY', 'REPLAYED',
+  // Revision 1.11: an edition may only carry its own entitlements; an older licence cannot replace a newer one; one trial per edition.
+  'ENTITLEMENT_EXCEEDS_EDITION', 'STALE_SEQUENCE', 'TRIAL_ALREADY_USED',
 ]);
 export const LicenceState = z.strictObject({
-  licence_id: Id, edition: Edition, entitlements: z.array(EntitlementCode).max(16),
+  licence_id: Id, edition: Edition, entitlements: z.array(EntitlementCode).max(40),
   installation_id: Id, valid_from: Time, valid_to: Time,
-  licensed_limits: z.strictObject({ environments: z.number().int().min(1).max(100), staff_members: z.number().int().min(1).max(10000),
-    member_seats: z.number().int().min(0).max(10000).optional().describe('Member logins (MEMBER and AUDITOR) that may be active at once. Owner and administrator logins are not counted. Enforced when a member is created or reactivated; a licence without it allows no member logins.') }),
+  licensed_limits: LicensedLimits,
+  // Revision 1.11 lifecycle, derived by the installation.
+  term: LicenceTerm, sequence: z.number().int().min(1).nullable().describe('Null for a licence issued before 1.11.'), trial: z.boolean(),
+  lifecycle: z.enum(['ACTIVE', 'GRACE', 'EXPIRED']).describe('GRACE: past valid_to but within the grace days of its term; everything still works. EXPIRED: new premium work stops; the legal floor, protective controls, reading and export continue.'),
+  grace_until: Time,
+  /** When a trial is active, the paid licence it falls back to at expiry (null when there is none). */
+  falls_back_to: z.strictObject({ licence_id: Id, edition: Edition, valid_to: Time }).nullable(),
   imported_at: Time, imported_by: Id, active: z.boolean(),
   /** Set when the window has passed. Expiry restricts new work; it never removes
    *  recorded evidence or the ability to read and export what already exists. */
@@ -1032,6 +1063,8 @@ export const LicenceState = z.strictObject({
 export const EntitlementGate = z.enum(['RELEASE_AVAILABILITY', 'DEPLOYMENT_SUPPORT', 'CONTROLLED_ROLLOUT', 'LICENCE_ENTITLEMENT', 'ACTOR_AUTHORISATION']);
 export const FeatureAvailability = z.strictObject({
   feature: EntitlementCode, usable: z.boolean(),
+  /** The lowest tier that includes it (rev 1.11), so a locked feature names the plan honestly. */
+  tier: Edition, label: SafeText, value: SafeText,
   gates: z.array(z.strictObject({ gate: EntitlementGate, satisfied: z.boolean(), reason: SafeText })).length(5)
     .describe('All five gates must be satisfied. They are reported individually because knowing which one blocks is the whole point.'),
   limits: z.array(SafeText).max(8),
@@ -1066,7 +1099,7 @@ export const LicensedLimitUsage = z.strictObject({
 });
 export const EntitlementReport = z.strictObject({
   as_of: Time, licence: LicenceState.nullable(),
-  features: z.array(FeatureAvailability).max(16),
+  features: z.array(FeatureAvailability).max(40),
   never_licensable: z.array(SafeText).min(1).max(16).describe('Capabilities no licence or edition can enable, stated so that their absence is not read as an upsell.'),
   /** Empty when no licence is imported: there is nothing to compare against,
    *  which is a different fact from being inside every limit. */
@@ -1075,6 +1108,20 @@ export const EntitlementReport = z.strictObject({
    *  so it reports drift past a licensed limit and never blocks anything. */
   a_limit_is_reported_and_never_enforced_here: z.literal(true),
   limits: z.array(SafeText).max(8),
+});
+/**
+ * Revision 1.11: what every staff member's interface needs to show the plan honestly. Readable by anyone who can read the
+ * overview, unlike the full licence (licence.read). `usable` is decided by the same rule the server enforces: a FOUNDATION
+ * entitlement named by the licence stays usable after expiry (the legal floor); a higher one needs ACTIVE or GRACE.
+ */
+export const PlanSummary = z.strictObject({
+  as_of: Time, licensed: z.boolean(), edition: Edition.nullable(), term: LicenceTerm.nullable(), trial: z.boolean(),
+  lifecycle: z.enum(['ACTIVE', 'GRACE', 'EXPIRED']).nullable(), valid_to: Time.nullable(), grace_until: Time.nullable(),
+  falls_back_to: Edition.nullable().describe('During a trial, the edition it returns to when it ends.'),
+  usable: z.array(EntitlementCode).max(40),
+  significant_data_fiduciary: z.boolean().describe('The organisation profile records designation as a Significant Data Fiduciary.'),
+  /** Hard limits the plan is sized by, against what this scope holds. licensed is null when the licence does not state it. */
+  limits: z.array(z.strictObject({ name: z.enum(['websites', 'connected_systems', 'member_seats', 'automated_actions_per_month']), licensed: z.number().int().nullable(), used: z.number().int() })).max(8),
 });
 // ---------------------------------------------------------------------------
 // M30 Support Bundle System (WP26). A diagnostic report is assembled from a
@@ -2093,7 +2140,7 @@ export const CatalogDiscoveryDetail = z.strictObject({target:CatalogDiscoveryTar
   freshness:z.enum(['CURRENT','STALE','NEVER_OBSERVED','UNKNOWN']),
 });
 
-export const schemas = { ...regulatorySchemas, ...registrySchemas, ...operationsSchemas, ...expansionSchemas, ...dpdpaAuditSchemas, ...grcSchemas, ...grcAuditSchemas, AiSystemCreate, AiSystem, AiGovernanceEventCreate, AiGovernanceEvent, AiSystemDetail, AiGovernanceReport, AiSystemList: page(AiSystem), ErrorResponse, Pagination, Session, Grant, Withdraw, Receipt, ReceiptView, PurposeCreate, Purpose, NoticeCreate, Notice, NoticeContact, PolicyCreate, Policy, PolicyPublish, PolicyReauthenticate, PublicationProof, MappingCreate, TargetMapping, SystemCreate, System, PrincipalCreate, Principal, ConsentChoice, CommandScope, Approval, PlanBinding, CommandPayload, SignedCommand, CommandReceipt, Observation, Reconciliation, ManualAttestation, Obligation, Action, WorkflowSummary, Workflow, AcceptedOperation, Evaluate, Decision, SendRequest, SendResult, SimulatorState, TestRunCreate, TestRun, CapabilityRecord, Overview, Evidence, ControlMap, IdPath, PurposePath, WorkflowPath, PollRequest,
+export const schemas = { ...fileIntakeSchemas, ...regulatorySchemas, ...registrySchemas, ...operationsSchemas, ...expansionSchemas, ...dpdpaAuditSchemas, ...grcSchemas, ...grcAuditSchemas, AiSystemCreate, AiSystem, AiGovernanceEventCreate, AiGovernanceEvent, AiSystemDetail, AiGovernanceReport, AiSystemList: page(AiSystem), ErrorResponse, Pagination, Session, Grant, Withdraw, Receipt, ReceiptView, PurposeCreate, Purpose, NoticeCreate, Notice, NoticeContact, PolicyCreate, Policy, PolicyPublish, PolicyReauthenticate, PublicationProof, MappingCreate, TargetMapping, SystemCreate, System, PrincipalCreate, Principal, ConsentChoice, CommandScope, Approval, PlanBinding, CommandPayload, SignedCommand, CommandReceipt, Observation, Reconciliation, ManualAttestation, Obligation, Action, WorkflowSummary, Workflow, AcceptedOperation, Evaluate, Decision, SendRequest, SendResult, SimulatorState, TestRunCreate, TestRun, CapabilityRecord, Overview, Evidence, ControlMap, IdPath, PurposePath, WorkflowPath, PollRequest,
   CatalogDiscoveryTargetCreate,CatalogDiscoveryApproval,CatalogDiscoveryTarget,CatalogDiscoveryObservation,CatalogDiscoveryDetail,CatalogDiscoveryTargetList:page(CatalogDiscoveryTarget),
   DataAssetCreate, CatalogAssetCreate, DataAsset, ProcessingActivityCreate, ProcessingActivity, GraphRelationshipCreate, GraphRelationship, AssetTombstone,
   GraphSearchQuery, GraphSearchResult, NeighbourhoodQuery, GraphNeighbourhood, ImpactAssessment,
@@ -2103,7 +2150,7 @@ export const schemas = { ...regulatorySchemas, ...registrySchemas, ...operations
   ProcessorCreate, Processor, ProcessorLinkCreate, CoordinationRecord, Coordination, ProcessorStanding, AssessmentCreate, Assessment, AssessmentCompletion, FindingCreate, Finding, FindingClosure,
   IncidentCreate, Incident, IncidentCorrection, IncidentCorrectionRecord, ObligationRuleCreate, ObligationRule, NotificationObligation, IncidentAssessment, NotificationTransition, IncidentClosure, IncidentContainment,
   TemplateCreate, Template, NotificationTaskCreate, NotificationTask, DeliveryRecord, Delivery, EscalationSweep,
-  LicenceClaims, SignedLicence, LicenceImport, LicenceState, FeatureAvailability, EntitlementReport,
+  LicenceClaims, SignedLicence, LicenceImport, LicenceState, FeatureAvailability, EntitlementReport, PlanSummary,
   SupportCaseCreate, SupportCase, SupportCaseStanding, DiagnosticReport, DiagnosticDraft, DiagnosticApprovalCreate, DiagnosticApproval,
   TransferRecord, DiagnosticTransfer, IngressSubmission, IngressValidation, CanaryRegister, Canary, SupportResolution,
   ReleaseClaims, SignedRelease, ReleaseImport, ReleaseState, UpdateEligibility, UpdatePlanCreate, UpdatePlan, UpdateStepRecord, UpdateStep, InstallationVersion,
@@ -2275,6 +2322,7 @@ export const routes: RouteDefinition[] = [
   {id:'record_delivery',method:'post',path:'/api/v1/admin/notification-tasks/{id}/deliveries',authority:'STAFF',capability:'notification.manage',params:'IdPath',request:'DeliveryRecord',response:'NotificationTask',status:200,idempotency:true},
   {id:'escalation_sweep',method:'post',path:'/api/v1/admin/notification-tasks/escalate',authority:'STAFF',capability:'notification.manage',response:'EscalationSweep',status:200,idempotency:true},
   {id:'entitlements',method:'get',path:'/api/v1/admin/entitlements',authority:'STAFF',capability:'licence.read',response:'EntitlementReport',status:200},
+  {id:'plan',method:'get',path:'/api/v1/admin/plan',authority:'STAFF',capability:'overview.read',response:'PlanSummary',status:200},
   {id:'import_licence',method:'post',path:'/api/v1/admin/licences',authority:'STAFF',capability:'licence.manage',request:'LicenceImport',response:'LicenceState',status:201,idempotency:true},
   {id:'list_support_cases',method:'get',path:'/api/v1/admin/support-cases',authority:'STAFF',capability:'support.read',response:'SupportCaseList',status:200,paginated:true},
   {id:'create_support_case',method:'post',path:'/api/v1/admin/support-cases',authority:'STAFF',capability:'support.manage',request:'SupportCaseCreate',response:'SupportCase',status:201,idempotency:true},
@@ -2341,6 +2389,7 @@ export const routes: RouteDefinition[] = [
   ...operationsRoutes as RouteDefinition[],
   ...expansionRoutes as RouteDefinition[],
   ...dpdpaAuditRoutes as RouteDefinition[],
+  ...fileIntakeRoutes as RouteDefinition[],
   {id:'poll_commands',method:'post',path:'/api/v1/machine/commands/poll',authority:'MACHINE',request:'PollRequest',response:'CommandList',status:200},
   {id:'command_receipt',method:'post',path:'/api/v1/machine/commands/{id}/receipts',authority:'MACHINE',params:'IdPath',request:'CommandReceipt',response:'AcceptedOperation',status:202,idempotency:true},
   {id:'send',method:'post',path:'/api/v1/machine/simulator/send',authority:'MACHINE',request:'SendRequest',response:'SendResult',status:200,idempotency:true},

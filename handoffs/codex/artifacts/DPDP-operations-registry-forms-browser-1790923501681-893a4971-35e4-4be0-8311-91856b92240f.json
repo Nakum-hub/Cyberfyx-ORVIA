@@ -1,0 +1,72 @@
+{
+  "task_id": "DPDP",
+  "fixture_kind": "CUSTOMER_LOCAL_SYNTHETIC",
+  "recorded_at": "2026-10-02T06:45:01.681Z",
+  "suite": "registry-forms-browser",
+  "assertions": [
+    {
+      "name": "categories, purpose and condition are created from the set-up screen",
+      "result": "PASS",
+      "expected": [
+        "Forms customer 8ae6367b",
+        "CONTACT_DETAILS",
+        1
+      ],
+      "actual": [
+        "Forms customer 8ae6367b",
+        "CONTACT_DETAILS",
+        1
+      ]
+    },
+    {
+      "name": "a condition chosen from the package vocabulary is traced, not unresolved",
+      "result": "PASS",
+      "expected": [
+        "CONSENT",
+        false,
+        true
+      ],
+      "actual": [
+        "CONSENT",
+        false,
+        true
+      ]
+    },
+    {
+      "name": "an unresolved condition is recorded with its reason",
+      "result": "PASS",
+      "expected": [
+        true,
+        "Legal review of the basis is outstanding."
+      ],
+      "actual": [
+        true,
+        "Legal review of the basis is outstanding."
+      ]
+    },
+    {
+      "name": "a notice version is drafted, not published",
+      "result": "PASS",
+      "expected": "DRAFT",
+      "actual": "DRAFT"
+    },
+    {
+      "name": "publishing puts the version in force",
+      "result": "PASS",
+      "expected": "PUBLISHED",
+      "actual": "PUBLISHED"
+    },
+    {
+      "name": "unexpected failure in activity",
+      "result": "FAIL",
+      "expected": "no error",
+      "actual": "page.waitForLoadState: Timeout 30000ms exceeded."
+    }
+  ],
+  "passed": 5,
+  "failures": 1,
+  "profile": "codex-a00",
+  "test_adapter_only": true,
+  "limitation": "Connector effects are exercised against the synthetic records test adapter; no live customer system was contacted.",
+  "run_id": "817aa053-62d6-4227-be25-f4457378b13a"
+}

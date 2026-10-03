@@ -1,0 +1,27 @@
+Authentication fixture idle window: 61s remaining; controls unchanged.
+Authentication fixture idle window: 31s remaining; controls unchanged.
+Authentication fixture idle window: 1s remaining; controls unchanged.
+PASS a trained model must name its training data
+PASS a rule-based model needs no training data
+PASS a training cut-off in the future is refused
+PASS an unknown dataset is refused
+PASS an auditor cannot record a version
+PASS a version is recorded as a draft with its evidence
+PASS the same label is not recorded twice
+PASS the recorder cannot approve
+PASS approval is refused while a training dataset is not mapped to the training purpose, naming it
+PASS once every dataset is mapped, a second person approves it
+PASS an approved version is deployed
+PASS a draft cannot be deployed
+PASS deploying the next version retires the previous one: one deployed at a time
+PASS a withdrawal for the training purpose after the cut-off flags a retraining decision
+PASS Operations attention asks for a retraining decision and claims no unlearning
+PASS an open finding on the AI use blocks approval
+PASS an approved version is not deployed while the AI use is not currently approved
+PASS an approved version's training facts cannot be rewritten
+PASS a version cannot be deleted
+PASS an auditor reads model versions
+PASS another tenant sees nothing
+Artifact: handoffs/codex/artifacts/DPDP-operations-ai-model-versions-1790954784448-faa30d07-60f3-476c-84d2-c7fddad27ed9.json
+
+21 assertions, 0 failures.

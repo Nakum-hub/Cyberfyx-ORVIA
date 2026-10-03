@@ -1,0 +1,13 @@
+PASS the topic is created on screen with the chosen channels
+PASS nothing is on before the person chooses
+PASS saying yes is recorded
+PASS only the chosen channel is on
+PASS saying no from the keyboard is recorded
+PASS the history shows both choices as applied
+PASS staff see no change controls for the person's choices
+PASS the API decision matches the screen
+PASS no request left the local origin
+PASS no page or console error occurred
+Artifact: handoffs/codex/artifacts/DPDP-operations-preferences-browser-1790923409982-9258a3d8-4897-4333-9a73-30d08566ec6a.json
+
+10 assertions, 0 failures.
