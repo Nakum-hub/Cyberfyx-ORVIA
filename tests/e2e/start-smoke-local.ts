@@ -65,9 +65,19 @@ try {
   for (const [path, expect] of [
     ['/workspace', /Overview|Attention|privacy/i], ['/workspace/plan', /Your plan/], ['/workspace/files', /Files/], ['/workspace/team', /Team/],
     ['/workspace/rights', /request/i], ['/workspace/consent-records', /consent/i], ['/workspace/personal-data-breaches', /breach/i],
-    ['/workspace/organisation-intake', /intake/i], ['/workspace/registry-notices', /notice/i], ['/workspace/processors', /processor/i],
+    ['/workspace/organisation-intake', /intake/i], ['/workspace/privacy-centre', /Address for your customers/], ['/workspace/registry-notices', /notice/i], ['/workspace/processors', /processor/i],
     ['/workspace/regulatory', /regulatory|package/i], ['/workspace/audit-trail', /audit/i],
   ] as const) await visit(cpage, 'customer', h.config.origin, path, expect);
+  // The Privacy Centre is a Workspace module (owner decision 2026-10-03): listed in the navigation; the entry page is staff-only.
+  await cpage.goto(h.config.origin + '/workspace');
+  const nav = cpage.getByRole('navigation', { name: 'Primary' });
+  await nav.getByRole('button', { name: 'Privacy controls' }).click();
+  await nav.getByRole('link', { name: 'Privacy Centre', exact: true }).click();
+  const navHasModule = await cpage.waitForURL(url => url.pathname === '/workspace/privacy-centre', { timeout: 15_000 }).then(() => cpage.getByRole('heading', { name: 'Privacy Centre', exact: true }).first().waitFor({ timeout: 15_000 })).then(() => true, () => false);
+  await cpage.goto(h.config.origin + '/');
+  const entry = (await cpage.locator('main').innerText()).replace(/\s+/g, ' ');
+  const entryStaffOnly = /Open the staff workspace/.test(entry) && !/Data principal sign in|Open the Privacy Centre/.test(entry);
+  visits.push({ installation: 'customer', path: 'navigation and entry page', ok: navHasModule && entryStaffOnly, heading: '', problems: [navHasModule ? '' : 'Privacy Centre missing from the navigation', entryStaffOnly ? '' : 'entry page is not staff-only'].filter(Boolean) });
   await ctx.close();
 
   // Vendor service: public pages, then signed in as the vendor administrator.

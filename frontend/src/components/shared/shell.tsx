@@ -206,6 +206,7 @@ export const WORKSPACE_NAV: NavGroup[] = [
   { group: 'Privacy controls', items: [
     { href: '/workspace/configuration', label: 'Purposes & policies' },
     { href: '/workspace/website-consent', label: 'Website consent' },
+    { href: '/workspace/privacy-centre', label: 'Privacy Centre', entitlement: 'INTAKE_AND_PORTAL' },
     { href: '/workspace/contact-preferences', label: 'Contact preferences' },
     { href: '/workspace/principals', label: 'People & targets' },
     { href: '/workspace/control-map', label: 'Control map', entitlement: 'REALTIME_ENFORCEMENT' },

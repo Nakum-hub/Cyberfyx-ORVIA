@@ -166,20 +166,24 @@ export async function exportAuditEvents(c: Context, query: unknown) {
  */
 export async function auditCoverage(c: Context) {
   const scope = scopeValues(c.actor);
+  // One indexed pass over every operation any category names (audit_events_scope_operation_time), then summed per category.
+  const all = [...new Set(S.AuditCategory.options.flatMap(category => operationsFor(category)))];
+  const byOperation = new Map<string, { n: number; first: Date; last: Date }>();
+  if (all.length) for (const row of (await c.tx.query(
+    `SELECT operation, count(*)::int AS n, min(created_at) AS first, max(created_at) AS last
+     FROM app.audit_events WHERE ${predicate} AND operation = ANY($4) GROUP BY operation`, [...scope, all])).rows)
+    byOperation.set(row.operation as string, { n: Number(row.n), first: row.first as Date, last: row.last as Date });
   const entries: S.AuditCoverageEntryValue[] = [];
   for (const category of S.AuditCategory.options) {
     const operations = CATEGORY_OPERATIONS[category];
-    const names = operationsFor(category);
-    const found = names.length
-      ? (await c.tx.query(
-        `SELECT count(*)::int AS n, min(created_at) AS first, max(created_at) AS last
-         FROM app.audit_events WHERE ${predicate} AND operation = ANY($4)`, [...scope, names])).rows[0]
-      : { n: 0, first: null, last: null };
-    const recorded = Number(found.n);
+    const seen = [...new Set(operationsFor(category))].map(name => byOperation.get(name)).filter(x => x !== undefined);
+    const recorded = seen.reduce((sum, x) => sum + x.n, 0);
+    const first = recorded ? new Date(Math.min(...seen.map(x => x.first.getTime()))) : null;
+    const last = recorded ? new Date(Math.max(...seen.map(x => x.last.getTime()))) : null;
     entries.push(S.AuditCoverageEntry.parse({
       category, operations, recorded,
-      first_seen_at: recorded ? (found.first as Date).toISOString() : null,
-      last_seen_at: recorded ? (found.last as Date).toISOString() : null,
+      first_seen_at: first ? first.toISOString() : null,
+      last_seen_at: last ? last.toISOString() : null,
       has_a_path: operations.length > 0,
       note: CATEGORY_NOTES[category],
     }));

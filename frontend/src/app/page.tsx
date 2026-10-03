@@ -50,29 +50,19 @@ export default async function EntryPage() {
         </ol>
       </section>
 
-      <section className="section" aria-label="Journeys">
-        <div className="section-head"><h3>Two separate journeys, two separate authentication domains</h3></div>
-        <div className="grid-2">
-          <a className="entry-card" href="/workspace">
-            <h2>Staff workspace</h2>
-            <p>
-              Purposes and reviewed policies, people and target mappings, the control map, workflows with their
-              independent verification, evidence, and the Test Lab.
-            </p>
-            <p style={{ marginBottom: 0, color: 'var(--accent)', fontWeight: 600, fontSize: 13.5 }}>Open the staff workspace →</p>
-          </a>
-          <a className="entry-card" href="/privacy">
-            <h2>Privacy Centre</h2>
-            <p>
-              What a data principal sees: their own notice, their current choice, their receipts and their full
-              decision history — and the ability to grant or withdraw at any time.
-            </p>
-            <p style={{ marginBottom: 0, color: 'var(--accent)', fontWeight: 600, fontSize: 13.5 }}>Open the Privacy Centre →</p>
-          </a>
-        </div>
+      <section className="section" aria-label="Staff workspace">
+        <div className="section-head"><h3>Staff workspace</h3></div>
+        <a className="entry-card" href="/workspace">
+          <h2>Open the staff workspace</h2>
+          <p>
+            Every ORVIA module your plan includes: purposes and reviewed policies, people and target mappings, consent records,
+            privacy requests, the Privacy Centre, workflows with their independent verification, evidence and the Test Lab.
+          </p>
+          <p style={{ marginBottom: 0, color: 'var(--accent)', fontWeight: 600, fontSize: 13.5 }}>Open the staff workspace →</p>
+        </a>
         <p className="muted" style={{ marginTop: 'var(--s4)' }}>
-          Use a separate browser context for each: two active sessions in one browser are refused by the server.
-          {' '}<a href="/workspace/sign-in">Staff sign in</a> · <a href="/privacy/sign-in">Data principal sign in</a>
+          <a href="/workspace/sign-in">Staff sign in</a>. Your customers do not start here: they use your own website or app, or, if you
+          turn it on in the Privacy Centre module, the Privacy Centre link you publish there.
         </p>
       </section>
 
