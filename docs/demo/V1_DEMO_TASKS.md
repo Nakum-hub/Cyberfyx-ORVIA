@@ -18,7 +18,7 @@ Status: `[ ]` not started, `[~]` in progress, `[x]` done and verified (with the 
 
 ## Tasks
 
-### T1 Import button and automatic organisation of imported files  `[ ]`
+### T1 Import button and automatic organisation of imported files  `[x]` (npm run test:e2e:demo-import 12/12; unit file-intake 6/6)
 Owner ask: staff import files from their systems or data centre (instead of, or to cross-check, the automatic intake).
 ORVIA reviews the file, organises it according to the DPDP Act into the right modules, and shows it there.
 - T1.1 CSV recognition in file intake (`backend/domain/src/onboarding/file-intake.ts`), by header row:

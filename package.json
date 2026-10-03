@@ -116,6 +116,7 @@
     "demo:fixture": "tsx scripts/demo-fixture.ts",
     "demo:data": "tsx scripts/demo-data.ts confirm:rehearsal",
     "test:e2e:demo-data": "tsx tests/e2e/demo-data-local.ts",
+    "test:e2e:demo-import": "tsx tests/e2e/demo-import-local.ts",
     "demo:accounts": "tsx scripts/demo-accounts.ts",
     "demo:remove": "tsx scripts/demo-remove.ts",
     "demo:code": "tsx scripts/demo-accounts.ts code",

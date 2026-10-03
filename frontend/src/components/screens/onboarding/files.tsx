@@ -67,7 +67,7 @@ export function Files() {
                   columns={[
                     { key: 'n', header: 'File', cell: i => <span className="cell-primary">{i.original_name}<span className="cell-sub">{KIND[i.detected_kind]} · {i.source === 'INBOX_FOLDER' ? 'inbox folder' : 'uploaded'}</span></span> },
                     { key: 's', header: 'State', cell: i => <StateBadge dictionary={STATE} value={i.state} /> },
-                    { key: 'r', header: 'Reason', cell: i => i.decision_reason ?? '' },
+                    { key: 'r', header: 'Reason and outcome', cell: i => <span>{i.decision_reason ?? ''}{(i.detected_kind === 'CONSENT_EXPORT' || i.detected_kind === 'PRIVACY_REQUESTS') && i.state === 'ROUTED' ? <span className="cell-sub">{i.detail}</span> : null}</span> },
                     { key: 'l', header: 'Linked to', cell: i => i.subject_kind ? `${i.subject_kind.toLowerCase().replace('_', ' ')} ${i.subject_id!.slice(0, 8)}` : i.routed_resource_id ? `import ${i.routed_resource_id.slice(0, 8)}` : '' },
                     { key: 'd', header: 'Decided', cell: i => i.decided_at ? formatTime(i.decided_at) : '' },
                     { key: 'v', header: '', cell: i => i.state === 'KEPT' ? <Open item={i} /> : null },
