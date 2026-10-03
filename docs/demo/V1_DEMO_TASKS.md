@@ -38,7 +38,7 @@ ORVIA reviews the file, organises it according to the DPDP Act into the right mo
 - Check the privacy graph and control map with demo data, and that a manual import and the automatic intake land in
   the same modules. Extend `test:e2e:demo-data` with the graph and control-map assertions.
 
-### T3 Tier-based access visible in the interface  `[ ]`
+### T3 Tier-based access visible in the interface  `[x]` (npm run demo:tier; npm run test:e2e:demo-tiers 13/13). Owner input: confirm Tier 2/3 options and seats (placeholders 25 and 100 in backend/vendor/plans/catalogue.ts)
 - Demo: two organisations on the rehearsal installation (Aster = ENTERPRISE, Birch = FOUNDATION), each with a licence
   issued by the vendor's licence tool, signed with the local key and imported through the Files page (`demo:tiers`).
 - Check per tier: navigation shows locked modules, a locked route is refused by the server (403 entitlement), and
