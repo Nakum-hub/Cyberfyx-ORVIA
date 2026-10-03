@@ -132,6 +132,32 @@ try {
     } catch (error) { await p.screenshot({ path: resolve(shots, `sign-in-failure-${name}.png`) }).catch(() => undefined); check(`${name} signs in and opens the Workspace`, false, `${String(error).slice(0, 120)} | page: ${(await p.locator('main').innerText().catch(() => '')).replace(/\s+/g, ' ').slice(0, 200)}`); }
     finally { await c.close(); }
   }
+  // ---------------------------------------------------------------- vendor side (when npm run start:vendor is running)
+  const VENDOR = 'http://127.0.0.1:4340';
+  const vendorUp = await fetch(`${VENDOR}/readyz`, { signal: AbortSignal.timeout(3000) }).then(r => r.ok, () => false);
+  const vendorJournal = resolve('.local/profiles/vendor-a00/auth/e2e-users.json');
+  if (!vendorUp || !existsSync(vendorJournal)) console.log('     vendor service not running (npm run start:vendor) or not set up: vendor checks NOT_RUN');
+  else {
+    const vendorUsers = JSON.parse(readFileSync(vendorJournal, 'utf8')) as Record<string, { email: string; password: string; totp?: string }>;
+    const roles: [string, string, string, RegExp][] = [['admin', 'vendor administrator', '/vendor/sign-in', /\/vendor\/engagements/], ['lead', 'audit lead (auditor)', '/vendor/sign-in', /\/vendor\/engagements/],
+      ['reviewer', 'audit reviewer (auditor)', '/vendor/sign-in', /\/vendor\/engagements/], ['uploader', 'client organisation account', '/vendor/sign-in?account=client', /\/vendor\/upload/]];
+    for (const [name, role, path, landing] of roles) {
+      const u = vendorUsers[name]; if (!u?.totp) { check(`vendor ${role} has a synthetic account`, false, 'missing from the vendor journal'); continue; }
+      const c = await browser.newContext({ viewport: { width: 1440, height: 1000 } }); const p = await c.newPage();
+      try {
+        await p.goto(VENDOR + path);
+        await p.getByLabel('Email', { exact: true }).fill(u.email); await p.getByLabel('Password', { exact: true }).fill(u.password);
+        await p.getByRole('button', { name: 'Sign in', exact: true }).click();
+        await p.getByLabel('Authenticator code', { exact: true }).fill(authenticatorCode(u.totp));
+        await p.getByRole('button', { name: 'Verify authenticator', exact: true }).click();
+        await p.waitForURL(landing, { timeout: 30_000 });
+        const text = (await p.locator('main').innerText()).replace(/\s+/g, ' ');
+        await p.screenshot({ path: resolve(shots, `vendor-${name}.png`), fullPage: true });
+        check(`vendor side: the ${role} signs in through the branded page and lands on ${new URL(p.url()).pathname}`, !/Not permitted|Request failed|Something went wrong/.test(text), text.slice(0, 200));
+      } catch (error) { await p.screenshot({ path: resolve(shots, `vendor-failure-${name}.png`) }).catch(() => undefined); check(`vendor side: the ${role} signs in`, false, String(error).slice(0, 200)); }
+      finally { await c.close(); }
+    }
+  }
 } finally {
   await browser.close();
   const failures = results.filter(r => r.result === 'FAIL').length;
